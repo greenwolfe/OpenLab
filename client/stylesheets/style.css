@@ -1,0 +1,43 @@
+.navbar { /* overriding defaults from bootstrap */
+  margin-bottom: 10px;
+}
+.navbar .navbar-inner {
+    border-radius: 0px 0px 3px 3px; 
+}
+table#calendar {
+  width: 98%;
+  margin-left: 1%;
+}
+table#calendar tr td {
+  border: thin black solid;
+  width:  20%;
+  vertical-align: top;
+}
+.assessment {
+  float: left;
+  margin-left: 10%;
+  width: 20%;
+  padding: 1em 3em 1em 3em;
+  border: thin black solid;
+  vertical-align: top;
+  margin-bottom: 10px;
+}
+#ListOfLists {
+  float: left;
+  width:  40%;
+  margin-left: 1%;
+}
+#activities, #standards, #appointments {
+  width: 90%; 
+}
+.placeholder {
+  color: #e6e6e6; /* color from ui-state-default provided by /packages/jquery-ui-bootstrap/css/jquery-ui-1.9.2.custom.css*/
+}
+.daysActivities, .assessmentsStandards {
+  min-height: 10px; /* necessary for empty list to accept draggable */
+  /*width: 382px;*/
+}
+.daysActivities, .assessmentsStandards {
+  width: 90%;
+  margin-left: 5%;
+}
