@@ -12,6 +12,7 @@ table#calendar tr td {
   border: thin black solid;
   width:  20%;
   vertical-align: top;
+  text-align: center;
 }
 .assessment {
   float: left;

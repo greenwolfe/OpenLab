@@ -1,0 +1,8 @@
+<template name = 'activitiesList'> 
+   <div id='activities'>
+    {{#each models}}
+      <h3> <a href="#"> {{model}} </a> </h3>
+      {{> activitiesSublist }}
+    {{/each}}
+    </div>
+</template>

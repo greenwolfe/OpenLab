@@ -1,5 +1,6 @@
 {
   "packages": {
-    "jquery-ui-bootstrap": {}
+    "jquery-ui-bootstrap": {},
+    "moment": {}
   }
 }

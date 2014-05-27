@@ -12,9 +12,11 @@ UI.body.rendered = function () {
 };
 
 var DragOpt = function (sortable) { //default draggable options
+
   var stop = function (event, ui) {  // so it can't be modified from outside
     $('.placeholder').remove();  //remove all placeholders on the page
   };
+
   var that = {                  
     connectToSortable : sortable,  //drag target
     appendTo : "body",  //allows dragging out of frame to new object
@@ -22,10 +24,12 @@ var DragOpt = function (sortable) { //default draggable options
     revert : "invalid",  //glide back into place if not dropped on target
     stop : stop
   };
+
   return that;
 };
 
 var SortOpt = function (connector) { //default sortable options
+
   var activate = function(event, ui) {  //puts placeholders on all targets
     $( this).prepend($('<p class="ui-state-default placeholder">.</p>'));
     $(ui.sender).find('.placeholder').hide(); //except for the sortable it was dragged from
@@ -40,6 +44,7 @@ var SortOpt = function (connector) { //default sortable options
   var receive = function(event, ui) {  //ditto
     $( '.placeholder').remove();
   }
+
   var that = {
     connectWith : connector,  //connect with other lists
     revert : true,            //smooth slide onto target
@@ -51,6 +56,7 @@ var SortOpt = function (connector) { //default sortable options
     stop : stop,
     receive : receive
   };
+
   return that;
 };
 
