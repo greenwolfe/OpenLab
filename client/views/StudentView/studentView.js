@@ -1,4 +1,8 @@
 //add a progress tab, keep it separate so it doesn't clutter the activities tab ... or is it better to do it in one?
+var MonThisWeek = moment().day("Monday").format('ddd[,] MMM D YYYY');
+var FriNextWeek = moment().day("Monday").add('days',11).format('ddd[,] MMM D YYYY');
+Session.setDefault('calStartDate',MonThisWeek);
+Session.setDefault('calEndDate',FriNextWeek);
 
 UI.body.rendered = function () {
   $('#activities .Model p').draggable(DragOpt('.daysActivities') );
@@ -9,6 +13,19 @@ UI.body.rendered = function () {
   $('#ListOfLists').tabs();
   $('.daysActivities').sortable( SortOpt('.daysActivities') ); 
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
+  $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', MonThisWeek);
+  $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', FriNextWeek);
+};
+
+var DateOpt = function(sessionKey) { //default datepicker options
+  var onSelect = function(dateText,Object){
+    Session.set(sessionKey,dateText);
+  };
+  var that = {
+    dateFormat:'D, M dd yy',
+    onSelect: onSelect
+  };
+  return that;
 };
 
 var DragOpt = function (sortable) { //default draggable options
@@ -44,7 +61,6 @@ var SortOpt = function (connector) { //default sortable options
   var receive = function(event, ui) {  //ditto
     $( '.placeholder').remove();
     var day = moment(event.target.id); //activity dropped on date, replace with handler
-    console.log('receive ' + day.format('ddd[,] MMM D'));
   }
 
   var that = {

@@ -42,3 +42,9 @@ table#calendar tr td {
   width: 90%;
   margin-left: 5%;
 }
+#startEndDates {
+  display:block;
+  clear:both;
+  margin-left: 1%;
+}
+

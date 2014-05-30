@@ -11,10 +11,9 @@ moment.lang('en', { //overriding calendar formatting from moment.js
 
 Template.calendarWeek.helpers({
   weekDays: function() {
-                var week = this.week;
-                var day = moment().day("Monday").add('weeks',week);
+                var day = moment(this.monOfWeek,'ddd[,] MMM D YYYY');
                 var weekDays = [{
-                        day: day,
+                        day: day.format('YYYY MM DD'),
                         dayString: day.calendar()
                   }];
                 for (i = 0; i < 4; i++) {
