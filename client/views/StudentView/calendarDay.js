@@ -17,7 +17,9 @@ var SortOpt = function (connector) { //default sortable options
   };
   var receive = function(event, ui) {  //ditto
     $( '.placeholder').remove();
-    var day = moment(event.target.id); //activity dropped on date, replace with handler
+    $(ui.item).data("date",event.target.id);
+    $(ui.item).addClass("calendarActivity");
+    console.log(ui.item[0].className);
   }
 
   var that = {

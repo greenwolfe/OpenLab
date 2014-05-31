@@ -10,8 +10,7 @@ UI.body.rendered = function () {
   $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
   $('#activities').accordion({heightStyle: "content"});
   $('#standards').accordion({heightStyle: "content"});
-  $('#ListOfLists').tabs();
-  $('.daysActivities').sortable( SortOpt('.daysActivities') ); 
+  $('#ListOfLists').tabs(); 
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
   $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', MonThisWeek);
   $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', FriNextWeek);
