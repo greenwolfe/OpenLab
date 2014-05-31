@@ -1,6 +1,10 @@
 Development Pathway:
-1)  Move sortable association to calendarDay and do it by id.
+1)  Move sortable association to calendarDay and do it by id. (done)
+2) (alternative ... add date to activity when it's put in the calendar, then move all activities back to their proper dates when the calendar is re-drawn)
+Later will have to add activities from server when creating new rows.
 2)  Just remove or append rows to calendar when dates change rather than redraw the whole thing.
+put in calendar code for max/min on end/start datepickers
+2.5) for #activities, #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
 3)  Focus just on the grouping and in-class/out-of-class features of the student activity view.
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. 
 6)  add school calendar and meeting category to third tab

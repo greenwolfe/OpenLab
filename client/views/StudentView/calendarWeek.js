@@ -9,19 +9,18 @@ moment.lang('en', { //overriding calendar formatting from moment.js
     }
 });
 
-Template.calendarWeek.helpers({
+Template.calendar.helpers({ //took out calendarWeeks 
   weekDays: function() {
                 var day = moment(this.monOfWeek,'ddd[,] MMM D YYYY');
-                var weekDays = [{
-                        day: day.format('YYYY MM DD'),
-                        dayString: day.calendar()
-                  }];
-                for (i = 0; i < 4; i++) {
-                  day.add('days',1);
+                var weekDays = [];
+                var i = 0;
+                while (i < 5) {
 		  weekDays.push({
-                        day: day.format('YYYY MM DD'),
-                        dayString: day.calendar()
+                        ID: day.format('MMMDYYYY'),
+                        day: day.calendar()
                   })
+                  day.add('days',1);
+                  i++;
                 };
                 return weekDays;
             }           

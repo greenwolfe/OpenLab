@@ -10,7 +10,7 @@ UI.body.rendered = function () {
   $('#activities').accordion({heightStyle: "content"});
   $('#standards').accordion({heightStyle: "content"});
   $('#ListOfLists').tabs();
-  $('.daysActivities').sortable( SortOpt('.daysActivities') ); 
+//  $('.daysActivities').sortable( SortOpt('.daysActivities') ); 
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
   $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', MonThisWeek);
   $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', FriNextWeek);
@@ -44,7 +44,7 @@ var DragOpt = function (sortable) { //default draggable options
   return that;
 };
 
-var SortOpt = function (connector) { //default sortable options
+ var SortOpt = function (connector) { //default sortable options
 
   var activate = function(event, ui) {  //puts placeholders on all targets
     $( this).prepend($('<p class="ui-state-default placeholder">.</p>'));
@@ -75,5 +75,5 @@ var SortOpt = function (connector) { //default sortable options
   };
 
   return that;
-};
+}; 
 
