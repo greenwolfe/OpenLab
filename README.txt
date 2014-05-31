@@ -1,0 +1,26 @@
+Development Pathway:
+1)  Move sortable association to calendarDay and do it by id.
+2)  Just remove or append rows to calendar when dates change rather than redraw the whole thing.
+3)  Focus just on the grouping and in-class/out-of-class features of the student activity view.
+4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. 
+6)  add school calendar and meeting category to third tab
+5)  Teacher view - all fields editable, drag assessment to main activities list, groups students where possible, add student's names to title of calendar events.
+6)  Progress tracker tab.
+keep it separate so it doesn't clutter the activities tab ... or is it better to do it in one?
+7)  Hover texts for standards, (activities?)
+8)  Add links, to-do lists and comments to student activity veiw.l
+9)  meetings dragged to calendar should be a hyperlink opening to form
+with links, purpose, and comments
+10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
+
+
+Installation Notes:
+
+procedure:  mrt add jquery-ui-bootstrap
+copy .js file from /packages/jquery-ui/lib to /client/jquery-ui-... 
+mrt remove jquery-ui
+delete link to jquery-ui directory from packages
+for some reason, meteor does not find jquery-ui when its installed
+as a package, but does find it when its copied to client
+still want jquery-ui-bootstrap, because it makes a noticeably nicer-looking
+interface, so need mrt add bootstrap as well
