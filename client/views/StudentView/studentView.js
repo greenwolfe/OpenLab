@@ -1,7 +1,8 @@
 var MonThisWeek = moment().day("Monday").format('ddd[,] MMM D YYYY');
 var FriNextWeek = moment().day("Monday").add('days',11).format('ddd[,] MMM D YYYY');
+var MonNextWeek = moment().day("Monday").add('weeks',1).format('ddd[,] MMM D YYYY');
 Session.setDefault('calStartDate',MonThisWeek);
-Session.setDefault('calEndDate',FriNextWeek);
+Session.setDefault('calEndDate',MonNextWeek);
 
 UI.body.rendered = function () {
   $('#activities .Model p').draggable(DragOpt('.daysActivities') );
@@ -9,8 +10,7 @@ UI.body.rendered = function () {
   $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
   $('#activities').accordion({heightStyle: "content"});
   $('#standards').accordion({heightStyle: "content"});
-  $('#ListOfLists').tabs();
-  $('.daysActivities').sortable( SortOpt('.daysActivities') ); 
+  $('#ListOfLists').tabs(); 
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
   $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', MonThisWeek);
   $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', FriNextWeek);
@@ -18,7 +18,11 @@ UI.body.rendered = function () {
 
 var DateOpt = function(sessionKey) { //default datepicker options
   var onSelect = function(dateText,Object){
-    Session.set(sessionKey,dateText);
+    Monday = moment(dateText,'ddd[,] MMM D YYYY').day("Monday");
+    Monday = Monday.format('ddd[,] MMM D YYYY');
+    if (!Session.equals(sessionKey,Monday)) {
+      Session.set(sessionKey,Monday);
+    };
   };
   var that = {
     dateFormat:'D, M dd yy',

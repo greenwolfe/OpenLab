@@ -11,17 +11,14 @@ moment.lang('en', { //overriding calendar formatting from moment.js
 
 Template.calendarWeek.helpers({
   weekDays: function() {
-                var day = moment(this.monOfWeek,'ddd[,] MMM D YYYY');
-                var weekDays = [{
-                        day: day.format('YYYY MM DD'),
-                        dayString: day.calendar()
-                  }];
-                for (i = 0; i < 4; i++) {
-                  day.add('days',1);
+                var Monday = moment(this.monOfWeek,'ddd[,] MMM D YYYY');
+                var Friday = moment(this.monOfWeek,'ddd[,] MMM D YYYY').add('days',4).add('hours',1);
+                var weekDays = [];
+                for (day = Monday; day.isBefore(Friday); day.add('days',1)) {
 		  weekDays.push({
-                        day: day.format('YYYY MM DD'),
-                        dayString: day.calendar()
-                  })
+                        ID: day.format('MMMDYYYY'),
+                        day: day.calendar()
+                  });
                 };
                 return weekDays;
             }           
