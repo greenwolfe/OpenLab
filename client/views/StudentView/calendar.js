@@ -1,4 +1,4 @@
-Template.calendar.helpers({
+/*Template.calendar.helpers({
   calendarWeeks: function() {
     var startDate = Session.get('calStartDate');
     var endDate = Session.get('calEndDate');
@@ -12,4 +12,16 @@ Template.calendar.helpers({
     };
     return calendarWeeks;
   }
-});
+}); */
+
+
+Template.calendar.rendered = function(){
+    var startDate = moment().day("Monday");
+    var endDate = moment().day("Monday").add('days',8); 
+    for (date = startDate;date.isBefore(endDate);date.add('weeks',1)) {
+      this.monOfWeek = date.format('ddd[,] MMM D YYYY');
+      $('#calendar').append('{{> calendarWeek}}');
+    }
+};
+
+
