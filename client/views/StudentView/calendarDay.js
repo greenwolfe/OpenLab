@@ -1,5 +1,6 @@
 Template.calendarDay.rendered = function() {
   $('.daysActivities').sortable( SortOpt('.daysActivities') );
+  console.log($('.calendarItem'))
 }
 
 var SortOpt = function (connector) { //default sortable options
@@ -18,8 +19,7 @@ var SortOpt = function (connector) { //default sortable options
   var receive = function(event, ui) {  //ditto
     $( '.placeholder').remove();
     $(ui.item).data("date",event.target.id);
-    $(ui.item).addClass("calendarActivity");
-    console.log(ui.item[0].className);
+    $(ui.item).addClass("calendarItem");
   }
 
   var that = {

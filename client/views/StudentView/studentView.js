@@ -1,4 +1,3 @@
-//add a progress tab, keep it separate so it doesn't clutter the activities tab ... or is it better to do it in one?
 var MonThisWeek = moment().day("Monday").format('ddd[,] MMM D YYYY');
 var FriNextWeek = moment().day("Monday").add('days',11).format('ddd[,] MMM D YYYY');
 Session.setDefault('calStartDate',MonThisWeek);
@@ -76,29 +75,4 @@ var SortOpt = function (connector) { //default sortable options
 
   return that;
 };
-
-//activities dragged to calendar should
-//be a hyperlink opening to a form
-//with links, to-do, and comments
-//meetings dragged to calendar
-//should be a hyperlink opening to form
-//with links, purpose, and comments
-
-//needs edit button and form
-//with links, to-do, comments
-//and dates that go to calendar
-//meeting to discuss last assessment
-//additional practice and due date
-//date of assessment
-
-//calendar needs next and previous buttons as well as show ___ weeks slider/input box.
-
-//procedure:  mrt add jquery-ui-bootstrap
-//copy .js file from /packages/jquery-ui/lib to /client/jquery-ui-... 
-//mrt remove jquery-ui
-//delete link to jquery-ui directory from packages
-//for some reason, meteor does not find jquery-ui when its installed
-//as a package, but does find it when its copied to client
-//still want jquery-ui-bootstrap, because it makes a noticeably nicer-looking
-//interface, so need mrt add bootstrap as well
 
