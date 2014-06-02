@@ -5,7 +5,6 @@ Session.setDefault('calStartDate',MonThisWeek);
 Session.setDefault('calEndDate',MonNextWeek);
 
 UI.body.rendered = function () {
-  $('#activities .Model p').draggable(DragOpt('.daysActivities') );
   $('#standards .Model p').draggable( DragOpt('.assessmentsStandards') );
   $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
   $('#activities').accordion({heightStyle: "content"});
