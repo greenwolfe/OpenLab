@@ -1,5 +1,5 @@
 Template.activityItem.rendered = function() {
-  $("p").draggable(DragOpt('.daysActivities') );
+  $(this.find("p")).draggable(DragOpt('.daysActivities') );
 }
 
 var DragOpt = function (sortable) { //default draggable options
