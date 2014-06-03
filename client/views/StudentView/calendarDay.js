@@ -1,6 +1,5 @@
 Template.calendarDay.rendered = function() {
-  var id = '#' + this.find('.daysActivities').id;
-  $(id).sortable( SortOpt('.daysActivities') );
+  $(this.find('.daysActivities')).sortable( SortOpt('.daysActivities') );
 }
 
 var SortOpt = function (connector) { //default sortable options
