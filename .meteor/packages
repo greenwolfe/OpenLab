@@ -4,9 +4,10 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-autopublish
 insecure
 jquery-ui-bootstrap
 bootstrap
 browser-policy
 moment
+iron-router
+spin

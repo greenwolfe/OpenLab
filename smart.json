@@ -1,6 +1,8 @@
 {
   "packages": {
     "jquery-ui-bootstrap": {},
-    "moment": {}
+    "moment": {},
+    "iron-router": {},
+    "spin": {}
   }
 }

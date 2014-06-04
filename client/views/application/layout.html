@@ -1,0 +1,15 @@
+<template name = "layout">
+  <div class = "container">
+
+    <header class="navbar">
+      <div class="navbar-inner">
+        <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+      </div>
+    </header>
+
+    <div id="main" class="row-fluid">
+      {{> yield}}
+    </div>
+
+  </div>
+</template>
