@@ -2,10 +2,10 @@
 Template.studentView.rendered = function () {
   $('#standards .Model p').draggable( DragOpt('.assessmentsStandards') );
   $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
+  $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
   $('#activities').accordion({heightStyle: "content"});
   $('#standards').accordion({heightStyle: "content"});
   $('#ListOfLists').tabs(); 
-  $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
 };
 
 var DragOpt = function (sortable) { //default draggable options
