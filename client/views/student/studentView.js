@@ -2,6 +2,8 @@ var MonThisWeek = moment().day("Monday").format('ddd[,] MMM D YYYY');
 var MonNextWeek = moment().day("Monday").add('weeks',1).format('ddd[,] MMM D YYYY');
 Session.setDefault('calStartDate',MonThisWeek);
 Session.setDefault('calEndDate',MonNextWeek);
+var startDate = Session.get('calStartDate');
+var endDate = moment(Session.get('calEndDate'),'ddd[,] MMM D YYYY').day("Friday").format('ddd[,] MMM D YYYY');
 //Session does not keep calendar dates if browse away and back?
 //Is this because default is reset or because it's not kept in the
 //first place, triggering the default values to be reset?
