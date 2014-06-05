@@ -3,6 +3,7 @@
     "jquery-ui-bootstrap": {},
     "moment": {},
     "iron-router": {},
-    "spin": {}
+    "spin": {},
+    "accounts-ui-bootstrap-dropdown": {}
   }
 }

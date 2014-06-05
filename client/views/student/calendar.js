@@ -29,9 +29,7 @@ var DateOpt = function(sessionKey) { //default datepicker options
   var onSelect = function(dateText,Object){
     Monday = moment(dateText,'ddd[,] MMM D YYYY').day("Monday");
     Monday = Monday.format('ddd[,] MMM D YYYY');
-    if (!Session.equals(sessionKey,Monday)) {
-      Session.set(sessionKey,Monday);
-    };
+    Session.set(sessionKey,Monday); //Meteor takes care of not invalidating templates and causing re-rendering if the key is set to an identical value, and therefore not changed
   };
   var that = {
     dateFormat:'D, M dd yy',
