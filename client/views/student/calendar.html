@@ -1,4 +1,5 @@
 <template name = 'calendar'>
+  <p id='startEndDates'>Show from: <input type="text" name="startDate" id="startDate" /> to: <input type="text" name="endDate" id="endDate" /> </p>
   <table id='calendar'>
     {{#each calendarWeeks}}
       {{> calendarWeek}}

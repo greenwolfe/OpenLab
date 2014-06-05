@@ -1,12 +1,3 @@
-var MonThisWeek = moment().day("Monday").format('ddd[,] MMM D YYYY');
-var MonNextWeek = moment().day("Monday").add('weeks',1).format('ddd[,] MMM D YYYY');
-Session.setDefault('calStartDate',MonThisWeek);
-Session.setDefault('calEndDate',MonNextWeek);
-var startDate = Session.get('calStartDate');
-var endDate = moment(Session.get('calEndDate'),'ddd[,] MMM D YYYY').day("Friday").format('ddd[,] MMM D YYYY');
-//Session does not keep calendar dates if browse away and back?
-//Is this because default is reset or because it's not kept in the
-//first place, triggering the default values to be reset?
 
 Template.studentView.rendered = function () {
   $('#standards .Model p').draggable( DragOpt('.assessmentsStandards') );
@@ -15,23 +6,6 @@ Template.studentView.rendered = function () {
   $('#standards').accordion({heightStyle: "content"});
   $('#ListOfLists').tabs(); 
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
-  $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', startDate);
-  $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', endDate);
-};
-
-var DateOpt = function(sessionKey) { //default datepicker options
-  var onSelect = function(dateText,Object){
-    Monday = moment(dateText,'ddd[,] MMM D YYYY').day("Monday");
-    Monday = Monday.format('ddd[,] MMM D YYYY');
-    if (!Session.equals(sessionKey,Monday)) {
-      Session.set(sessionKey,Monday);
-    };
-  };
-  var that = {
-    dateFormat:'D, M dd yy',
-    onSelect: onSelect
-  };
-  return that;
 };
 
 var DragOpt = function (sortable) { //default draggable options
