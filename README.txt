@@ -12,6 +12,7 @@ keep it separate so it doesn't clutter the activities tab ... or is it better to
 9)  meetings dragged to calendar should be a hyperlink opening to form
 with links, purpose, and comments
 10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
+11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder.
 
 DONE
 1)  Move sortable association to calendarDay and do it by id ... not

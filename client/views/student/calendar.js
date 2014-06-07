@@ -1,3 +1,4 @@
+//.daysActivities removed, but events not filled back into calendar when endDate changed.  works for startDate.
 Template.calendar.helpers({
   calendarWeeks: function() {
     var startDate = Session.get('calStartDate');
@@ -8,7 +9,7 @@ Template.calendar.helpers({
     for (date=startDate; startDate.isBefore(endDate); date.add('weeks',1)) {
       calendarWeeks.push({monOfWeek : date.format('ddd[,] MMM D YYYY')});
     };
-    $('.daysActivities p').remove(); 
+    //$('.daysActivities p').remove(); 
     return calendarWeeks;
   }
 });

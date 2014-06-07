@@ -8,8 +8,7 @@ Template.calendarDay.helpers({
     return CalendarEvents.find({user: Meteor.userId(), date: date});
   },
 
-  activity : function() {
-    
+  event : function() { // gets activityID because called within #each loop over daysEvents helper
     return Activities.findOne(this.activityID);
   }
 });
@@ -33,19 +32,27 @@ var SortOpt = function (connector) { //default sortable options
   var receive = function(event, ui) {  
     $( '.placeholder').remove();
     var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
-    CalendarEvents.insert({
+    var calendarEvent = {
       user : Meteor.userId(),
       date : date,
       activityID : $(ui.item).data("activityid")
-    });
-  }
+    };
+    $(this).find('.notCalendarEvent').remove();
+    CalendarEvents.insert(calendarEvent);
+    //console.log(this.outerHTML);
+  };
+
+  var start = function(event,ui) {
+    ui.helper.addClass('notCalendarEvent');
+  };
 
   var that = {
     connectWith : connector,  //connect with other lists
-    revert : true,            //smooth slide onto target
+    revert : false,            //smooth slide onto target
     forcePlaceholderSize : true,  //allows dropping on empty list
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow
+    start : start,
     activate : activate,
     over : over,
     stop : stop,
