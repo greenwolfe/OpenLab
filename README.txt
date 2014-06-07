@@ -1,5 +1,5 @@
 
-2)  calendarDay helper renders activities for current user and date.  Dragging activity to calendar creates new activity with modified user and date fields.  Then the drag/sortable "helper" is canceled so that meteor can render the new activity.  When dates added to calendar, let meteor re-render the whole thing.
+
 2.5) for #activities (done), #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
 3)  Focus just on the grouping and in-class/out-of-class features of the student activity view.
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. 
@@ -22,6 +22,7 @@ Later will have to add activities from server when creating new rows.
 2)  Just remove or append rows to calendar when dates change rather than redraw the whole thing.
 put in calendar code for max/min on end/start datepickers  
 These were both dead ends.  Finally decided to record dates and user by creating new activity in meteor database (Activities.insert) and render the calendar again each time there were changes.
+2)  calendarDay helper renders activities for current user and date.  Dragging activity to calendar creates new activity with modified user and date fields.  Then the drag/sortable "helper" is canceled so that meteor can render the new activity.  When dates added to calendar, let meteor re-render the whole thing. ... done, but didn't do it quite exactly like this.
 
 Installation Notes:
 

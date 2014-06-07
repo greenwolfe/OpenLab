@@ -30,20 +30,20 @@ var SortOpt = function (connector) { //default sortable options
   };
 
   var receive = function(event, ui) {  
-    $( '.placeholder').remove();
     var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
-    var calendarEvent = {
-      user : Meteor.userId(),
-      date : date,
-      activityID : $(ui.item).data("activityid")
+    var eventID = ui.item.data('eventid');
+    $( '.placeholder').remove();
+    if (eventID && CalendarEvents.find(eventID).count()) { 
+      CalendarEvents.update(eventID,{$set: {date : date} }); 
+    } else {
+      calendarEvent = {
+        user : Meteor.userId(),
+        date : date,
+        activityID : ui.item.data("activityid")
+      };
+      CalendarEvents.insert(calendarEvent);
     };
-    $(this).find('.notCalendarEvent').remove();
-    CalendarEvents.insert(calendarEvent);
-    //console.log(this.outerHTML);
-  };
-
-  var start = function(event,ui) {
-    ui.helper.addClass('notCalendarEvent');
+    $(this).find('p:not([data-eventid])').remove();
   };
 
   var that = {
@@ -52,7 +52,6 @@ var SortOpt = function (connector) { //default sortable options
     forcePlaceholderSize : true,  //allows dropping on empty list
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow
-    start : start,
     activate : activate,
     over : over,
     stop : stop,
