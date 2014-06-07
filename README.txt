@@ -44,3 +44,6 @@ console.log(ui.item[0].className + ' ' + ); //need [0] to get to item properties
       count += 1;
     });
 
+Search syntax:
+return Activities.find({model: this.model, user: { $elemMatch: {id : 'master'}}});
+

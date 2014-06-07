@@ -4,3 +4,6 @@ Meteor.publish('activities',function() {
 //  }});
     return Activities.find();
 });
+Meteor.publish('calendarEvents',function() {
+  return CalendarEvents.find();
+});

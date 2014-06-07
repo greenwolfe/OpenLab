@@ -2,6 +2,9 @@
   <td class='calendar-day'>
     <h3> {{day}} </h3>
      <div id={{ID}} class = 'daysActivities'>
+       {{#each daysEvents}}
+          {{> activityItem activity}}        
+       {{/each}}
      </div>
   </td>
 </template>
