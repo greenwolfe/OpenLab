@@ -36,6 +36,7 @@ var SortOpt = function (connector) { //default sortable options
     if (eventID && CalendarEvents.find(eventID).count()) { 
       CalendarEvents.update(eventID,{$set: {date : date} }); 
     } else {
+      $('#chooseGroupDialog').dialog("open");
       calendarEvent = {
         user : Meteor.userId(),
         date : date,
@@ -43,7 +44,7 @@ var SortOpt = function (connector) { //default sortable options
       };
       CalendarEvents.insert(calendarEvent);
     };
-    $(this).find('p:not([data-eventid])').remove();
+    $(this).find('p:not([data-eventid])').remove(); //removes helper that jquery-ui placed in the list so it won't duplicate the item that Meteor places in the list when updating or inserting the calendarEvent causes the calendar to be re-rendered.
   };
 
   var that = {

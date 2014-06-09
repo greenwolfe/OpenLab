@@ -1,6 +1,6 @@
 Template.activityItem.rendered = function() {
   $(this.find("p")).draggable(DragOpt('.daysActivities') );
-}
+};
 
 var DragOpt = function (sortable) { //default draggable options
   var stop = function (event, ui) {  // so it can't be modified from outside

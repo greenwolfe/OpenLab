@@ -27,7 +27,7 @@ These were both dead ends.  Finally decided to record dates and user by creating
 Installation Notes:
 
 procedure:  mrt add jquery-ui-bootstrap
-copy .js file from /packages/jquery-ui/lib to /client/jquery-ui-... 
+copy .js file from /packages/jquery-ui/lib to /client/lib-... 
 mrt remove jquery-ui
 delete link to jquery-ui directory from packages
 for some reason, meteor does not find jquery-ui when its installed
