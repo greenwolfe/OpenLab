@@ -5,7 +5,7 @@ Template.calendarDay.rendered = function() {
 Template.calendarDay.helpers({ 
   daysEvents : function() {
      var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
-    return CalendarEvents.find({user: Meteor.userId(), date: date});
+    return CalendarEvents.find({group: {$in: [Meteor.userId()]}, date: date});
   },
 
   event : function() { // gets activityID because called within #each loop over daysEvents helper
@@ -34,17 +34,13 @@ var SortOpt = function (connector) { //default sortable options
     var eventID = ui.item.data('eventid');
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { 
-      CalendarEvents.update(eventID,{$set: {date : date} }); 
+      CalendarEvents.update(eventID,{$set: {date : date} });
+      $(this).find('p:not([data-eventid])').remove(); //calendar_event.html adds data-eventid when placing event in calendar, the unwanted duplicate event placed by jquery-ui on end of sort does not have this field. 
     } else {
-      $('#chooseGroupDialog').dialog("open");
-      calendarEvent = {
-        user : Meteor.userId(),
-        date : date,
-        activityID : ui.item.data("activityid")
-      };
-      CalendarEvents.insert(calendarEvent);
+      $('#chooseGroupDialog').find('#name').val(Meteor.user().username); //pre-fill dialog form with username 
+      $('#chooseGroupDialog').data('eventDate',date).data('activityid',ui.item.data("activityid")).data('caller',$(this)).dialog("open"); //pass date to dialog's data object
     };
-    $(this).find('p:not([data-eventid])').remove(); //removes helper that jquery-ui placed in the list so it won't duplicate the item that Meteor places in the list when updating or inserting the calendarEvent causes the calendar to be re-rendered.
+    
   };
 
   var that = {
