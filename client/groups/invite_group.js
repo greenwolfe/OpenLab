@@ -19,7 +19,6 @@ var DialogOpt = function() {
         $('#userList').find('label.ui-state-active').each(function() {
           group.push($(this).attr('for'));
         });
-        //email = $('#email').val(); //... how to retrieve data from form
         var calendarEvent = {
           creator : Meteor.userId(),
           group : [Meteor.userId()],
