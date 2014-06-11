@@ -1,0 +1,11 @@
+<template name = 'inviteGroup' >
+  <div id = 'inviteGroupDialog'>
+    <p>Who would you like to work with on this activity?</p>
+    <p>Select names from the list below, then click on the invite button.</p>
+    <div id = 'userList'>
+      {{#each users}}
+        {{> userCheckbox}}
+      {{/each}}
+    </div>
+  </div>
+</template>

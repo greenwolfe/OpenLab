@@ -5,7 +5,7 @@ Template.calendarDay.rendered = function() {
 Template.calendarDay.helpers({ 
   daysEvents : function() {
      var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
-    return CalendarEvents.find({group: {$in: [Meteor.userId()]}, date: date});
+    return CalendarEvents.find({group: {$in: [Meteor.userId()]}, date: date}); //syntax is backwards.  Checks if current user is in the group array.
   },
 
   event : function() { // gets activityID because called within #each loop over daysEvents helper
@@ -32,13 +32,16 @@ var SortOpt = function (connector) { //default sortable options
   var receive = function(event, ui) {  
     var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var eventID = ui.item.data('eventid');
+    var activityID = ui.item.data('activityid');
     $( '.placeholder').remove();
-    if (eventID && CalendarEvents.find(eventID).count()) { 
+    if (eventID && CalendarEvents.find(eventID).count()) { //was just moved to new date
       CalendarEvents.update(eventID,{$set: {date : date} });
-      $(this).find('p:not([data-eventid])').remove(); //calendar_event.html adds data-eventid when placing event in calendar, the unwanted duplicate event placed by jquery-ui on end of sort does not have this field. 
+      $(this).find('p:not([data-eventid])').remove(); //calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place. 
+    } else if ( CalendarEvents.find({activityID: activityID, date: date, invite: {$in: [Meteor.userId()]}}).count() ) { //open invitation
+      console.log('open invitation');
+      //call open invitation dialog
     } else {
-      $('#chooseGroupDialog').find('#name').val(Meteor.user().username); //pre-fill dialog form with username 
-      $('#chooseGroupDialog').data('eventDate',date).data('activityid',ui.item.data("activityid")).data('caller',$(this)).dialog("open"); //pass date to dialog's data object
+      $('#inviteGroupDialog').data('eventDate',date).data('activityid',ui.item.data("activityid")).data('caller',$(this)).dialog("open"); //pass date, activityid, dialog object itself to dialog's data object
     };
     
   };

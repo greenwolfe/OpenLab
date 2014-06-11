@@ -7,3 +7,8 @@ Meteor.publish('activities',function() {
 Meteor.publish('calendarEvents',function() {
   return CalendarEvents.find();
 });
+Meteor.publish('userList',function() {
+  return Meteor.users.find({},{fields : {username : 1}});
+});
+
+
