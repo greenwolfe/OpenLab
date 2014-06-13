@@ -5,7 +5,7 @@ Template.calendarDay.rendered = function() {
 Template.calendarDay.helpers({ 
   daysEvents : function() {
      var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
-    return CalendarEvents.find({group: {$in: [Meteor.userId()]}, date: date}); //syntax is backwards.  Checks if current user is in the group array.
+    return CalendarEvents.find({group: {$in: [Meteor.userId()]}, eventDate: date}); //syntax is backwards.  Checks if current user is in the group array.
   },
 
   event : function() { // gets activityID because called within #each loop over daysEvents helper
@@ -33,18 +33,17 @@ var SortOpt = function (connector) { //default sortable options
     var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var eventID = ui.item.data('eventid');
     var activityID = ui.item.data('activityid');
-    var OpenInvites= CalendarEvents.find({activityID: activityID, date: date, invite: {$in: [Meteor.userId()]}});
+    var OpenInvites= CalendarEvents.find({activityID: activityID, eventDate: date, invite: {$in: [Meteor.userId()]}});
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { //just moved to new date
-      CalendarEvents.update(eventID,{$set: {date : date} });
+      CalendarEvents.update(eventID,{$set: {eventDate : date} });
       $(this).find('p:not([data-eventid])').remove(); // see note below 
     } else if (OpenInvites.count() ) { 
-        $('#openInviteDialog').data('eventDate',date).data('activityid',activityID).data('caller',$(this)).dialog("open");
+      Session.set("OpenInvites",{'eventDate': date,'activityID': activityID});
+      $('#openInviteDialog').data('daysActivities',$(this)).modal();  
     } else { 
-      $('#inviteGroupDialog')
-        .data('eventDate',date) //pass date to dialog's data object
-        .data('activityid',activityID) //pass activityid
-        .data('daysActivities',$(this)).modal();  //pass list in calendar day 
+      Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
+      $('#inviteGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
     };
     
   };

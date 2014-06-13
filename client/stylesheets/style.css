@@ -51,3 +51,11 @@ table#calendar tr td {
 opacity: 0.5;
 filter: alpha(opacity=50);
 }
+#openInviteDialog button {
+  position: absolute;
+  right: 0;
+  margin-right: 4px;
+}
+#openInviteDialog h2, h5, #inviteGroupDialog h2, h5 {
+  text-align: center;
+}

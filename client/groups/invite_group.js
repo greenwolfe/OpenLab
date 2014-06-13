@@ -1,18 +1,35 @@
 Template.inviteGroup.helpers({
   users : function () {
     return Meteor.users.find({_id: {$ne: Meteor.userId()}}); 
+  },
+  title: function() {
+    var InviteGroup = Session.get("InviteGroup");
+    if (!InviteGroup) {
+      return 'Invite Group';
+    } else {
+      return Activities.findOne(InviteGroup.activityID).title;
+    };
+  },
+  date: function() {
+    var InviteGroup = Session.get("InviteGroup");
+    if (!InviteGroup) {
+      return '';
+    } else {
+      return moment(InviteGroup.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
+    };
   }
 });
 
 Template.inviteGroup.events({
 
   'click #JustMe': function (event) {
+    var InviteGroup = Session.get("InviteGroup");
     var calendarEvent = {
       creator : Meteor.userId(),
       group : [Meteor.userId()],
       invite : [],
-      date : $('#inviteGroupDialog').data('eventDate'),
-      activityID : $('#inviteGroupDialog').data("activityid")
+      eventDate : InviteGroup.eventDate,
+      activityID : InviteGroup.activityID
     };
     event.preventDefault();
     CalendarEvents.insert(calendarEvent);
@@ -22,12 +39,17 @@ Template.inviteGroup.events({
   },
 
   'click #Invite': function (event) {
+    var InviteGroup = Session.get("InviteGroup");
+    var inviteList = $('#userList').val()
+    if (!inviteList) {
+      alert("Just letting you know that you didn't select anyone,\nso this will be treated as if you had clicked just me.")
+    }
     var calendarEvent = {
       creator : Meteor.userId(),
       group : [Meteor.userId()],
-      invite : $('#userList').val(), //array of selected users
-      date : $('#inviteGroupDialog').data('eventDate'),
-      activityID : $('#inviteGroupDialog').data("activityid")
+      invite : inviteList, //array of selected users
+      eventDate : InviteGroup.eventDate,
+      activityID : InviteGroup.activityID
     };
     event.preventDefault();
     CalendarEvents.insert(calendarEvent);
