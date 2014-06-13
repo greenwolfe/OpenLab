@@ -1,11 +1,13 @@
 <template name = 'inviteGroup' >
-  <div id = 'inviteGroupDialog'>
-    <p>Who would you like to work with on this activity?</p>
-    <p>Select names from the list below, then click on the invite button.</p>
-    <div id = 'userList'>
+  <div id = 'inviteGroupDialog' class = 'modal hide fade' data-backdrop = 'static'>
+    <p>Click <button id="JustMe">Just Me</button> 
+      if this is an individual activity,<br/>
+      or select names from the list to <button id="Invite">Invite</button> 
+      others to form a group.</p>
+    <select id = 'userList' name = 'userList' size = "10" multiple>
       {{#each users}}
-        {{> userCheckbox}}
+        {{> userSelection}}
       {{/each}}
-    </div>
+    </select>
   </div>
 </template>

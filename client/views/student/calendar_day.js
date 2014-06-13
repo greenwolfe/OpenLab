@@ -41,7 +41,7 @@ var SortOpt = function (connector) { //default sortable options
     } else if (OpenInvites.count() ) { 
         $('#openInviteDialog').data('eventDate',date).data('activityid',activityID).data('caller',$(this)).dialog("open");
     } else { 
-      $('#inviteGroupDialog').data('eventDate',date).data('activityid',activityID).data('caller',$(this)).dialog("open"); //pass date, activityid, dialog object itself to dialog's data object
+      $('#inviteGroupDialog').data('eventDate',date).data('activityid',activityID).data('daysActivities',$(this)).modal();  //pass date, activityid, dialog object itself to dialog's data object
     };
     
   };
