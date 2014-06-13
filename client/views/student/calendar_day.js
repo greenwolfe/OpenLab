@@ -33,14 +33,15 @@ var SortOpt = function (connector) { //default sortable options
     var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var eventID = ui.item.data('eventid');
     var activityID = ui.item.data('activityid');
+    var OpenInvites= CalendarEvents.find({activityID: activityID, date: date, invite: {$in: [Meteor.userId()]}});
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { //was just moved to new date
       CalendarEvents.update(eventID,{$set: {date : date} });
-      $(this).find('p:not([data-eventid])').remove(); //calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place. 
-    } else if (CalendarEvents.find({activityID: activityID, date: date, invite: {$in: [Meteor.userId()]}}).count() ) { //open invitation
-      $('#openInviteDialog').data('eventDate',date).data('activityid',ui.item.data("activityid")).data('caller',$(this)).dialog("open");
-    } else {
-      $('#inviteGroupDialog').data('eventDate',date).data('activityid',ui.item.data("activityid")).data('caller',$(this)).dialog("open"); //pass date, activityid, dialog object itself to dialog's data object
+      $(this).find('p:not([data-eventid])').remove(); // see note below 
+    } else if (OpenInvites.count() ) { 
+        $('#openInviteDialog').data('eventDate',date).data('activityid',activityID).data('caller',$(this)).dialog("open");
+    } else { 
+      $('#inviteGroupDialog').data('eventDate',date).data('activityid',activityID).data('caller',$(this)).dialog("open"); //pass date, activityid, dialog object itself to dialog's data object
     };
     
   };
@@ -59,4 +60,6 @@ var SortOpt = function (connector) { //default sortable options
 
   return that;
 };
+
+//calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place. 
 

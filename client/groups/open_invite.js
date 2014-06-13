@@ -1,46 +1,49 @@
-//basic structure working when template does not call helper.  On decline, there was an incorrect delete of another event on the same day.
+//basic structure working when template does not call helper.  On decline, it seems like the event placed by jquery is deleted as it should be, but the new event is not placed.  The right information must not have been passed through.
 
 Template.openInvite.rendered = function() {
   $('#openInviteDialog').dialog(DialogOpt());
 };
 
-Template.openInvite.helpers({
-  potentialGroup : function () {
-     
-  }
-});
 
 var DialogOpt = function() {
   var that = {
     autoOpen : false,
     modal : true,
+    open : function(event, ui) {
+      var date = $(this).data('eventDate');
+      var activityID = $(this).data("activityid");
+      var OpenInvites = CalendarEvents.find({activityID: activityID, date: date, invite: {$in: [Meteor.userId()]}});
+      var i,userID,inviteText,username;
+      OpenInvites.forEach(function(OpenInvite) {
+        inviteText = "<p>You have an open invitation to work with ";
+        console.log(inviteText);
+        for (i = 0; i < OpenInvite.invite.length; i++) {
+          userID = OpenInvite.invite[i];
+          inviteText += Meteor.users.findOne(userID).username + ', ';
+          console.log(inviteText);
+        }; 
+        inviteText += '.</p>';
+        console.log(inviteText);
+        $(this).find('#openInviteDialog').append(inviteText);// not getting into template ... already rendered and doesn't render again?  have to prepare template, then insert it into UI.body?
+      });
+    },
     buttons: {
       Accept : function() {
         //add current user to group list, remove from invite list
         //sample code
         //CalendarEvents.update(eventID,{$set: {date : date} });
-        var group = [Meteor.userId()];
-        $('#userList').find('label.ui-state-active').each(function() {
-          group.push($(this).attr('for'));
-        });
-        //email = $('#email').val(); //... how to retrieve data from form
-        var calendarEvent = {
-          creator : Meteor.userId(),
-          group : [Meteor.userId()],
-          invite : group,
-          date : $(this).data('eventDate'),
-          activityID : $(this).data("activityid")
-        };
-        CalendarEvents.insert(calendarEvent);
-        $(this).data('caller').find('p:not([data-eventid])').remove(); //calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place.
+
+
+
+        $(this).data('caller').find('p:not([data-eventid])').remove(); 
         $( this ).dialog( "close" );
       },
       Decline : function() {
         //remove userid from invite
-        var eventDate = $(this).data('eventDate');
-        var activityID = $(this).data('activityID');
-        var $dialog = $(this).data('caller');
-        $('#inviteGroupDialog').data('eventDate',date).data('activityid',activityID).data('caller',$dialog).dialog("open"); 
+        var date = $(this).data('eventDate');
+        var activityID = $(this).data('activityid');
+        var caller = $(this).data('caller');
+        $('#inviteGroupDialog').data('eventDate',date).data('activityid',activityID).data('caller',$(caller)).dialog("open"); 
         $( this ).dialog( "close" );
       }
     }
