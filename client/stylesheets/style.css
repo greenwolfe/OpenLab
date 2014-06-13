@@ -56,6 +56,6 @@ filter: alpha(opacity=50);
   right: 0;
   margin-right: 4px;
 }
-#openInviteDialog h2, h5, #inviteGroupDialog h2, h5 {
+#openInviteDialog h2, h3, #inviteGroupDialog h2, h3 {
   text-align: center;
 }

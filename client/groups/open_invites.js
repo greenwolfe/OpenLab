@@ -25,6 +25,27 @@ Template.openInvites.helpers({
   }
 });
 
+Template.openInvites.events({
+  'click button' : function(event) {
+    var OpenInvites = Session.get("OpenInvites");
+    var calendarEvents = CalendarEvents.find({activityID: OpenInvites.activityID, eventDate: OpenInvites.eventDate, invite: {$in: [Meteor.userId()]}});
+    if (event.target.id != 'Decline') {
+      CalendarEvents.update(event.target.id,{$addToSet: {group : Meteor.userId()} });
+    }
+    $('#openInviteDialog').data('daysActivities').find('p:not([data-eventid])').remove();
+    calendarEvents.forEach(function(event) {
+      CalendarEvents.update(event._id,{$pull: {invite : Meteor.userId()}});
+    });
+    calendarEvents = CalendarEvents.find({activityID: OpenInvites.activityID, eventDate: OpenInvites.eventDate, invite: {$in: [Meteor.userId()]}});
+    $('#openInviteDialog').modal('hide');
+    //if event.target.id == 'Decline' then call invite_group template with context *********
+     Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
+      $('#inviteGroupDialog').data('daysActivities',$(this)).modal();
+  }
+});
+
+//to-do ... clean up what happens when a user deletes a group event from his calendar ... 
+
 
 /* var DialogOpt = function() {
   var that = {
