@@ -11,15 +11,14 @@ Template.calendarEvent.events({
    },
   'click a': function(event) {
     var eventID = $(event.currentTarget.parentElement).data('eventid');
-    Session.set('currentEventID',eventID);
+    var calendarEvent = CalendarEvents.findOne(eventID);
+    Session.set('currentGroup',calendarEvent.group);
   }
 });
 
 Template.calendarEvent.helper({
   group: function() {
-    //var eventID = $(event.currentTarget.parentElement).data('eventid');
-    console.log(this.group);
-    return this.group;
+    return this.group; // does this do anything? hover text not working anyway
   }
 });
 

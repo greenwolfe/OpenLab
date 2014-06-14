@@ -1,9 +1,6 @@
 Template.header.helpers({
   group : function () {
-    var eventID = Session.get("currentEventID");
-    calendarEvent = CalendarEvents.findOne(eventID);
-    if (!calendarEvent) return [];    
-    return calendarEvent.group;
+    return Session.get("currentGroup") || [];
   },
   activity : function() { // should be a way to do this with the router and not by calling window.location
     var path = window.location.pathname.split("/");
@@ -17,6 +14,6 @@ Template.header.helpers({
 
 Template.header.events({
   'click .brand' : function () {
-    Session.set("currentEventID","");
+    Session.set("currentGroup",[]);
   }
 });

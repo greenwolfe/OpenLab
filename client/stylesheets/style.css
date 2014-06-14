@@ -31,8 +31,36 @@ table#calendar tr td {
 #activities, #standards, #appointments {
   width: 90%; 
 }
-.ui-state-default {
+.daysActivities .inClass {
   background-color: #00ffff;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00dddd), color-stop(25%, #00dddd), to(#00ffff));
+  background-image: -webkit-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
+  background-image: -moz-linear-gradient(top, #00dddd, #00dddd 25%, #00ffff);
+  background-image: -ms-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
+  background-image: -o-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
+  background-image: linear-gradient(#00dddd, #00dddd 25%, #00ffff);
+}
+.daysActivities .outClass {
+  background-color: #ffff00;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dddd00), color-stop(25%, #dddd00), to(#ffff00));
+  background-image: -webkit-linear-gradient(#dddd00, #dddd00 25%, #ffff00);
+  background-image: -moz-linear-gradient(top, #dddd00, #dddd00 25%, #ffff00);
+  background-image: -ms-linear-gradient(#dddd00, #dddd00 25%, #ffff00);
+  background-image: -o-linear-gradient(#dddd00, #dddd00 25%, #ffff00);
+  background-image: linear-gradient(#dddd00, #dddd00 25%, #ffff00);
+}
+.daysActivities .Home {
+  background-color: #ffbffff;
+  background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cc9ccc), color-stop(25%, #cc9ccc), to(#ffbfff));
+  background-image: -webkit-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff));
+  background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff));
+  background-image: -ms-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff));
+  background-image: -o-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff));
+  background-image: linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff));
+}
+.daysActivities .inClass a, .daysActivities .outClass a, .daysActivities .Home a {
+  color: #000000;
 }
 .placeholder {
   color: #e6e6e6; /* color from ui-state-default provided by /packages/jquery-ui-bootstrap/css/jquery-ui-1.9.2.custom.css*/

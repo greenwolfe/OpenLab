@@ -18,3 +18,8 @@ var DragOpt = function (sortable) { //default draggable options
   return that;
 };
 
+Template.activityItem.events({
+  'click a': function(event) {
+    Session.set('currentGroup',[Meteor.userId()]);
+  }
+});
