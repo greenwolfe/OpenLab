@@ -4,19 +4,13 @@ Template.inviteGroup.helpers({
   },
   title: function() {
     var InviteGroup = Session.get("InviteGroup");
-    if (!InviteGroup) {
-      return 'Invite Group';
-    } else {
-      return Activities.findOne(InviteGroup.activityID).title;
-    };
+    if (!InviteGroup) return 'Invite Group';
+    return Activities.findOne(InviteGroup.activityID).title;
   },
   date: function() {
     var InviteGroup = Session.get("InviteGroup");
-    if (!InviteGroup) {
-      return '';
-    } else {
-      return moment(InviteGroup.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
-    };
+    if (!InviteGroup) return '';
+    return moment(InviteGroup.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
   }
 });
 

@@ -1,27 +1,18 @@
 Template.openInvites.helpers({
   groups : function() {
     var OpenInvites = Session.get("OpenInvites");
-    if (!OpenInvites) { //handles error on initial rendering when session variable not set
-      return '';
-    } else {
-      return CalendarEvents.find({activityID: OpenInvites.activityID, eventDate: OpenInvites.eventDate, invite: {$in: [Meteor.userId()]}});
-    };
+    if (!OpenInvites)       return ''; //handles error on initial rendering when session variable not set
+    return CalendarEvents.find({activityID: OpenInvites.activityID, eventDate: OpenInvites.eventDate, invite: {$in: [Meteor.userId()]}});
   },
   title: function() {
     var OpenInvites = Session.get("OpenInvites");
-    if (!OpenInvites) {
-      return 'Open Invitations';
-    } else {
-      return Activities.findOne(OpenInvites.activityID).title;
-    };
+    if (!OpenInvites) return 'Open Invitations';
+    return Activities.findOne(OpenInvites.activityID).title;
   },
   date: function() {
     var OpenInvites = Session.get("OpenInvites");
-    if (!OpenInvites) {
-      return '';
-    } else {
-      return moment(OpenInvites.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
-    };
+    if (!OpenInvites) return '';
+    return moment(OpenInvites.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
   }
 });
 
@@ -42,7 +33,9 @@ Template.openInvites.events({
      Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
      $('#inviteGroupDialog').data('daysActivities',$('#openInviteDialog').data('daysActivities')).modal();
     } else {
-      $('#openInviteDialog').data('daysActivities').find('p:not([data-eventid])').remove();
+      $('#openInviteDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
     }
   }
 });
+
+//calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place.

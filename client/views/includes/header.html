@@ -9,6 +9,10 @@ se">
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
       <div class="nav-collapse collapse">
+        <span class="nav headerInfo">{{activity.title}} </span>
+        {{#if group}}   
+          <span class="nav headerInfo">{{groupies "(just " "(" group ")" ")"}} </span>
+        {{/if}}
         <ul class="nav pull-right">
           <li>{{> loginButtons}}</li>
         </ul>

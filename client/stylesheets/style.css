@@ -31,14 +31,15 @@ table#calendar tr td {
 #activities, #standards, #appointments {
   width: 90%; 
 }
+.ui-state-default {
+  background-color: #00ffff;
+}
 .placeholder {
   color: #e6e6e6; /* color from ui-state-default provided by /packages/jquery-ui-bootstrap/css/jquery-ui-1.9.2.custom.css*/
 }
 .daysActivities, .assessmentsStandards {
   min-height: 10px; /* necessary for empty list to accept draggable */
   /*width: 382px;*/
-}
-.daysActivities, .assessmentsStandards {
   width: 90%;
   margin-left: 5%;
 }
@@ -51,6 +52,9 @@ table#calendar tr td {
 opacity: 0.5;
 filter: alpha(opacity=50);
 }
+#openInviteDialog p, #inviteGroupDialog select, p {
+  margin-left: 8px;
+}
 #openInviteDialog button {
   position: absolute;
   right: 0;
@@ -58,4 +62,12 @@ filter: alpha(opacity=50);
 }
 #openInviteDialog h2, h3, #inviteGroupDialog h2, h3 {
   text-align: center;
+}
+.headerInfo {
+  font-size: 14pt;
+  display:inline-block;
+  padding-top:12px;
+  padding-left:8px;
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -4,10 +4,12 @@
 3)  Focus just on the grouping and in-class/out-of-class features of the student activity view.
 invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
 make a grid?
-make some functions for things like adding and removing users from group and invite lists, and creating the group text
+make some functions for things like adding and removing users from group and invite lists, and creating the group text (done)
 more fields in user profile:  block, firstname, last name, nick name
-blocks in calendar???  keeping track of sort orders?
-activity view:  group names in header
+blocks in calendar???  keeping track of sort orders (both calendar and activities in main list)?
+***invite and accept dialogs, also require selecting in-class and out-of-class, and some way this is highlighted in the calendar.
+*** highlighting is a problem - try reproducing ui-state-default with my own css, then modifying it ???
+handle username for header in activity if called from acvity list rather than calendar (and therefore has no group).
 
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. 
 6)  add school calendar and meeting category to third tab
