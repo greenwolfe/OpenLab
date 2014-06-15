@@ -1,6 +1,6 @@
 Template.calendarDay.rendered = function() {
   $(this.find('.daysActivities')).sortable( SortOpt('.daysActivities') );
-}
+};
 
 Template.calendarDay.helpers({ 
   daysEvents : function() {
@@ -8,9 +8,9 @@ Template.calendarDay.helpers({
     return CalendarEvents.find({group: {$in: [Meteor.userId()]}, eventDate: date}); //syntax is backwards.  Checks if current user is in the group array.
   },
 
-  event : function() { // gets activityID because called within #each loop over daysEvents helper
+  /*event : function() { // gets activityID because called within #each loop over daysEvents helper
     return Activities.findOne(this.activityID);
-  }
+  } */  //confusing name, should have been activity and not event, and at any rate, activity ID should be included in the event, so just passing the event, as would occur naturally, should give both
 });
 
 var SortOpt = function (connector) { //default sortable options

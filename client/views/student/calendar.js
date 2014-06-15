@@ -22,7 +22,14 @@ Template.calendar.rendered = function(){
 
   $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', startDate);
   $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', endDate);
+
+  $('#inClassSwatch, #outClassSwatch, #homeSwatch').draggable(DragOpt('.daysActivities') );
 };
+
+
+
+
+
 
 var DateOpt = function(sessionKey) { //default datepicker options
   var onSelect = function(dateText,Object){
@@ -36,3 +43,22 @@ var DateOpt = function(sessionKey) { //default datepicker options
   };
   return that;
 };
+
+var DragOpt = function (sortable) { //default draggable options
+  var stop = function (event, ui) {  
+       //change class of target (inClass, outClass, Home) - or do this in the droppable?
+  };
+
+  var that = {                  
+    appendTo : "body",  //allows dragging out of frame to new object
+    helper : "clone",   
+    revert : "invalid",  //glide back into place if not dropped on target
+    stop : stop
+  };
+
+  return that;
+};
+
+
+
+

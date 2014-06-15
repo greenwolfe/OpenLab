@@ -1,13 +1,12 @@
 
 
 2.5) for #activities (done), #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
-3)  Focus just on the grouping and in-class/out-of-class features of the student activity view.
-invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
+3)  invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
 make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections)
 make some functions for things like adding and removing users from group and invite lists (still to do), and creating the group text (done), date formats?
 more fields in user profile:  block, firstname, last name, nick name
 blocks in calendar???  keeping track of sort orders (both calendar and activities in main list)?
-***invite and accept dialogs, also require selecting in-class and out-of-class, and some way this is highlighted in the calendar.
+
 
 
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. 
@@ -15,7 +14,7 @@ blocks in calendar???  keeping track of sort orders (both calendar and activitie
 5)  Teacher view - all fields editable, drag assessment to main activities list, groups students where possible, add student's names to title of calendar events.
 6)  Progress tracker tab.
 keep it separate so it doesn't clutter the activities tab ... or is it better to do it in one?
-7)  Hover texts for standards, (activities?), hover text is group for calendar events
+7)  Hover texts for standards, (activities?), hover text is group for calendar events (done ... working)
 8)  Add links, to-do lists and comments to student activity view.
 9)  meetings dragged to calendar should be a hyperlink opening to form
 with links, purpose, and comments (just use the same activity form for all activities?)
@@ -34,6 +33,8 @@ These were both dead ends.  Finally decided to record dates and user by creating
 3)  highlighting is a problem - try reproducing ui-state-default with my own css, then modifying it ??? (figured it out, then simplified ... done)
 handle username for header in activity if called from acvity list rather than calendar (and therefore has no group). (done)
 for header text, pass group array and not eventID (done)
+Focus just on the grouping and in-class/out-of-class features of the student activity view. (done)
+***invite and accept dialogs, also require selecting in-class and out-of-class, and some way this is highlighted in the calendar. (done)
 
 Installation Notes:
 

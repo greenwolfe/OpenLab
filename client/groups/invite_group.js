@@ -23,7 +23,8 @@ Template.inviteGroup.events({
       group : [Meteor.userId()],
       invite : [],
       eventDate : InviteGroup.eventDate,
-      activityID : InviteGroup.activityID
+      activityID : InviteGroup.activityID,
+      workplace : 'inClass'
     };
     event.preventDefault();
     CalendarEvents.insert(calendarEvent);
@@ -43,7 +44,8 @@ Template.inviteGroup.events({
       group : [Meteor.userId()],
       invite : inviteList, //array of selected users
       eventDate : InviteGroup.eventDate,
-      activityID : InviteGroup.activityID
+      activityID : InviteGroup.activityID,
+      workplace : 'inClass'
     };
     event.preventDefault();
     CalendarEvents.insert(calendarEvent);

@@ -1,5 +1,11 @@
 <template name = 'calendar'>
-  <p id='startEndDates'>Show from: <input type="text" name="startDate" id="startDate" /> to: <input type="text" name="endDate" id="endDate" /> </p>
+  <p id='startEndDates'>
+    Show from: <input type="text" name="startDate" id="startDate" /> 
+    to: <input type="text" name="endDate" id="endDate" /> 
+    <span id='inClassSwatch' class='ui-state-default inClass'>In Class</span>
+    <span id='outClassSwatch' class='ui-state-default outClass'>Out of Class</span>
+    <span id='homeSwatch' class='ui-state-default home'>At Home</span>
+  </p>
   <table id='calendar'>
     {{#each calendarWeeks}}
       {{> calendarWeek}}
