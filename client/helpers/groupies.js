@@ -1,4 +1,4 @@
-groupies = function (initialStrSingular,initialStrPlural,group,finalStrSingular,finalStrPlural) {
+var groupies = function (initialStrSingular,initialStrPlural,group,finalStrSingular,finalStrPlural) {  
     var group = group || [];
     var groupies = initialStrPlural;
     var i;

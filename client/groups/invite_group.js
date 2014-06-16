@@ -37,7 +37,7 @@ Template.inviteGroup.events({
     var InviteGroup = Session.get("InviteGroup");
     var inviteList = $('#userList').val()
     if (!inviteList) {
-      alert("Just letting you know that you didn't select anyone,\nso this will be treated as if you had clicked just me.")
+      alert("NOTICE:  Since you didn't select anyone,\n this will be treated as if you had clicked just me.")
     }
     var calendarEvent = {
       creator : Meteor.userId(),

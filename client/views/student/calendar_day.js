@@ -6,11 +6,7 @@ Template.calendarDay.helpers({
   daysEvents : function() {
      var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     return CalendarEvents.find({group: {$in: [Meteor.userId()]}, eventDate: date}); //syntax is backwards.  Checks if current user is in the group array.
-  },
-
-  /*event : function() { // gets activityID because called within #each loop over daysEvents helper
-    return Activities.findOne(this.activityID);
-  } */  //confusing name, should have been activity and not event, and at any rate, activity ID should be included in the event, so just passing the event, as would occur naturally, should give both
+  }
 });
 
 var SortOpt = function (connector) { //default sortable options
@@ -45,7 +41,6 @@ var SortOpt = function (connector) { //default sortable options
       Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
       $('#inviteGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
     };
-    
   };
 
   var that = {

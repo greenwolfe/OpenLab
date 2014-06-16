@@ -45,15 +45,10 @@ var DateOpt = function(sessionKey) { //default datepicker options
 };
 
 var DragOpt = function (sortable) { //default draggable options
-  var stop = function (event, ui) {  
-       //change class of target (inClass, outClass, Home) - or do this in the droppable?
-  };
-
   var that = {                  
     appendTo : "body",  //allows dragging out of frame to new object
-    helper : "clone",   
+    helper : "clone",   //makes helper look just like original draggable
     revert : "invalid",  //glide back into place if not dropped on target
-    stop : stop
   };
 
   return that;

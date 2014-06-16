@@ -32,21 +32,42 @@ Template.calendarEvent.helpers({
 
 
 
-var DropOpt = function () { //default dropable options
-  var drop = function (event, ui) {  
-    var eventID = $(event.target).data('eventid');
+var DropOpt = function () { 
+  var newClass, currentClass; 
+
+  var activate = function (event, ui) {
     var workPlaces = ['inClass','outClass','home'];
     var newWorkplace = _.intersection(workPlaces,ui.draggable[0].classList);
     if (newWorkplace.length == 1) {
-      CalendarEvents.update(eventID,{$set: {workplace: newWorkplace}});
+      newClass = newWorkplace[0];
     };
-  }; 
+  };
+
+  var over = function (event, ui) {
+    var eventID = $(event.target).data('eventid');
+    var workPlaces = ['inClass','outClass','home'];
+    var currentWorkplace = _.intersection(workPlaces,event.target.classList);
+    if (currentWorkplace.length == 1) {
+      currentClass = currentWorkplace[0];
+    };
+    if (newClass) {
+      CalendarEvents.update(eventID,{$set: {workplace: newClass}});
+    };
+  };
+
+  var out = function (event, ui) {
+    var eventID = $(event.target).data('eventid');
+    if (currentClass) {
+      CalendarEvents.update(eventID,{$set: {workplace: currentClass}});
+    };
+  };
 
   var that = {                  
     accept : '#inClassSwatch, #outClassSwatch, #homeSwatch',
     tolerance : "touch",
-    drop : drop
- //on hover, change color only ... how to do this?  tried hoverClass, but it won't override the existing classes
+    activate : activate,
+    over : over,
+    out  : out
   };
 
   return that;
