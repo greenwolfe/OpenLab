@@ -102,3 +102,7 @@ filter: alpha(opacity=50);
   margin-left: auto;
   margin-right: auto;
 }
+.notification li {
+    min-width: 100%;
+    white-space: nowrap;
+}
