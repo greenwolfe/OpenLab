@@ -30,7 +30,7 @@ Template.inviteGroup.events({
     CalendarEvents.insert(calendarEvent);
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below
     $('#inviteGroupDialog').modal('hide');
-    $('#userList').val('');
+    $('#userList').val(''); //reset any selections
   },
 
   'click #Invite': function (event) {

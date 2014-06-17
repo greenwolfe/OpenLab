@@ -1,4 +1,4 @@
-<template name="header">
+<template name="activityHeader">
   <header class="navbar">
     <div class="navbar-inner">
       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collap
@@ -9,7 +9,10 @@ se">
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
       <div class="nav-collapse collapse">
-        <span class="nav headerInfo">{{activity.title}} </span>
+        <span class="nav headerInfo">{{title}} </span>
+        {{#if group}}   
+          <span class="nav headerInfo">{{groupies "(just " "(" group ")" ")"}} </span>
+        {{/if}}
         <ul class="nav pull-right">
           <li>{{> loginButtons}}</li>
         </ul>

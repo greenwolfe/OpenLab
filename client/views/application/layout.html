@@ -1,6 +1,6 @@
 <template name = "layout">
   <div class = "container">
-    {{> header}}
+    {{> yield region='header'}}
     <div id="main" class="row-fluid">
       {{#if currentUser}}
         {{> yield}}
