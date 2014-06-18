@@ -106,3 +106,19 @@ filter: alpha(opacity=50);
     min-width: 100%;
     white-space: nowrap;
 }
+#activityDescription {
+  display: inline-block;
+  vertical-align: top;
+  width: 75%;
+  margin-left: 1%;
+  border: thin black solid;
+  margin-bottom: 10px;
+}
+.linksBox {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 1%;
+  width: 20%;
+  border: thin black solid;
+  margin-bottom: 10px;
+}
