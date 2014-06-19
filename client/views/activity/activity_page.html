@@ -25,10 +25,18 @@
 
   <div id='notes'>
     <h3> Notes </h3>
-    <p> Let me say this about that. <br>
-    <span style='font-size: 10pt;margin-left: 10px'>from: user1 to: user1, user2 and user3 on June 16, 2014</span> </p>
-    <label for="newNote">Write a note to user1, user2 and user3<button id="addNote" name="addNote">Post</button></label>
-    <p><textarea id='newNote' name = "New Note" style='width: 50%;'></textarea>  </p>    
+    {{#each Notes}}
+      {{> note}}
+    {{/each}}
+    <label for="newNote">Write a note to {{groupies "" "" group "" ""}}<button id="addNote" name="addNote">Post</button></label>
+    <textarea id='newNote'></textarea>      
     
   </div>
+</template>
+
+<template name='note'>
+    <p></p>
+    <p> {{{text}}}
+    <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted false}}</span> 
+    </p>
 </template>

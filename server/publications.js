@@ -10,6 +10,9 @@ Meteor.publish('userList',function() {
 Meteor.publish('links',function(currentUserID) {
   return Links.find( {group: {$in: [currentUserID,'_ALL_']} });
 });
+Meteor.publish('notes',function(currentUserID) {
+  return Notes.find( {group: {$in: [currentUserID,'_ALL_']} });
+});
 //may want to publish all and move the selectors to the subscriptions, so that the teacher can see everyone's collection items
 
 

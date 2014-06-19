@@ -22,6 +22,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder (& actually this would eliminate the only direct DOM manipulation in the code, the placing and deleting of placeholders, although not sure I want to do the CSS for coloring the calendar days through the database ... too costly? ... model in calendarEvents.js droppable)
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
 13)  Open Invitations counter and pop-up info box or drop down in header of student page.
+14)  DATES:  use format for storeing dates from activity_page.js.
 
 
 DONE

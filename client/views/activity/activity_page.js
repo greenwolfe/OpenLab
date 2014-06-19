@@ -1,6 +1,16 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
+  $('#newNote').jqte();
 };
+
+Template.activityPage.helpers({
+  Notes:  function() {
+    return Notes.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
+  },
+  group: function() {
+    return Session.get("currentGroup") || [];
+  }
+});
 
 Template.activityPage.events({
   'click #TodoList p': function(event) {
@@ -19,7 +29,15 @@ Template.activityPage.events({
      console.log('pop up new link modal');
   },
   'click #addNote':function(event) {
-    console.log($('#newNote').val());
+    var note = {
+      author : Meteor.userId(),
+      group : Session.get("currentGroup") || [],
+      submitted : new Date().getTime(),
+      activityID : this._id,
+      text : $('#newNote').val()
+    };   
+    event.preventDefault();
+    Notes.insert(note);
   }
 });
 

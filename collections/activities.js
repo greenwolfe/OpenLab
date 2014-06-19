@@ -1,5 +1,6 @@
 Activities = new Meteor.Collection('activities');
 
+if (Meteor.isServer) {
 if (Activities.find().count() === 0) {
   Activities.insert({
     title : 'Acceleration Intro',
@@ -75,4 +76,5 @@ if (Activities.find().count() === 0) {
     title : 'Model Summary',
     model : 'BFPM'
   });
+};
 };
