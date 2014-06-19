@@ -17,6 +17,9 @@ Template.activityPage.events({
   },
   'click #newLink': function(event) {
      console.log('pop up new link modal');
+  },
+  'click #addNote':function(event) {
+    console.log($('#newNote').val());
   }
 });
 
