@@ -68,11 +68,14 @@ table#calendar tr td {
 .placeholder {
   color: #e6e6e6; /* color from ui-state-default provided by /packages/jquery-ui-bootstrap/css/jquery-ui-1.9.2.custom.css*/
 }
-.daysActivities, .assessmentsStandards {
+.daysActivities, .assessmentsStandards, #TodoList {
   min-height: 10px; /* necessary for empty list to accept draggable */
   /*width: 382px;*/
   width: 90%;
   margin-left: 5%;
+}
+#TodoList .done {
+  text-decoration: line-through;
 }
 #startEndDates {
   display:block;
@@ -106,19 +109,18 @@ filter: alpha(opacity=50);
     min-width: 100%;
     white-space: nowrap;
 }
-#activityDescription {
+#activityDescription, #todos, #notes, .linksBox {
   display: inline-block;
   vertical-align: top;
-  width: 75%;
   margin-left: 1%;
   border: thin black solid;
   margin-bottom: 10px;
 }
-.linksBox {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 1%;
-  width: 20%;
-  border: thin black solid;
-  margin-bottom: 10px;
+#todos { width: 20% }
+#notes { width: 68% }
+.linksBox {width: 20% }
+#activityDescription { width: 68% }
+
+.button-center {
+ text-align: center;
 }

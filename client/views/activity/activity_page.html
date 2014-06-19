@@ -1,12 +1,33 @@
 <template name="activityPage">
+  <div class='linksBox'>
+    <h3> Links </h3>
+    <a href='https://caryacademy.haikulearning.com/matt_greenwolfe/physics-2014-15/wk/3201915/wiki/view/11900287'> CVPM position graph activity page </a>
+    <div class="button-center">
+      <button id="newLink">New Link</button>
+    </div>
+  </div>
+
    <div id='activityDescription'>
     <h3> Description </h3>
     <div>
       <p> This what this activity is about.</p>
     </div>
   </div>
-  <div class='linksBox'>
-    <h3> Links </h3>
-    <a href='https://caryacademy.haikulearning.com/matt_greenwolfe/physics-2014-15/wk/3201915/wiki/view/11900287'> CVPM position graph activity page </a>
+
+  <div id='todos'>
+    <h3> To Do List </h3>
+    <ul id="TodoList">
+      <p><input type='checkbox' value='1'/> Task 1 </p>
+      <p><input type='checkbox' value='2'/> Task 2</p>
+    </ul>
+    <p><input id='newTodoItem' type = text value = "New Todo Item">  <button id="addTodoItem" name="newTodoItem">Add</button></p>
+  </div>
+
+  <div id='notes'>
+    <h3> Notes </h3>
+    <p> Let me say this about that. <br>
+    <span style='font-size: 10pt;'>from: user1 to: user1, user2 and user3 on June 16, 2014</span> </p>
+    
+    
   </div>
 </template>

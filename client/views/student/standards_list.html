@@ -7,3 +7,15 @@
     </div>
 </template>
 
+<template name='standardsSublist'>
+      <div class = 'Model'>
+	{{#each standards}}
+          {{> standardItem}}
+        {{/each}}
+      </div>
+</template>
+
+<template name = 'standardItem'>
+    <p class="ui-state-default"><a href="{{URL}}">{{title}}</a></p>
+</template>
+
