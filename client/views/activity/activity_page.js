@@ -1,6 +1,10 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
-  $('#newNote').jqte();
+  $('#newNote').hallo(); /*{
+    plugins: {
+    'halloformat': {}
+   }
+  });*/ //$('#newNote').jqte();
 };
 
 Template.activityPage.helpers({
@@ -38,6 +42,7 @@ Template.activityPage.events({
     };   
     event.preventDefault();
     Notes.insert(note);
+    $('#newNote').val(''); //$('#newNote').jqteVal('');
   }
 });
 
