@@ -23,6 +23,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
 13)  Open Invitations counter and pop-up info box or drop down in header of student page.
 14)  DATES:  use format for storeing dates from activity_page.js.
+15)  On logout should go back to main page and not stay on activity sub-page
 
 
 DONE
@@ -47,9 +48,16 @@ copy .js file from /packages/jquery-ui/lib to /client/lib-...
 mrt remove jquery-ui
 delete link to jquery-ui directory from packages
 for some reason, meteor does not find jquery-ui when its installed
-as a package, but does find it when its copied to client
+as a package, but does find it when its copied to client/lib
 still want jquery-ui-bootstrap, because it makes a noticeably nicer-looking
 interface, so need mrt add bootstrap as well
+
+In upgrading from jquery1.9.4 to jquery1.10.4, I found it was better just to put the files into client/lib instead of installing packages.  Don't know why.  So client/lib now has:
+images	(directory)	jquery-ui-1.10.3.custom.css
+jquery-te-1.4.0.css	jquery.ui.1.10.3.ie.css
+jquery-te-1.4.0.min.js	jquery-ui-1.10.3.theme.css
+jquery-te.png		jquery-ui-1.10.4.custom.min.js
+jquery-te perhaps to be relaced by Hallo or something else as it's buttons aren't showing up. images and css from jquery-ui-bootstrap project (straight from the latest version of the project consistent with jquery-1.10+ rather than the unmaintained and out of date meteor package), and the jquery-ui-custom.min is straight from jquery-ui rather than from the meteor packages, too.
 
 
 Programming Notes:
