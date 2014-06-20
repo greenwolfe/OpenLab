@@ -31,6 +31,14 @@ var standardsData = [
   }
 ]
 
+var models = [
+ {model: 'CAPM'},
+ {model: 'BFPM'}
+]
+Template.standardsList.helpers({
+  models: models
+});
+
 Template.standardsSublist.helpers({
   standards: function() {
                 var model = this.model;
