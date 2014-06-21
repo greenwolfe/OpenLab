@@ -1,36 +1,44 @@
 <template name="activityPage">
-  <div class='linksBox'>
-    <h3> Links </h3>
-    <a href='https://caryacademy.haikulearning.com/matt_greenwolfe/physics-2014-15/wk/3201915/wiki/view/11900287'> CVPM position graph wiki page </a>
-    <div class="button-center">
-      <button id="newLink">New Link</button>
+  <div class='left-column'>
+    <div class='linksBox'>
+      <h3> Links </h3>
+      <a href='https://caryacademy.haikulearning.com/matt_greenwolfe/physics-2014-15/wk/3201915/wiki/view/11900287'> CVPM position graph wiki page   </a>
+      <div class="button-center">
+        <button id="newLink">New Link</button>
+      </div>
+    </div>
+
+
+
+    <div id='todos'>
+      <h3> To Do List </h3>
+        <ul id="TodoList">
+        <p><input type='checkbox' value='1'/> Task 1 </p>
+        <p><input type='checkbox' value='2'/> Task 2</p>
+      </ul>
+      <p><input id='newTodoItem' type = text value = "New Todo Item">  <button id="addTodoItem" name="newTodoItem">Add</button></p>
     </div>
   </div>
 
-   <div id='activityDescription'>
-    <h3> Description </h3>
-    <div>
-      <p> This what this activity is about.</p>
+  <div class='right-column'>
+     <div id='activityDescription'>
+      <h3> Description </h3>
+      <div>
+        <p> This what this activity is about.</p>
+      </div>
     </div>
-  </div>
-
-  <div id='todos'>
-    <h3> To Do List </h3>
-    <ul id="TodoList">
-      <p><input type='checkbox' value='1'/> Task 1 </p>
-      <p><input type='checkbox' value='2'/> Task 2</p>
-    </ul>
-    <p><input id='newTodoItem' type = text value = "New Todo Item">  <button id="addTodoItem" name="newTodoItem">Add</button></p>
-  </div>
-
-  <div id='notes'>
-    <h3> Notes </h3>
-    {{#each Notes}}
-      {{> note}}
-    {{/each}}
-    <label for="newNote">Write a note to {{groupies "" "" group "" ""}}<button id="addNote" name="addNote">Post</button></label>
-    <p id='newNote'>Write a note to {{groupies "" "" group "" ""}}<br> by modifying or replacing this text and clicking post.</p>      
-    
+    <div id='notes'>
+      <h3> Notes </h3>
+      {{#each Notes}}
+        {{> note}}
+      {{/each}}
+    </div>
+    <div id='newNote' class='defaultTextActive'>
+      Write a note to {{groupies "" "" group "" ""}}.  Just click here and start typing.   
+    </div>
+    <div id='addNoteContainer'>
+      <button id="addNote" name="addNote">Post</button>
+    </div>
   </div>
 </template>
 
