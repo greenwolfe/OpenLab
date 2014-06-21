@@ -3,6 +3,12 @@
     "moment": {},
     "iron-router": {},
     "spin": {},
-    "accounts-ui-bootstrap-dropdown": {}
+    "accounts-ui-bootstrap-dropdown": {},
+    "bower": {},
+    "jquery-ui-bootstrap": {}
+  },
+  "bower": {
+    "hallo": "1.0.4",
+    "jquery-ui-bootstrap": "0.2.5"
   }
 }

@@ -1,6 +1,17 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
-  $('#newNote').jqte();
+  //$('#newNote').jqte();
+  $('#newNote').hallo({
+     plugins: {
+      'halloformat': {"bold": true, "italic": true, "strikethrough": true, "underline": true}
+     },
+     editable: true,
+     toolbar: 'halloToolbarFixed'
+   })
+   .bind( "hallodeactivated", function(event) { //hallomodified
+      console.log(event.target.id + ' modified');
+      console.log(event.target.innerHTML);
+   });
 };
 
 Template.activityPage.helpers({
@@ -29,15 +40,19 @@ Template.activityPage.events({
      console.log('pop up new link modal');
   },
   'click #addNote':function(event) {
+    var text = $('#newNote').hallo()[0].innerHTML;
+    var d = text.length - 4;
+    text += ((d >= 0) && (text.indexOf('<br>',d) === d)) ? '':'<br>';
     var note = {
       author : Meteor.userId(),
       group : Session.get("currentGroup") || [],
       submitted : new Date().getTime(),
       activityID : this._id,
-      text : $('#newNote').val()
+      text : text
     };   
     event.preventDefault();
     Notes.insert(note);
+    $('#newNote').text('initial text');
   }
 });
 

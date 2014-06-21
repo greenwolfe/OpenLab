@@ -73,3 +73,5 @@ console.log(ui.item[0].className + ' ' + ); //need [0] to get to item properties
 Search syntax:
 return Activities.find({model: this.model, user: { $elemMatch: {id : 'master'}}});
 
+progress:  6/21/14:  'hallo incorporated into openlab.  How I did it:  mrt add bower, hallo added with bower, which pulled in dependencies like jquery-ui, and supposedly fontawesome, installed jquery-ui-bootstarp straight from mrt. did not work from bower.  but jquery-ui has to be installed in /client/lib without the package.  don't like having to install some things in /client/lib, some as regular mrt packages and some as mrt bower and then putting the bower listings in smart.json.  cant I do them all the same way?  REMAINING problems ... only some hallow buttons show up ... my colors for inclass, etc aren't working.'
+
