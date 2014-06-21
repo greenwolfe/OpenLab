@@ -8,10 +8,11 @@ Template.activityPage.rendered = function() {
      editable: true,
      toolbar: 'halloToolbarFixed'
    })
-   .bind( "hallodeactivated", function(event) { //hallomodified
+ /*  .bind( "hallodeactivated", function(event) { //hallomodified
       console.log(event.target.id + ' modified');
       console.log(event.target.innerHTML);
-   });
+   }); */
+   $('#newNote').data('defaultText',$('#newNote').html());
 };
 
 Template.activityPage.helpers({
@@ -40,7 +41,8 @@ Template.activityPage.events({
      console.log('pop up new link modal');
   },
   'click #addNote':function(event) {
-    var text = $('#newNote').hallo()[0].innerHTML;
+    var text = $('#newNote').html();
+    if ((text == $('#newNote').data('defaultText') || (text == ''))) return;
     var d = text.length - 4;
     text += ((d >= 0) && (text.indexOf('<br>',d) === d)) ? '':'<br>';
     var note = {
@@ -52,7 +54,20 @@ Template.activityPage.events({
     };   
     event.preventDefault();
     Notes.insert(note);
-    $('#newNote').text('initial text');
+    $('#newNote').addClass("defaultTextActive");
+    $('#newNote').text($('#newNote').data('defaultText'));
+  },
+  'focus #newNote':function(event) {
+    if ($('#newNote').html() == $('#newNote').data('defaultText')) {
+      $('#newNote').removeClass("defaultTextActive");
+      $('#newNote').text("");
+    };
+  },
+  'blur #newNote':function(event) {
+    if ($('#newNote').html() == '') {
+      $('#newNote').addClass("defaultTextActive");
+      $('#newNote').text($('#newNote').data('defaultText'));
+    };
   }
 });
 

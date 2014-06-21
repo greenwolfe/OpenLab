@@ -31,7 +31,8 @@ table#calendar tr td {
 #activities, #standards, #appointments {
   width: 90%; 
 }
-.inClass {
+/* being very, very specific here so that these classes will override the default ui classes */
+.daysActivities .inClass, #inClassSwatch.ui-state-default.inClass.ui-draggable, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging {
   background-color: #00ffff;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00dddd), color-stop(25%, #00dddd), to(#00ffff));
   background-image: -webkit-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
@@ -40,26 +41,26 @@ table#calendar tr td {
   background-image: -o-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
   background-image: linear-gradient(#00dddd, #00dddd 25%, #00ffff);
 }
-.outClass {
-  background-color: #ffff00;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dddd00), color-stop(25%, #dddd00), to(#ffff00));
-  background-image: -webkit-linear-gradient(#dddd00, #dddd00 25%, #ffff00);
-  background-image: -moz-linear-gradient(top, #dddd00, #dddd00 25%, #ffff00);
-  background-image: -ms-linear-gradient(#dddd00, #dddd00 25%, #ffff00);
-  background-image: -o-linear-gradient(#dddd00, #dddd00 25%, #ffff00);
-  background-image: linear-gradient(#dddd00, #dddd00 25%, #ffff00);
+.daysActivities .outClass, #outClassSwatch.ui-state-default.outClass.ui-draggable, .ui-state-default.outClass.ui-draggable.ui-draggable-dragging {
+  background-color: #ffff00 !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dddd00), color-stop(25%, #dddd00), to(#ffff00)) !important;
+  background-image: -webkit-linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
+  background-image: -moz-linear-gradient(top, #dddd00, #dddd00 25%, #ffff00) !important;
+  background-image: -ms-linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
+  background-image: -o-linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
+  background-image: linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
 }
-.home {
-  background-color: #ffbffff;
-  background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cc9ccc), color-stop(25%, #cc9ccc), to(#ffbfff));
-  background-image: -webkit-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff);
-  background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff);
-  background-image: -ms-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff);
-  background-image: -o-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff);
-  background-image: linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff);
+.daysActivities .home, #homeSwatch.ui-state-default.home.ui-draggable, .ui-state-default.home.ui-draggable.ui-draggable-dragging {
+  background-color: #ffbffff !important;
+  background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff) !important;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cc9ccc), color-stop(25%, #cc9ccc), to(#ffbfff)) !important;
+  background-image: -webkit-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff) !important;
+  background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff) !important;
+  background-image: -ms-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff) !important;
+  background-image: -o-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff) !important;
+  background-image: linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff) !important;
 }
-.inClass, .daysActivities  .inClass a, .outClass, .daysActivities .outClass a, .home, .daysActivities .home a {
+#inClassSwatch.ui-state-default.inClass.ui-draggable, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging, .daysActivities  .inClass a, .daysActivities .outClass a, #outClassSwatch.ui-state-default.outClass.ui-draggable, .ui-state-default.outClass.ui-draggable.ui-draggable-dragging, .daysActivities .home a, #homeSwatch.ui-state-default.home.ui-draggable, .ui-state-default.home.ui-draggable.ui-draggable-dragging {
   color: #000000;
 }
 #inClassSwatch, #outClassSwatch, #homeSwatch {
@@ -109,18 +110,39 @@ filter: alpha(opacity=50);
     min-width: 100%;
     white-space: nowrap;
 }
-#activityDescription, #todos, #notes, .linksBox {
+.left-column, .right-column {
   display: inline-block;
   vertical-align: top;
   margin-left: 1%;
+  margin-right: 1%;
+}
+.left-column {
+  width: 20%;
+  margin-bottom: 10px;
+}
+.right-column {
+  width: 68%;
+  margin-bottom: 10px;
+}
+#activityDescription, #todos, #notes, .linksBox {
+  display: block;
   border: thin black solid;
   margin-bottom: 10px;
 }
-#todos { width: 20% }
-#notes { width: 68% }
-.linksBox {width: 20% }
-#activityDescription { width: 68% }
-
+#newNote {
+  display: inline-block;
+  border: thin black solid;
+  margin-top: 30px;
+  width: 85%;
+  min-height: 24pt;
+}
+#addNoteContainer {
+  display: inline-block;
+  margin-top: 30px;
+  width: 14%;
+  vertical-align: top;
+}
+.defaultTextActive { color: #a1a1a1; font-style: italic; }
 .button-center {
  text-align: center;
 }
