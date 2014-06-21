@@ -5,10 +5,10 @@
     "spin": {},
     "accounts-ui-bootstrap-dropdown": {},
     "bower": {},
-    "jquery-ui-bootstrap": {}
+    "jquery-ui-bootstrap": {},
+    "fontawesome4": {}
   },
   "bower": {
-    "hallo": "1.0.4",
-    "jquery-ui-bootstrap": "0.2.5"
+    "hallo": "1.0.4"
   }
 }
