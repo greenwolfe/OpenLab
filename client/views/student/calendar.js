@@ -43,7 +43,8 @@ var DateOpt = function(sessionKey) { //default datepicker options
   };
   var that = {
     dateFormat:'D, M dd yy',
-    onSelect: onSelect
+    onSelect: onSelect,
+    helper: "clone"
   };
   return that;
 };
