@@ -118,9 +118,11 @@ filter: alpha(opacity=50);
 }
 .left-column {
   width: 20%;
+  margin-bottom: 10px;
 }
 .right-column {
   width: 68%;
+  margin-bottom: 10px;
 }
 #activityDescription, #todos, #notes, .linksBox {
   display: block;
