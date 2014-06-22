@@ -37,8 +37,7 @@
     <a href="{{pathFor 'activityPage' _id=activityID}}" title={{groupies "" "" group "" ""}}>
       {{title}}
     </a>
-    <img class='remove' src="icon_close_thin.png" onmouseover="this.src='icon_close_thick.png'"
-onmouseout="this.src='icon_close_thin.png'"/>
+    <i class='remove fa fa-times' onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')"></i>
   </p>
 </template>
 

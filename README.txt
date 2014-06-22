@@ -24,6 +24,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 13)  Open Invitations counter and pop-up info box or drop down in header of student page.
 14)  DATES:  use format for storeing dates from activity_page.js.
 15)  On logout should go back to main page and not stay on activity sub-page
+16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll
 
 
 DONE

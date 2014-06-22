@@ -83,6 +83,9 @@ table#calendar tr td {
   clear:both;
   margin-left: 1%;
 }
+.daysActivities i {
+  cursor: default;
+}
 .modal-backdrop.fade.in { /* overriding css from bootstrap (I think) that turned backdrop solid black */
 opacity: 0.5;
 filter: alpha(opacity=50);

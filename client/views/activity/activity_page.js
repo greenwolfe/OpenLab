@@ -3,7 +3,12 @@ Template.activityPage.rendered = function() {
   //$('#newNote').jqte();
   $('#newNote').hallo({
      plugins: {
-      'halloformat': {"bold": true, "italic": true, "strikethrough": true, "underline": true}
+      'halloformat': {'formattings': {
+        "bold": true, 
+        "italic": true, 
+        "strikethrough": true, 
+        "underline": true
+       }}
      },
      editable: true,
      toolbar: 'halloToolbarFixed'
