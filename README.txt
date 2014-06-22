@@ -25,6 +25,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 14)  DATES:  use format for storeing dates from activity_page.js.
 15)  On logout should go back to main page and not stay on activity sub-page
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll
+17)  hallo editor:  get link button to work, get icons for ALL buttons, not just some, make my post button part of the toolbar
 
 
 DONE

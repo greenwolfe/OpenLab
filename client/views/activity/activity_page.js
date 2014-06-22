@@ -8,7 +8,11 @@ Template.activityPage.rendered = function() {
         "italic": true, 
         "strikethrough": true, 
         "underline": true
-       }}
+       }},
+       'hallojustify': {},
+       'hallolists': {},
+       'halloreundo': {},
+       'hallolink': {}
      },
      editable: true,
      toolbar: 'halloToolbarFixed'
