@@ -32,7 +32,7 @@ Template.activityPage.events({
     } else {
       $(event.target.parentElement).removeClass('done');
     };
-    //do this with meteor collection and helper when collections are ready
+    //use meteor collection and helper to do this when collections are ready
   },
   'click #addTodoItem': function(event) {
     console.log($('#newTodoItem').val());
