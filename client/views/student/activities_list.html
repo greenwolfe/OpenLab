@@ -1,7 +1,6 @@
 <template name = 'activitiesList'> 
    <div id='activities'>
     {{#each models}}
-      <h3> <a href="#"> {{model}} </a> </h3>
       {{> activitiesSublist }}
     {{/each}}
     </div>
@@ -9,6 +8,12 @@
 
 
 <template name='activitiesSublist'>
+      <h3> <a href="#"> {{model}} 
+        {{#if openInviteCount}}
+          <span class='openInvite'>
+            <span class="badge badge-inverse">{{openInviteCount}}</span> 
+          Open Invitations</span>
+        {{/if}} </a> </h3> 
       <div class = 'Model'>
 	{{#each activities}}
           {{> activityItem}}
@@ -18,5 +23,12 @@
 
 
 <template name = 'activityItem'>
-    <p data-activityid={{_id}} class="ui-state-default"><a href="{{pathFor 'activityPage'}}">{{title}}</a></p>
+    <p data-activityid={{_id}} class="ui-state-default">
+      <a href="{{pathFor 'activityPage'}}">{{title}}</a> 
+      {{#if openInvites}}
+        {{#each openInvites}}
+          <br><span class='openInvite'>invitation from {{groupies "" "" group "" ""}} on {{date}}</span>
+        {{/each}}
+      {{/if}}
+    </p>
 </template>

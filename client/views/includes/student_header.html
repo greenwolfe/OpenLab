@@ -9,13 +9,6 @@ se">
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
       <div class="nav-collapse collapse">
-        <ul class="nav">
-          {{#if currentUser}}
-            <li class="dropdown">
-              {{> OpenInviteNotifications}}
-            </li>
-          {{/if}}
-        </ul>
         <ul class="nav pull-right">
           <li>{{> loginButtons}}</li>
         </ul>

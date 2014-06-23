@@ -7,7 +7,8 @@
     "bower": {},
     "jquery-ui-bootstrap": {},
     "fontawesome4": {},
-    "underscore-string-latest": {}
+    "underscore-string-latest": {},
+    "fast-render": {}
   },
   "bower": {
     "hallo": "1.0.4"

@@ -9,7 +9,8 @@
       "bower": {},
       "jquery-ui-bootstrap": {},
       "fontawesome4": {},
-      "underscore-string-latest": {}
+      "underscore-string-latest": {},
+      "fast-render": {}
     },
     "packages": {
       "moment": {
@@ -51,6 +52,11 @@
         "git": "https://github.com/TimHeckel/meteor-underscore-string.git",
         "tag": "v2.3.3",
         "commit": "4a5d70eee48fbd90a6e6fc78747250d704a0b3bb"
+      },
+      "fast-render": {
+        "git": "https://github.com/arunoda/meteor-fast-render.git",
+        "tag": "v0.2.8",
+        "commit": "149984b1aff3a5642a270aff9bd9006872c8302e"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

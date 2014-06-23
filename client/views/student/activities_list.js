@@ -8,7 +8,6 @@ var models = [
 ]
 Template.activitiesList.helpers({
   models: models
-  
 });
 
   /*************************/
@@ -19,6 +18,14 @@ Template.activitiesList.helpers({
 Template.activitiesSublist.helpers({
   activities: function() {
     return Activities.find({model: this.model}); 
+  },
+  openInviteCount: function() {
+    var activities = Activities.find({model: this.model});
+    var count = 0;
+    activities.forEach(function (activity) {
+      count += CalendarEvents.find({activityID: activity._id, invite: {$in: [Meteor.userId()]}}).count();
+    });
+    return count;
   }
 });
 
@@ -30,6 +37,27 @@ Template.activitiesSublist.helpers({
 Template.activityItem.rendered = function() {
   $(this.find("p")).draggable(DragOpt('.daysActivities') );
 };
+
+Template.activityItem.events({
+  'click a': function(event) {
+    Session.set('currentGroup',[Meteor.userId()]);
+  }
+});
+
+Template.activityItem.helpers({
+  openInvites: function() {
+    var calendarEvents = CalendarEvents.find({activityID: this._id, invite: {$in: [Meteor.userId()]}});
+    var openInvites = [];
+    if (!calendarEvents) return '';
+    calendarEvents.forEach(function (event) {
+      openInvites.push({
+        date: moment(event.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D'),
+        group: _.without( event.invite.concat(event.group), Meteor.userId() )
+      });
+    });
+    return openInvites;
+  }
+});
 
 var DragOpt = function (sortable) { //default draggable options
   var pos_fixed = 1;
@@ -59,8 +87,4 @@ var DragOpt = function (sortable) { //default draggable options
   return that;
 };
 
-Template.activityItem.events({
-  'click a': function(event) {
-    Session.set('currentGroup',[Meteor.userId()]);
-  }
-});
+

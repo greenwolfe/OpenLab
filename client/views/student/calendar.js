@@ -168,7 +168,7 @@ Template.calendarEvent.events({
     var eventID = $(event.currentTarget.parentElement).data('eventid');
     var calendarEvent;
     CalendarEvents.update(eventID,{$pull: {group : Meteor.userId()}});
-    CalendarEvents.update(eventID,{$addToSet: {invite : Meteor.userId()}}); 
+    //CalendarEvents.update(eventID,{$addToSet: {invite : Meteor.userId()}}); //seems better just to remove the user rather than create an unexpected invitation
     calendarEvent = CalendarEvents.findOne(eventID); 
     if (calendarEvent.group.length == 0) {
       CalendarEvents.remove(eventID);
