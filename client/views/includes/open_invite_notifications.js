@@ -23,7 +23,7 @@ Template.OpenInviteNotifications.helpers({
           frequency: freq[activityID][date]
 //put in global helper
 //add model and from (group inviting the user)
-//makeit a session variable, reactively updated whenever CalendarEvents is modified
+//makeit a session variable, reactively updated whenever CalendarEvents is modified (or a client side only collection?)
 //can it then sort and count it like a collection?
         });
       };

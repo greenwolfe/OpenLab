@@ -21,11 +21,11 @@ with links, purpose, and comments (just use the same activity form for all activ
 10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
 11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder (& actually this would eliminate the only direct DOM manipulation in the code, the placing and deleting of placeholders, although not sure I want to do the CSS for coloring the calendar days through the database ... too costly? ... model in calendarEvents.js droppable)
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
-13)  Open Invitations counter and pop-up info box or drop down in header of student page.
+13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
 14)  DATES:  use format for storeing dates from activity_page.js.
-15)  On logout should go back to main page and not stay on activity sub-page
+15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?  Add a drop-down list for all recent groups?
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll
-17)  hallo editor:  get link button to work, get icons for ALL buttons, not just some, make my post button part of the toolbar
+17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar
 
 
 DONE
