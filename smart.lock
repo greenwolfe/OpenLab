@@ -8,7 +8,8 @@
       "accounts-ui-bootstrap-dropdown": {},
       "bower": {},
       "jquery-ui-bootstrap": {},
-      "fontawesome4": {}
+      "fontawesome4": {},
+      "underscore-string-latest": {}
     },
     "packages": {
       "moment": {
@@ -45,6 +46,11 @@
         "git": "https://github.com/chrismbeckett/meteor-fontawesome4.git",
         "tag": "v1.1.0",
         "commit": "7d2cb9119b7981b8f854b7051d302d4842311249"
+      },
+      "underscore-string-latest": {
+        "git": "https://github.com/TimHeckel/meteor-underscore-string.git",
+        "tag": "v2.3.3",
+        "commit": "4a5d70eee48fbd90a6e6fc78747250d704a0b3bb"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

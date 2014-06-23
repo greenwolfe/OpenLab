@@ -15,3 +15,5 @@ accounts-password
 bower
 jquery-ui-bootstrap
 fontawesome4
+underscore
+underscore-string-latest

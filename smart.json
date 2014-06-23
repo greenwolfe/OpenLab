@@ -6,7 +6,8 @@
     "accounts-ui-bootstrap-dropdown": {},
     "bower": {},
     "jquery-ui-bootstrap": {},
-    "fontawesome4": {}
+    "fontawesome4": {},
+    "underscore-string-latest": {}
   },
   "bower": {
     "hallo": "1.0.4"

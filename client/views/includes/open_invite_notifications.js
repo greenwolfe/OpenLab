@@ -6,8 +6,8 @@ Template.OpenInviteNotifications.helpers({
     var freq = {};
     var openInvites = [];
     calendarEvents.forEach(function (event) {
-      activityID = event.activityID;
-      date = event.eventDate;
+      var activityID = event.activityID;
+      var date = event.eventDate;
       if (freq.hasOwnProperty(activityID)) {
         freq[activityID][date] = freq[activityID][date] ? freq[activityID][date] + 1 : 1;
       } else {
@@ -21,6 +21,10 @@ Template.OpenInviteNotifications.helpers({
           date: moment(date,'ddd[,] MMM D YYYY').format('ddd[,] MMM D'),
           title: Activities.findOne(activityID).title,
           frequency: freq[activityID][date]
+//put in global helper
+//add model and from (group inviting the user)
+//makeit a session variable, reactively updated whenever CalendarEvents is modified
+//can it then sort and count it like a collection?
         });
       };
     };

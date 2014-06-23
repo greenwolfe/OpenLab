@@ -52,8 +52,7 @@ Template.activityPage.events({
   'click #addNote':function(event) {
     var text = $('#newNote').html();
     if ((text == $('#newNote').data('defaultText') || (text == ''))) return;
-    var d = text.length - 4;
-    text += ((d >= 0) && (text.indexOf('<br>',d) === d)) ? '':'<br>';
+    text += _(text).endsWith('<br>') ? '':'<br>';
     var note = {
       author : Meteor.userId(),
       group : Session.get("currentGroup") || [],
