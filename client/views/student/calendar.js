@@ -115,7 +115,7 @@ var SortOpt = function (connector) { //default sortable options
     $('.placeholder').show();
     $(this).find('.placeholder').hide();
   };
-
+  
   var stop = function(event, ui) {  
     $( '.placeholder').remove();  //removes all placeholders on page
   };

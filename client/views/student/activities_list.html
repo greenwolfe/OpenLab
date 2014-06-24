@@ -23,12 +23,15 @@
 
 
 <template name = 'activityItem'>
+    <div>
     <p data-activityid={{_id}} class="ui-state-default">
-      <a href="{{pathFor 'activityPage'}}">{{title}}</a> 
+      <a href="{{pathFor 'activityPage'}}">{{title}}</a> </p>
+      <div class='openInvites'>
       {{#if openInvites}}
         {{#each openInvites}}
-          <br><span class='openInvite'>invitation from {{groupies "" "" group "" ""}} on {{date}}</span>
+          <div class='openInvite'>invitation from {{groupies "" "" group "" ""}} on {{date}}</div>
         {{/each}}
       {{/if}}
-    </p>
+      </div>
+    </div>
 </template>

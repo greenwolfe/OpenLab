@@ -35,10 +35,15 @@ table#calendar tr td {
   font-weight: normal;
   float: right;
 }
-#activities .Model .openInvite {
+#activities .Model .openInvites {
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+#activities .Model .openInvites .openInvite {
   text-align: right;
   font-style: italic;
 }
+
 /* being very, very specific here so that these classes will override the default ui classes */
 .daysActivities .inClass, #inClassSwatch.ui-state-default.inClass.ui-draggable, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging {
   background-color: #00ffff;
