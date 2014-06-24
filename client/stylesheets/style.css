@@ -45,7 +45,7 @@ table#calendar tr td {
 }
 
 /* being very, very specific here so that these classes will override the default ui classes */
-.daysActivities .inClass, #inClassSwatch.ui-state-default.inClass.ui-draggable, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging {
+.daysActivities .inClass, #inClassSwatch.ui-state-default.inClass, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging {
   background-color: #00ffff;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00dddd), color-stop(25%, #00dddd), to(#00ffff));
   background-image: -webkit-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
@@ -54,7 +54,7 @@ table#calendar tr td {
   background-image: -o-linear-gradient(#00dddd, #00dddd 25%, #00ffff);
   background-image: linear-gradient(#00dddd, #00dddd 25%, #00ffff);
 }
-.daysActivities .outClass, #outClassSwatch.ui-state-default.outClass.ui-draggable, .ui-state-default.outClass.ui-draggable.ui-draggable-dragging {
+.daysActivities .outClass, #outClassSwatch.ui-state-default.outClass, .ui-state-default.outClass.ui-draggable.ui-draggable-dragging {
   background-color: #ffff00 !important;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dddd00), color-stop(25%, #dddd00), to(#ffff00)) !important;
   background-image: -webkit-linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
@@ -63,7 +63,7 @@ table#calendar tr td {
   background-image: -o-linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
   background-image: linear-gradient(#dddd00, #dddd00 25%, #ffff00) !important;
 }
-.daysActivities .home, #homeSwatch.ui-state-default.home.ui-draggable, .ui-state-default.home.ui-draggable.ui-draggable-dragging {
+.daysActivities .home, #homeSwatch.ui-state-default.home, .ui-state-default.home.ui-draggable.ui-draggable-dragging {
   background-color: #ffbffff !important;
   background-image: -moz-linear-gradient(top, #cc8ccc, #cc8ccc 25%, #ffbfff) !important;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#cc9ccc), color-stop(25%, #cc9ccc), to(#ffbfff)) !important;
@@ -73,11 +73,15 @@ table#calendar tr td {
   background-image: -o-linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff) !important;
   background-image: linear-gradient(#cc8ccc, #cc8ccc 25%, #ffbfff) !important;
 }
-#inClassSwatch.ui-state-default.inClass.ui-draggable, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging, .daysActivities  .inClass a, .daysActivities .outClass a, #outClassSwatch.ui-state-default.outClass.ui-draggable, .ui-state-default.outClass.ui-draggable.ui-draggable-dragging, .daysActivities .home a, #homeSwatch.ui-state-default.home.ui-draggable, .ui-state-default.home.ui-draggable.ui-draggable-dragging {
+#inClassSwatch.ui-state-default.inClass, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging, .daysActivities  .inClass a, .daysActivities .outClass a, #outClassSwatch.ui-state-default.outClass, .ui-state-default.outClass.ui-draggable.ui-draggable-dragging, .daysActivities .home a, #homeSwatch.ui-state-default.home, .ui-state-default.home.ui-draggable.ui-draggable-dragging {
   color: #000000;
 }
 #inClassSwatch, #outClassSwatch, #homeSwatch {
   margin-left: 16px;
+}
+#inClassSwatch:hover, #outClassSwatch:hover, #homeSwatch:hover {
+  cursor: pointer;
+  cursor: hand;
 }
 .placeholder {
   color: #e6e6e6; /* color from ui-state-default provided by /packages/jquery-ui-bootstrap/css/jquery-ui-1.9.2.custom.css*/

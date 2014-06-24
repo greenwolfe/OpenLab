@@ -26,8 +26,9 @@ Template.calendar.rendered = function(){
 
   $('#startDate').datepicker(DateOpt('calStartDate')).datepicker('setDate', startDate);
   $('#endDate').datepicker(DateOpt('calEndDate')).datepicker('setDate', endDate);
-
-  $('#inClassSwatch, #outClassSwatch, #homeSwatch').draggable(DragOpt('.daysActivities') );
+  if (Meteor.userId()) {
+    $('#inClassSwatch, #outClassSwatch, #homeSwatch').draggable(DragOpt('.daysActivities') );
+  }
 };
 
 

@@ -1,10 +1,16 @@
 var groupies = function (initialStrSingular,initialStrPlural,group,finalStrSingular,finalStrPlural) {  
-    var group = group || [];
     var groupies = initialStrPlural;
     var i, userID;
-    if (group.length == 0) return "";
+    if (!Array.isArray(group)) return "";
+    if (!group) return "";
     
-    if (group.length == 1) return initialStrSingular + Meteor.users.findOne(group[0]).username + finalStrSingular;
+    if (group.length == 1) {
+     if (Meteor.users.findOne(group[0])) {
+       return initialStrSingular + Meteor.users.findOne(group[0]).username + finalStrSingular;
+     } else {
+        return "";
+     };
+    }
     for (i = 0; i < group.length; i++) {
       userID = group[i];
       groupies += Meteor.users.findOne(userID).username;

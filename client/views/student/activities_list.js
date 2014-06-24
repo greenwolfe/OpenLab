@@ -35,7 +35,9 @@ Template.activitiesSublist.helpers({
 /*************************/
 
 Template.activityItem.rendered = function() {
-  $(this.find("p")).draggable(DragOpt('.daysActivities') );
+  if (Meteor.userId()) {
+    $(this.find("p")).draggable(DragOpt('.daysActivities') );
+  };
 };
 
 Template.activityItem.events({

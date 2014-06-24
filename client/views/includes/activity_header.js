@@ -8,7 +8,7 @@ Template.activityHeader.helpers({
       group = [currentUserId];
       Session.set('currentGroup',group);
     } else {
-      Router.go('/');
+      return [];
     };
   }
 });

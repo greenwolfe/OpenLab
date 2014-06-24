@@ -1,5 +1,13 @@
 Activities = new Meteor.Collection('activities');
 
+Activities.allow({
+  insert: function(userId, doc) {
+  // only allow adding activities if you are logged in
+  // must alter this to only allow teacher to add activities
+  return !! userId;
+  }
+}); 
+
 if (Meteor.isServer) {
 if (Activities.find().count() === 0) {
   Activities.insert({
