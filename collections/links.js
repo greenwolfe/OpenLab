@@ -6,7 +6,7 @@ Links.allow({
     return (!! userId && (doc.group.indexOf(userId) + 1));
   },
   remove: function(userId,doc) {
-    return !(!! userId && (doc.group.indexOf(userId) + 1));
+    return (!! userId && (doc.group.indexOf(userId) + 1));
   },
   update: function(userId,doc) {
     return (!! userId && (doc.group.indexOf(userId) + 1));

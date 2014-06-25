@@ -1,8 +1,8 @@
-var dateFormat = function (date,year) {
-  if (year) {
-   return moment(date).format('ddd[,] MMM D YYYY');
-  } else {
-    return moment(date).format('ddd[,] MMM D');
+var dateFormat = function (date,L) {
+  if (L == 'short') {
+   return moment(date).format('ddd[,] MMM D');
+  } else { //if (L == 'long') {
+    return moment(date).format('ddd[,] MMM D YYYY');
   }
 };
 

@@ -16,7 +16,7 @@ Template.activityPage.rendered = function() {
      },
      editable: true,
      toolbar: 'halloToolbarFixed'
-   })
+   });
  /*  .bind( "hallodeactivated", function(event) { //hallomodified
       console.log(event.target.id + ' modified');
       console.log(event.target.innerHTML);
@@ -30,6 +30,9 @@ Template.activityPage.helpers({
   },
   group: function() {
     return Session.get("currentGroup") || [];
+  },
+  Links:  function() {
+    return Links.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
   }
 });
 
@@ -46,9 +49,61 @@ Template.activityPage.events({
   'click #addTodoItem': function(event) {
     console.log($('#newTodoItem').val());
   },
-  'click #newLink': function(event) {
-     console.log('pop up new link modal');
+    /*********************/
+   /**** Link Section ***/
+  /*********************/
+  'click #addLink': function(event) {
+     var title = $('#LinkTitle').val();
+     var URL = $('#LinkURL').val();
+     if ( (title == 'Title') || (title == '') ) return;
+     if ( (URL == 'URL') || (URL == '') ) return;
+     var link = {
+      author : Meteor.userId(),
+      group : Session.get("currentGroup") || [],
+      submitted : new Date().getTime(),
+      activityID : this._id,
+      text : '<a href="' + URL + '">' + title + "</a>"
+     }
+    event.preventDefault();
+    Links.insert(link,function(error) {
+      if (error) alert(error.reason);
+    });
+    $('#LinkTitle').addClass("defaultTextActive").val('Title');
+    $('#LinkURL').addClass('defaultTextActive').val('URL'); 
   },
+  'focus #LinkTitle':function(event) {
+    if ($('#LinkTitle').val() == 'Title') {
+      $('#LinkTitle').removeClass("defaultTextActive");
+      $('#LinkTitle').val("");
+    };
+  },
+  'blur #LinkTitle':function(event) {
+    if ($('#LinkTitle').val() == '') {
+      $('#LinkTitle').addClass("defaultTextActive");
+      $('#LinkTitle').val('Title');
+    };
+  },
+  'focus #LinkURL':function(event) {
+    if ($('#LinkURL').val() == "URL") {
+      $('#LinkURL').removeClass("defaultTextActive")
+                   .addClass("defaultTextInactive")
+                   .val("");
+    };
+  },
+  'blur #LinkURL':function(event) {
+    if ($('#LinkURL').val() == '') {
+      $('#LinkURL').removeClass("defaultTextInactive")
+                   .addClass("defaultTextActive")
+                   .val('URL');
+    };
+  },
+  'click .removeLink': function(event) {
+    var linkID = $(event.target).data('linkid');
+    Links.remove(linkID);
+   },
+    /*********************/
+   /**** Note Section ***/
+  /*********************/
   'click #addNote':function(event) {
     var text = $('#newNote').html();
     if ((text == $('#newNote').data('defaultText') || (text == ''))) return;
@@ -61,7 +116,9 @@ Template.activityPage.events({
       text : text
     };   
     event.preventDefault();
-    Notes.insert(note);
+    Notes.insert(note,function(error) {
+      if (error) alert(error.reason);
+    });
     $('#newNote').addClass("defaultTextActive");
     $('#newNote').text($('#newNote').data('defaultText'));
   },

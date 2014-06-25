@@ -2,9 +2,15 @@
   <div class='left-column'>
     <div class='linksBox'>
       <h3> Links </h3>
-      <a href='https://caryacademy.haikulearning.com/matt_greenwolfe/physics-2014-15/wk/3201915/wiki/view/11900287'> CVPM position graph wiki page   </a>
-      <div class="button-center">
-        <button id="newLink">New Link</button>
+      {{#each Links}}
+        {{> link}}
+      {{/each}}
+       <div>
+        <input id='LinkTitle' type='text' value='Title' class='defaultTextActive'>  
+      <div id='addLinkContainer'>
+        <button id="addLink" name="addLink"><i class="fa fa-caret-up"></i> Add <i class="fa fa-caret-up"></i></button>
+       </div>
+        <input id='LinkURL' type='text' value="URL" class='defaultTextActive'> 
       </div>
     </div>
 
@@ -24,7 +30,7 @@
      <div id='activityDescription'>
       <h3> Description </h3>
       <div>
-        <p> This what this activity is about.</p>
+        <p> This is what this activity is about.</p>
       </div>
     </div>
     <div id='notes'>
@@ -45,6 +51,12 @@
 <template name='note'>
     <p></p>
     <p> {{{text}}}
-    <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted false}}</span> 
+    <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted 'short'}}</span> 
     </p>
 </template>
+
+<template name='link'>
+  {{{text}}} 
+  <i class='removeLink fa fa-times' data-linkID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')"></i><br>
+</template>
+
