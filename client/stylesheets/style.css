@@ -162,7 +162,7 @@ filter: alpha(opacity=50);
   width: 14%;
   vertical-align: top;
 }
-#LinkTitle {
+#LinkTitle, #newTodoItem {
   display: inline-block;
   border: thin black solid;
   width: 65%;
@@ -177,12 +177,12 @@ filter: alpha(opacity=50);
   min-height: 12pt;
   color: #000000;
 }
-#addLinkContainer {
+#addLinkContainer, #addTodoContainer {
   display: inline-block;
   margin-top: 5px;
   vertical-align: top;
 }
-.removeLink:hover {
+.removeLink:hover, .removeTodo:hover {
   cursor: default;
 }
 .defaultTextActive { color: #a1a1a1; font-style: italic; }

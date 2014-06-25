@@ -19,10 +19,16 @@
     <div id='todos'>
       <h3> To Do List </h3>
         <ul id="TodoList">
-        <p><input type='checkbox' value='1'/> Task 1 </p>
-        <p><input type='checkbox' value='2'/> Task 2</p>
-      </ul>
-      <p><input id='newTodoItem' type = text value = "New Todo Item">  <button id="addTodoItem" name="newTodoItem">Add</button></p>
+          {{#each Todos}}
+            {{> todo}}
+          {{/each}}
+        </ul>
+       <div>
+        <input id='newTodoItem' type='text' value="New Todo Item" class='defaultTextActive'>  
+      <div id='addTodoContainer'>
+        <button id="addTodoItem" name="addTodoItem"><i class="fa fa-caret-up"></i> Add <i class="fa fa-caret-up"></i></button>
+       </div>
+      </div>
     </div>
   </div>
 
@@ -58,5 +64,10 @@
 <template name='link'>
   {{{text}}} 
   <i class='removeLink fa fa-times' data-linkID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')"></i><br>
+</template>
+
+<template name='todo'>
+  <p class = {{isDone}}><input type='checkbox' value={{_id}} title="Mark as done"><span title={{groupies "belongs to " "belongs to " group "" ""}}>{{{text}}}</span>
+  <i class='removeTodo fa fa-times' data-todoID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')" title = 'Delete Todo Item'></i></p>
 </template>
 

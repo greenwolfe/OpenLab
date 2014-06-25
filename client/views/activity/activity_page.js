@@ -33,22 +33,13 @@ Template.activityPage.helpers({
   },
   Links:  function() {
     return Links.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
+  },
+  Todos:  function() {
+    return Todos.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
   }
 });
 
 Template.activityPage.events({
-  'click #TodoList p': function(event) {
-    var todoItem = event.target.parentElement;
-    if (event.target.checked) {
-      $(event.target.parentElement).addClass('done');
-    } else {
-      $(event.target.parentElement).removeClass('done');
-    };
-    //use meteor collection and helper to do this when collections are ready
-  },
-  'click #addTodoItem': function(event) {
-    console.log($('#newTodoItem').val());
-  },
     /*********************/
    /**** Link Section ***/
   /*********************/
@@ -101,6 +92,50 @@ Template.activityPage.events({
     var linkID = $(event.target).data('linkid');
     Links.remove(linkID);
    },
+
+    /*********************/
+   /**** Todo Section ***/
+  /*********************/
+  'click #addTodoItem': function(event) {
+     var text = $('#newTodoItem').val();
+     if ( (text == 'New Todo Item') || (text == '') ) return;
+     var todo = {
+      author : Meteor.userId(),
+      group : Session.get("currentGroup") || [],
+      submitted : new Date().getTime(),
+      activityID : this._id,
+      text : text,
+      checked: false
+     }
+    event.preventDefault();
+    Todos.insert(todo,function(error) {
+      if (error) alert(error.reason);
+    }); 
+    $('#newTodoItem').addClass("defaultTextActive").val('New Todo Item');
+  },
+  'focus #newTodoItem':function(event) {
+    if ($('#newTodoItem').val() == 'New Todo Item') {
+      $('#newTodoItem').removeClass("defaultTextActive");
+      $('#newTodoItem').val("");
+    };
+  },
+  'blur #newTodoItem':function(event) {
+    if ($('#newTodoItem').val() == '') {
+      $('#newTodoItem').addClass("defaultTextActive");
+      $('#newTodoItem').val('New Todo Item');
+    };
+  },
+  'click #TodoList p input': function(event) {
+    var todoID = $(event.target).val();
+    var todo = Todos.findOne(todoID);
+    Todos.update(todoID,{$set: {checked: !todo.checked}});
+    //use meteor collection and helper to do this when collections are ready
+  },
+  'click .removeTodo': function(event) {
+    var TodoID = $(event.target).data('todoid');
+    Todos.remove(TodoID);
+   }, 
+
     /*********************/
    /**** Note Section ***/
   /*********************/
@@ -145,3 +180,13 @@ var SortOpt = function() {
 
   return that;
 };
+
+    /*********************/
+   /*** Template.todo ***/
+  /*********************/
+
+Template.todo.helpers({
+  isDone:  function() {
+    return this.checked ? 'done' : '';
+  },
+});
