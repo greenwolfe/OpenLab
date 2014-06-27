@@ -4,6 +4,7 @@
 # but you can also edit it by hand.
 
 standard-app-packages
+fontawesome4
 bootstrap
 browser-policy
 moment
@@ -13,7 +14,6 @@ accounts-ui-bootstrap-dropdown
 accounts-password
 bower
 jquery-ui-bootstrap
-fontawesome4
 underscore
 underscore-string-latest
 fast-render

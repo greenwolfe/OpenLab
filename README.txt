@@ -5,27 +5,24 @@
 make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections)
 make some functions for things like adding and removing users from group and invite lists (still to do), and creating the group text (done), date formats?
 more fields in user profile:  block, firstname, last name, nick name
-blocks in calendar???  keeping track of sort orders (both calendar and activities in main list)?
+blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
 
-
-
-4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. 
+4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
 6)  add school calendar and meeting category to third tab
-5)  Teacher view - all fields editable, drag assessment to main activities list, groups students where possible, add student's names to title of calendar events.
-6)  Progress tracker tab.
+5)  Teacher view - all fields editable, drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?), groups students where possible, add student's names to title of calendar events.
+6)  Progress tracker tab. (deprecated ... but would be nice if it were the SBG gradebook, and LOM's showed up in the standards list)
 keep it separate so it doesn't clutter the activities tab ... or is it better to do it in one?
-7)  Hover texts for standards, (activities?), hover text is group for calendar events (done)
-8)  Add links, to-do lists and comments to student activity view.
-9)  meetings dragged to calendar should be a hyperlink opening to form
-with links, purpose, and comments (just use the same activity form for all activities?)
+7)  Hover texts for standards, (activities?), hover text is group for calendar events (done) (maybe don't need this. detail on page for that standard or activity).
+
+9)  meetings dragged to calendar should be a hyperlink opening to form .
+with links, purpose, and comments (just use the same activity form for all activities? yes!)
 10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
 11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder (& actually this would eliminate the only direct DOM manipulation in the code, the placing and deleting of placeholders, although not sure I want to do the CSS for coloring the calendar days through the database ... too costly? ... model in calendarEvents.js droppable)
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
-13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
 14)  DATES:  use format for storeing dates from activity_page.js.
-15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?  Add a drop-down list for all recent groups?
-16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll
-17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar
+15)   Add a drop-down list for all recent groups on activity page.
+16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top.
+17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
 
 
 DONE
@@ -42,6 +39,9 @@ handle username for header in activity if called from acvity list rather than ca
 for header text, pass group array and not eventID (done)
 Focus just on the grouping and in-class/out-of-class features of the student activity view. (done)
 ***invite and accept dialogs, also require selecting in-class and out-of-class, and some way this is highlighted in the calendar. (done)
+8)  Add links, to-do lists and comments to student activity view.
+13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
+15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?
 
 Installation Notes:
 

@@ -26,7 +26,7 @@ Template.activityPage.rendered = function() {
 
 Template.activityPage.helpers({
   Notes:  function() {
-    return Notes.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
+    return Notes.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id},{sort: {submitted: -1}});
   },
   group: function() {
     return Session.get("currentGroup") || [];

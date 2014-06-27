@@ -35,7 +35,7 @@ Template.inviteGroup.events({
 
   'click #Invite': function (event) {
     var InviteGroup = Session.get("InviteGroup");
-    var inviteList = $('#userList').val()
+    var inviteList = $('#userList').val();
     if (!inviteList) {
       alert("NOTICE:  Since you didn't select anyone,\n this will be treated as if you had clicked just me.")
     }

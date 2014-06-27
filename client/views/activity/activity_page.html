@@ -39,19 +39,20 @@
         <p> This is what this activity is about.</p>
       </div>
     </div>
+    <div id='newNote' class='defaultTextActive'>
+      Write a note to {{groupies "" "" group "" ""}}.  Just click here and start typing.   
+    </div>
+    <div id='addNoteContainer'>
+      <button id="addNote" name="addNote"><i class="fa fa-download"></i> Post <i class="fa fa-download"></i></button>
+    </div>
     <div id='notes'>
       <h3> Notes </h3>
       {{#each Notes}}
         {{> note}}
       {{/each}}
     </div>
-    <div id='newNote' class='defaultTextActive'>
-      Write a note to {{groupies "" "" group "" ""}}.  Just click here and start typing.   
-    </div>
-    <div id='addNoteContainer'>
-      <button id="addNote" name="addNote"><i class="fa fa-upload"></i> Post <i class="fa fa-upload"></i></button>
-    </div>
   </div>
+
 </template>
 
 <template name='note'>
