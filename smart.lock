@@ -10,7 +10,8 @@
       "jquery-ui-bootstrap": {},
       "fontawesome4": {},
       "underscore-string-latest": {},
-      "fast-render": {}
+      "fast-render": {},
+      "roles": {}
     },
     "packages": {
       "moment": {
@@ -57,6 +58,11 @@
         "git": "https://github.com/arunoda/meteor-fast-render.git",
         "tag": "v0.2.8",
         "commit": "149984b1aff3a5642a270aff9bd9006872c8302e"
+      },
+      "roles": {
+        "git": "https://github.com/alanning/meteor-roles.git",
+        "tag": "v1.2.10",
+        "commit": "7ccb35de0a6cb0c9a0c3666badd04757e39c09a6"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

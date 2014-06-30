@@ -23,6 +23,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 15)   Add a drop-down list for all recent groups on activity page.
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top.
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
+18)  hover texts for links say "belongs to ..." just like the to-do items.
 
 
 DONE

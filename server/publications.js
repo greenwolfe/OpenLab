@@ -5,7 +5,7 @@ Meteor.publish('calendarEvents',function(currentUserID) {
   return CalendarEvents.find({$or: [ {group: {$in: [currentUserID,'_ALL_']}},{invite: {$in: [currentUserID]}} ]});  
 });
 Meteor.publish('userList',function() {
-  return Meteor.users.find({},{fields : {username : 1}});
+  return Meteor.users.find({},{fields : {username : 1, roles: 1}});
 });
 Meteor.publish('links',function(userArray) {
   return Links.find( {group: {$in: userArray} });

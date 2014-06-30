@@ -8,7 +8,8 @@
     "jquery-ui-bootstrap": {},
     "fontawesome4": {},
     "underscore-string-latest": {},
-    "fast-render": {}
+    "fast-render": {},
+    "roles": {}
   },
   "bower": {
     "hallo": "1.0.4"
