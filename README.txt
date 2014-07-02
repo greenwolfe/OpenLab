@@ -23,7 +23,8 @@ with links, purpose, and comments (just use the same activity form for all activ
 15)   Add a drop-down list for all recent groups on activity page.
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top.
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
-18)  hover texts for links say "belongs to ..." just like the to-do items.
+19) secure user information by making a method that returns just user nick names (require unique when account created!) to invite_group and teacher's selection lists.  The post method when creating a new calendar event would send the nicknames to the server, which could post by userid.  (Or should the whole record by by nicknames so userIds are never exposed on the client?)  Either these methods, or else at least only publish the list of users after log in.  The difficulty of doing this makes me want to try the method as a solution.
+20) In router.js, move some subscriptions to individual pages rather than loading them all at once at the start?  
 
 
 DONE
@@ -43,6 +44,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 8)  Add links, to-do lists and comments to student activity view.
 13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
 15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?
+18)  hover texts for links say "belongs to ..." just like the to-do items. (done)
 
 Installation Notes:
 
@@ -77,4 +79,12 @@ Search syntax:
 return Activities.find({model: this.model, user: { $elemMatch: {id : 'master'}}});
 
 progress:  6/21/14:  'hallo incorporated into openlab.  How I did it:  mrt add bower, hallo added with bower, which pulled in dependencies like jquery-ui, and supposedly fontawesome, installed jquery-ui-bootstarp straight from mrt. did not work from bower.  but jquery-ui has to be installed in /client/lib without the package.  don't like having to install some things in /client/lib, some as regular mrt packages and some as mrt bower and then putting the bower listings in smart.json.  cant I do them all the same way?  REMAINING problems ... only some hallow buttons show up ... my colors for inclass, etc aren't working.'
+
+Just taking notes here, when loading, bower pullsin dependencies
+Bower:  hallo v1.0.4 successfully installed
+Bower:  jquery-ui v1.10.4 successfully installed
+Bower:  rangy v1.2.3 successfully installed
+Bower:  jquery-htmlclean v1.3.0 successfully installed
+Bower:  jquery v1.9.1 successfully installed
+some of which are duplicates.  Is this overloading my code with some packages installed in multiple places?  I don't understand package loading and when something would see what.
 

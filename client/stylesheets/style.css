@@ -154,14 +154,14 @@ filter: alpha(opacity=50);
   border: thin black solid;
   margin-bottom: 10px;
   margin-top: 20px;
-  width: 85%;
+  width: 89%;
   min-height: 24pt;
 }
 #addNoteContainer {
   display: inline-block;
   margin-bottom: 10px;
   margin-top: 20px;
-  width: 14%;
+  width: 10%;
   vertical-align: top;
 }
 #LinkTitle, #newTodoItem {

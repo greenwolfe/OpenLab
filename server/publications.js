@@ -1,10 +1,11 @@
 Meteor.publish('activities',function() {
-    return Activities.find();
+  return Activities.find();
 });
-Meteor.publish('calendarEvents',function(currentUserID) {
-  return CalendarEvents.find({$or: [ {group: {$in: [currentUserID,'_ALL_']}},{invite: {$in: [currentUserID]}} ]});  
+Meteor.publish('calendarEvents',function(userArray) {
+  //expecting userArray = [Meteor.userId(),'_ALL_']
+  return CalendarEvents.find({$or: [ {group: {$in: userArray}},{invite: {$in: userArray}} ]});  //do I want just userArray to include _ALL_ here?
 });
-Meteor.publish('userList',function() {
+Meteor.publish('userList',function(currentUserID) {
   return Meteor.users.find({},{fields : {username : 1, roles: 1}});
 });
 Meteor.publish('links',function(userArray) {
@@ -16,6 +17,5 @@ Meteor.publish('notes',function(userArray) {
 Meteor.publish('todos',function(userArray) {
   return Todos.find( {group: {$in: userArray} });
 });
-//may want to publish all and move the selectors to the subscriptions, so that the teacher can see everyone's collection items
 
 

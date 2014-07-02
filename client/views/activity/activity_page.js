@@ -1,6 +1,5 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
-  //$('#newNote').jqte();
   $('#newNote').hallo({
      plugins: {
       'halloformat': {'formattings': {
@@ -46,6 +45,8 @@ Template.activityPage.events({
   'click #addLink': function(event) {
      var title = $('#LinkTitle').val();
      var URL = $('#LinkURL').val();
+     var group = Session.get("currentGroup") || [];
+     var hoverText = UI._globalHelper('groupies')("belongs to just ","belongs to ",group,"","");
      if ( (title == 'Title') || (title == '') ) return;
      if ( (URL == 'URL') || (URL == '') ) return;
      var link = {
@@ -53,7 +54,7 @@ Template.activityPage.events({
       group : Session.get("currentGroup") || [],
       submitted : new Date().getTime(),
       activityID : this._id,
-      text : '<a href="' + URL + '">' + title + "</a>"
+      text : '<a href="' + URL + '" title="' + hoverText +'">' + title + "</a>"
      }
     event.preventDefault();
     Links.insert(link,function(error) {

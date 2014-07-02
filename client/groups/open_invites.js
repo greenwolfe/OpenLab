@@ -1,3 +1,8 @@
+
+  /*****************************/
+ /**** OPENINVITES SECTION ****/
+/*****************************/
+
 Template.openInvites.helpers({
   groups : function() {
     var OpenInvites = Session.get("OpenInvites");
@@ -39,3 +44,13 @@ Template.openInvites.events({
 });
 
 //calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place.
+
+  /****************************/
+ /**** OPENINVITE SECTION ****/
+/****************************/
+
+Template.openInvite.helpers({
+  group : function() {
+    return _.without( this.invite.concat(this.group), Meteor.userId() );
+  }
+});

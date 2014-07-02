@@ -39,11 +39,11 @@
         <p> This is what this activity is about.</p>
       </div>
     </div>
+    <div id='addNoteContainer'>
+      <button id="addNote" name="addNote"><i class="fa fa-caret-down"></i> Post <i class="fa fa-caret-down"></i></button>
+    </div>
     <div id='newNote' class='defaultTextActive'>
       Write a note to {{groupies "" "" group "" ""}}.  Just click here and start typing.   
-    </div>
-    <div id='addNoteContainer'>
-      <button id="addNote" name="addNote"><i class="fa fa-download"></i> Post <i class="fa fa-download"></i></button>
     </div>
     <div id='notes'>
       <h3> Notes </h3>
@@ -68,7 +68,7 @@
 </template>
 
 <template name='todo'>
-  <p class = {{isDone}}><input type='checkbox' value={{_id}} title="Mark as done"><span title={{groupies "belongs to " "belongs to " group "" ""}}>{{{text}}}</span>
+  <p class = {{isDone}}><input type='checkbox' value={{_id}} title="Mark as done"><span title={{groupies "belongs to just " "belongs to " group "" ""}}>{{{text}}}</span>
   <i class='removeTodo fa fa-times' data-todoID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')" title = 'Delete Todo Item'></i></p>
 </template>
 
