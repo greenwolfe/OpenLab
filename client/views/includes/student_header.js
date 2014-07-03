@@ -8,19 +8,12 @@ Template.studentHeader.events({
   'change #viewAs' : function(event) {
     console.log(event);
     console.log($('#viewAs').val());
-    //update viewAs session var
+    Session.set('TeacherViewAs',$('#viewAs').val());
   }
 });
 
-/*Template.studentHeader.render = function(){
-  $('#viewAs').selectmenu();
-};*/
-
-//also Template.studentHeader.render({ 
-//  if isTeacher, set viewAs session var
-
-//format:  view
-//          as Gwolfe
-//          events for everyone
-//          as user1
-//          events for D block
+Template.studentHeader.rendered = function() {
+  if (Roles.userIsInRole(Meteor.userId(),'teacher')) {
+    Session.setDefault('TeacherViewAs',Meteor.userId());
+  };
+};

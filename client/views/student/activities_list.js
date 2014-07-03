@@ -1,3 +1,12 @@
+Deps.autorun(function() {
+  var userToShow = Meteor.userId();
+  if (Roles.userIsInRole(userToShow,'teacher')) {
+    userToShow = Session.get('TeacherViewAs');
+  };
+  Meteor.subscribe('calendarEvents',[userToShow,'_ALL_'])
+});
+
+
   /*************************/
  /*** ACTIVITIES LIST  ****/
 /*************************/
@@ -10,6 +19,7 @@ Template.activitiesList.helpers({
   models: models
 });
 
+
   /*************************/
  /** ACTIVITIES SUBLIST  **/
 /*************************/
@@ -20,10 +30,14 @@ Template.activitiesSublist.helpers({
     return Activities.find({model: this.model}); 
   },
   openInviteCount: function() {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
     var activities = Activities.find({model: this.model});
     var count = 0;
     activities.forEach(function (activity) {
-      count += CalendarEvents.find({activityID: activity._id, invite: {$in: [Meteor.userId()]}}).count();
+      count += CalendarEvents.find({activityID: activity._id, invite: {$in: [userToShow]}}).count();
     });
     return count;
   }
@@ -48,13 +62,17 @@ Template.activityItem.events({
 
 Template.activityItem.helpers({
   openInvites: function() {
-    var calendarEvents = CalendarEvents.find({activityID: this._id, invite: {$in: [Meteor.userId()]}});
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    var calendarEvents = CalendarEvents.find({activityID: this._id, invite: {$in: [userToShow]}});
     var openInvites = [];
     if (!calendarEvents) return '';
     calendarEvents.forEach(function (event) {
       openInvites.push({
         date: moment(event.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D'),
-        group: _.without( event.invite.concat(event.group), Meteor.userId() )
+        group: _.without( event.invite.concat(event.group), userToShow )
       });
     });
     return openInvites;

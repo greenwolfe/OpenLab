@@ -192,3 +192,10 @@ filter: alpha(opacity=50);
 .button-center {
  text-align: center;
 }
+#viewAs {
+  margin-top: 10px;
+  background: whiteSmoke;
+  border: whiteSmoke;
+  width: auto;
+  outline: none;
+}

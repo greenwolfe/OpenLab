@@ -45,6 +45,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
 15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?
 18)  hover texts for links say "belongs to ..." just like the to-do items. (done)
+19)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough
 
 Installation Notes:
 

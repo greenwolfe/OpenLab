@@ -9,18 +9,17 @@ se">
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
       <div class="nav-collapse collapse">
-        <ul class="nav">
           {{#if isInRole 'teacher'}}
+            <span>View as: </span>
             <select id = 'viewAs' name = 'viewAs' size = "1">
               {{#with currentUser}}
-                {{> userToView}}
+                <option value={{_id}} selected="selected">{{username}}</option>
               {{/with}}
               {{#each users}}
                 {{> userToView}}
               {{/each}}
             </select>
           {{/if}}
-        </ul>
         <ul class="nav pull-right">
           <li>{{> loginButtons}}</li>
         </ul>
