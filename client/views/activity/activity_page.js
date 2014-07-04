@@ -25,16 +25,28 @@ Template.activityPage.rendered = function() {
 
 Template.activityPage.helpers({
   Notes:  function() {
-    return Notes.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id},{sort: {submitted: -1}});
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    return Notes.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id},{sort: {submitted: -1}});
   },
   group: function() {
     return Session.get("currentGroup") || [];
   },
   Links:  function() {
-    return Links.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    return Links.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id});
   },
   Todos:  function() {
-    return Todos.find({group: {$in: [Meteor.userId(),'_ALL_']},activityID: this._id});
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    return Todos.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id});
   }
 });
 

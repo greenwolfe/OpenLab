@@ -1,33 +1,18 @@
 <template name="studentHeader">
   <header class="navbar">
     <div class="navbar-inner">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collap
-se">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
       <div class="nav-collapse collapse">
-          {{#if isInRole 'teacher'}}
-            <span>View as: </span>
-            <select id = 'viewAs' name = 'viewAs' size = "1">
-              {{#with currentUser}}
-                <option value={{_id}} selected="selected">{{username}}</option>
-              {{/with}}
-              {{#each users}}
-                {{> userToView}}
-              {{/each}}
-            </select>
-          {{/if}}
+        {{> TeacherViewAs}}
         <ul class="nav pull-right">
           <li>{{> loginButtons}}</li>
         </ul>
       </div>
     </div>
   </header>
-</template>
-
-<template name = 'userToView'>
-  <option value={{_id}}>{{username}}</option>
 </template>

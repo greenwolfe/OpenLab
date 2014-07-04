@@ -101,7 +101,11 @@ Template.calendarDay.rendered = function() {
 Template.calendarDay.helpers({ 
   daysEvents : function() {
      var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
-    return CalendarEvents.find({group: {$in: [Meteor.userId()]}, eventDate: date}); //syntax is backwards.  Checks if current user is in the group array.
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    return CalendarEvents.find({group: {$in: [userToShow,'_ALL_']}, eventDate: date}); //syntax is backwards.  Checks if current user is in the group array.
   }
 });
 

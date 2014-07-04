@@ -1,0 +1,17 @@
+<template name = 'TeacherViewAs'>
+  {{#if isInRole 'teacher'}}
+    <span>View as: </span>
+    <select id = 'viewAs' name = 'viewAs' size = "1">
+      {{#with currentUser}}
+        <option value={{_id}}>{{username}}</option>
+      {{/with}}
+      {{#each users}}
+        {{> userToView}}
+      {{/each}}
+    </select>
+  {{/if}}
+</template>
+
+<template name = 'userToView'>
+  <option value={{_id}}>{{username}}</option>
+</template>
