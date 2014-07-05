@@ -46,6 +46,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?
 18)  hover texts for links say "belongs to ..." just like the to-do items. (done)
 19)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough
+20)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
 
 Installation Notes:
 

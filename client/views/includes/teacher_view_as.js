@@ -10,8 +10,6 @@ Template.TeacherViewAs.helpers({
 
 Template.TeacherViewAs.events({
   'change #viewAs' : function(event) {
-    console.log(event);
-    console.log($('#viewAs').val());
     Session.set('TeacherViewAs',$('#viewAs').val());
   }
 });
