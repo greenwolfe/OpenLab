@@ -12,7 +12,7 @@
         {{#if openInviteCount}}
           <span class='openInvite'>
             <span class="badge badge-inverse">{{openInviteCount}}</span> 
-          Open Invitations</span>
+          Open Invitation{{#if isGT openInviteCount 1}}s{{/if}}</span>
         {{/if}} </a> </h3> 
       <div class = 'Model'>
 	{{#each activities}}
