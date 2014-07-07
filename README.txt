@@ -25,6 +25,9 @@ with links, purpose, and comments (just use the same activity form for all activ
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
 19) secure user information by making a method that returns just user nick names (require unique when account created!) to invite_group and teacher's selection lists.  The post method when creating a new calendar event would send the nicknames to the server, which could post by userid.  (Or should the whole record by by nicknames so userIds are never exposed on the client?)  Either these methods, or else at least only publish the list of users after log in.  The difficulty of doing this makes me want to try the method as a solution.
 20) In router.js, move some subscriptions to individual pages rather than loading them all at once at the start?  
+21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough
+22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
+23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box)
 
 
 DONE
@@ -45,8 +48,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
 15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?
 18)  hover texts for links say "belongs to ..." just like the to-do items. (done)
-19)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough
-20)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
+
 
 Installation Notes:
 

@@ -17,14 +17,10 @@ Accounts.createUser = _.wrap(Accounts.createUser, function(createUser) {
         return alert(error.reason);
       };
     });
-    console.log('resetting TeacherViewAs');
   };
   createUser(options,newCallback);
 });
 
-Deps.autorun(function() {
-  var userID = Meteor.userId();
-  if (userID && Roles.userIsInRole(userID,'teacher')) {
-    Session.set('TeacherViewAs',userID);
-  };
-});
+
+
+

@@ -14,8 +14,12 @@ Template.TeacherViewAs.events({
   }
 });
 
-//NOTE:  /client/helpers/users.js sets TeacherViewAs to Meteor.userId() on teacher login
-
+Deps.autorun(function() {
+  var userID = Meteor.userId();
+  if (userID && Roles.userIsInRole(userID,'teacher')) {
+    Session.set('TeacherViewAs',userID);
+  };
+});
 
   /************************/
  /****  USER TO VIEW  ****/

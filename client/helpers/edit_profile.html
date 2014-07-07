@@ -1,0 +1,30 @@
+<template name='editProfile'>
+  <div id = 'editProfileDialog' class = 'modal hide fade' data-backdrop = 'static'>
+    <h3>Edit Profile</h3>
+    <p>
+      <select id = 'sectionList' name = 'sectionList' size = "1" required>
+        <option value="" default selected hidden>Choose Section</option>
+        {{#each Sections}}
+          {{> sectionOption}}
+        {{/each}}
+      </select>
+    </p>
+  </div>
+</template>
+
+<template name='sectionOption'>
+  <option value={{section}} {{selectIfCurrentSection}}>{{{section}}}</option>
+</template>
+
+<template name='chooseSection'>
+  <div id = 'chooseSectionDialog' class = 'modal hide fade' data-backdrop = 'static'>
+    <h3> Please Choose a Section </h3>
+    <p>
+      <select id = 'CSsectionList' name = 'CSsectionList' size = "5" required>
+        {{#each Sections}}
+          {{> sectionOption}}
+        {{/each}}
+      </select>
+    </p>
+  </div>
+</template>
