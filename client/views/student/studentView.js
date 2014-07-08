@@ -1,9 +1,7 @@
 
 Template.studentView.rendered = function () {
-  if (Meteor.userId()) {
-    $('#standards .Model p').draggable( DragOpt('.assessmentsStandards') );
-    $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
-  };
+  $('#standards .Model p').draggable( DragOpt('.assessmentsStandards') );
+  $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
   $('#activities').accordion({heightStyle: "content"});
   $('#standards').accordion({heightStyle: "content"});

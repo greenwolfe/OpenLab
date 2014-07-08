@@ -9,8 +9,12 @@ Meteor.publish('calendarEvents',function(userArray) {
   //expecting userArray = [Meteor.userId(),'_ALL_']
   return CalendarEvents.find({$or: [ {group: {$in: userArray}},{invite: {$in: userArray}} ]});  //do I want just userArray to include _ALL_ here?
 });
-Meteor.publish('userList',function(currentUserID) {
-  return Meteor.users.find({},{fields : {username : 1, roles: 1}});
+Meteor.publish('userList',function() {
+  if (this.userId) {
+    return Meteor.users.find({},{fields : {username : 1, roles: 1}});
+  } else {
+    this.ready(); //returns blank collection
+  };
 });
 Meteor.publish('links',function(userArray) {
   return Links.find( {group: {$in: userArray} });

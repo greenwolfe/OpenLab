@@ -125,7 +125,7 @@ var SortOpt = function (connector) { //default sortable options
     $( '.placeholder').remove();  //removes all placeholders on page
   };
 
-  var receive = function(event, ui) {  
+  var receive = function(event, ui) { 
     var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var eventID = ui.item.data('eventid');
     var activityID = ui.item.data('activityid');
