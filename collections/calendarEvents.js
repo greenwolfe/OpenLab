@@ -35,22 +35,25 @@ Meteor.methods({
 
     cE.group.forEach(function(memberID) {
       if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(404, "Group members must be valid users.");
+        throw new Meteor.Error(404, "Cannot create event.  Group members must be valid users.");
     });
 
     cE.invite.forEach(function(memberID) {
       if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(405, "You can only invite valid users.");
+        throw new Meteor.Error(405, "Cannot create event.  You can only invite valid users.");
     });
 
     if (!cE.hasOwnProperty('activityID') || !Activities.findOne(cE.activityID))
-      throw new Meteor.Error(406, "Invalid activity ID.");
+      throw new Meteor.Error(406, "Cannot create event.  Invalid activity ID.");
 
     if (!cE.hasOwnProperty('workplace'))
-      throw new Meteor.Error(407, "Invalid workplace");
+      throw new Meteor.Error(407, "Cannot create event.  Invalid workplace");
 
     if (!_.contains(['inClass','outClass','home'],cE.workplace))
-      throw new Meteor.Error(407, cE.workplace + " is not a valid workplace");
+      throw new Meteor.Error(407, 'Cannot create event. "' + cE.workplace + '" is not a valid workplace');
+
+    if (!cE.eventDate || !moment(cE.eventDate,'ddd[,] MMM D YYYY',true).isValid())
+      throw new Meteor.Error(411, "Cannot create event.  Invalid date");
     
     if (Roles.userIsInRole(cU,'teacher')) {
      eventID = CalendarEvents.insert(cE);
