@@ -174,12 +174,16 @@ Template.calendarEvent.events({
   'click .remove': function(event) {
     var eventID = $(event.currentTarget.parentElement).data('eventid');
     var calendarEvent;
-    CalendarEvents.update(eventID,{$pull: {group : Meteor.userId()}});
+    Meteor.call('deleteEvent', eventID, null, function(error, id) {
+      if (error)
+        return alert(error.reason);
+    });
+/*    CalendarEvents.update(eventID,{$pull: {group : Meteor.userId()}});
     //CalendarEvents.update(eventID,{$addToSet: {invite : Meteor.userId()}}); //seems better just to remove the user rather than create an unexpected invitation
     calendarEvent = CalendarEvents.findOne(eventID); 
     if (calendarEvent.group.length == 0) {
       CalendarEvents.remove(eventID);
-    } 
+    } */
    },
   'click a': function(event) {
     var eventID = $(event.currentTarget.parentElement).data('eventid');
@@ -220,9 +224,9 @@ var DropOpt = function () {
     };
     if (newClass) {
       Meteor.call('changeWorkplace', eventID, newClass, function(error, id) {
-      if (error)
-        return alert(error.reason);
-    });
+        if (error)
+          return alert(error.reason);
+      });
     };
   };
 

@@ -1,19 +1,5 @@
 CalendarEvents = new Meteor.Collection('calendarEvents');
 
-CalendarEvents.allow({
-  remove: function(userId,eventID) {
-    //more conditions here?
-    var cE = CalendarEvents.findOne(eventID);
-    return (!!userId && !!cE && (cE.group.length == 0));
-  },
-  update: function(userId,eventID) {
-    //allows accepting of invitations, but also allows any other modifications while the user is in the invite list and not part of the group.  Is there a straightforward way to remedy this?
-    var cE = CalendarEvents.findOne(eventID);
-    return (!! userId && !!cE && ( (_.contains(cE.group,userId)) || (_.contains(cE.invite,userId)) ));
-  }
-});
-
-
 //from/client/group/invite_group.js
 /*    var calendarEvent = {
       creator : Meteor.userId(),
@@ -98,6 +84,9 @@ Meteor.methods({
     if (_.contains(cE.group,cU._id) || !_.contains(cE.invite,cU._id))
       throw new Meteor.Error(413, "You must be in the invitation list, and not yet part of the group in order to accept an invitation.")
 
+   if (!Roles.userIsInRole(cU,['teacher','student']))
+      throw new Meteor.Error(409, 'You must be student or teacher to invite others to collaborate.') 
+
     CalendarEvents.update(eventID,{$addToSet: {group : cU._id} });
     CalendarEvents.update(eventID,{$pull: {invite : cU._id}});
 
@@ -120,6 +109,9 @@ Meteor.methods({
     
     if (!_.contains(cE.invite,cU._id))
       throw new Meteor.Error(413, "You can't decline a invitation unless you've first been invited.")
+
+   if (!Roles.userIsInRole(cU,['teacher','student']))
+      throw new Meteor.Error(409, 'You must be student or teacher to decline an invitation.') 
 
     CalendarEvents.update(eventID,{$pull: {invite : cU._id}});
 
@@ -149,6 +141,9 @@ Meteor.methods({
     if (!_.contains(['inClass','outClass','home'],workplace))
       throw new Meteor.Error(407, 'Cannot modify calendar event. "' + workplace + '" is not a valid workplace');
 
+   if (!Roles.userIsInRole(cU,['teacher','student']))
+      throw new Meteor.Error(409, 'You must be student or teacher to modify a calendar event.') 
+
    CalendarEvents.update(eventID,{$set: {workplace: workplace}});
 
     return eventID;
@@ -177,15 +172,52 @@ Meteor.methods({
     if (!moment(newDate,'ddd[,] MMM D YYYY',true).isValid())
       throw new Meteor.Error(411, "Cannot modify calendar event.  Invalid date");
   
+   if (!Roles.userIsInRole(cU,['teacher','student']))
+      throw new Meteor.Error(409, 'You must be student or teacher to modify a calendar event.')  
+
    if (newDate != cE.eventDate)
      CalendarEvents.update(eventID,{$set: {eventDate : newDate} });
-
+ 
     return eventID;
-  }
-  /**** DELETE EVENT ****/ //calls remove from here, so can take allow off of remove, too (!!?)
-});
+  },
 
-//from /client/views/student/calendar.js
-//CalendarEvents.update(eventID,{$pull: {group : Meteor.userId()}});
-//CalendarEvents.remove(eventID);
+  /**** DELETE EVENT ****/
+  deleteEvent: function(eventID,userID) {
+    var cE = CalendarEvents.findOne(eventID); //calendarEvent
+    var cU = Meteor.user(); //currentUser
+
+   if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to modify a calendar event.");
+
+     if (!cE)
+      throw new Meteor.Error(412, "Cannot modify calendar event.  Invalid event ID.");
+
+    if (!cE.hasOwnProperty('group') || !_.isArray(cE.group))
+      throw new Meteor.Error(402, "Cannot modify calendar event.  Improper group.");
+    
+    if (Roles.userIsInRole(cU,'teacher') && !!userID) {
+      var userToRemove = Meteor.user(userID);
+      if (!userToRemove)
+        throw new Meteor.Error(405,'Cannot delete event.  Invalid user.');
+       if (!_.contains(cE.group,userToRemove._id)) 
+          throw new Meteor.Error(408, 'Cannot delete event.  User not in group.');
+      CalendarEvents.update(eventID,{$pull: {group : userToRemove._id}}); 
+    } else if (Roles.userIsInRole(cU,['student','teacher'])) {
+      if (!_.contains(cE.group,cU._id)) 
+        throw new Meteor.Error(408, 'Cannot modify calendar event unless you are part of the group.');
+      CalendarEvents.update(eventID,{$pull: {group : cU._id}});
+    } else {
+      throw new Meteor.Error(409, 'You must be a student or a teacher to modify a calendar event.') 
+    }; 
+
+    cE = CalendarEvents.findOne(eventID);
+    if (cE.group.length == 0) {
+      CalendarEvents.remove(eventID);
+      return null;
+    } else {
+      return eventID;
+    };
+  }
+
+});
 
