@@ -27,11 +27,22 @@ Template.openInvites.events({
     var date = OpenInvites.eventDate;
     var activityID = OpenInvites.activityID
     var calendarEvents = CalendarEvents.find({activityID: activityID, eventDate: date, invite: {$in: [Meteor.userId()]}});
-    if (event.target.id != 'Decline') {
-      CalendarEvents.update(event.target.id,{$addToSet: {group : Meteor.userId()} });
+    var inviteToAccept = event.target.id;
+    if (inviteToAccept != 'Decline') {
+      Meteor.call('acceptInvite', inviteToAccept, function(error, id) {
+        if (error)
+          return alert(error.reason);
+      });
+//      CalendarEvents.update(event.target.id,{$addToSet: {group : Meteor.userId()} });
     }
     calendarEvents.forEach(function(event) {
-      CalendarEvents.update(event._id,{$pull: {invite : Meteor.userId()}});
+     if (event._id != inviteToAccept) { 
+      Meteor.call('declineInvite', event._id, function(error, id) {
+        if (error)
+          return alert(error.reason);
+      });
+//      CalendarEvents.update(event._id,{$pull: {invite : Meteor.userId()}});
+     };
     });
     $('#openInviteDialog').modal('hide');
     if (event.target.id == 'Decline') {

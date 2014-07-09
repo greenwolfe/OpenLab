@@ -22,7 +22,7 @@ Template.inviteGroup.events({
       creator : Meteor.userId(),
       group : [Meteor.userId()],
       invite : [],
-      eventDate : InviteGroup.eventDate,
+      eventDate : InviteGroup.eventDate,  //'ddd[,] MMM D YYYY'
       activityID : InviteGroup.activityID,
       workplace : 'inClass'
     };
@@ -46,7 +46,7 @@ Template.inviteGroup.events({
       creator : Meteor.userId(),
       group : [Meteor.userId()],
       invite : inviteList, //array of selected users
-      eventDate : InviteGroup.eventDate,
+      eventDate : InviteGroup.eventDate,  //'ddd[,] MMM D YYYY'
       activityID : InviteGroup.activityID,
       workplace : 'inClass'
     };

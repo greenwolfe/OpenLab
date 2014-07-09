@@ -132,8 +132,11 @@ var SortOpt = function (connector) { //default sortable options
     var OpenInvites= CalendarEvents.find({activityID: activityID, eventDate: date, invite: {$in: [Meteor.userId()]}});
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { //just moved to new date
-      CalendarEvents.update(eventID,{$set: {eventDate : date} });
-      $(this).find('p:not([data-eventid])').remove(); // see note below 
+      Meteor.call('changeDate', eventID, date, function(error, id) {
+        if (error)
+          return alert(error.reason);
+      }); 
+      ui.item.remove(); // removes jquery.ui helper 
     } else if (OpenInvites.count() ) { 
       Session.set("OpenInvites",{'eventDate': date,'activityID': activityID});
       $('#openInviteDialog').data('daysActivities',$(this)).modal();  
@@ -150,6 +153,7 @@ var SortOpt = function (connector) { //default sortable options
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow
     activate : activate,
+    helper: 'clone', //for some reason stops click event also firing on receive when dragging event to change date
     over : over,
     stop : stop,
     receive : receive
@@ -157,8 +161,6 @@ var SortOpt = function (connector) { //default sortable options
 
   return that;
 };
-
-//calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place. 
 
   /*************************/
  /***** CALENDAR EVENT ****/
@@ -217,14 +219,20 @@ var DropOpt = function () {
       currentClass = currentWorkplace[0];
     };
     if (newClass) {
-      CalendarEvents.update(eventID,{$set: {workplace: newClass}});
+      Meteor.call('changeWorkplace', eventID, newClass, function(error, id) {
+      if (error)
+        return alert(error.reason);
+    });
     };
   };
 
   var out = function (event, ui) {
     var eventID = $(event.target).data('eventid');
     if (currentClass) {
-      CalendarEvents.update(eventID,{$set: {workplace: currentClass}});
+      Meteor.call('changeWorkplace', eventID, currentClass, function(error, id) {
+      if (error)
+        return alert(error.reason);
+    });
     };
   };
 
