@@ -1,10 +1,10 @@
 CalendarEvents = new Meteor.Collection('calendarEvents');
 
 CalendarEvents.allow({
-  insert: function(userId, doc) {
+  /*insert: function(userId, doc) {
     // only allow adding an event to the calendar if you are logged in and are in the group list of the link
     return (!! userId && (doc.group.indexOf(userId) + 1));
-  },
+  },*/
   remove: function(userId,eventID) {
     var cE = CalendarEvents.findOne(eventID);
     return (!! userId && !!cE && (cE.group.length == 0));
