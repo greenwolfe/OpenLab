@@ -13,7 +13,8 @@
           <li class="nav headerInfo">{{title}} </li>
           {{#if group}}   
             <li class="nav headerInfo">
-              Posts addressed to: {{groupies "just " "" group "" ""}} 
+              <span>Posts addressed to:</span>
+              <span id="addressedGroup">{{groupies "just " "" group "" ""}}</span>
             </li>
           {{/if}}
         </ul>
