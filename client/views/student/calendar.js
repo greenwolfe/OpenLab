@@ -132,10 +132,9 @@ var SortOpt = function (connector) { //default sortable options
     var OpenInvites= CalendarEvents.find({activityID: activityID, eventDate: date, invite: {$in: [Meteor.userId()]}});
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { //just moved to new date
-      Meteor.call('changeDate', eventID, date, function(error, id) {
-        if (error)
-          return alert(error.reason);
-      }); 
+      Meteor.call('changeDate', eventID, date, 
+        function(error, id) {if (error) return alert(error.reason);}
+      );
       ui.item.remove(); // removes jquery.ui helper 
     } else if (OpenInvites.count() ) { 
       Session.set("OpenInvites",{'eventDate': date,'activityID': activityID});
@@ -174,10 +173,9 @@ Template.calendarEvent.events({
   'click .remove': function(event) {
     var eventID = $(event.currentTarget.parentElement).data('eventid');
     var calendarEvent;
-    Meteor.call('deleteEvent', eventID, null, function(error, id) {
-      if (error)
-        return alert(error.reason);
-    });
+    Meteor.call('deleteEvent', eventID, null, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
 /*    CalendarEvents.update(eventID,{$pull: {group : Meteor.userId()}});
     //CalendarEvents.update(eventID,{$addToSet: {invite : Meteor.userId()}}); //seems better just to remove the user rather than create an unexpected invitation
     calendarEvent = CalendarEvents.findOne(eventID); 
@@ -223,20 +221,18 @@ var DropOpt = function () {
       currentClass = currentWorkplace[0];
     };
     if (newClass) {
-      Meteor.call('changeWorkplace', eventID, newClass, function(error, id) {
-        if (error)
-          return alert(error.reason);
-      });
+      Meteor.call('changeWorkplace', eventID, newClass, 
+        function(error, id) {if (error) return alert(error.reason);}
+      );
     };
   };
 
   var out = function (event, ui) {
     var eventID = $(event.target).data('eventid');
     if (currentClass) {
-      Meteor.call('changeWorkplace', eventID, currentClass, function(error, id) {
-      if (error)
-        return alert(error.reason);
-    });
+      Meteor.call('changeWorkplace', eventID, currentClass, 
+        function(error, id) {if (error) return alert(error.reason);}
+      );
     };
   };
 

@@ -59,19 +59,19 @@ Template.activityPage.events({
      var URL = $('#LinkURL').val();
      var group = Session.get("currentGroup") || [];
      var hoverText = UI._globalHelper('groupies')("belongs to just ","belongs to ",group,"","");
-     if ( (title == 'Title') || (title == '') ) return;
-     if ( (URL == 'URL') || (URL == '') ) return;
-     var link = {
+    var link = {
       author : Meteor.userId(),
-      group : Session.get("currentGroup") || [],
+      group : group,
       submitted : new Date().getTime(),
       activityID : this._id,
-      text : '<a href="' + URL + '" title="' + hoverText +'">' + title + "</a>"
-     }
+      title: title, 
+      URL: URL,
+      hoverText: hoverText
+    }
     event.preventDefault();
-    Links.insert(link,function(error) {
-      if (error) alert(error.reason);
-    });
+    Meteor.call('postLink', link, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
     $('#LinkTitle').addClass("defaultTextActive").val('Title');
     $('#LinkURL').addClass('defaultTextActive').val('URL'); 
   },
@@ -103,7 +103,9 @@ Template.activityPage.events({
   },
   'click .removeLink': function(event) {
     var linkID = $(event.target).data('linkid');
-    Links.remove(linkID);
+    Meteor.call('deleteLink', linkID, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
    },
 
     /*********************/

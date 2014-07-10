@@ -27,10 +27,9 @@ Template.inviteGroup.events({
       workplace : 'inClass'
     };
     event.preventDefault();
-    Meteor.call('postCalendarEvent', calendarEvent, function(error, id) {
-      if (error)
-        return alert(error.reason);
-    });
+    Meteor.call('postCalendarEvent', calendarEvent, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below
     $('#inviteGroupDialog').modal('hide');
     $('#userList').val(''); //reset any selections
@@ -51,10 +50,9 @@ Template.inviteGroup.events({
       workplace : 'inClass'
     };
     event.preventDefault();
-    Meteor.call('postCalendarEvent', calendarEvent, function(error, id) {
-      if (error)
-        return alert(error.reason);
-    });
+    Meteor.call('postCalendarEvent', calendarEvent,
+      function(error, id) {if (error) return alert(error.reason);}
+    );
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below
     $('#inviteGroupDialog').modal('hide');
     $('#userList').val('');
