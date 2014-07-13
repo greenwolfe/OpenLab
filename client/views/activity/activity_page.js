@@ -25,9 +25,18 @@ Template.activityPage.rendered = function() {
 
 Template.activityPage.helpers({
   Notes:  function() {
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
+    var userID = Meteor.userId();
+    var userToShow = userID;
+    if (Roles.userIsInRole(userID,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
+      if (userID == userToShow)
+        return Notes.find({
+          activityID: this._id,
+          $or:[ 
+            {author:userID}, 
+            {group: {$in: [userToShow,'_ALL_']}} 
+          ]},
+          {sort: {submitted: -1}});
     };
     return Notes.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id},{sort: {submitted: -1}});
   },
@@ -113,7 +122,6 @@ Template.activityPage.events({
   /*********************/
   'click #addTodoItem': function(event) {
      var text = $('#newTodoItem').val();
-     if ( (text == 'New Todo Item') || (text == '') ) return;
      var todo = {
       author : Meteor.userId(),
       group : Session.get("currentGroup") || [],
@@ -121,11 +129,11 @@ Template.activityPage.events({
       activityID : this._id,
       text : text,
       checked: false
-     }
+    }
     event.preventDefault();
-    Todos.insert(todo,function(error) {
-      if (error) alert(error.reason);
-    }); 
+    Meteor.call('postTodo', todo, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
     $('#newTodoItem').addClass("defaultTextActive").val('New Todo Item');
   },
   'focus #newTodoItem':function(event) {
@@ -142,13 +150,15 @@ Template.activityPage.events({
   },
   'click #TodoList p input': function(event) {
     var todoID = $(event.target).val();
-    var todo = Todos.findOne(todoID);
-    Todos.update(todoID,{$set: {checked: !todo.checked}});
-    //use meteor collection and helper to do this when collections are ready
+    Meteor.call('toggleTodo', todoID, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
   },
   'click .removeTodo': function(event) {
     var TodoID = $(event.target).data('todoid');
-    Todos.remove(TodoID);
+    Meteor.call('deleteTodo', TodoID, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
    }, 
 
     /*********************/
@@ -156,8 +166,8 @@ Template.activityPage.events({
   /*********************/
   'click #addNote':function(event) {
     var text = $('#newNote').html();
-    if ((text == $('#newNote').data('defaultText') || (text == ''))) return;
-    text += _(text).endsWith('<br>') ? '':'<br>';
+    //if ((text == $('#newNote').data('defaultText') || (text == ''))) return;
+    //text += _(text).endsWith('<br>') ? '':'<br>';
     var note = {
       author : Meteor.userId(),
       group : Session.get("currentGroup") || [],
@@ -166,9 +176,12 @@ Template.activityPage.events({
       text : text
     };   
     event.preventDefault();
-    Notes.insert(note,function(error) {
+    Meteor.call('postNote', note, $('#newNote').data('defaultText'),
+      function(error, id) {if (error) return alert(error.reason);}
+    );    
+/*    Notes.insert(note,function(error) {
       if (error) alert(error.reason);
-    });
+    }); */
     $('#newNote').addClass("defaultTextActive");
     $('#newNote').text($('#newNote').data('defaultText'));
   },
@@ -183,7 +196,16 @@ Template.activityPage.events({
       $('#newNote').addClass("defaultTextActive");
       $('#newNote').text($('#newNote').data('defaultText'));
     };
-  }
+  },
+  'click .removeNote': function(event) {
+    var NoteID = $(event.target).data('noteid');
+    Meteor.call('deleteNote', NoteID, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
+   },
+   'click .editNote': function(event) {
+      console.log('editing note');
+    }
 });
 
 var SortOpt = function() {
@@ -204,4 +226,35 @@ Template.todo.helpers({
   isDone:  function() {
     return this.checked ? 'done' : '';
   },
+  isChecked: function() {
+    return this.checked ? 'checked' : '';
+  }
+});
+
+    /*********************/
+   /*** Template.note ***/
+  /*********************/
+
+Template.note.helpers({
+  allowDelete: function() {
+    var userID = Meteor.userId();
+    var now, editDeadline;
+    if (!userID) return false;
+    if (Roles.userIsInRole(userID,'teacher')) return true;
+    if (!Roles.userIsInRole(userID,'student')) return false;
+    if (!this.author || (userID != this.author)) return false;
+    now = moment();
+    editDeadline = moment(this.submitted).add('minutes',30);
+    return (editDeadline.isAfter(now));
+  },
+  allowEdit: function() {
+    var userID = Meteor.userId();
+    var now, editDeadline;
+    if (!userID) return false;
+    if (!Roles.userIsInRole(userID,['student','teacher'])) return false;
+    if (!this.author || (userID != this.author)) return false;
+    now = moment();
+    editDeadline = moment(this.submitted).add('minutes',30);
+    return (Roles.userIsInRole(userID,'teacher') || editDeadline.isAfter(now));
+  }
 });

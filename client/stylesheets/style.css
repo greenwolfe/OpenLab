@@ -184,7 +184,7 @@ filter: alpha(opacity=50);
   margin-top: 5px;
   vertical-align: top;
 }
-.removeLink:hover, .removeTodo:hover {
+.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover {
   cursor: default;
 }
 .defaultTextActive { color: #a1a1a1; font-style: italic; }

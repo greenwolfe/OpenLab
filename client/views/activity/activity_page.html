@@ -58,8 +58,9 @@
 <template name='note'>
     <p></p>
     <p> {{{text}}}
-    <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted 'short'}}</span> 
+    <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted 'short'}} {{#if allowDelete}}<i class='removeNote fa fa-times' data-noteID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')"></i>{{/if}} {{#if allowEdit}}<i class='editNote fa fa-pencil-square-o' data-noteID = {{_id}} onmouseover="$(this).removeClass('fa-pencil-square-o').addClass('fa-pencil-square')" onmouseout="$(this).removeClass('fa-pencil-square').addClass('fa-pencil-square-o')"></i>{{/if}}</span> 
     </p>
+      
 </template>
 
 <template name='link'>
@@ -68,7 +69,7 @@
 </template>
 
 <template name='todo'>
-  <p class = {{isDone}}><input type='checkbox' value={{_id}} title="Mark as done"><span title={{groupies "belongs to just " "belongs to " group "" ""}}>{{{text}}}</span>
+  <p class = {{isDone}}><input type='checkbox' value={{_id}} title="Mark as done" {{isChecked}}><span title={{groupies "belongs to just " "belongs to " group "" ""}}>{{{text}}}</span>
   <i class='removeTodo fa fa-times' data-todoID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')" title = 'Delete Todo Item'></i></p>
 </template>
 

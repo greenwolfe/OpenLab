@@ -22,6 +22,13 @@ Meteor.publish('links',function(userArray) {
 Meteor.publish('notes',function(userArray) {
   return Notes.find( {group: {$in: userArray} });
 });
+Meteor.publish('notesByAuthor',function(author) {
+  if ( this.userId && Roles.userIsInRole(this.userId,'teacher') ) {
+    return Notes.find( {author: author} );
+  } else {
+    this.ready();
+  };
+});
 Meteor.publish('todos',function(userArray) {
   return Todos.find( {group: {$in: userArray} });
 });

@@ -70,6 +70,9 @@ Meteor.methods({
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to delete a link");
 
+    if (!Link)
+      throw new Meteor.Error(412, "Cannot post link.  Invalid ID.");
+
     if (!Link.hasOwnProperty('group') || !_.isArray(Link.group))
       throw new Meteor.Error(402, "Cannot delete link.  Improper group.");
 

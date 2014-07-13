@@ -1,10 +1,12 @@
 var nameFormat = function (userID,howlong) {
+  var user = Meteor.users.findOne(userID);
+  if (!user) return '';
   if (howlong == 'full') {
-    return Meteor.users.findOne(userID).username;
+    return user.username;
   } else if (howlong == 'first') {
-    return Meteor.users.findOne(userID).username;
+    return user.username;
   } else if (howlong == 'nick') {
-    return Meteor.users.findOne(userID).username;
+    return user.username;
   }
 };
 
