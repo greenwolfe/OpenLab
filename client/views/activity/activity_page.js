@@ -1,25 +1,11 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
-  $('#newNote').hallo({
-     plugins: {
-      'halloformat': {'formattings': {
-        "bold": true, 
-        "italic": true, 
-        "strikethrough": true, 
-        "underline": true
-       }},
-       'hallojustify': {},
-       'hallolists': {},
-       'halloreundo': {},
-       'hallolink': {}
-     },
-     editable: true,
-     toolbar: 'halloToolbarFixed'
-   });
+  $('#newNote').hallo(hallosettings());
  /*  .bind( "hallodeactivated", function(event) { //hallomodified
       console.log(event.target.id + ' modified');
       console.log(event.target.innerHTML);
    }); */
+   //will have to be moved, as here it isn't reactive if group changes
    $('#newNote').data('defaultText',$('#newNote').html());
 };
 
@@ -166,8 +152,6 @@ Template.activityPage.events({
   /*********************/
   'click #addNote':function(event) {
     var text = $('#newNote').html();
-    //if ((text == $('#newNote').data('defaultText') || (text == ''))) return;
-    //text += _(text).endsWith('<br>') ? '':'<br>';
     var note = {
       author : Meteor.userId(),
       group : Session.get("currentGroup") || [],
@@ -179,9 +163,6 @@ Template.activityPage.events({
     Meteor.call('postNote', note, $('#newNote').data('defaultText'),
       function(error, id) {if (error) return alert(error.reason);}
     );    
-/*    Notes.insert(note,function(error) {
-      if (error) alert(error.reason);
-    }); */
     $('#newNote').addClass("defaultTextActive");
     $('#newNote').text($('#newNote').data('defaultText'));
   },
@@ -207,16 +188,6 @@ Template.activityPage.events({
       console.log('editing note');
     }
 });
-
-var SortOpt = function() {
-  var that = {
-    revert : false,            //smooth slide onto target
-    tolerance : 'pointer',    
-    axis: "y"
-  };
-
-  return that;
-};
 
     /*********************/
    /*** Template.todo ***/
@@ -258,3 +229,34 @@ Template.note.helpers({
     return (Roles.userIsInRole(userID,'teacher') || editDeadline.isAfter(now));
   }
 });
+
+var SortOpt = function() {
+  var that = {
+    revert : false,            //smooth slide onto target
+    tolerance : 'pointer',    
+    axis: "y"
+  };
+
+  return that;
+};
+
+var hallosettings = function() {
+  var that =  {
+   plugins: {
+     'halloformat' : {'formattings': {
+       "bold": true, 
+       "italic": true, 
+       "strikethrough": true, 
+       "underline": true
+     }},
+     'hallojustify' : {},
+     'hallolists': {},
+     'halloreundo': {},
+     'hallolink': {}
+   },
+   editable: true,
+   toolbar: 'halloToolbarFixed'
+ };
+
+ return that;
+};
