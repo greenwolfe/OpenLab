@@ -31,12 +31,10 @@ var standardsData = [
   }
 ]
 
-var models = [
- {model: 'CAPM'},
- {model: 'BFPM'}
-]
 Template.standardsList.helpers({
-  models: models
+  models: function() {
+    return Models.find();
+  }
 });
 
 Template.standardsSublist.helpers({

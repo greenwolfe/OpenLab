@@ -1,7 +1,7 @@
 <template name = 'standardsList'> 
    <div id='standards'>
     {{#each models}}
-      <h3> <a href="#"> {{model}} </a> </h3>
+      <h3> <a href="#" title="{{longname}}"> {{model}} </a> </h3>
       {{> standardsSublist }}
     {{/each}}
     </div>

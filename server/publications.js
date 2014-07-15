@@ -4,6 +4,9 @@ Meteor.publish('activities',function() {
 Meteor.publish('sections',function() {
   return Sections.find();
 });
+Meteor.publish('models',function() {
+  return Models.find();
+});
 
 Meteor.publish('calendarEvents',function(userArray) {
   //expecting userArray = [Meteor.userId(),'_ALL_']

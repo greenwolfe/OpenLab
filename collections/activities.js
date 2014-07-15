@@ -19,7 +19,8 @@ Meteor.methods({
   /***** POST ACTIVITY ****/
   postActivity: function(Activity,defaultText) { 
     var cU = Meteor.user(); //currentUser
-    var NoteId;
+    var ActivityId;
+    var models = Models.find().map( function(m) {return m.model});
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to post an activity");
@@ -27,40 +28,22 @@ Meteor.methods({
     if (!Roles.userIsInRole(cU,'teacher'))
       throw new Meteor.Error(409, 'You must be a teacher to post an activity.')
     
-    if (!Note.text || (Note.text == defaultText) || (Note.text == ''))
-      throw new Meteor.Error(413, "Cannot post note.  Missing text.");
-    Note.text += _(Note.text).endsWith('<br>') ? '':'<br>';
+    if (!Activity.title || (Activity.title == defaultText) || (Activity.title == ''))
+      throw new Meteor.Error(413, "Cannot post activity.  Missing title.");
 
-    if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
-      throw new Meteor.Error(402, "Cannot post note.  Improper group.");
+    if (!Activity.model)
+      throw new Meteor.Error(402, "Cannot post activity.  Missing model.");
+   
+    if (!_.in(Activity.model,models))
+       throw new Meteor.Error(421, "Cannot post activity.  Improper model.")
 
-    //need code to handle _ALL_ or blocks
-    Note.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(404, "Cannot post note.  Group members must be valid users.");
-    });
+    ActivityID = Activities.insert(Activity);
 
-    if (!Note.hasOwnProperty('activityID') || !Activities.findOne(Note.activityID))
-      throw new Meteor.Error(406, "Cannot post note.  Invalid activity ID.");
-
-    if (!Note.submitted)// || !moment(Note.submitted,'ddd[,] MMM D YYYY',true).isValid())
-      throw new Meteor.Error(411, "Cannot post note.  Invalid date");
-
-    if (Roles.userIsInRole(cU,'teacher')) {
-     NoteID = Notes.insert(Note);
-    } else if (Roles.userIsInRole(cU,'student')) {
-      if (!_.contains(Note.group,cU._id)) 
-        throw new Meteor.Error(408, 'Cannot post note unless you are part of the group.')
-      NoteID = Notes.insert(Note);
-    } else {
-      throw new Meteor.Error(409, 'You must be student or teacher to post a note.')
-    };
-
-    return NoteID;
-  },
+    return ActivityID; 
+  }//,  
 
   /***** DELETE ACTIVITY ****/
-  deleteActivity: function(NoteID) { 
+  /*deleteActivity: function(NoteID) { 
     var cU = Meteor.user(); //currentUser
     var Note = Notes.findOne(NoteID);
     var now, editDeadline;
@@ -99,10 +82,10 @@ Meteor.methods({
     };
 
     return NoteID;
-  }, 
+  }, */
 
   /***** UPDATE ACTIVITY ****/
-  updateActivity: function(NoteID,newText) { 
+  /*updateActivity: function(NoteID,newText) { 
     var cU = Meteor.user(); //currentUser
     var Note = Notes.findOne(NoteID);
     var now, editDeadline;
@@ -144,84 +127,84 @@ Meteor.methods({
     };
 
     return NoteID;
-  } 
-});
+  } */
+});  
 
 if (Meteor.isServer) {
 if (Activities.find().count() === 0) {
   Activities.insert({
     title : 'Acceleration Intro',
-    model : 'CAPM'
+    model : Models.findOne({model:'CAPM'})._id
   });
 
   Activities.insert({
     title : 'Problem-solving with the Velocity Graph',
-    model : 'CAPM'
+    model : Models.findOne({model:'CAPM'})._id
   }); 
 
   Activities.insert({
     title : 'Olympic Event - Designer Ramp',
-    model : 'CAPM'
+    model : Models.findOne({model:'CAPM'})._id
   });
 
   Activities.insert({
     title : 'Position Graphs, Acceleration Graphs and Motion Maps',
-    model : 'CAPM'
+    model : Models.findOne({model:'CAPM'})._id
   });
 
   Activities.insert({
     title : 'Model Summary',
-    model : 'CAPM'
+    model : Models.findOne({model:'CAPM'})._id
   });
 
   Activities.insert({
     title : 'Olympic Event - Hole in One',
-    model : 'CAPM'
+    model : Models.findOne({model:'CAPM'})._id
   });
 
   Activities.insert({
     title : 'Broom Ball Review',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Force Diagrams for Stationary Objects',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Force Diagrams for Moving Objects',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Weight vs. Mass Lab',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Statics with Horizontal and Vertical Forces',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Statics with Forces at Angles',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Olympic Event - Stuffed Animals',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Dueling Forces',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 
   Activities.insert({
     title : 'Model Summary',
-    model : 'BFPM'
+    model : Models.findOne({model:'BFPM'})._id
   });
 };
 };

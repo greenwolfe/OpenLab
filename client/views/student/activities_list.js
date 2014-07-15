@@ -2,12 +2,10 @@
  /*** ACTIVITIES LIST  ****/
 /*************************/
 
-var models = [
- {model: 'CAPM'},
- {model: 'BFPM'}
-]
 Template.activitiesList.helpers({
-  models: models
+  models: function() {
+    return Models.find();
+  }
 });
 
 
