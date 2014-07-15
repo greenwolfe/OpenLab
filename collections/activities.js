@@ -15,6 +15,9 @@ Activities.allow({
   }); */
 
 Meteor.methods({
+  removeAllActivities: function() {
+    return Activities.remove({});
+  },
 
   /***** POST ACTIVITY ****/
   postActivity: function(Activity,defaultText) { 
@@ -134,77 +137,92 @@ if (Meteor.isServer) {
 if (Activities.find().count() === 0) {
   Activities.insert({
     title : 'Acceleration Intro',
-    model : Models.findOne({model:'CAPM'})._id
+    modelID : Models.findOne({model:'CAPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Problem-solving with the Velocity Graph',
-    model : Models.findOne({model:'CAPM'})._id
+    modelID : Models.findOne({model:'CAPM'})._id,
+    description : ''
   }); 
 
   Activities.insert({
     title : 'Olympic Event - Designer Ramp',
-    model : Models.findOne({model:'CAPM'})._id
+    modelID : Models.findOne({model:'CAPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Position Graphs, Acceleration Graphs and Motion Maps',
-    model : Models.findOne({model:'CAPM'})._id
+    modelID : Models.findOne({model:'CAPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Model Summary',
-    model : Models.findOne({model:'CAPM'})._id
+    modelID : Models.findOne({model:'CAPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Olympic Event - Hole in One',
-    model : Models.findOne({model:'CAPM'})._id
+    modelID : Models.findOne({model:'CAPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Broom Ball Review',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Force Diagrams for Stationary Objects',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Force Diagrams for Moving Objects',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Weight vs. Mass Lab',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Statics with Horizontal and Vertical Forces',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Statics with Forces at Angles',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Olympic Event - Stuffed Animals',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Dueling Forces',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 
   Activities.insert({
     title : 'Model Summary',
-    model : Models.findOne({model:'BFPM'})._id
+    modelID : Models.findOne({model:'BFPM'})._id,
+    description : ''
   });
 };
 };
