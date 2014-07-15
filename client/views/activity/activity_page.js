@@ -184,8 +184,30 @@ Template.activityPage.events({
       function(error, id) {if (error) return alert(error.reason);}
     );
    },
-   'click .editNote': function(event) {
-      console.log('editing note');
+   'click .editNote': function(event,tmpl) {
+      var $noteText = $(event.target).parent().parent().find('.noteText');
+      var $updateButton = $(event.target).parent().parent().find('.updateNoteContainer');
+      $noteText.addClass('editing');
+      $noteText.hallo(hallosettings()).bind( "hallodeactivated", function(event) { //hallomodified
+        var $noteText = $(event.target);
+        var $updateButton = $(event.target).parent().find('.updateNoteContainer');
+        var noteID = $(event.target).data('noteid');
+        var currentText = Notes.findOne(noteID).text;
+        if (_.endsWith(currentText,'<br>')) currentText = currentText.slice(0,-4);
+        $noteText.removeClass('editing');
+        $noteText.hallo({editable: false});
+        $noteText.text(currentText);
+        $updateButton.addClass('hidden');
+      });
+      $noteText.focus();
+      $updateButton.removeClass('hidden');
+    },
+    'mousedown .updateNote': function(event,tmpl) {
+      var newText = $(event.target).parent().parent().find('.noteText').html();
+      var noteID = $(event.target).data('noteid');
+      Meteor.call('updateNote', noteID, newText,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
     }
 });
 

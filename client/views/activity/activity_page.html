@@ -57,7 +57,13 @@
 
 <template name='note'>
     <p></p>
-    <p> {{{text}}}
+    <p> 
+    {{#if allowEdit}}
+    <div class='updateNoteContainer hidden'>
+      <button class="updateNote" name="updateNote" data-noteID = {{_id}}>Update</button>
+    </div>
+    {{/if}}
+    <div class='noteText' data-noteID = {{_id}}> {{{text}}}</div>
     <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted 'short'}} {{#if allowDelete}}<i class='removeNote fa fa-times' data-noteID = {{_id}} onmouseover="$(this).removeClass('fa-times').addClass('fa-times-circle')" onmouseout="$(this).removeClass('fa-times-circle').addClass('fa-times')"></i>{{/if}} {{#if allowEdit}}<i class='editNote fa fa-pencil-square-o' data-noteID = {{_id}} onmouseover="$(this).removeClass('fa-pencil-square-o').addClass('fa-pencil-square')" onmouseout="$(this).removeClass('fa-pencil-square').addClass('fa-pencil-square-o')"></i>{{/if}}</span> 
     </p>
       

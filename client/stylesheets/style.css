@@ -157,10 +157,19 @@ filter: alpha(opacity=50);
   width: 89%;
   min-height: 24pt;
 }
+.noteText.editing {
+  display: inline-block;
+  width: 89%;
+}
 #addNoteContainer {
   display: inline-block;
   margin-bottom: 10px;
   margin-top: 20px;
+  width: 10%;
+  vertical-align: top;
+}
+.updateNoteContainer {
+  display: inline-block;
   width: 10%;
   vertical-align: top;
 }
@@ -187,6 +196,12 @@ filter: alpha(opacity=50);
 .removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover {
   cursor: default;
 }
+/*.noteText {
+  margin-bottom: 0;
+}
+.noteText.editing {
+  background: whitesmoke;
+}*/
 .defaultTextActive { color: #a1a1a1; font-style: italic; }
 .defaultTextInactive {color: #000000; }
 .button-center {

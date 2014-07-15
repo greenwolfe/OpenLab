@@ -14,7 +14,7 @@ Notes = new Meteor.Collection('notes');
 
 Meteor.methods({
 
-  /***** POST TODO ****/
+  /***** POST NOTE ****/
   postNote: function(Note,defaultText) { 
     var cU = Meteor.user(); //currentUser
     var NoteId;
@@ -97,38 +97,50 @@ Meteor.methods({
     };
 
     return NoteID;
-  }//, 
+  }, 
 
-  /***** TOGGLE TODO CHECKED ****/
-/*  toggleTodo: function(TodoID) { 
+  /***** UPDATE NOTE ****/
+  updateNote: function(NoteID,newText) { 
     var cU = Meteor.user(); //currentUser
-    var Todo = Todos.findOne(TodoID);
+    var Note = Notes.findOne(NoteID);
+    var now, editDeadline;
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to check or uncheck a todo item");
+      throw new Meteor.Error(401, "You must be logged in to delete a note");
 
-    if (!Todo)
-      throw new Meteor.Error(412, "Cannot check or uncheck todo item.  Invalid ID.");
+    if (!Note)
+      throw new Meteor.Error(412, "Cannot delete note.  Invalid ID.");
 
-    if (!Todo.hasOwnProperty('group') || !_.isArray(Todo.group))
-      throw new Meteor.Error(402, "Cannot check or uncheck todo item.  Improper group.");
+    if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
+      throw new Meteor.Error(402, "Cannot delete note.  Improper group.");
 
     //need code to handle _ALL_ or blocks
-    Todo.group.forEach(function(memberID) {
+    Note.group.forEach(function(memberID) {
       if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(404, "Cannot check or uncheck todo item.  Group members must be valid users.");
+        throw new Meteor.Error(404, "Cannot delete note.  Group members must be valid users.");
     });
 
+    if (newText == Note.text) return NoteID;
+    newText += _(newText).endsWith('<br>') ? '':'<br>';
+
     if (Roles.userIsInRole(cU,'teacher')) {
-     Todos.update(TodoID,{$set: {checked: !Todo.checked}});
+     Notes.update(NoteID,{$set: {text: newText}});
     } else if (Roles.userIsInRole(cU,'student')) {
-      if (!_.contains(Todo.group,cU._id)) 
-        throw new Meteor.Error(408, 'Cannot check or uncheck todo item unless you are part of the group.')
-      Todos.update(TodoID,{$set: {checked: !Todo.checked}});
+      if (!_.contains(Note.group,cU._id)) 
+        throw new Meteor.Error(408, 'Cannot delete note unless you are part of the group.')
+      if (Note.submitted) {
+        now = moment();
+        editDeadline = moment(Note.submitted).add('minutes',30);  
+        if (now.isAfter(editDeadline))
+          throw new Meteor.Error(411, "You may only delete a note if you do so within 30 minutes of posting it.");     
+      } else {
+        throw new Meteor.Error(411, "Cannot delete note.  Invalid date");
+      };
+      Notes.update(NoteID,{$set: {text: newText}});
     } else {
-      throw new Meteor.Error(409, 'You must be student or teacher to check or uncheck a todo item.')
+      throw new Meteor.Error(409, 'You must be student or teacher to delete a note.')
     };
 
-    return TodoID;
-  } */
+    return NoteID;
+  } 
 });
