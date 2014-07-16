@@ -16,7 +16,7 @@ Template.activitiesList.helpers({
 
 Template.activitiesSublist.helpers({
   activities: function() {
-    return Activities.find({model: this.model}); 
+    return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
   },
   openInviteCount: function() {
     var userToShow = Meteor.userId();

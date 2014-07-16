@@ -10,20 +10,21 @@ Activities.allow({
 
   /* Activities.insert({
     title : 'Acceleration Intro',
-    model : 'CAPM',
+    modelID : Models.findOne({model:'CAPM'})._id,
     description : ''
+    rank : 0
   }); */
-
+//models and activities need a rank and a way to update that rannk
+//methods:  placebefore, placeafter ... redo as integers on server only?
 Meteor.methods({
-  removeAllActivities: function() {
+  /*removeAllActivities: function() {
     return Activities.remove({});
-  },
+  },*/
 
   /***** POST ACTIVITY ****/
   postActivity: function(Activity,defaultText) { 
     var cU = Meteor.user(); //currentUser
     var ActivityId;
-    var models = Models.find().map( function(m) {return m.model});
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to post an activity");
@@ -34,103 +35,89 @@ Meteor.methods({
     if (!Activity.title || (Activity.title == defaultText) || (Activity.title == ''))
       throw new Meteor.Error(413, "Cannot post activity.  Missing title.");
 
-    if (!Activity.model)
+    if (!Activity.modelID)
       throw new Meteor.Error(402, "Cannot post activity.  Missing model.");
    
-    if (!_.in(Activity.model,models))
+    model = Models.findOne(Activity.modelID);
+    if (!model)
        throw new Meteor.Error(421, "Cannot post activity.  Improper model.")
 
     ActivityID = Activities.insert(Activity);
 
     return ActivityID; 
-  }//,  
+  },  
 
   /***** DELETE ACTIVITY ****/
-  /*deleteActivity: function(NoteID) { 
+  deleteActivity: function(ActivityID) { 
     var cU = Meteor.user(); //currentUser
-    var Note = Notes.findOne(NoteID);
-    var now, editDeadline;
+    var Activity = Activities.findOne(ActivityID);
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to delete a note");
+      throw new Meteor.Error(401, "You must be logged in to delete an activity");
 
-    if (!Note)
-      throw new Meteor.Error(412, "Cannot delete note.  Invalid ID.");
-
-    if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
-      throw new Meteor.Error(402, "Cannot delete note.  Improper group.");
-
-    //need code to handle _ALL_ or blocks
-    Note.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(404, "Cannot delete note.  Group members must be valid users.");
-    });
-
-    if (Roles.userIsInRole(cU,'teacher')) {
-     Notes.remove(NoteID);
-    } else if (Roles.userIsInRole(cU,'student')) {
-      if (!_.contains(Note.group,cU._id)) 
-        throw new Meteor.Error(408, 'Cannot delete note unless you are part of the group.')
-      if (Note.submitted) {
-        now = moment();
-        editDeadline = moment(Note.submitted).add('minutes',30);  
-        if (now.isAfter(editDeadline))
-          throw new Meteor.Error(411, "You may only delete a note if you do so within 30 minutes of posting it.");     
-      } else {
-        throw new Meteor.Error(411, "Cannot delete note.  Invalid date");
-      };
-      Notes.remove(NoteID);
-    } else {
-      throw new Meteor.Error(409, 'You must be student or teacher to delete a note.')
-    };
-
-    return NoteID;
-  }, */
+    if (!Roles.userIsInRole(cU,'teacher'))
+      throw new Meteor.Error(409, 'You must be a teacher to delete an activity.')
+  
+    if (!Activity)
+      throw new Meteor.Error(412, "Cannot delete activity.  Invalid ID.");
+    
+    Activities.remove(ActivityID);
+    
+    return ActivityID;
+  }, 
 
   /***** UPDATE ACTIVITY ****/
-  /*updateActivity: function(NoteID,newText) { 
+  updateActivity: function(nA) { //newActivity
     var cU = Meteor.user(); //currentUser
-    var Note = Notes.findOne(NoteID);
-    var now, editDeadline;
+    var Activity = Activities.findOne(nA._id);
+    var maxRank,r,currentModelID;
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to delete a note");
+      throw new Meteor.Error(401, "You must be logged in to update an activity");
 
-    if (!Note)
-      throw new Meteor.Error(412, "Cannot delete note.  Invalid ID.");
+    if (!Roles.userIsInRole(cU,'teacher'))
+      throw new Meteor.Error(409, 'You must be a teacher to update an activity.')
+  
+    if (!Activity)
+      throw new Meteor.Error(412, "Cannot update activity.  Invalid ID.");
+    currentModelID = Activity.modelID;
 
-    if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
-      throw new Meteor.Error(402, "Cannot delete note.  Improper group.");
+    if (nA.title && (nA.title != Activity.title) && nA.title != '') 
+      Activities.update(nA._id,{$set: {title: nA.title}});
 
-    //need code to handle _ALL_ or blocks
-    Note.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(404, "Cannot delete note.  Group members must be valid users.");
-    });
-
-    if (newText == Note.text) return NoteID;
-    newText += _(newText).endsWith('<br>') ? '':'<br>';
-
-    if (Roles.userIsInRole(cU,'teacher')) {
-     Notes.update(NoteID,{$set: {text: newText}});
-    } else if (Roles.userIsInRole(cU,'student')) {
-      if (!_.contains(Note.group,cU._id)) 
-        throw new Meteor.Error(408, 'Cannot delete note unless you are part of the group.')
-      if (Note.submitted) {
-        now = moment();
-        editDeadline = moment(Note.submitted).add('minutes',30);  
-        if (now.isAfter(editDeadline))
-          throw new Meteor.Error(411, "You may only delete a note if you do so within 30 minutes of posting it.");     
-      } else {
-        throw new Meteor.Error(411, "Cannot delete note.  Invalid date");
-      };
-      Notes.update(NoteID,{$set: {text: newText}});
-    } else {
-      throw new Meteor.Error(409, 'You must be student or teacher to delete a note.')
+    if (nA.hasOwnProperty('description') && (nA.description != Activity.description)) 
+      Activities.update(nA._id,{$set: {description: nA.description}});
+    
+    if (nA.modelID && (nA.modelID != Activity.modelID) && nA.modelID != '') {
+      model = Models.findOne(nA.modelID);
+      if (!model)
+        throw new Meteor.Error(421, "Cannot update activity.  Improper model.")
+      maxRank = _.max(Activities.find({modelID: nA.modelID}).map(function(a) {return a.rank}))
+      Activities.update(nA._id,{$set: {modelID: nA.modelID,rank: maxRank+1}});
+      Activity.modelID = nA.modelID; 
+      if (Meteor.isServer) {  //user server to re-rank using integers
+        r = 0;
+        Activities.find({modelID: currentModelID},{sort: {rank: 1}}).forEach(function(a) {
+          Activities.update(a._id,{$set: {rank:r}});
+          r++;
+        });
+      }; 
     };
 
-    return NoteID;
-  } */
+    
+    if (nA.hasOwnProperty('rank') && (nA.rank != Activity.rank)) {
+      Activities.update(nA._id,{$set: {rank: nA.rank}}); 
+      if (Meteor.isServer) { //use server to re-rank using integers
+        var r = 0;
+        Activities.find({modelID: Activity.modelID},{sort: {rank: 1}}).forEach(function(a) {
+          Activities.update(a._id,{$set: {rank:r}});
+          r++;
+        });
+      }; 
+    };
+
+    return Activity._id;
+  } 
 });  
 
 if (Meteor.isServer) {
@@ -138,91 +125,106 @@ if (Activities.find().count() === 0) {
   Activities.insert({
     title : 'Acceleration Intro',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    rank : 0
   });
 
   Activities.insert({
     title : 'Problem-solving with the Velocity Graph',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    rank : 1
   }); 
 
   Activities.insert({
     title : 'Olympic Event - Designer Ramp',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    rank : 2
   });
 
   Activities.insert({
     title : 'Position Graphs, Acceleration Graphs and Motion Maps',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    rank : 3
   });
 
   Activities.insert({
     title : 'Model Summary',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    rank : 4
   });
 
   Activities.insert({
     title : 'Olympic Event - Hole in One',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    rank : 5
   });
 
   Activities.insert({
     title : 'Broom Ball Review',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 0
   });
 
   Activities.insert({
     title : 'Force Diagrams for Stationary Objects',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 1
   });
 
   Activities.insert({
     title : 'Force Diagrams for Moving Objects',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 2
   });
 
   Activities.insert({
     title : 'Weight vs. Mass Lab',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 3
   });
 
   Activities.insert({
     title : 'Statics with Horizontal and Vertical Forces',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 4
   });
 
   Activities.insert({
     title : 'Statics with Forces at Angles',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 5
   });
 
   Activities.insert({
     title : 'Olympic Event - Stuffed Animals',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 6
   });
 
   Activities.insert({
     title : 'Dueling Forces',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 7
   });
 
   Activities.insert({
     title : 'Model Summary',
     modelID : Models.findOne({model:'BFPM'})._id,
-    description : ''
+    description : '',
+    rank : 8
   });
 };
 };
