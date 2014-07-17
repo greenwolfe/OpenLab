@@ -2,6 +2,10 @@
  /*** ACTIVITIES LIST  ****/
 /*************************/
 
+Template.activitiesList.rendered = function() {
+  $('#activities').accordion({heightStyle: "content"});
+}
+
 Template.activitiesList.helpers({
   models: function() {
     return Models.find();
@@ -13,6 +17,10 @@ Template.activitiesList.helpers({
  /** ACTIVITIES SUBLIST  **/
 /*************************/
 
+Template.activitiesSublist.rendered = function() {
+  if ($( "#activities" ).data('ui-accordion')) //if accordion already applied
+    $('#activities').accordion("refresh");
+};
 
 Template.activitiesSublist.helpers({
   activities: function() {

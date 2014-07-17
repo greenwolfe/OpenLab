@@ -1,6 +1,7 @@
 
 
 2.5) for #activities (done), #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
+also move accordion, sortable applications to rendered callbacks of specific templates. #activities (done), #standards, #appointments
 3)  invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
 make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections)
 

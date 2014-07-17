@@ -1,21 +1,12 @@
 Activities = new Meteor.Collection('activities');
 
-Activities.allow({
-  insert: function(userId, doc) {
-  // only allow adding activities if you are logged in
-  // must alter this to only allow teacher to add activities
-  return !! userId;
-  }
-}); 
-
   /* Activities.insert({
     title : 'Acceleration Intro',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : ''
     rank : 0
   }); */
-//models and activities need a rank and a way to update that rannk
-//methods:  placebefore, placeafter ... redo as integers on server only?
+
 Meteor.methods({
   /*removeAllActivities: function() {
     return Activities.remove({});
@@ -24,7 +15,7 @@ Meteor.methods({
   /***** POST ACTIVITY ****/
   postActivity: function(Activity,defaultText) { 
     var cU = Meteor.user(); //currentUser
-    var ActivityId;
+    var ActivityId,maxRank;
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to post an activity");
@@ -41,6 +32,13 @@ Meteor.methods({
     model = Models.findOne(Activity.modelID);
     if (!model)
        throw new Meteor.Error(421, "Cannot post activity.  Improper model.")
+
+    if (!Activity.hasOwnProperty('description'))
+      Activity.description = '';
+    
+    maxRank = _.max(Activities.find({modelID: Activity.modelID}).map(function(a) {return a.rank}))
+    if (!Activity.hasOwnProperty('rank'))
+      Activity.rank = maxRank + 1;
 
     ActivityID = Activities.insert(Activity);
 
