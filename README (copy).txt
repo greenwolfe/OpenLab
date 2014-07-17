@@ -1,7 +1,6 @@
 
 
 2.5) for #activities (done), #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
-also move accordion, sortable applications to rendered callbacks of specific templates. #activities (done), #standards, #appointments
 3)  invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
 make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections)
 
@@ -11,6 +10,7 @@ blocks in calendar???  keeping track of sort orders (both calendar and activitie
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
 6)  add school calendar and meeting category to third tab
 5)  Teacher view - all fields editable, drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?), groups students where possible, add student's names to title of calendar events.
+6)  Progress tracker tab. (deprecated) ... but would be nice if it were the SBG gradebook, and LOM's showed up in the standards list) ... just use scheduling of main teacher-initiated assessments as the progress tracker.
 9)  meetings dragged to calendar should be a hyperlink opening to form .
 with links, purpose, and comments (just use the same activity form for all activities? yes!)
 10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
@@ -22,8 +22,6 @@ with links, purpose, and comments (just use the same activity form for all activ
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
 21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough
 22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
-23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
-Standardize all calls to object notation {text:'new text'} instead of positional argument???
 
 
 
@@ -40,7 +38,6 @@ These were both dead ends.  Finally decided to record dates and user by creating
 3)  highlighting is a problem - try reproducing ui-state-default with my own css, then modifying it ??? (figured it out, then simplified ... done)
 handle username for header in activity if called from acvity list rather than calendar (and therefore has no group). (done)
 for header text, pass group array and not eventID (done)
-6)  Progress tracker tab. (deprecated) ... but would be nice if it were the SBG gradebook, and LOM's showed up in the standards list) ... just use scheduling of main teacher-initiated assessments as the progress tracker.
 Focus just on the grouping and in-class/out-of-class features of the student activity view. (done)
 7)  Hover texts for standards, (activities?), hover text is group for calendar events (done) (maybe don't need this. detail on page for that standard or activity). (done ... do not need for standards and activities,as they will open in their own separate informatin page)
 ***invite and accept dialogs, also require selecting in-class and out-of-class, and some way this is highlighted in the calendar. (done)

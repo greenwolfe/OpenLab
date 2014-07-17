@@ -7,8 +7,9 @@ Links = new Meteor.Collection('links');
       activityID : this._id,
       title: title, 
       URL: URL,
-      hoverText: hoverText
-      text: constructed from title, URL and hoverText by postLink method
+      hoverText: hoverText,
+      text: constructed from title, URL and hoverText by postLink method,
+      visible: true
     } */
 
 Meteor.methods({
@@ -16,7 +17,7 @@ Meteor.methods({
   /***** POST LINK ****/
   postLink: function(Link) { 
     var cU = Meteor.user(); //currentUser
-    var LinkId;
+    var LinkId,text;
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to post a link");
@@ -31,8 +32,11 @@ Meteor.methods({
       throw new Meteor.Error(414, "Cannot post link.  Missing URL.");
     //could do more validation of the URL here
 
-      var text  =  '<a href="' + Link.URL + '" title="' + Link.hoverText +'">' + Link.title + "</a>";
-      linkWithText = _.extend(Link,{text: text});
+    text  =  '<a href="' + Link.URL + '" title="' + Link.hoverText +'">' + Link.title + "</a>";
+    Link.text = text;
+
+    if (!Link.hasOwnProperty('visible'))
+      Link.visible = true;
 
     if (!Link.hasOwnProperty('group') || !_.isArray(Link.group))
       throw new Meteor.Error(402, "Cannot post link.  Improper group.");
@@ -94,4 +98,6 @@ Meteor.methods({
 
     return LinkID;
   }
+
+  //need update link to code changes to visible status
 });

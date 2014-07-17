@@ -7,7 +7,8 @@ Todos = new Meteor.Collection('todos');
       submitted : new Date().getTime(),
       activityID : this._id,
       text : text,
-      checked: false
+      checked: false,
+      visbile: true
      }
 */
 Meteor.methods({
@@ -28,6 +29,9 @@ Meteor.methods({
 
     if (!Todo.hasOwnProperty('checked') || !_.isBoolean(Todo.checked))
       throw new Meteor.Error(413, "Cannot post todo item.  Checked status not provided.");
+
+    if (!Todo.hasOwnProperty('visible'))
+      Todo.visible = true;
 
     if (!Todo.hasOwnProperty('group') || !_.isArray(Todo.group))
       throw new Meteor.Error(402, "Cannot post todo item.  Improper group.");
@@ -91,7 +95,7 @@ Meteor.methods({
   },
 
   /***** TOGGLE TODO CHECKED ****/
-  toggleTodo: function(TodoID) { 
+  toggleTodo: function(TodoID,otherFields) { 
     var cU = Meteor.user(); //currentUser
     var Todo = Todos.findOne(TodoID);
 
@@ -112,6 +116,9 @@ Meteor.methods({
 
     if (Roles.userIsInRole(cU,'teacher')) {
      Todos.update(TodoID,{$set: {checked: !Todo.checked}});
+     //must be a better place to put this in a full update function
+     if (!!otherFields && otherFields.hasOwnProperty('visible') && (otherFields.visible != Todo.visible))
+      Todos.update(TodoID,{$set: {visible: otherFields.visible}});
     } else if (Roles.userIsInRole(cU,'student')) {
       if (!_.contains(Todo.group,cU._id)) 
         throw new Meteor.Error(408, 'Cannot check or uncheck todo item unless you are part of the group.')

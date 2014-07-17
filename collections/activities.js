@@ -4,7 +4,8 @@ Activities = new Meteor.Collection('activities');
     title : 'Acceleration Intro',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : ''
-    rank : 0
+    rank : 0,
+    visible: true
   }); */
 
 Meteor.methods({
@@ -35,6 +36,9 @@ Meteor.methods({
 
     if (!Activity.hasOwnProperty('description'))
       Activity.description = '';
+
+    if (!Activity.hasOwnProperty('visible'))
+      Activity.visible = true;
     
     maxRank = _.max(Activities.find({modelID: Activity.modelID}).map(function(a) {return a.rank}))
     if (!Activity.hasOwnProperty('rank'))
@@ -59,6 +63,9 @@ Meteor.methods({
     if (!Activity)
       throw new Meteor.Error(412, "Cannot delete activity.  Invalid ID.");
     
+    //check if activity has been used and post warning or suggest
+    //just hiding it???
+
     Activities.remove(ActivityID);
     
     return ActivityID;
@@ -85,6 +92,9 @@ Meteor.methods({
 
     if (nA.hasOwnProperty('description') && (nA.description != Activity.description)) 
       Activities.update(nA._id,{$set: {description: nA.description}});
+
+    if (nA.hasOwnProperty('visible') && (nA.visible != Activity.visible)) 
+      Activitiess.update(nA._id,{$set: {visible: nA.visible}});
     
     if (nA.modelID && (nA.modelID != Activity.modelID) && nA.modelID != '') {
       model = Models.findOne(nA.modelID);
@@ -124,105 +134,120 @@ if (Activities.find().count() === 0) {
     title : 'Acceleration Intro',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : '',
-    rank : 0
+    rank : 0,
+    visible: true
   });
 
   Activities.insert({
     title : 'Problem-solving with the Velocity Graph',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : '',
-    rank : 1
+    rank : 1,
+    visible: true
   }); 
 
   Activities.insert({
     title : 'Olympic Event - Designer Ramp',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : '',
-    rank : 2
+    rank : 2,
+    visible: true
   });
 
   Activities.insert({
     title : 'Position Graphs, Acceleration Graphs and Motion Maps',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : '',
-    rank : 3
+    rank : 3,
+    visible: true
   });
 
   Activities.insert({
     title : 'Model Summary',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : '',
-    rank : 4
+    rank : 4,
+    visible: true
   });
 
   Activities.insert({
     title : 'Olympic Event - Hole in One',
     modelID : Models.findOne({model:'CAPM'})._id,
     description : '',
-    rank : 5
+    rank : 5,
+    visible: true
   });
 
   Activities.insert({
     title : 'Broom Ball Review',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 0
+    rank : 0,
+    visible: true
   });
 
   Activities.insert({
     title : 'Force Diagrams for Stationary Objects',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 1
+    rank : 1,
+    visible: true
   });
 
   Activities.insert({
     title : 'Force Diagrams for Moving Objects',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 2
+    rank : 2,
+    visible: true
   });
 
   Activities.insert({
     title : 'Weight vs. Mass Lab',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 3
+    rank : 3,
+    visible: true
   });
 
   Activities.insert({
     title : 'Statics with Horizontal and Vertical Forces',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 4
+    rank : 4,
+    visible: true
   });
 
   Activities.insert({
     title : 'Statics with Forces at Angles',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 5
+    rank : 5,
+    visible: true
   });
 
   Activities.insert({
     title : 'Olympic Event - Stuffed Animals',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 6
+    rank : 6,
+    visible: true
   });
 
   Activities.insert({
     title : 'Dueling Forces',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 7
+    rank : 7,
+    visible: true
   });
 
   Activities.insert({
     title : 'Model Summary',
     modelID : Models.findOne({model:'BFPM'})._id,
     description : '',
-    rank : 8
+    rank : 8,
+    visible: true
   });
 };
 };

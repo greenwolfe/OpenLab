@@ -14,7 +14,8 @@ Models.allow({
     model : 'CAPM',
     longname : 'Constant Acceleration Particle Model',
     description : '',
-    rank: 0
+    rank: 0,
+    visible: true
   }); */
 
 Meteor.methods({
@@ -38,6 +39,9 @@ Meteor.methods({
 
     if (!Model.hasOwnProperty('description'))
       Model.description = '';
+
+    if (!Model.hasOwnProperty('visible'))
+      Model.visible = true;
    
     maxRank = _.max(Models.find().map(function(m) {return m.rank}))
     if (!Model.hasOwnProperty('rank'))
@@ -74,56 +78,44 @@ Meteor.methods({
   }, 
 
   /***** UPDATE ACTIVITY ****/
-  updateModel: function(nA) { //newActivity
+  updateModel: function(nM) { //newModel
     var cU = Meteor.user(); //currentUser
-    var Activity = Activities.findOne(nA._id);
-    var maxRank,r,currentModelID;
+    var Model = Models.findOne(nM._id);
+    var r;
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to update an activity");
+      throw new Meteor.Error(401, "You must be logged in to update a model");
 
     if (!Roles.userIsInRole(cU,'teacher'))
-      throw new Meteor.Error(409, 'You must be a teacher to update an activity.')
+      throw new Meteor.Error(409, 'You must be a teacher to update a model.')
   
-    if (!Activity)
-      throw new Meteor.Error(412, "Cannot update activity.  Invalid ID.");
-    currentModelID = Activity.modelID;
+    if (!Model)
+      throw new Meteor.Error(412, "Cannot update model.  Invalid ID.");
 
-    if (nA.title && (nA.title != Activity.title) && nA.title != '') 
-      Activities.update(nA._id,{$set: {title: nA.title}});
+    if (nM.model && (nM.Model != Model.model) && nM.model != '') 
+      Models.update(nM._id,{$set: {model: nM.model}});
 
-    if (nA.hasOwnProperty('description') && (nA.description != Activity.description)) 
-      Activities.update(nA._id,{$set: {description: nA.description}});
+    if (nM.hasOwnProperty('description') && (nM.description != Model.description)) 
+      Models.update(nM._id,{$set: {description: nM.description}});
+
+    if (nM.hasOwnProperty('longname') && (nM.longname != Model.longname)) 
+      Models.update(nM._id,{$set: {longname: nM.longname}});
+
+    if (nM.hasOwnProperty('visible') && (nM.visible != Model.visible)) 
+      Models.update(nM._id,{$set: {visible: nM.visible}});
     
-    if (nA.modelID && (nA.modelID != Activity.modelID) && nA.modelID != '') {
-      model = Models.findOne(nA.modelID);
-      if (!model)
-        throw new Meteor.Error(421, "Cannot update activity.  Improper model.")
-      maxRank = _.max(Activities.find({modelID: nA.modelID}).map(function(a) {return a.rank}))
-      Activities.update(nA._id,{$set: {modelID: nA.modelID,rank: maxRank+1}});
-      Activity.modelID = nA.modelID; 
-      if (Meteor.isServer) {  //user server to re-rank using integers
-        r = 0;
-        Activities.find({modelID: currentModelID},{sort: {rank: 1}}).forEach(function(a) {
-          Activities.update(a._id,{$set: {rank:r}});
-          r++;
-        });
-      }; 
-    };
-
-    
-    if (nA.hasOwnProperty('rank') && (nA.rank != Activity.rank)) {
-      Activities.update(nA._id,{$set: {rank: nA.rank}}); 
+    if (nM.hasOwnProperty('rank') && (nM.rank != Model.rank)) {
+      Models.update(nM._id,{$set: {rank: nM.rank}}); 
       if (Meteor.isServer) { //use server to re-rank using integers
         var r = 0;
-        Activities.find({modelID: Activity.modelID},{sort: {rank: 1}}).forEach(function(a) {
-          Activities.update(a._id,{$set: {rank:r}});
+        Models.find({},{sort: {rank: 1}}).forEach(function(m) {
+          Models.update(m._id,{$set: {rank:r}});
           r++;
         });
       }; 
     };
 
-    return Activity._id;
+    return Model._id;
   } 
 });  
 
@@ -133,14 +125,16 @@ if (Models.find().count() === 0) {
     model : 'CAPM',
     longname : 'Constant Acceleration Particle Model',
     description : '',
-    rank: 0
+    rank: 0,
+    visible: true
   });
 
   Models.insert({
     model : 'BFPM',
     longname : 'Balanced Force Particle Model',
     description : '',
-    rank: 1
+    rank: 1,
+    visible: true
   });
 };
 };

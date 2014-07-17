@@ -8,7 +8,8 @@ Notes = new Meteor.Collection('notes');
       group : Session.get("currentGroup") || [],
       submitted : new Date().getTime(),
       activityID : this._id,
-      text : text
+      text : text,
+      visible: true
     };   
 */
 
@@ -28,6 +29,9 @@ Meteor.methods({
     if (!Note.text || (Note.text == defaultText) || (Note.text == ''))
       throw new Meteor.Error(413, "Cannot post note.  Missing text.");
     Note.text += _(Note.text).endsWith('<br>') ? '':'<br>';
+
+    if (!Note.hasOwnProperty('visible'))
+      Note.visible = true;
 
     if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
       throw new Meteor.Error(402, "Cannot post note.  Improper group.");
@@ -100,7 +104,7 @@ Meteor.methods({
   }, 
 
   /***** UPDATE NOTE ****/
-  updateNote: function(NoteID,newText) { 
+  updateNote: function(NoteID,newText,otherFields) { 
     var cU = Meteor.user(); //currentUser
     var Note = Notes.findOne(NoteID);
     var now, editDeadline;
@@ -125,6 +129,8 @@ Meteor.methods({
 
     if (Roles.userIsInRole(cU,'teacher')) {
      Notes.update(NoteID,{$set: {text: newText}});
+     if (!!otherFields && otherFields.hasOwnProperty('visible') && (otherFields.visible != Note.visible))
+      Notes.update(NoteID,{$set: {visible: otherFields.visible}});
     } else if (Roles.userIsInRole(cU,'student')) {
       if (!_.contains(Note.group,cU._id)) 
         throw new Meteor.Error(408, 'Cannot delete note unless you are part of the group.')

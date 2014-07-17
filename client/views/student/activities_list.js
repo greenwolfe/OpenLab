@@ -8,7 +8,7 @@ Template.activitiesList.rendered = function() {
 
 Template.activitiesList.helpers({
   models: function() {
-    return Models.find();
+    return Models.find({},{sort: {rank: 1}});
   }
 });
 
