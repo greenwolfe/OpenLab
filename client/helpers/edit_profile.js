@@ -18,9 +18,9 @@ Template._loginButtonsLoggedInDropdown.events({
 
 Template.editProfile.events({
   'change #sectionList': function(event,tmpl) {
-    var block = $('#sectionList').val();
+    var sectionID = $('#sectionList').val();
     var currentUser = Meteor.user();
-    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.section":block}} );
+    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.sectionID":sectionID}} );
   }
 });
 
@@ -58,9 +58,9 @@ Template.chooseSection.helpers({
 
 Template.chooseSection.events({
   'change #CSsectionList': function(event,tmpl) {
-    var block = $('#CSsectionList').val();
+    var sectionID = $('#CSsectionList').val();
     var currentUser = Meteor.user();
-    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.section":block}} );
+    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.sectionID":sectionID}} );
     $('#chooseSectionDialog').modal('hide');
   }
 });
@@ -69,7 +69,7 @@ Deps.autorun(function() {
   var userID = Meteor.userId();
   if (userID && Roles.userIsInRole(userID,'student')) {
     currentUser = Meteor.user(userID);
-    if (!currentUser.profile || !currentUser.profile.section) {
+    if (!currentUser.profile || !currentUser.profile.sectionID) {
       $('#chooseSectionDialog').modal(); 
     };
   };
