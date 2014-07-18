@@ -14,7 +14,7 @@ Meteor.publish('calendarEvents',function(userArray) {
 });
 Meteor.publish('userList',function() {
   if (this.userId) {
-    return Meteor.users.find({},{fields : {username : 1, roles: 1}});
+    return Meteor.users.find({},{fields : {username : 1, roles: 1, profile: 1}});
   } else {
     this.ready(); //returns blank collection
   };
