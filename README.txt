@@ -24,6 +24,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
 23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
 Standardize all calls to object notation {text:'new text'} instead of positional argument???
+24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class
 
 
 
