@@ -44,18 +44,25 @@ Template.TeacherViewAs.events({
   }
 });
 
-Deps.autorun(function() {
+Deps.autorun(function() {  //set TeacherViewAs when teacher logs in.
   var userID = Meteor.userId();
+  Session.set('visibleWorkplaces',['inClass','outClass','home']);
   if (userID && Roles.userIsInRole(userID,'teacher')) {
     Session.set('TeacherViewAs',userID);
   };
 });
 
+//keep section highlighted when returning to menu?
+//hook menu open event?
+//hide menu on mouseout?
 /*Template.sectionToView.rendered = function(event) {
-  var $a = $(this.find('option'));
-  if ($a.data('value') == Session.get('TeacherViewAs')) {
-    $a.addClass('active');
-  } else {
-    $a.removeClass('active');
-  };
+    var $li = $(this.find('li'));
+    var $a = $(this.find('a'));
+    if ($a.data('value') == Session.get('TeacherViewAs')) {
+      $li.addClass('active'); //adding active class to li works
+    } else {
+      $li.removeClass('active');
+    };
+    console.log($li);
+
 }; */

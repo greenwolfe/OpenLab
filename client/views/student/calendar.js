@@ -13,7 +13,11 @@ Template.calendar.helpers({
       calendarWeeks.push({monOfWeek : date.format('ddd[,] MMM D YYYY')});
     };
     return calendarWeeks;
-  }
+  },
+  hideinClass: function() {
+    var visibleWorkplaces = Session.get('visibleWorkplaces');
+    return _.contains(visibleWorkplaces,'inClass') ? '' : 'hideFromTeacher';
+  } 
 });
 
 Template.calendar.rendered = function(){
@@ -30,6 +34,30 @@ Template.calendar.rendered = function(){
     $('#inClassSwatch, #outClassSwatch, #homeSwatch').draggable(DragOpt('.daysActivities') );
   }
 };
+
+Template.calendar.events({
+  'click #inClassSwatch' : function(event) {
+    var currentUser = Meteor.user();
+    if (currentUser && Roles.userIsInRole(currentUser,'teacher')) {
+      var vWp = Session.get('visibleWorkplaces');
+      var i = vWp.indexOf('inClass');
+      (i === -1) ? vWp.push('inClass') : vWp.splice(i,1);
+      Session.set('visibleWorkplaces',vWp)
+    }
+  },
+  'click #outClassSwatch' : function(event) {
+    var currentUser = Meteor.user();
+    if (currentUser && Roles.userIsInRole(currentUser,'teacher')) {
+      $(event.target).toggleClass('hideFromTeacher');
+    }
+  },
+  'click #homeSwatch' : function(event) {
+    var currentUser = Meteor.user();
+    if (currentUser && Roles.userIsInRole(currentUser,'teacher')) {
+      $(event.target).toggleClass('hideFromTeacher');
+    }
+  }
+});
 
 
 
@@ -102,8 +130,11 @@ Template.calendarDay.helpers({
   daysEvents : function() {
     var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var userToShow = Session.get('TeacherViewIDs');
+    var workPlaces = Session.get('visibleWorkplaces')
     if (userToShow)
-      return CalendarEvents.find({group: {$in: userToShow}, eventDate: date});
+      return CalendarEvents.find({group: {$in: userToShow}, 
+        workplace: {$in: workPlaces},
+        eventDate: date});
     return '';
   }
 });

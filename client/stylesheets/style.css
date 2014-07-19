@@ -83,6 +83,9 @@ table#calendar tr td {
   cursor: pointer;
   cursor: hand;
 }
+#inClassSwatch.hideFromTeacher, #outClassSwatch.hideFromTeacher, #homeSwatch.hideFromTeacher {
+   text-decoration: line-through;
+}
 .placeholder {
   color: #e6e6e6; /* color from ui-state-default provided by /packages/jquery-ui-bootstrap/css/jquery-ui-1.9.2.custom.css*/
 }
