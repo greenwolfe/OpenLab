@@ -39,7 +39,7 @@ Template.editProfile.helpers({
 Template.sectionOption.helpers({
   selectIfCurrentSection: function() {
     var currentUser = Meteor.user();
-    if (currentUser && currentUser.profile && currentUser.profile.section && (currentUser.profile.section == this.section) ) {
+    if (currentUser && currentUser.profile && currentUser.profile.sectionID && (currentUser.profile.sectionID == this._id) ) {
       return 'selected';
     } else {
       return '';

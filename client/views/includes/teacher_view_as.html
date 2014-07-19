@@ -3,9 +3,12 @@
     <span>View as: </span>
     <select id = 'viewAs' name = 'viewAs' size = "1">
       {{#with currentUser}}
-        <option value={{_id}}>{{username}}</option>
-      {{/with}}
-      {{#each users}}
+        {{> userToView}}
+      {{/with}} 
+      {{#each sections}}
+        {{> sectionToView}}
+      {{/each}}
+      {{#each usersInSection}}
         {{> userToView}}
       {{/each}}
     </select>
@@ -14,4 +17,8 @@
 
 <template name = 'userToView'>
   <option value={{_id}}>{{username}}</option>
+</template>
+
+<template name = 'sectionToView'>
+  <option value={{_id}}>{{section}}</option>
 </template>
