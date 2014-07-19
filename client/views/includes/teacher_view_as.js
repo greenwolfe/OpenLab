@@ -20,16 +20,26 @@ Template.TeacherViewAs.helpers({
       return Meteor.users.find({_id: {$ne: Meteor.userId()},
         'profile.sectionID': selectedUser.profile.sectionID}); 
     return '';
+  },
+  SelectedText : function() {
+    var TVA = Session.get('TeacherViewAs');
+    var SectionIDs = Sections.find().map(function(s) {return s._id});
+    var selectedUser = Meteor.users.findOne(TVA);
+    if (selectedUser) return selectedUser.username;
+    if (_.contains(SectionIDs,TVA)) {
+      return Sections.findOne(TVA).section;
+    }
   }
 });
 
 Template.TeacherViewAs.events({
-  'change #viewAs' : function(event) {
-    TVA = $('#viewAs').val();
+  'click #viewAs li > a' : function(event) {
+    var TVA = $(event.target).data('value');
     var SectionIDs = Sections.find().map(function(s) {return s._id});
-    Session.set('TeacherViewAs',$('#viewAs').val());
+    Session.set('TeacherViewAs',TVA);
     if (_.contains(SectionIDs,TVA)) {
-      //research shows no way to keep select menu open
+      event.preventDefault();
+      event.stopImmediatePropagation();
     }
   }
 });
@@ -41,12 +51,11 @@ Deps.autorun(function() {
   };
 });
 
-  /************************/
- /****  USER TO VIEW  ****/
-/************************/
-
-Template.userToView.rendered = function() { //keep state of select menu consistent with session variable 
-//I think this is a non-reactive context so is set on render, but not double-called on change #viewAs event above
-  var $option = $(this.find('option'));
-  $option.prop('selected',($option.val() == Session.get('TeacherViewAs')));
-};
+/*Template.sectionToView.rendered = function(event) {
+  var $a = $(this.find('option'));
+  if ($a.data('value') == Session.get('TeacherViewAs')) {
+    $a.addClass('active');
+  } else {
+    $a.removeClass('active');
+  };
+}; */

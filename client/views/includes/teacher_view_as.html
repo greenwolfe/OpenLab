@@ -1,24 +1,30 @@
 <template name = 'TeacherViewAs'>
   {{#if isInRole 'teacher'}}
-    <span>View as: </span>
-    <select id = 'viewAs' name = 'viewAs' size = "1">
-      {{#with currentUser}}
-        {{> userToView}}
-      {{/with}} 
-      {{#each sections}}
-        {{> sectionToView}}
-      {{/each}}
-      {{#each usersInSection}}
-        {{> userToView}}
-      {{/each}}
-    </select>
+    <ul class = "nav">
+      <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{SelectedText}} <strong class="caret"></strong></a>
+
+      <div id='viewAs' class="dropdown-menu" style="padding: 20px; padding-bottom: 20px;">
+        {{#with currentUser}}
+          {{> userToView}}
+        {{/with}}
+        {{#each sections}}
+          {{> sectionToView}}
+        {{/each}} 
+        <li class="divider"></li>
+        {{#each usersInSection}}
+          {{> userToView}}
+        {{/each}}
+      </div>
+      </li>
+    </ul>
   {{/if}}
 </template>
 
 <template name = 'userToView'>
-  <option value={{_id}}>{{username}}</option>
+  <li><a href="#" data-value={{_id}}>{{username}}</a></li>
 </template>
 
 <template name = 'sectionToView'>
-  <option value={{_id}}>{{section}}</option>
+  <li><a href="#" data-value={{_id}}>{{section}}</a></li>
 </template>
