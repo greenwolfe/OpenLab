@@ -38,8 +38,11 @@ Template.TeacherViewAs.events({
     var SectionIDs = Sections.find().map(function(s) {return s._id});
     Session.set('TeacherViewAs',TVA);
     if (_.contains(SectionIDs,TVA)) {
+      Session.set('visibleWorkplaces',['inClass'])
       event.preventDefault();
       event.stopImmediatePropagation();
+    } else {
+      Session.set('visibleWorkplaces',['inClass','outClass','home'])
     }
   }
 });

@@ -17,6 +17,14 @@ Template.calendar.helpers({
   hideinClass: function() {
     var visibleWorkplaces = Session.get('visibleWorkplaces');
     return _.contains(visibleWorkplaces,'inClass') ? '' : 'hideFromTeacher';
+  },
+  hideoutClass: function() {
+    var visibleWorkplaces = Session.get('visibleWorkplaces');
+    return _.contains(visibleWorkplaces,'outClass') ? '' : 'hideFromTeacher';    
+  },
+  hidehome: function() {
+    var visibleWorkplaces = Session.get('visibleWorkplaces');
+    return _.contains(visibleWorkplaces,'home') ? '' : 'hideFromTeacher';    
   } 
 });
 
@@ -48,13 +56,19 @@ Template.calendar.events({
   'click #outClassSwatch' : function(event) {
     var currentUser = Meteor.user();
     if (currentUser && Roles.userIsInRole(currentUser,'teacher')) {
-      $(event.target).toggleClass('hideFromTeacher');
+      var vWp = Session.get('visibleWorkplaces');
+      var i = vWp.indexOf('outClass');
+      (i === -1) ? vWp.push('outClass') : vWp.splice(i,1);
+      Session.set('visibleWorkplaces',vWp)
     }
   },
   'click #homeSwatch' : function(event) {
     var currentUser = Meteor.user();
     if (currentUser && Roles.userIsInRole(currentUser,'teacher')) {
-      $(event.target).toggleClass('hideFromTeacher');
+      var vWp = Session.get('visibleWorkplaces');
+      var i = vWp.indexOf('home');
+      (i === -1) ? vWp.push('home') : vWp.splice(i,1);
+      Session.set('visibleWorkplaces',vWp)
     }
   }
 });
