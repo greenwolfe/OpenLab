@@ -7,14 +7,25 @@
       or select names from the list to <button id="Invite">Invite</button> 
       others to form a group.</p>
     <p>(Use ctrl-click or shift-click to invite multiple users.)</p>
-    <select id = 'userList' name = 'userList' size = "10" multiple>
-      {{#each users}}
-        {{> userSelection}}
+    <div class="btn-group">
+      {{#each sections}}
+        {{> sectionToInvite}}
       {{/each}}
-    </select>
+    </div>
+    <table>
+      {{#each usersInSection}}
+        {{>userToInvite}}
+      {{/each}}
+    </table> 
   </div>
 </template>
 
-<template name = 'userSelection'>
-  <option value={{_id}}>{{username}}</option>
+<template name = 'sectionToInvite'>
+  <button type="button" class="btn btn-section" data-value={{_id}}>{{section}}</button> 
+</template>
+
+<template name = 'userToInvite'>
+  {{{startTableRow}}}
+  <td><button type="button" class="btn btn-user" data-value={{_id}}>{{username}}</button></td>
+  {{{closeTableRow}}}
 </template>

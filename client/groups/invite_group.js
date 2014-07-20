@@ -1,6 +1,19 @@
 Template.inviteGroup.helpers({
-  users : function () {
-    return Meteor.users.find({_id: {$ne: Meteor.userId()}}); 
+  sections: function() {
+    return Sections.find();
+  },
+  usersInSection : function () {
+    var iSID = Session.get("inviteSectionID");
+    if (!iSID) return '';
+    var uIS = Meteor.users.find({_id: {$ne: Meteor.userId()},
+      'profile.sectionID': iSID},{sort: {username: 1}}).fetch();
+    var o,i,Ncol = 5;
+    uIS.forEach(function(o,i) {
+      o.startTableRow = (i%Ncol == 0) ? '<tr>' : '';
+      o.closeTableRow = (i%Ncol == Ncol-1) ? '</tr>' : '';
+    });
+    uIS[uIS.length - 1].closeTableRow = '</tr>';
+    return uIS; 
   },
   title: function() {
     var InviteGroup = Session.get("InviteGroup");
@@ -15,7 +28,14 @@ Template.inviteGroup.helpers({
 });
 
 Template.inviteGroup.events({
-
+  'click button.btn-section' : function(event) {
+    Session.set('inviteSectionID',$(event.target).data('value'));
+  },
+  'click button.btn-user' : function(event) {
+    console.log('clicked user button')
+    console.log($(event.target).data('value') + ' ' + $(event.target).html());
+    $(event.target).toggleClass('selected'); //set 
+  },
   'click #JustMe': function (event) {
     var InviteGroup = Session.get("InviteGroup");
     var calendarEvent = {
@@ -32,7 +52,8 @@ Template.inviteGroup.events({
     );
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below
     $('#inviteGroupDialog').modal('hide');
-    $('#userList').val(''); //reset any selections
+    //$('#userList').val(''); //reset any selections
+    //have to figure out how to set selections before coming back to reset them
   },
 
   'click #Invite': function (event) {
@@ -57,6 +78,10 @@ Template.inviteGroup.events({
     $('#inviteGroupDialog').modal('hide');
     $('#userList').val('');
   }
+
+});
+
+Template.sectionToInvite.helpers({
 
 });
 

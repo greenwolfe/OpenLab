@@ -52,6 +52,8 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 19) secure user information by making a method that returns just user nick names (require unique when account created!) to invite_group and teacher's selection lists.  The post method when creating a new calendar event would send the nicknames to the server, which could post by userid.  (Or should the whole record by by nicknames so userIds are never exposed on the client?)  Either these methods, or else at least only publish the list of users after log in.  The difficulty of doing this makes me want to try the method as a solution. (not done ... decided to coninue using usernames but did lock it down so no user info is available unless logged in ... can't see the harm in having userid's as all the post, update and delete functions are also well locked down now.)
 20) In router.js, move some subscriptions to individual pages rather than loading them all at once at the start?  (done, teacher subscriptions now in client and are conditional)
 23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box) (done, but box needs a submit button???)
+24)  ViewAs dropdown ... should exit on mouseout
+25)  clean up error when student creates account and get exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.
 
 
 Installation Notes:

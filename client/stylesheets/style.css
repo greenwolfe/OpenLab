@@ -110,6 +110,10 @@ table#calendar tr td {
 opacity: 0.5;
 filter: alpha(opacity=50);
 }
+#inviteGroupDialog .btn-user.selected {
+  background-image: none;
+  background-color: #00ffff;
+}
 #openInviteDialog p, #inviteGroupDialog select, p {
   margin-left: 8px;
 }
