@@ -2,10 +2,7 @@
 
 2.5) for #activities (done), #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
 also move accordion, sortable applications to rendered callbacks of specific templates. #activities (done), #standards, #appointments
-3)  invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
-make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections)
-
-more fields in user profile:  block, firstname, last name, nick name(x not needed, using username but need validation) (and add to edit profile modal)
+3)  more fields in user profile:  block, firstname, last name, nick name(x not needed, using username but need validation) (and add to edit profile modal)
 blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
 
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
@@ -17,14 +14,13 @@ with links, purpose, and comments (just use the same activity form for all activ
 11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder (& actually this would eliminate the only direct DOM manipulation in the code, the placing and deleting of placeholders, although not sure I want to do the CSS for coloring the calendar days through the database ... too costly? ... model in calendarEvents.js droppable)
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
 14)  DATES:  consider using format for storeing dates from activity_page.js. 
-15)   Add a drop-down list for all recent groups on activity page. (now to be recent group partners and a full selection menu for teacher)
+**15)   Add a drop-down list for all recent groups on activity page. (now to be recent group partners and a full selection menu for teacher)
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top. (done except for the more button)
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
-21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough
 22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
 23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
 Standardize all calls to object notation {text:'new text'} instead of positional argument???
-24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class
+
 
 
 
@@ -41,6 +37,8 @@ These were both dead ends.  Finally decided to record dates and user by creating
 3)  highlighting is a problem - try reproducing ui-state-default with my own css, then modifying it ??? (figured it out, then simplified ... done)
 handle username for header in activity if called from acvity list rather than calendar (and therefore has no group). (done)
 for header text, pass group array and not eventID (done)
+3) invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
+make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections) (done)
 6)  Progress tracker tab. (deprecated) ... but would be nice if it were the SBG gradebook, and LOM's showed up in the standards list) ... just use scheduling of main teacher-initiated assessments as the progress tracker.
 Focus just on the grouping and in-class/out-of-class features of the student activity view. (done)
 7)  Hover texts for standards, (activities?), hover text is group for calendar events (done) (maybe don't need this. detail on page for that standard or activity). (done ... do not need for standards and activities,as they will open in their own separate informatin page)
@@ -51,8 +49,10 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 18)  hover texts for links say "belongs to ..." just like the to-do items. (done)
 19) secure user information by making a method that returns just user nick names (require unique when account created!) to invite_group and teacher's selection lists.  The post method when creating a new calendar event would send the nicknames to the server, which could post by userid.  (Or should the whole record by by nicknames so userIds are never exposed on the client?)  Either these methods, or else at least only publish the list of users after log in.  The difficulty of doing this makes me want to try the method as a solution. (not done ... decided to coninue using usernames but did lock it down so no user info is available unless logged in ... can't see the harm in having userid's as all the post, update and delete functions are also well locked down now.)
 20) In router.js, move some subscriptions to individual pages rather than loading them all at once at the start?  (done, teacher subscriptions now in client and are conditional)
+21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough (done)
 23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box) (done, but box needs a submit button???)
-24)  ViewAs dropdown ... should exit on mouseout
+24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class (done)
+24)  ViewAs dropdown ... should exit on mouseout (done)
 25)  clean up error when student creates account and get exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.
 
 

@@ -2,25 +2,27 @@
   <div id = 'inviteGroupDialog' class = 'modal hide fade' data-backdrop = 'static'>
     <h2>{{title}}</h2>
     <h3>{{date}}</h3>
-    <p>Click <button id="JustMe">Just Me</button> 
-      if this is an individual activity,<br/>
-      or select names from the list to invite others to form a group. <br/> <button id="Invite">Invite</button> 
-      {{groupies '' '' groupToInvite '.' '.'}}</p>
+    <p>Click <i>Just Me</i> if this is an individual activity, or select names from the list to invite others to form a group. <br/> <button id="Invite">{{invite}}</button> 
+      {{groupies '' '' groupToInvite '.' '.'}} </p>
     <div class="btn-group">
       {{#each sections}}
         {{> sectionToInvite}}
       {{/each}}
+      {{#if teacherCount}}
+        {{>sectionToInvite _id="teachers" section="Teachers" selected=teachersSelected }}
+      {{/if}}
     </div>
     <table>
       {{#each usersInSection}}
         {{>userToInvite}}
       {{/each}}
     </table> 
+    <button id="Cancel">Cancel</button>
   </div>
 </template>
 
 <template name = 'sectionToInvite'>
-  <button type="button" class="btn btn-section" data-sectionid={{_id}}>{{section}}</button> 
+  <button type="button" class="btn btn-section {{selected}}" data-sectionid={{_id}}>{{section}}</button> 
 </template>
 
 <template name = 'userToInvite'>

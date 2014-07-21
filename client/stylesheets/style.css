@@ -4,6 +4,9 @@
 .navbar .navbar-inner {
     border-radius: 0px 0px 3px 3px; 
 }
+.dropdown:hover .dropdown-menu {
+    display: block;
+ }
 table#calendar {
   width: 98%;
   margin-left: 1%;
@@ -110,12 +113,24 @@ table#calendar tr td {
 opacity: 0.5;
 filter: alpha(opacity=50);
 }
-#inviteGroupDialog .btn-user.selected {
+#inviteGroupDialog .btn-user.selected, #inviteGroupDialog .btn-section.selected {
   background-image: none;
   background-color: #00ffff;
 }
+#inviteGroupDialog table, #inviteGroupDialog .btn-group {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+#inviteGroupDialog #Cancel {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  right: 0;
+  margin-right: 8px;
+}
 #openInviteDialog p, #inviteGroupDialog select, p {
   margin-left: 8px;
+  margin-right: 8px;
 }
 #openInviteDialog button {
   position: absolute;
