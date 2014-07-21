@@ -2,7 +2,7 @@
   {{#if isInRole 'teacher'}}
     <ul class = "nav">
       <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{SelectedText}} <strong class="caret"></strong></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">View As: {{SelectedText}} <strong class="caret"></strong></a>
 
       <div id='viewAs' class="dropdown-menu" style="padding: 20px; padding-bottom: 20px;">
         {{#with currentUser}}
@@ -22,7 +22,7 @@
 </template>
 
 <template name = 'userToView'>
-  <li><a href="#" data-value={{_id}} class='active'>{{username}}</a></li>
+  <li><a href="#" data-value={{_id}}>{{username}}</a></li>
 </template>
 
 <template name = 'sectionToView'>

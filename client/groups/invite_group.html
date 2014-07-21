@@ -2,19 +2,31 @@
   <div id = 'inviteGroupDialog' class = 'modal hide fade' data-backdrop = 'static'>
     <h2>{{title}}</h2>
     <h3>{{date}}</h3>
-    <p>Click <button id="JustMe">Just Me</button> 
-      if this is an individual activity,<br/>
-      or select names from the list to <button id="Invite">Invite</button> 
-      others to form a group.</p>
-    <p>(Use ctrl-click or shift-click to invite multiple users.)</p>
-    <select id = 'userList' name = 'userList' size = "10" multiple>
-      {{#each users}}
-        {{> userSelection}}
+    <p>Click <i>Just Me</i> if this is an individual activity, or select names from the list to invite others to form a group. <br/> <button id="Invite">{{invite}}</button> 
+      {{groupies '' '' groupToInvite '.' '.'}} </p>
+    <div class="btn-group">
+      {{#each sections}}
+        {{> sectionToInvite}}
       {{/each}}
-    </select>
+      {{#if teacherCount}}
+        {{>sectionToInvite _id="teachers" section="Teachers" selected=teachersSelected }}
+      {{/if}}
+    </div>
+    <table>
+      {{#each usersInSection}}
+        {{>userToInvite}}
+      {{/each}}
+    </table> 
+    <button id="Cancel">Cancel</button>
   </div>
 </template>
 
-<template name = 'userSelection'>
-  <option value={{_id}}>{{username}}</option>
+<template name = 'sectionToInvite'>
+  <button type="button" class="btn btn-section {{selected}}" data-sectionid={{_id}}>{{section}}</button> 
+</template>
+
+<template name = 'userToInvite'>
+  {{{startTableRow}}}
+  <td><button type="button" class="btn btn-user {{selected}}" data-userid={{_id}}>{{username}}</button></td>
+  {{{closeTableRow}}}
 </template>

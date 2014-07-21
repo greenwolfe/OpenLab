@@ -25,7 +25,14 @@ Template.TeacherViewAs.helpers({
     var TVA = Session.get('TeacherViewAs');
     var SectionIDs = Sections.find().map(function(s) {return s._id});
     var selectedUser = Meteor.users.findOne(TVA);
-    if (selectedUser) return selectedUser.username;
+    var selectedSection;
+    if (selectedUser) {
+      if (selectedUser.profile && selectedUser.profile.sectionID) {
+        selectedSection = Sections.findOne(selectedUser.profile.sectionID).section;
+        return selectedUser.username + ' from ' + selectedSection;
+      }
+      return selectedUser.username;
+    };
     if (_.contains(SectionIDs,TVA)) {
       return Sections.findOne(TVA).section;
     }
@@ -38,8 +45,11 @@ Template.TeacherViewAs.events({
     var SectionIDs = Sections.find().map(function(s) {return s._id});
     Session.set('TeacherViewAs',TVA);
     if (_.contains(SectionIDs,TVA)) {
+      Session.set('visibleWorkplaces',['inClass'])
       event.preventDefault();
       event.stopImmediatePropagation();
+    } else {
+      Session.set('visibleWorkplaces',['inClass','outClass','home'])
     }
   }
 });
@@ -52,17 +62,4 @@ Deps.autorun(function() {  //set TeacherViewAs when teacher logs in.
   };
 });
 
-//keep section highlighted when returning to menu?
-//hook menu open event?
 //hide menu on mouseout?
-/*Template.sectionToView.rendered = function(event) {
-    var $li = $(this.find('li'));
-    var $a = $(this.find('a'));
-    if ($a.data('value') == Session.get('TeacherViewAs')) {
-      $li.addClass('active'); //adding active class to li works
-    } else {
-      $li.removeClass('active');
-    };
-    console.log($li);
-
-}; */
