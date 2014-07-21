@@ -22,7 +22,7 @@ Template.openInvites.helpers({
 });
 
 Template.openInvites.events({
-  'click button' : function(event) {
+  'click button.accept' : function(event) {
     var OpenInvites = Session.get("OpenInvites");
     var date = OpenInvites.eventDate;
     var activityID = OpenInvites.activityID
@@ -49,6 +49,10 @@ Template.openInvites.events({
     } else {
       $('#openInviteDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
     }
+  },
+  'click i.remove' : function(event) {
+    $('#openInviteDialog').modal('hide');
+    $('#openInviteDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
   }
 });
 

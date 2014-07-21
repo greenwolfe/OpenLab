@@ -12,36 +12,29 @@ Template.activityPage.rendered = function() {
 Template.activityPage.helpers({
   Notes:  function() {
     var userID = Meteor.userId();
-    var userToShow = userID;
+    var userToShow = Session.get('TeacherViewIDs');
     if (Roles.userIsInRole(userID,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-      if (userID == userToShow)
+      if (_.contains(userToShow,userID))
         return Notes.find({
           activityID: this._id,
           $or:[ 
             {author:userID}, 
-            {group: {$in: [userToShow,'_ALL_']}} 
+            {group: {$in: userToShow}} 
           ]},
           {sort: {submitted: -1}});
     };
-    return Notes.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id},{sort: {submitted: -1}});
+    return Notes.find({group: {$in: userToShow},activityID: this._id},{sort: {submitted: -1}});
   },
   group: function() {
     return Session.get("currentGroup") || [];
   },
   Links:  function() {
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    };
-    return Links.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id});
+    var userToShow = Session.get('TeacherViewIDs');
+    return Links.find({group: {$in: userToShow},activityID: this._id});
   },
   Todos:  function() {
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    };
-    return Todos.find({group: {$in: [userToShow,'_ALL_']},activityID: this._id});
+    var userToShow = Session.get('TeacherViewIDs');
+    return Todos.find({group: {$in: userToShow},activityID: this._id});
   }
 });
 

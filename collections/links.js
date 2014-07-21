@@ -41,9 +41,8 @@ Meteor.methods({
     if (!Link.hasOwnProperty('group') || !_.isArray(Link.group))
       throw new Meteor.Error(402, "Cannot post link.  Improper group.");
 
-    //need code to handle _ALL_ or blocks
-    Link.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
+    Link.group.forEach(function(ID) {
+      if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
         throw new Meteor.Error(404, "Cannot post link.  Group members must be valid users.");
     });
 
@@ -54,11 +53,11 @@ Meteor.methods({
       throw new Meteor.Error(411, "Cannot post link.  Invalid date");
 
     if (Roles.userIsInRole(cU,'teacher')) {
-     LinkID = Links.insert(linkWithText);
+     LinkID = Links.insert(Link);
     } else if (Roles.userIsInRole(cU,'student')) {
       if (!_.contains(Link.group,cU._id)) 
         throw new Meteor.Error(408, 'Cannot post link unless you are part of the group.')
-      LinkID = Links.insert(linkWithText);
+      LinkID = Links.insert(Link);
     } else {
       throw new Meteor.Error(409, 'You must be student or teacher to post a link.')
     };

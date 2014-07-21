@@ -36,9 +36,8 @@ Meteor.methods({
     if (!Todo.hasOwnProperty('group') || !_.isArray(Todo.group))
       throw new Meteor.Error(402, "Cannot post todo item.  Improper group.");
 
-    //need code to handle _ALL_ or blocks
-    Todo.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
+    Todo.group.forEach(function(ID) {
+      if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
         throw new Meteor.Error(404, "Cannot post todo item.  Group members must be valid users.");
     });
 

@@ -8,6 +8,10 @@ var groupies = function (initialStrSingular,initialStrPlural,group,finalStrSingu
     if (group.length == 1) {
      if (Meteor.users.findOne(group[0])) {
        return initialStrSingular + Meteor.users.findOne(group[0]).username + finalStrSingular;
+     } else if (Sections.findOne(group[0])) {
+       return initialStrSingular + Sections.findOne(group[0]).section + finalStrSingular;
+     } else if (group[0] == '_ALL_') {
+      return initialStrSingular + 'everyone' + finalStrSingular;
      } else {
         return "";
      };
