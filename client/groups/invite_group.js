@@ -32,13 +32,22 @@ Template.inviteGroup.helpers({
   },
   invite: function() {
     var IG = Session.get('InviteGroup');
+    var currentUser = Meteor.user();
+    if (Roles.userIsInRole(currentUser,'teacher') && 
+      IG && IG.group && !IG.group.length && 
+      IG.sectionID && (!!Sections.findOne(IG.sectionID) || (IG.sectionID == '_ALL_')))
+      return 'Invite';
     if (!IG || !IG.group || !IG.group.length) return 'Just Me';
     return 'Invite'
   },
   groupToInvite : function() {
     var IG = Session.get('InviteGroup');
+    var currentUser = Meteor.user();
     if (IG && IG.group && IG.group.length)
       return IG.group;
+    if (Roles.userIsInRole(currentUser,'teacher') && 
+      IG && IG.sectionID && IG.group && !IG.group.length)
+      return [IG.sectionID];
     return '';
   },
   title: function() {
@@ -69,7 +78,8 @@ Template.inviteGroup.helpers({
 Template.inviteGroup.events({
   'click button.btn-section' : function(event) {
     var IG = Session.get('InviteGroup');
-    IG.sectionID = $(event.target).data('sectionid');
+    var newID = $(event.target).data('sectionid');
+    IG.sectionID = (IG.sectionID == newID) ? '' : newID;
     Session.set('InviteGroup',IG);
   },
   'click button.btn-user' : function(event) {
@@ -81,13 +91,21 @@ Template.inviteGroup.events({
   },
   'click #Invite': function (event) {
     var currentUser = Meteor.user();
+    var group = [currentUser];
+    var invite = [];
     var IG = Session.get("InviteGroup");
-    if (!IG.hasOwnProperty('group') || !_.isArray(IG.group)) 
-      IG.group = [];
+    if (IG.hasOwnProperty('group') && _.isArray(IG.group)) 
+      invite = IG.group;
+    if (Roles.userIsInRole(currentUser,'teacher') && 
+      IG.sectionID && Sections.findOne(IG.sectionID) && 
+      !IG.group.length) {
+      group = [IG.sectionID];
+      invite = [];
+    }
     var calendarEvent = {
       creator : currentUser._id,
-      group : [currentUser._id],
-      invite : IG.group, 
+      group : group,
+      invite : invite, 
       eventDate : IG.eventDate,  //'ddd[,] MMM D YYYY'
       activityID : IG.activityID,
       workplace : 'inClass'
@@ -106,7 +124,7 @@ Template.inviteGroup.events({
     Session.set('InviteGroup',IG);
     $('#inviteGroupDialog').modal('hide');
   },
-  'click #Cancel' : function(event) {
+  'click i.remove' : function(event) {
     var currentUser = Meteor.user();
     var IG = Session.get("InviteGroup");
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below

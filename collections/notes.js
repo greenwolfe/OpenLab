@@ -36,9 +36,8 @@ Meteor.methods({
     if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
       throw new Meteor.Error(402, "Cannot post note.  Improper group.");
 
-    //need code to handle _ALL_ or blocks
-    Note.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
+    Note.group.forEach(function(ID) {
+      if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
         throw new Meteor.Error(404, "Cannot post note.  Group members must be valid users.");
     });
 

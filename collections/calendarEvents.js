@@ -29,14 +29,13 @@ Meteor.methods({
     if (!cE.hasOwnProperty('invite') || !_.isArray(cE.invite))
       throw new Meteor.Error(403, "Cannot create calendar event.  Improper invitation list.");
 
-    //need code to handle _ALL_ or blocks
-    cE.group.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
+    cE.group.forEach(function(ID) {
+      if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
         throw new Meteor.Error(404, "Cannot create calendar event.  Group members must be valid users.");
     });
 
-    cE.invite.forEach(function(memberID) {
-      if (!Meteor.users.findOne(memberID))
+    cE.invite.forEach(function(ID) {
+      if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
         throw new Meteor.Error(405, "Cannot create calendar event.  All invitees must be valid users.");
     });
 
