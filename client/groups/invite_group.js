@@ -3,17 +3,26 @@ Template.inviteGroup.helpers({
     return Sections.find();
   },
   usersInSection : function () {
-    var iSID = Session.get("inviteSectionID");
-    if (!iSID) return '';
+    //var iSID = Session.get("inviteSectionID");
+    var IG = Session.get('InviteGroup');
+    if (!IG) return '';
+    if (!IG.sectionID) return '';
     var uIS = Meteor.users.find({_id: {$ne: Meteor.userId()},
-      'profile.sectionID': iSID},{sort: {username: 1}}).fetch();
+      'profile.sectionID': IG.sectionID},{sort: {username: 1}}).fetch();
     var o,i,Ncol = 5;
-    uIS.forEach(function(o,i) {
-      o.startTableRow = (i%Ncol == 0) ? '<tr>' : '';
-      o.closeTableRow = (i%Ncol == Ncol-1) ? '</tr>' : '';
+    uIS.forEach(function(u,i) {
+      u.startTableRow = (i%Ncol == 0) ? '<tr>' : '';
+      u.closeTableRow = (i%Ncol == Ncol-1) ? '</tr>' : '';
+      u.selected = _.contains(IG.group,u._id) ? 'selected' : '';
     });
     uIS[uIS.length - 1].closeTableRow = '</tr>';
     return uIS; 
+  },
+  groupToInvite : function() {
+    var IG = Session.get('InviteGroup');
+    if (IG && IG.group && IG.group.length)
+      return IG.group;
+    return '';
   },
   title: function() {
     var InviteGroup = Session.get("InviteGroup");
@@ -29,21 +38,25 @@ Template.inviteGroup.helpers({
 
 Template.inviteGroup.events({
   'click button.btn-section' : function(event) {
-    Session.set('inviteSectionID',$(event.target).data('value'));
+    var IG = Session.get('InviteGroup');
+    IG.sectionID = $(event.target).data('sectionid');
+    Session.set('InviteGroup',IG);
   },
   'click button.btn-user' : function(event) {
-    console.log('clicked user button')
-    console.log($(event.target).data('value') + ' ' + $(event.target).html());
-    $(event.target).toggleClass('selected'); //set 
+    var IG = Session.get('InviteGroup');
+    var userID = $(event.target).data('userid');
+    var i = IG.group.indexOf(userID);
+    (i === -1) ? IG.group.push(userID) : IG.group.splice(i,1);
+    Session.set('InviteGroup',IG)
   },
   'click #JustMe': function (event) {
-    var InviteGroup = Session.get("InviteGroup");
+    var IG = Session.get('InviteGroup');
     var calendarEvent = {
       creator : Meteor.userId(),
       group : [Meteor.userId()],
       invite : [],
-      eventDate : InviteGroup.eventDate,  //'ddd[,] MMM D YYYY'
-      activityID : InviteGroup.activityID,
+      eventDate : IG.eventDate,  //'ddd[,] MMM D YYYY'
+      activityID : IG.activityID,
       workplace : 'inClass'
     };
     event.preventDefault();
@@ -51,23 +64,23 @@ Template.inviteGroup.events({
       function(error, id) {if (error) return alert(error.reason);}
     );
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below
+    IG.sectionID = '';
+    IG.group = [];
+    Session.set('InviteGroup',IG)
     $('#inviteGroupDialog').modal('hide');
-    //$('#userList').val(''); //reset any selections
-    //have to figure out how to set selections before coming back to reset them
   },
 
   'click #Invite': function (event) {
-    var InviteGroup = Session.get("InviteGroup");
-    var inviteList = $('#userList').val();
-    if (!inviteList) {
+    var IG = Session.get("InviteGroup");
+    if (!IG.group.length) {
       alert("NOTICE:  Since you didn't select anyone,\n this will be treated as if you had clicked just me.")
     }
     var calendarEvent = {
       creator : Meteor.userId(),
       group : [Meteor.userId()],
-      invite : inviteList, //array of selected users
-      eventDate : InviteGroup.eventDate,  //'ddd[,] MMM D YYYY'
-      activityID : InviteGroup.activityID,
+      invite : IG.group, 
+      eventDate : IG.eventDate,  //'ddd[,] MMM D YYYY'
+      activityID : IG.activityID,
       workplace : 'inClass'
     };
     event.preventDefault();
@@ -75,13 +88,11 @@ Template.inviteGroup.events({
       function(error, id) {if (error) return alert(error.reason);}
     );
     $('#inviteGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); //see below
+    IG.sectionID = '';
+    IG.group = [];
+    Session.set('InviteGroup',IG)
     $('#inviteGroupDialog').modal('hide');
-    $('#userList').val('');
   }
-
-});
-
-Template.sectionToInvite.helpers({
 
 });
 

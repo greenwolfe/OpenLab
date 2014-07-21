@@ -4,9 +4,8 @@
     <h3>{{date}}</h3>
     <p>Click <button id="JustMe">Just Me</button> 
       if this is an individual activity,<br/>
-      or select names from the list to <button id="Invite">Invite</button> 
-      others to form a group.</p>
-    <p>(Use ctrl-click or shift-click to invite multiple users.)</p>
+      or select names from the list to invite others to form a group. <br/> <button id="Invite">Invite</button> 
+      {{groupies '' '' groupToInvite '.' '.'}}</p>
     <div class="btn-group">
       {{#each sections}}
         {{> sectionToInvite}}
@@ -21,11 +20,11 @@
 </template>
 
 <template name = 'sectionToInvite'>
-  <button type="button" class="btn btn-section" data-value={{_id}}>{{section}}</button> 
+  <button type="button" class="btn btn-section" data-sectionid={{_id}}>{{section}}</button> 
 </template>
 
 <template name = 'userToInvite'>
   {{{startTableRow}}}
-  <td><button type="button" class="btn btn-user" data-value={{_id}}>{{username}}</button></td>
+  <td><button type="button" class="btn btn-user {{selected}}" data-userid={{_id}}>{{username}}</button></td>
   {{{closeTableRow}}}
 </template>

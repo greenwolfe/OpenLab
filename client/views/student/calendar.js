@@ -170,21 +170,32 @@ var SortOpt = function (connector) { //default sortable options
   };
 
   var receive = function(event, ui) { 
-    var date = moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var eventID = ui.item.data('eventid');
-    var activityID = ui.item.data('activityid');
-    var OpenInvites= CalendarEvents.find({activityID: activityID, eventDate: date, invite: {$in: [Meteor.userId()]}});
+    var IG = { //Invite Group, for session variable
+      eventDate: moment(this.id,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY'),
+      activityID: ui.item.data('activityid'),
+      group: []
+    }
+    var OpenInvites= CalendarEvents.find({activityID: IG.activityID, eventDate: IG.eventDate, invite: {$in: [Meteor.userId()]}});
+    var currentUser = Meteor.user();
+
+    if (currentUser && currentUser.profile && currentUser.profile.sectionID) {
+      IG.sectionID =   currentUser.profile.sectionID;   
+    } else {
+      IG.sectionID = Sections.findOne()._id;
+    };    
+    
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { //just moved to new date
-      Meteor.call('changeDate', eventID, date, 
+      Meteor.call('changeDate', eventID, IG.eventDate, 
         function(error, id) {if (error) return alert(error.reason);}
       );
       ui.item.remove(); // removes jquery.ui helper 
     } else if (OpenInvites.count() ) { 
-      Session.set("OpenInvites",{'eventDate': date,'activityID': activityID});
+      Session.set("OpenInvites",{'eventDate': IG.eventDate,'activityID': IG.activityID});
       $('#openInviteDialog').data('daysActivities',$(this)).modal();  
     } else { 
-      Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
+      Session.set("InviteGroup",IG);
       $('#inviteGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
     };
   };
