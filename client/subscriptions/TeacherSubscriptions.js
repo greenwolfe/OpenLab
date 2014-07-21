@@ -31,7 +31,7 @@ Deps.autorun(function() {
 
 
 
-
+//why am I not subscribing to links and todos by author?
 Deps.autorun(function() {
   var userID = Meteor.userId();
   var userToShow = Session.get('TeacherViewIDs');
