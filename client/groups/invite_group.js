@@ -33,6 +33,14 @@ Template.inviteGroup.helpers({
     var InviteGroup = Session.get("InviteGroup");
     if (!InviteGroup) return '';
     return moment(InviteGroup.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
+  },
+  teacherCount: function() {
+    return Meteor.users.find({_id: {$ne: Meteor.userId()},
+      'roles': {$in: ['teacher']}}).count;
+  },
+  teachers: function() {
+    return Meteor.users.find({_id: {$ne: Meteor.userId()},
+      'roles': {$in: ['teacher']}})
   }
 });
 
