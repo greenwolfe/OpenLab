@@ -10,7 +10,7 @@ Template.inviteGroup.helpers({
   },
   usersInSection : function () {
     var IG = Session.get('InviteGroup');
-    var uIS; //user In Section
+    var uIS; //users In Section
     if (!IG) return '';
     if (!IG.sectionID) return '';
     if (IG.sectionID == 'teachers') {

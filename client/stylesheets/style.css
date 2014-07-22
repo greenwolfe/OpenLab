@@ -118,7 +118,7 @@ filter: alpha(opacity=50);
   margin-left: 20px;
   margin-bottom: 20px;
 }
-#openInviteDialog p, #inviteGroupDialog select, p {
+#openInviteDialog p, #inviteGroupDialog p {
   margin-left: 8px;
   margin-right: 8px;
 }
@@ -152,6 +152,10 @@ filter: alpha(opacity=50);
   padding: 20px;
   padding-bottom: 20px;
   width: 500px;
+}
+#viewAs li a.selected {
+  background-image: none;
+  background: whitesmoke;
 }
 .notification li {
     min-width: 100%;

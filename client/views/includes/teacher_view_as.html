@@ -7,7 +7,7 @@
       <div id='viewAs' class="dropdown-menu">
         <div class = 'container-fluid'>
         <div class = 'nav row'>
-          {{#with currentUser}}
+          {{#with username=currentUser.username _id=currentUser._id selected=currentUserSelected}}
             {{> userToView}}
           {{/with}}
           {{#each sections}}
@@ -27,9 +27,9 @@
 </template>
 
 <template name = 'userToView'>
-  <li class='col-md-2'><a href="#" data-value={{_id}}>{{username}}</a></li>
+  <li><a href="#" data-value={{_id}} class='{{selected}}'>{{username}}</a></li>
 </template>
 
 <template name = 'sectionToView'>
-  <li class='col-md-2'><a href="#" data-value={{_id}}>{{section}}</a></li>
+  <li><a href="#" data-value={{_id}} class='{{selected}}'>{{section}}</a></li>
 </template>
