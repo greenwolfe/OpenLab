@@ -4,17 +4,20 @@
       <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">View As: {{SelectedText}} <strong class="caret"></strong></a>
 
-      <div id='viewAs' class="dropdown-menu" style="padding: 20px; padding-bottom: 20px;">
-        {{#with currentUser}}
-          {{> userToView}}
-        {{/with}}
-        {{#each sections}}
-          {{> sectionToView}}
-        {{/each}} 
-        <li class="divider"></li>
-        {{#each usersInSection}}
-          {{> userToView}}
-        {{/each}}
+      <div id='viewAs' class="dropdown-menu">
+        <div class = 'nav row'>
+          {{#with currentUser}}
+            {{> userToView}}
+          {{/with}}
+          {{#each sections}}
+            {{> sectionToView}}
+          {{/each}} 
+        </div>
+        <div class='nav row'>
+          {{#each usersInSection}}
+            {{> userToView}}
+          {{/each}}
+        </div>
       </div>
       </li>
     </ul>
@@ -22,9 +25,9 @@
 </template>
 
 <template name = 'userToView'>
-  <li><a href="#" data-value={{_id}}>{{username}}</a></li>
+  <li class='col-md-2'><a href="#" data-value={{_id}}>{{username}}</a></li>
 </template>
 
 <template name = 'sectionToView'>
-  <li><a href="#" data-value={{_id}}>{{section}}</a></li>
+  <li class='col-md-2'><a href="#" data-value={{_id}}>{{section}}</a></li>
 </template>

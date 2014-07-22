@@ -148,6 +148,11 @@ filter: alpha(opacity=50);
   margin-left: auto;
   margin-right: auto;
 }
+#viewAs {
+  padding: 20px;
+  padding-bottom: 20px;
+  width: 500px;
+}
 .notification li {
     min-width: 100%;
     white-space: nowrap;
