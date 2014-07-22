@@ -5,6 +5,7 @@
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">View As: {{SelectedText}} <strong class="caret"></strong></a>
 
       <div id='viewAs' class="dropdown-menu">
+        <div class = 'container-fluid'>
         <div class = 'nav row'>
           {{#with currentUser}}
             {{> userToView}}
@@ -12,6 +13,7 @@
           {{#each sections}}
             {{> sectionToView}}
           {{/each}} 
+        </div>
         </div>
         <div class='nav row'>
           {{#each usersInSection}}
