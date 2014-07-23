@@ -31,7 +31,7 @@ Template.activitiesSublist.helpers({
     if (Roles.userIsInRole(userToShow,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
     };
-    var activities = Activities.find({model: this.model});
+    var activities = Activities.find({modelID: this._id});
     var count = 0;
     activities.forEach(function (activity) {
       count += CalendarEvents.find({activityID: activity._id, invite: {$in: [userToShow]}}).count();

@@ -75,7 +75,7 @@ Template.inviteGroup.helpers({
 Template.inviteGroup.events({
   'click #Invite': function (event) {
     var currentUser = Meteor.user();
-    var group = [currentUser];
+    var group = [currentUser._id];
     var invite = [];
     var IG = Session.get("InviteGroup");
     if (IG.hasOwnProperty('group') && _.isArray(IG.group)) 
