@@ -53,7 +53,18 @@ Template.activityItem.rendered = function() {
 
 Template.activityItem.events({
   'click a': function(event) {
-    Session.set('currentGroup',[Meteor.userId()]);
+    var TVA;
+    var currentUserID = Meteor.userId();
+    console.log('currentUserID ' + currentUserID + 'is teacher?' + Roles.userIsInRole(currentUserID,'teacher'));
+    if (currentUserID && Roles.userIsInRole(currentUserID,'teacher')) {
+       TVA = Session.get('TeacherViewAs');
+       if (Meteor.user(TVA) || Sections.findOne(TVA)) {
+        console.log('setting currentGroup ' + TVA)
+        Session.set('currentGroup',[TVA]);
+      };
+    } else {
+      Session.set('currentGroup',[Meteor.userId()]);
+    };
   }
 });
 

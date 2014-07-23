@@ -1,7 +1,8 @@
 Template.activityHeader.helpers({
   group : function () {
     var group = Session.get("currentGroup");
-    var currentUserId = Meteor.userId();
+    var currentUserID = Meteor.userId();
+    var TVA;
     if (group) {
       return group;
     } else if (currentUserId) {

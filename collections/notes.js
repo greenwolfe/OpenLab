@@ -109,18 +109,18 @@ Meteor.methods({
     var now, editDeadline;
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to delete a note");
+      throw new Meteor.Error(401, "You must be logged in to update a note");
 
     if (!Note)
-      throw new Meteor.Error(412, "Cannot delete note.  Invalid ID.");
+      throw new Meteor.Error(412, "Cannot update note.  Invalid ID.");
 
     if (!Note.hasOwnProperty('group') || !_.isArray(Note.group))
-      throw new Meteor.Error(402, "Cannot delete note.  Improper group.");
+      throw new Meteor.Error(402, "Cannot update note.  Improper group.");
 
     //need code to handle _ALL_ or blocks
     Note.group.forEach(function(memberID) {
       if (!Meteor.users.findOne(memberID))
-        throw new Meteor.Error(404, "Cannot delete note.  Group members must be valid users.");
+        throw new Meteor.Error(404, "Cannot update note.  Group members must be valid users.");
     });
 
     if (newText == Note.text) return NoteID;
@@ -132,18 +132,18 @@ Meteor.methods({
       Notes.update(NoteID,{$set: {visible: otherFields.visible}});
     } else if (Roles.userIsInRole(cU,'student')) {
       if (!_.contains(Note.group,cU._id)) 
-        throw new Meteor.Error(408, 'Cannot delete note unless you are part of the group.')
+        throw new Meteor.Error(408, 'Cannot update note unless you are part of the group.')
       if (Note.submitted) {
         now = moment();
         editDeadline = moment(Note.submitted).add('minutes',30);  
         if (now.isAfter(editDeadline))
-          throw new Meteor.Error(411, "You may only delete a note if you do so within 30 minutes of posting it.");     
+          throw new Meteor.Error(411, "You may only update a note if you do so within 30 minutes of posting it.");     
       } else {
-        throw new Meteor.Error(411, "Cannot delete note.  Invalid date");
+        throw new Meteor.Error(411, "Cannot update note.  Invalid date");
       };
       Notes.update(NoteID,{$set: {text: newText}});
     } else {
-      throw new Meteor.Error(409, 'You must be student or teacher to delete a note.')
+      throw new Meteor.Error(409, 'You must be student or teacher to update a note.')
     };
 
     return NoteID;

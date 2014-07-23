@@ -66,8 +66,9 @@ Template.TeacherViewAs.events({
     var TVA = $(event.target).data('value');
     var SectionIDs = Sections.find().map(function(s) {return s._id});
     Session.set('TeacherViewAs',TVA);
+    Session.set('currentGroup',[TVA]);
     if (_.contains(SectionIDs,TVA)) {
-      Session.set('visibleWorkplaces',['inClass'])
+      Session.set('visibleWorkplaces',['inClass']);
     } else {
       Session.set('visibleWorkplaces',['inClass','outClass','home'])
     }
