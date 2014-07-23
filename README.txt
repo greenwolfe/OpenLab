@@ -4,7 +4,6 @@
 also move accordion, sortable applications to rendered callbacks of specific templates. #activities (done), #standards, #appointments
 3)  more fields in user profile:  block, firstname, last name, nick name(x not needed, using username but need validation) (and add to edit profile modal)
 blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
-
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
 6)  add school calendar and meeting category to third tab
 5)  Teacher view - all fields editable, drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?), groups students where possible, add student's names to title of calendar events.
@@ -17,11 +16,12 @@ with links, purpose, and comments (just use the same activity form for all activ
 15)   Add a drop-down list for all recent groups on activity page. (now to be recent group partners and a full selection menu for teacher)
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top. (done except for the more button)
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
-22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further.
 23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
 Standardize all calls to object notation {text:'new text'} instead of positional argument???
-24)  ViewAs dropdown ... should exit on mouseout
-25)  Allow teacher to invite multiple sections ... make the session variable an array ... edit groupies.js to accept sections or users (using try ... except?)  Where else would I have to edit to complete this change?
+**25)  Allow teacher to invite multiple sections ... make the session variable an array ... edit groupies.js to accept sections or users (using try ... except?)  Where else would I have to edit to complete this change?
+26)  Take care of last bit of null handling for editing activities ... default text disappears when editor opens.
+27)  check calendar events links todos notes ... delete and update functions need to handle cases of teacher with postings to section or all
+28)  add functions for posting to all
 
 
 
@@ -51,7 +51,9 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 19) secure user information by making a method that returns just user nick names (require unique when account created!) to invite_group and teacher's selection lists.  The post method when creating a new calendar event would send the nicknames to the server, which could post by userid.  (Or should the whole record by by nicknames so userIds are never exposed on the client?)  Either these methods, or else at least only publish the list of users after log in.  The difficulty of doing this makes me want to try the method as a solution. (not done ... decided to coninue using usernames but did lock it down so no user info is available unless logged in ... can't see the harm in having userid's as all the post, update and delete functions are also well locked down now.)
 20) In router.js, move some subscriptions to individual pages rather than loading them all at once at the start?  (done, teacher subscriptions now in client and are conditional)
 21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough (done)
+22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further. (done)
 23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box) (done, but box needs a submit button???)
+24)  ViewAs dropdown ... should exit on mouseout (handled in a different manner ... done)
 24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class (done)
 25)  clean up error when student creates account and gets exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.
 26) teacher can't delete calendar events assigned to a section
