@@ -118,6 +118,9 @@ filter: alpha(opacity=50);
   margin-left: 20px;
   margin-bottom: 20px;
 }
+#inviteGroupDialog div.selected {
+  background-color: whitesmoke;
+}
 #openInviteDialog p, #inviteGroupDialog p {
   margin-left: 8px;
   margin-right: 8px;

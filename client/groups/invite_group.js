@@ -23,11 +23,8 @@ Template.inviteGroup.helpers({
     if (!uIS.length) return '';
     var o,i,Ncol = 5;
     uIS.forEach(function(u,i) {
-      u.startTableRow = (i%Ncol == 0) ? '<tr>' : '';
-      u.closeTableRow = (i%Ncol == Ncol-1) ? '</tr>' : '';
       u.selected = _.contains(IG.group,u._id) ? 'selected' : '';
     });
-    uIS[uIS.length - 1].closeTableRow = '</tr>';
     return uIS; 
   },
   invite: function() {
@@ -76,20 +73,6 @@ Template.inviteGroup.helpers({
 });
 
 Template.inviteGroup.events({
-  'click button.btn-section' : function(event) {
-    console.log(event.ctrlKey);
-    var IG = Session.get('InviteGroup');
-    var newID = $(event.target).data('sectionid');
-    IG.sectionID = (IG.sectionID == newID) ? '' : newID;
-    Session.set('InviteGroup',IG);
-  },
-  'click button.btn-user' : function(event) {
-    var IG = Session.get('InviteGroup');
-    var userID = $(event.target).data('userid');
-    var i = IG.group.indexOf(userID);
-    (i === -1) ? IG.group.push(userID) : IG.group.splice(i,1);
-    Session.set('InviteGroup',IG)
-  },
   'click #Invite': function (event) {
     var currentUser = Meteor.user();
     var group = [currentUser];
@@ -137,6 +120,26 @@ Template.inviteGroup.events({
     IG.group = [];
     Session.set('InviteGroup',IG);
     $('#inviteGroupDialog').modal('hide');
+  }
+});
+
+Template.sectionToInvite.events({
+  'click div.IGsection' : function(event) {
+    console.log(event.ctrlKey);
+    var IG = Session.get('InviteGroup');
+    var newID = $(event.target).data('sectionid');
+    IG.sectionID = (IG.sectionID == newID) ? '' : newID;
+    Session.set('InviteGroup',IG);
+  }  
+});
+
+Template.userToInvite.events({
+  'click div.IGuser' : function(event) {
+    var IG = Session.get('InviteGroup');
+    var userID = $(event.target).data('userid');
+    var i = IG.group.indexOf(userID);
+    (i === -1) ? IG.group.push(userID) : IG.group.splice(i,1);
+    Session.set('InviteGroup',IG)
   }
 });
 
