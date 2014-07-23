@@ -1,6 +1,6 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
-  $('#newNote').hallo(hallosettings());
+  $('#newNote').hallo(hallosettings(true));
  /*  .bind( "hallodeactivated", function(event) { //hallomodified
       console.log(event.target.id + ' modified');
       console.log(event.target.innerHTML);
@@ -181,7 +181,7 @@ Template.activityPage.events({
       var $noteText = $(event.target).parent().parent().find('.noteText');
       var $updateButton = $(event.target).parent().parent().find('.updateNoteContainer');
       $noteText.addClass('editing');
-      $noteText.hallo(hallosettings()).bind( "hallodeactivated", function(event) { //hallomodified
+      $noteText.hallo(hallosettings(true)).bind( "hallodeactivated", function(event) { //hallomodified
         var noteID = $(event.target).data('noteid');
         var currentText = Notes.findOne(noteID).text;
         $noteText.removeClass('editing');
@@ -201,6 +201,55 @@ Template.activityPage.events({
       );
     }
 });
+
+    /****************************/
+   /*** Template.description ***/
+  /****************************/
+
+Template.description.helpers({
+  description:  function() {
+    var defaultText = '';
+    if (Roles.userIsInRole(Meteor.userId(),'teacher')) 
+      defaultText = 'Provide a description of this activity.'
+    return (this.description) ? this.description : defaultText;
+  },
+  defaultTextActive: function() {
+    return (this.description) ? '' : 'defaultTextActive';
+  }
+});
+
+Template.description.events({
+  'click .editDescription': function(event,tmpl) {
+    var $descriptionText = $(event.target).parent().parent().find('#descriptionText');   
+    var $updateButton = $(event.target).parent().parent().find('.updateDescriptionContainer');
+    $descriptionText.addClass('editing');
+    if ($descriptionText.html() == 'Provide a description of this activity.')
+      $descriptionText.html('');
+    $descriptionText.hallo(hallosettings(true)).bind( "hallodeactivated", function(event) { //hallomodified
+      var activityID = $(event.target).data('activityid');
+      var currentText = Activities.findOne(activityID).description;
+      currentText = (currentText) ? currentText: 'Provide a description of this activity.'
+      $descriptionText.removeClass('editing');
+      $descriptionText.hallo({editable: false});
+      $descriptionText.html(currentText);
+      $updateButton.addClass('hidden');
+    });
+    $descriptionText.focus();
+    $updateButton.removeClass('hidden');
+  },
+  'mousedown #updateDescription': function(event,tmpl) {
+    //can't use click because have to catch this before the hallodeactivated binding
+    var nA = {
+      _id: $(event.target).data('activityid'),
+      description: $(event.target).parent().parent().find('#descriptionText').html()
+    };
+    Meteor.call('updateActivity', nA,
+      function(error, id) {if (error) return alert(error.reason);}
+    );
+  }
+}); 
+
+
 
     /*********************/
    /*** Template.todo ***/
@@ -253,7 +302,7 @@ var SortOpt = function() {
   return that;
 };
 
-var hallosettings = function() {
+var hallosettings = function(editable) {
   var that =  {
    plugins: {
      'halloformat' : {'formattings': {
@@ -267,7 +316,7 @@ var hallosettings = function() {
      'halloreundo': {},
      'hallolink': {}
    },
-   editable: true,
+   editable: editable,
    toolbar: 'halloToolbarFixed'
  };
 

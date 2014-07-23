@@ -195,6 +195,14 @@ filter: alpha(opacity=50);
   display: inline-block;
   width: 89%;
 }
+#descriptionText {
+  display: inline-block;
+  width: 90%;
+}
+#descriptionText.editing {
+  display: inline-block;
+  width: 80%;
+}
 #addNoteContainer {
   display: inline-block;
   margin-bottom: 10px;
@@ -202,7 +210,7 @@ filter: alpha(opacity=50);
   width: 10%;
   vertical-align: top;
 }
-.updateNoteContainer {
+.updateNoteContainer, .updateDescriptionContainer {
   display: inline-block;
   width: 10%;
   vertical-align: top;
@@ -227,7 +235,7 @@ filter: alpha(opacity=50);
   margin-top: 5px;
   vertical-align: top;
 }
-.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover {
+.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover,.editDescription:hover {
   cursor: default;
 }
 /*.noteText {

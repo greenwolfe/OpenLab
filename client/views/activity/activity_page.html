@@ -35,9 +35,7 @@
   <div class='right-column'>
      <div id='activityDescription'>
       <h3> Description </h3>
-      <div>
-        <p> This is what this activity is about.</p>
-      </div>
+      {{>description}}
     </div>
     <div id='addNoteContainer'>
       <button id="addNote" name="addNote"><i class="fa fa-caret-down"></i> Post <i class="fa fa-caret-down"></i></button>
@@ -53,6 +51,18 @@
     </div>
   </div>
 
+</template>
+
+<template name='description'>
+  <div>
+    {{#if isInRole 'teacher'}}
+    <div class='updateDescriptionContainer hidden'>
+      <button id="updateDescription" name="updateDescription" data-activityID = {{_id}}>Save</button>
+    </div>
+    {{/if}}
+    <div id='descriptionText' class={{defaultTextActive}} data-activityID = {{_id}}> {{{description}}}</div> 
+    <span>{{#if isInRole 'teacher'}}<i class='editDescription fa fa-pencil-square-o' data-activityID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span>
+  </div>
 </template>
 
 <template name='note'>
