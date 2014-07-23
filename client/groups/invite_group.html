@@ -1,32 +1,51 @@
 <template name = 'inviteGroup' >
   <div id = 'inviteGroupDialog' class = 'modal hide fade' data-backdrop = 'static'>
-    <h2>{{title}}</h2>
-    <h3>{{date}}</h3>
-    <p>Click <i>Just Me</i> if this is an individual activity, or select names from the list to invite others to form a group. <br/> <button id="Invite">{{invite}}</button> 
-      {{groupies '' '' groupToInvite '.' '.'}} </p>
-    <div class="btn-group">
-      {{#each sections}}
-        {{> sectionToInvite}}
-      {{/each}}
-      {{#if teacherCount}}
-        {{>sectionToInvite _id="teachers" section="Teachers" selected=teachersSelected }}
-      {{/if}}
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title="Cancel"></i>
+              <h2>{{title}}</h2>
+              <h3>{{date}}</h3>
+        </div>
+       
+       <div class='container-fluid'>
+        <div class="modal-body row">
+          <div class='span12'>
+          <p>Click <i>Just Me</i> if this is an individual activity, or select names from the list to invite others to form a group. <br/> <button id="Invite">{{invite}}</button> 
+           {{groupies '' '' groupToInvite '.' '.'}} </p>
+            </div>
+
+           <div class = 'row'>
+           <div class = 'span10 offset1'>
+            {{#each sections}}
+              {{> sectionToInvite}}
+            {{/each}}
+            {{#if teacherCount}}
+              {{>sectionToInvite _id="teachers" section="Teachers" selected=teachersSelected }}
+            {{/if}}
+          </div>
+          </div>
+          <div class='row'>
+          <div class='span10 offset1'>
+            {{#each usersInSection}}
+              {{>userToInvite}}
+            {{/each}}
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="modal-footer">
+        </div>
+      </div>
     </div>
-    <table>
-      {{#each usersInSection}}
-        {{>userToInvite}}
-      {{/each}}
-    </table> 
-   <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title="Cancel"></i>
   </div>
 </template>
 
 <template name = 'sectionToInvite'>
-  <button type="button" class="btn btn-section {{selected}}" data-sectionid={{_id}}>{{section}}</button> 
+  <div class="IGsection span2 {{selected}}" data-sectionid={{_id}}>{{section}}</div>
 </template>
 
 <template name = 'userToInvite'>
-  {{{startTableRow}}}
-  <td><button type="button" class="btn btn-user {{selected}}" data-userid={{_id}}>{{username}}</button></td>
-  {{{closeTableRow}}}
+  <div class="IGuser span2 {{selected}}" data-userid={{_id}}>{{username}}</div>
 </template>

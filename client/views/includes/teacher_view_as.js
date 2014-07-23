@@ -4,22 +4,44 @@
 
 Template.TeacherViewAs.helpers({
   sections: function() {
-    return Sections.find();
+    var TVA = Session.get('TeacherViewAs');
+    var sections = Sections.find().fetch();
+    var SectionIDs = Sections.find().map(function(s) {return s._id});
+    var selectedUser = Meteor.users.findOne(TVA);
+    var selectedSectionID;
+    if (selectedUser && selectedUser.profile && selectedUser.profile.sectionID) {
+        selectedSectionID = selectedUser.profile.sectionID;
+    } else if (_.contains(SectionIDs,TVA)) {
+      selectedSectionID = TVA;
+    }
+    sections.forEach(function(s,i) {
+      s.selected = (s._id == selectedSectionID) ? 'selected' : '';
+    });   
+    return sections; 
   },
   usersInSection : function () {
     var TVA = Session.get('TeacherViewAs');
     var SectionIDs = Sections.find().map(function(s) {return s._id});
-    var selectedUser;
+    var selectedUser = Meteor.users.findOne(TVA);
+    var uIS; //users In Section
     if (TVA == Meteor.userId())
       return '';
-    if (_.contains(SectionIDs,TVA))
-      return Meteor.users.find({_id: {$ne: Meteor.userId()},
-        'profile.sectionID': TVA}); 
-    selectedUser = Meteor.users.findOne(TVA);
-    if (selectedUser)
-      return Meteor.users.find({_id: {$ne: Meteor.userId()},
-        'profile.sectionID': selectedUser.profile.sectionID}); 
-    return '';
+    if (_.contains(SectionIDs,TVA)) {
+      uIS = Meteor.users.find({_id: {$ne: Meteor.userId()},
+        'profile.sectionID': TVA}).fetch(); 
+    } else if (selectedUser && selectedUser.profile && selectedUser.profile.sectionID) {
+      uIS =  Meteor.users.find({_id: {$ne: Meteor.userId()},
+        'profile.sectionID': selectedUser.profile.sectionID}).fetch();
+    }; 
+    if (!uIS.length) return '';
+    uIS.forEach(function(u,i) {
+      u.selected = (u._id == TVA) ? 'selected' : '';
+    });
+    return uIS;
+  },
+  currentUserSelected : function() {
+    var TVA = Session.get('TeacherViewAs');
+    return (TVA == Meteor.userId()) ? 'selected' : '';
   },
   SelectedText : function() {
     var TVA = Session.get('TeacherViewAs');
@@ -46,11 +68,11 @@ Template.TeacherViewAs.events({
     Session.set('TeacherViewAs',TVA);
     if (_.contains(SectionIDs,TVA)) {
       Session.set('visibleWorkplaces',['inClass'])
-      event.preventDefault();
-      event.stopImmediatePropagation();
     } else {
       Session.set('visibleWorkplaces',['inClass','outClass','home'])
     }
+    event.preventDefault();
+    event.stopImmediatePropagation();
   }
 });
 

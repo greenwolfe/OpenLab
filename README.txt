@@ -21,6 +21,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
 Standardize all calls to object notation {text:'new text'} instead of positional argument???
 24)  ViewAs dropdown ... should exit on mouseout
+25)  Allow teacher to invite multiple sections ... make the session variable an array ... edit groupies.js to accept sections or users (using try ... except?)  Where else would I have to edit to complete this change?
 
 
 
@@ -52,7 +53,8 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough (done)
 23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box) (done, but box needs a submit button???)
 24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class (done)
-25)  clean up error when student creates account and get exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.
+25)  clean up error when student creates account and gets exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.
+26) teacher can't delete calendar events assigned to a section
 
 
 Installation Notes:
