@@ -55,11 +55,9 @@ Template.activityItem.events({
   'click a': function(event) {
     var TVA;
     var currentUserID = Meteor.userId();
-    console.log('currentUserID ' + currentUserID + 'is teacher?' + Roles.userIsInRole(currentUserID,'teacher'));
     if (currentUserID && Roles.userIsInRole(currentUserID,'teacher')) {
        TVA = Session.get('TeacherViewAs');
        if (Meteor.user(TVA) || Sections.findOne(TVA)) {
-        console.log('setting currentGroup ' + TVA)
         Session.set('currentGroup',[TVA]);
       };
     } else {

@@ -5,8 +5,8 @@ Template.activityHeader.helpers({
     var TVA;
     if (group) {
       return group;
-    } else if (currentUserId) {
-      group = [currentUserId];
+    } else if (currentUserID) {
+      group = [currentUserID];
       Session.set('currentGroup',group);
     } else {
       return [];

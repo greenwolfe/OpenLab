@@ -206,30 +206,34 @@ Template.activityPage.events({
    /*** Template.description ***/
   /****************************/
 
+var defaultText = 'Provide a description of this activity.';
+
 Template.description.helpers({
-  description:  function() {
-    var defaultText = '';
-    if (Roles.userIsInRole(Meteor.userId(),'teacher')) 
-      defaultText = 'Provide a description of this activity.'
-    return (this.description) ? this.description : defaultText;
+  description:  function() { 
+    var desc = Activities.findOne(this._id).description;
+    console.log(desc);
+    if (Roles.userIsInRole(Meteor.userId(),'teacher')) {
+      return (_.clean(_.stripTags(desc))) ? desc : defaultText;
+    } else {
+      return (desc) ? desc : '';
+    }
   },
   defaultTextActive: function() {
-    return (this.description) ? '' : 'defaultTextActive';
+    var desc = Activities.findOne(this._id).description;
+    return (_.clean(_.stripTags(desc))) ? '' : 'defaultTextActive';
   }
 });
 
 Template.description.events({
   'click .editDescription': function(event,tmpl) {
-    var $descriptionText = $(event.target).parent().parent().find('#descriptionText');   
+    var $descriptionText = $('#descriptionText');   
     var $updateButton = $(event.target).parent().parent().find('.updateDescriptionContainer');
-    $descriptionText.addClass('editing');
-    if ($descriptionText.html() == 'Provide a description of this activity.')
-      $descriptionText.html('');
+    $descriptionText.addClass('editing').addClass('defaultTextActive');
     $descriptionText.hallo(hallosettings(true)).bind( "hallodeactivated", function(event) { //hallomodified
       var activityID = $(event.target).data('activityid');
       var currentText = Activities.findOne(activityID).description;
-      currentText = (currentText) ? currentText: 'Provide a description of this activity.'
-      $descriptionText.removeClass('editing');
+      currentText = (_.clean(_.stripTags(currentText))) ? currentText: defaultText;
+      $descriptionText.removeClass('editing').addClass('defaultTextActive');
       $descriptionText.hallo({editable: false});
       $descriptionText.html(currentText);
       $updateButton.addClass('hidden');
