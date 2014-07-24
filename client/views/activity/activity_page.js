@@ -211,7 +211,6 @@ var defaultText = 'Provide a description of this activity.';
 Template.description.helpers({
   description:  function() { 
     var desc = Activities.findOne(this._id).description;
-    console.log(desc);
     if (Roles.userIsInRole(Meteor.userId(),'teacher')) {
       return (_.clean(_.stripTags(desc))) ? desc : defaultText;
     } else {

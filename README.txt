@@ -6,22 +6,22 @@ also move accordion, sortable applications to rendered callbacks of specific tem
 blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
 6)  add school calendar and meeting category to third tab
-5)  Teacher view - all fields editable, drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?), groups students where possible, add student's names to title of calendar events.
+**5)  Teacher view - all fields editable, drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?), groups students where possible, add student's names to title of calendar events.
 9)  meetings dragged to calendar should be a hyperlink opening to form .
 with links, purpose, and comments (just use the same activity form for all activities? yes!)
 10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
 11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder (& actually this would eliminate the only direct DOM manipulation in the code, the placing and deleting of placeholders, although not sure I want to do the CSS for coloring the calendar days through the database ... too costly? ... model in calendarEvents.js droppable)
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
-14)  DATES:  consider using format for storeing dates from activity_page.js. 
-15)   Add a drop-down list for all recent groups on activity page. (now to be recent group partners and a full selection menu for teacher)
+14)  DATES:  consider using format for storing dates from activity_page.js. 
+15)   Add a drop-down list for all recent groups on activity page. 
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top. (done except for the more button)
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
 23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
 Standardize all calls to object notation {text:'new text'} instead of positional argument???
 **25)  Allow teacher to invite multiple sections ... make the session variable an array ... edit groupies.js to accept sections or users (using try ... except?)  Where else would I have to edit to complete this change?
-26)  Take care of last bit of null handling for editing activities ... default text disappears when editor opens.
+26)  Take care of last bit of null handling for editing activity descriptions ... default text disappears when editor opens.
 27)  check calendar events links todos notes ... delete and update functions need to handle cases of teacher with postings to section or all
-28)  add functions for posting to all
+**28)  add functions for posting to all
 
 
 
