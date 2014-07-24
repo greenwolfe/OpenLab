@@ -1,0 +1,26 @@
+<template name = 'TEactivitiesList'> 
+   <div id='activities'>
+    {{#each models}}
+      {{> TEactivitiesSublist }}
+    {{/each}}
+    </div>
+</template>
+
+
+<template name='TEactivitiesSublist'>
+      <h3> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
+      <div class = 'Model'>
+	      {{#each activities}}
+          {{>TEactivityItem}}
+        {{/each}}
+      </div>
+</template>
+
+
+<template name = 'TEactivityItem'>
+    <div>
+      <p data-activityid={{_id}} class="ui-state-default">
+        <a href="#">{{title}}</a> 
+      </p>
+    </div>
+</template>
