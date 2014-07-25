@@ -1,3 +1,12 @@
 <template name='teacherEdit'>
-  <p>On Teacher Edit Page</p>
+   <div id='ListOfLists'>
+    <ul>
+      <li><a href="#activities">ACTIVITIES</a></li>
+      <li><a href="#standards">STANDARDS</a></li>
+      <li><a href="#appointments">APPOINTMENTS</a></li>
+    </ul> 
+    {{> TEactivitiesList}}
+    {{> standardsList}}
+    {{> appointmentsList}}
+  </div>
  </template>
