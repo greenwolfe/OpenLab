@@ -8,19 +8,19 @@
 
 
 <template name='TEactivitiesSublist'>
-      <h3> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
-      <div class = 'Model'>
+      <h3 data-modelID={{_id}}> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
+      {{#if showActivities}}
+      <div class = 'Model' data-modelID={{_id}}>
 	      {{#each activities}}
           {{>TEactivityItem}}
         {{/each}}
       </div>
+      {{/if}}
 </template>
 
 
 <template name = 'TEactivityItem'>
-    <div>
-      <p data-activityid={{_id}} class="ui-state-default">
+      <p data-activityid={{_id}} data-activityrank={{rank}} class="ui-state-default">
         <a href="#">{{title}}</a> 
       </p>
-    </div>
 </template>
