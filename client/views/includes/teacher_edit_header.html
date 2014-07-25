@@ -1,4 +1,4 @@
-<template name="studentHeader">
+<template name="teacherEditHeader">
   <header class="navbar">
     <div class="navbar-inner">
       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -7,14 +7,10 @@
         <span class="icon-bar"></span>
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
-      {{#if isInRole 'teacher'}}
-      <a id='btnEdit' class="brand" href="{{pathFor 'teacherEdit'}}">Edit</a>
-      {{/if}}
-      <div class="nav-collapse collapse">
-        {{> TeacherViewAs}}
-        <ul class="nav pull-right">
-          <li>{{> loginButtons}}</li>
-        </ul>
+      <div id="btnTEstate" class="btn-group">
+        <a id="btnCollapse" href="#" class="btn btn-nav" selected={{btnSelected 'collapse'}}>Collapse</a>
+        <a id="btnExpand" href="#" class="btn btn-nav" selected={{btnSelected 'expand'}}>Expand</a>
+        <a id="btnAccordion" href="#" class="btn btn-nav" selected={{btnSelected 'accordion'}}>Accordion</a>
       </div>
     </div>
     {{> editProfile}}
