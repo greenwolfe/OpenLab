@@ -1,0 +1,30 @@
+<template name = 'expandList'>
+    {{> ExpActivitiesList}}
+    {{> standardsList}}
+    {{> appointmentsList}}
+</template>
+
+<template name = 'ExpActivitiesList'> 
+   <div id='activities'>
+      {{#each models}}
+        {{> ExpActivitiesSublist }}
+      {{/each}}
+    </div>
+</template>
+
+
+<template name='ExpActivitiesSublist'>
+      <h3 data-modelID={{_id}}> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
+      <div class = 'Model' data-modelID={{_id}}>
+	      {{#each activities}}
+          {{>ExpActivityItem}}
+        {{/each}}
+      </div>
+</template>
+
+
+<template name = 'ExpActivityItem'>
+      <p data-activityid={{_id}} data-activityrank={{rank}} class="ui-state-default">
+        <a href="#">{{title}}</a> 
+      </p>
+</template>

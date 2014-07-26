@@ -1,5 +1,5 @@
-Template.accordionList.rendered = function() {
-  Session.set('TEstate','accordion');
+Template.expandList.rendered = function() {
+  Session.set('TEstate','expand');
   if ($('#ListOfLists').hasClass('ui-tabs'))
     $('#ListOfLists').tabs('refresh');
 };
@@ -8,11 +8,7 @@ Template.accordionList.rendered = function() {
  /*** ACCORDION ACTIVITIES LIST  ****/
 /***********************************/
 
-Template.AccActivitiesList.rendered = function() {
-  $('#activities').accordion({heightStyle: "content"});
-}
-
-Template.AccActivitiesList.helpers({
+Template.ExpActivitiesList.helpers({
   models: function() {
     return Models.find({},{sort: {rank: 1}});
   }
@@ -22,9 +18,7 @@ Template.AccActivitiesList.helpers({
  /** ACCORDION ACTIVITIES SUBLIST  **/
 /***********************************/
 
-Template.AccActivitiesSublist.rendered = function() {
-  if ($( "#activities" ).data('ui-accordion')) //if accordion already applied
-    $('#activities').accordion("refresh");
+Template.ExpActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
       var nM = {
@@ -36,10 +30,10 @@ Template.AccActivitiesSublist.rendered = function() {
       );
     });
   };
-  $(this.find(".Model")).sortable(SortOpt());
+  $(this.find(".Model")).sortable(SortOpt('.Model'));
 }; 
 
-Template.AccActivitiesSublist.helpers({
+Template.ExpActivitiesSublist.helpers({
   activities: function() {
     return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
   }
@@ -49,7 +43,7 @@ Template.AccActivitiesSublist.helpers({
  /***** ACCORDION ACTIVITY ITEM  ****/
 /***********************************/
 
-Template.AccActivityItem.rendered = function() {
+Template.ExpActivityItem.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("p")).hallo().bind( "hallodeactivated", function(event) {
       var nA = {
@@ -63,8 +57,23 @@ Template.AccActivityItem.rendered = function() {
   };
 }; 
 
-var SortOpt = function () { //default sortable options
+var SortOpt = function (connector) { //default sortable options
 
+  var receive = function(event, ui) { 
+    var activityID = ui.item.data('activityid');
+    var oldModelID = Activities.findOne(activityID).modelID;
+    var newModelID = ui.item.parent().data('modelid');
+    var nA = {
+      _id: activityID,
+      modelID: newModelID
+    };
+    if (oldModelID != newModelID) {
+      Meteor.call('updateActivity',nA,
+        function(error, id) {if (error) return alert(error.reason);}
+      );   
+    }; 
+    ui.item.data('received',true);
+  };
   var stop = function(event, ui) { 
     var before = ui.item.prev().data('activityrank');
     var oldRank = ui.item.data('activityrank');
@@ -93,6 +102,7 @@ var SortOpt = function () { //default sortable options
     };
   };
   var that = {
+    connectWith: connector,  //connect with other lists
     revert : false,            //smooth slide onto target
     axis: "y", //prevents dragging to another model?
     cancel: "a", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
@@ -100,7 +110,8 @@ var SortOpt = function () { //default sortable options
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow
     helper: 'clone', //for some reason stops click event also firing on receive when dragging event to change date
-    stop: stop
+    receive : receive,
+    stop: stop,
   };
 
   return that;

@@ -10,9 +10,9 @@
       <div class="nav-collapse collapse">
         <ul class="nav">
           <div id="btnTEstate" class="btn-group">
-            <a id="btnCollapse" href="#" class="btn btn-nav" selected={{btnSelected 'collapse'}}>Collapse</a>
-            <a id="btnExpand" href="#" class="btn btn-nav" selected={{btnSelected 'expand'}}>Expand</a>
-            <a id="btnAccordion" href="#" class="btn btn-nav" selected={{btnSelected 'accordion'}}>Accordion</a>
+            <a id="btnCollapse" href="{{pathFor 'editCollapse'}}" class="btn btn-nav" selected={{btnSelected 'collapse'}}>Collapse</a>
+            <a id="btnExpand" href="{{pathFor 'editExpand'}}" class="btn btn-nav" selected={{btnSelected 'expand'}}>Expand</a>
+            <a id="btnAccordion" href="{{pathFor 'editAccordion'}}" class="btn btn-nav" selected={{btnSelected 'accordion'}}>Accordion</a>
           </div>
         </ul>
         <ul class="nav pull-right">

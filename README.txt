@@ -22,6 +22,7 @@ Standardize all calls to object notation {text:'new text'} instead of positional
 26)  Take care of last bit of null handling for editing activity descriptions ... default text disappears when editor opens.
 27)  check calendar events links todos notes ... delete and update functions need to handle cases of teacher with postings to section or all
 **28)  add functions for posting to all
+29)  Add a dismiss button to help messages, and put a help button on the nav bar to make them visible again.  Add a field helpHidden to the user profile - an array showing pages where the user has chosen to dismiss help.  Display errors in the same place?  
 
 
 

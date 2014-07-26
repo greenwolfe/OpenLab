@@ -1,4 +1,5 @@
  Template.collapseList.rendered = function() {
+  Session.set('TEstate','collapse');
   if ($('#ListOfLists').hasClass('ui-tabs'))
     $('#ListOfLists').tabs('refresh');
  };
@@ -9,17 +10,6 @@
 
 Template.ColActivitiesList.rendered = function() {
   $('#activities').sortable(SortOpt());
-  if (Meteor.userId()) {
-    $(this.find("p")).hallo().bind( "hallodeactivated", function(event) {
-      var nM = {
-        _id: $(event.target).data('modelid'),
-        model: _.clean(_.stripTags($(event.target).text()))
-      };
-      Meteor.call('updateModel',nM,
-        function(error, id) {if (error) return alert(error.reason);}
-      );
-    });
-  };
 };
 
 Template.ColActivitiesList.helpers({
@@ -28,14 +18,9 @@ Template.ColActivitiesList.helpers({
   }
 }); 
 
-  /*********************************/
- /*** COLLAPSE STANDARDS LIST  ****/
-/*********************************/
-
-Template.ColStandardsList.rendered = function() {
-  $('#standards').sortable(SortOpt());
+Template.ColActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
-    $(this.find("p")).hallo().bind( "hallodeactivated", function(event) {
+    $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
       var nM = {
         _id: $(event.target).data('modelid'),
         model: _.clean(_.stripTags($(event.target).text()))
@@ -47,11 +32,33 @@ Template.ColStandardsList.rendered = function() {
   };
 }
 
+  /*********************************/
+ /*** COLLAPSE STANDARDS LIST  ****/
+/*********************************/
+
+Template.ColStandardsList.rendered = function() {
+  $('#standards').sortable(SortOpt());
+}
+
 Template.ColStandardsList.helpers({
   models: function() {
     return Models.find({},{sort: {rank: 1}});
   }
 }); 
+
+Template.ColStandardsSublist.rendered = function() {
+  if (Meteor.userId()) {
+    $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
+      var nM = {
+        _id: $(event.target).data('modelid'),
+        model: _.clean(_.stripTags($(event.target).text()))
+      };
+      Meteor.call('updateModel',nM,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
+    });
+  };
+}
 
 var SortOpt = function () { //default sortable options
 
@@ -80,7 +87,6 @@ var SortOpt = function () { //default sortable options
     };
   };
   var that = {
-    item: 'p',
     revert : false,            //smooth slide onto target
     axis: "y", //prevents dragging to another model?
     cancel: "a", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
@@ -88,7 +94,7 @@ var SortOpt = function () { //default sortable options
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow
     helper: 'clone', //for some reason stops click event also firing on receive when dragging event to change date
-    stop: stop,
+    stop: stop
   };
 
   return that;

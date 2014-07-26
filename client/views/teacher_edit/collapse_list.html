@@ -7,15 +7,27 @@
 <template name = 'ColActivitiesList'> 
    <div id='activities'>
       {{#each models}}
-        <p data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default'><a href=#>{{model}}</a></p> 
+        {{> ColActivitiesSublist }}
       {{/each}}
     </div>
+</template>
+
+<template name='ColActivitiesSublist'>
+  <h3 data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
+    <i class='fa fa-caret-right'></i><a href=#>{{model}}</a>
+  </h3> 
 </template>
 
 <template name = 'ColStandardsList'> 
    <div id='standards'>
       {{#each models}}
-        <p data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default'><a href="#">{{model}}</a></p> 
+        {{> ColActivitiesSublist }}
       {{/each}}
     </div>
+</template>
+
+<template name='ColStandardsSublist'>
+  <h3 data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
+    <i class='fa fa-caret-right'></i><a href=#>{{model}}</a>
+  </h3> 
 </template>

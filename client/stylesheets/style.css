@@ -39,6 +39,9 @@ table#calendar tr td {
   font-weight: normal;
   float: right;
 }
+#activities a {
+  padding-right: 1px;
+}
 #activities .Model .openInvites {
   margin-top: -10px;
   margin-bottom: 20px;
@@ -46,6 +49,11 @@ table#calendar tr td {
 #activities .Model .openInvites .openInvite {
   text-align: right;
   font-style: italic;
+}
+#activities i.fa-caret-right, #standards i.fa-caret-right {
+  float: left; 
+  margin-left: 10px; 
+  margin-top: 8px;
 }
 
 /* being very, very specific here so that these classes will override the default ui classes */
@@ -259,4 +267,7 @@ filter: alpha(opacity=50);
 .defaultTextInactive {color: #000000; }
 .button-center {
  text-align: center;
+}
+.collapsed { 
+  line-height: 27px !important;
 }
