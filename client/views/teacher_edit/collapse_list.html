@@ -1,0 +1,21 @@
+<template name = 'collapseList'>
+    {{> ColActivitiesList}}
+    {{> ColStandardsList}}
+    {{> appointmentsList}}
+</template>
+
+<template name = 'ColActivitiesList'> 
+   <div id='activities'>
+      {{#each models}}
+        <p data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default'><a href=#>{{model}}</a></p> 
+      {{/each}}
+    </div>
+</template>
+
+<template name = 'ColStandardsList'> 
+   <div id='standards'>
+      {{#each models}}
+        <p data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default'><a href="#">{{model}}</a></p> 
+      {{/each}}
+    </div>
+</template>

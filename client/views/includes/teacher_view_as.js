@@ -84,5 +84,3 @@ Deps.autorun(function() {  //set TeacherViewAs when teacher logs in.
     Session.set('TeacherViewAs',userID);
   };
 });
-
-//hide menu on mouseout?

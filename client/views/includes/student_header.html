@@ -7,6 +7,9 @@
         <span class="icon-bar"></span>
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+      {{#if isInRole 'teacher'}}
+      <a id='btnEdit' class="brand" href="{{pathFor 'editAccordion'}}">Edit</a>
+      {{/if}}
       <div class="nav-collapse collapse">
         {{> TeacherViewAs}}
         <ul class="nav pull-right">

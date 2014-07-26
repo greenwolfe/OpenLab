@@ -1,30 +1,27 @@
-  /**************************************/
- /*** TEACHER EDIT ACTIVITIES LIST  ****/
-/**************************************/
+Template.accordionList.rendered = function() {
+  if ($('#ListOfLists').hasClass('ui-tabs'))
+    $('#ListOfLists').tabs('refresh');
+};
 
-Template.TEactivitiesList.rendered = function() {
+  /***********************************/
+ /*** ACCORDION ACTIVITIES LIST  ****/
+/***********************************/
+
+Template.AccActivitiesList.rendered = function() {
   $('#activities').accordion({heightStyle: "content"});
-  /*Deps.autorun(function() {
-    var TEstate = Session.get('TEstate');
-    if (!TEstate || (TEstate && (TEstate == 'accordion'))) {
-      $('#activities').accordion({heightStyle: "content"});
-    } else if (TEstate && (TEstate == 'collapse')) {
-      $('#activities').sortable();
-    };
-  })*/
-} 
+}
 
-Template.TEactivitiesList.helpers({
+Template.AccActivitiesList.helpers({
   models: function() {
     return Models.find({},{sort: {rank: 1}});
   }
 }); 
 
-  /**************************************/
- /** TEACHER EDIT ACTIVITIES SUBLIST  **/
-/******************************S********/
+  /***********************************/
+ /** ACCORDION ACTIVITIES SUBLIST  **/
+/***********************************/
 
-Template.TEactivitiesSublist.rendered = function() {
+Template.AccActivitiesSublist.rendered = function() {
   if ($( "#activities" ).data('ui-accordion')) //if accordion already applied
     $('#activities').accordion("refresh");
   if (Meteor.userId()) {
@@ -38,28 +35,20 @@ Template.TEactivitiesSublist.rendered = function() {
       );
     });
   };
-  $(this.find(".Model")).sortable(SortOpt('.Model'));
+  $(this.find(".Model")).sortable(SortOpt());
 }; 
 
-Template.TEactivitiesSublist.helpers({
+Template.AccActivitiesSublist.helpers({
   activities: function() {
     return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
-  },
-  showActivities: function() {
-    return true;
-    var TEstate = Session.get('TEstate');
-    if (TEstate && ((TEstate == 'accordion') || (TEstate == 'expand'))) {
-      return true;
-    };
-    return false;
   }
  }); 
 
-  /**************************************/
- /***** TEACHER EDIT ACTIVITY ITEM  ****/
-/**************************************/
+  /***********************************/
+ /***** ACCORDION ACTIVITY ITEM  ****/
+/***********************************/
 
-Template.TEactivityItem.rendered = function() {
+Template.AccActivityItem.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("p")).hallo().bind( "hallodeactivated", function(event) {
       var nA = {
@@ -73,7 +62,7 @@ Template.TEactivityItem.rendered = function() {
   };
 }; 
 
-var SortOpt = function (connector) { //default sortable options
+var SortOpt = function () { //default sortable options
 
   var receive = function(event, ui) { 
     var activityID = ui.item.data('activityid');
@@ -118,7 +107,6 @@ var SortOpt = function (connector) { //default sortable options
     };
   };
   var that = {
-    connectWith : connector,  //connect with other lists
     revert : false,            //smooth slide onto target
     axis: "y", //prevents dragging to another model?
     cancel: "a", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
