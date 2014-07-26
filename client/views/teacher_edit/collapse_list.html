@@ -14,7 +14,7 @@
 
 <template name='ColActivitiesSublist'>
   <h3 data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
-    <i class='fa fa-caret-right'></i><a href=#>{{model}}</a>
+    <i class='fa fa-caret-right'></i><a data-modelID={{_id}} href=#>{{model}}</a>
   </h3> 
 </template>
 
@@ -28,6 +28,6 @@
 
 <template name='ColStandardsSublist'>
   <h3 data-modelID={{_id}} data-modelRank={{rank}} title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
-    <i class='fa fa-caret-right'></i><a href=#>{{model}}</a>
+    <i class='fa fa-caret-right'></i><a data-modelID={{_id}} href=#>{{model}}</a>
   </h3> 
 </template>

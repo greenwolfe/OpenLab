@@ -20,7 +20,7 @@ Template.ColActivitiesList.helpers({
 
 Template.ColActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
-    $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
+    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var nM = {
         _id: $(event.target).data('modelid'),
         model: _.clean(_.stripTags($(event.target).text()))
@@ -48,7 +48,7 @@ Template.ColStandardsList.helpers({
 
 Template.ColStandardsSublist.rendered = function() {
   if (Meteor.userId()) {
-    $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
+    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var nM = {
         _id: $(event.target).data('modelid'),
         model: _.clean(_.stripTags($(event.target).text()))
