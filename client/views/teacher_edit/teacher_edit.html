@@ -1,13 +1,14 @@
 <template name='teacherEdit'>
+   <div id="help row-fluid">
+     <div class="alert alert-info">{{{info}}}</div>
+  </div>
    <div id='ListOfLists'>
     <ul>
       <li><a href="#activities">ACTIVITIES</a></li>
       <li><a href="#standards">STANDARDS</a></li>
       <li><a href="#appointments">APPOINTMENTS</a></li>
     </ul> 
-    {{> TEactivitiesList}}
-    {{> standardsList}}
-    {{> appointmentsList}}
+    {{> yield region='lists'}}
   </div>
 
   <div class='assessment'>

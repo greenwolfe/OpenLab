@@ -27,10 +27,6 @@ table#calendar tr td {
   filter: alpha(opacity=30);
   opacity: 0.30;
 }
-.teacherEditOverlay {
-  background: #000000;
-  opacity: 0.2;
-}
 #ListOfLists {
   float: left;
   width:  40%;
@@ -158,6 +154,9 @@ filter: alpha(opacity=50);
   padding-left:8px;
   margin-left: auto;
   margin-right: auto;
+}
+.headerInfo.small, .headerInfo .small {
+  font-size: 12pt;
 }
 #viewAs {
   padding: 20px;

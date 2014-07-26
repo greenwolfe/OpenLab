@@ -8,7 +8,7 @@
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
       {{#if isInRole 'teacher'}}
-      <a id='btnEdit' class="brand" href="{{pathFor 'teacherEdit'}}">Edit</a>
+      <a id='btnEdit' class="brand" href="{{pathFor 'editAccordion'}}">Edit</a>
       {{/if}}
       <div class="nav-collapse collapse">
         {{> TeacherViewAs}}

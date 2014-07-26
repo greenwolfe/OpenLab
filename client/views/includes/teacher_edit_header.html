@@ -7,10 +7,17 @@
         <span class="icon-bar"></span>
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
-      <div id="btnTEstate" class="btn-group">
-        <a id="btnCollapse" href="#" class="btn btn-nav" selected={{btnSelected 'collapse'}}>Collapse</a>
-        <a id="btnExpand" href="#" class="btn btn-nav" selected={{btnSelected 'expand'}}>Expand</a>
-        <a id="btnAccordion" href="#" class="btn btn-nav" selected={{btnSelected 'accordion'}}>Accordion</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <div id="btnTEstate" class="btn-group">
+            <a id="btnCollapse" href="#" class="btn btn-nav" selected={{btnSelected 'collapse'}}>Collapse</a>
+            <a id="btnExpand" href="#" class="btn btn-nav" selected={{btnSelected 'expand'}}>Expand</a>
+            <a id="btnAccordion" href="#" class="btn btn-nav" selected={{btnSelected 'accordion'}}>Accordion</a>
+          </div>
+        </ul>
+        <ul class="nav pull-right">
+            <li>{{> loginButtons}}</li>
+        </ul>
       </div>
     </div>
     {{> editProfile}}

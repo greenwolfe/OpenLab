@@ -57,6 +57,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class (done)
 25)  clean up error when student creates account and gets exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.
 26) teacher can't delete calendar events assigned to a section
+27) Help dropdown for edit page (and others?)
 
 
 Installation Notes:
