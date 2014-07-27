@@ -57,7 +57,7 @@ Template.ExpActivityItem.rendered = function() {
       var rank = $t.parent().prev().data('activityrank') + 1;
       var modelID = $t.parent().parent().data('modelid');
       var nA;
-      if ((activityID == -1)) {
+      if (activityID == -1) {
         nA = {
           title : title,
           modelID : modelID,

@@ -4,9 +4,11 @@
     $('#ListOfLists').tabs('refresh');
  };
 
-  /***********************************/
+  /**********************************/
  /*** COLLAPSE ACTIVITIES LIST  ****/
-/***********************************/
+/**********************************/
+
+var defaultText = 'Edit this text to add a new unit/model.'
 
 Template.ColActivitiesList.rendered = function() {
   $('#activities').sortable(SortOpt());
@@ -15,22 +17,50 @@ Template.ColActivitiesList.rendered = function() {
 Template.ColActivitiesList.helpers({
   models: function() {
     return Models.find({},{sort: {rank: 1}});
+  },
+  defaultText: function() {
+    return defaultText;
   }
 }); 
+
+  /*************************************/
+ /*** COLLAPSE ACTIVITIES SUBLIST  ****/
+/*************************************/
 
 Template.ColActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
-      var nM = {
-        _id: $(event.target).data('modelid'),
-        model: _.clean(_.stripTags($(event.target).text()))
-      };
-      Meteor.call('updateModel',nM,
-        function(error, id) {if (error) return alert(error.reason);}
-      );
-    });
+      var $t = $(event.target);
+      var modelID = $t.data('modelid');
+      var model = _.clean(_.stripTags($t.text()));
+      var rank = $t.parent().prev().data('modelrank') + 1;
+      var nM;      
+      if (modelID == -1) {
+        nM = {
+            model : model,
+            longname : '',
+            description : '',
+            rank: rank,
+            visible: true
+        }
+        Meteor.call('postModel',nM,defaultText,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+        $t.text(defaultText);
+      } else {
+        nM = {
+          _id: $(event.target).data('modelid'),
+          model: _.clean(_.stripTags($(event.target).text()))
+        };
+        Meteor.call('updateModel',nM,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+      }
+      });
   };
 }
+
+
 
   /*********************************/
  /*** COLLAPSE STANDARDS LIST  ****/
