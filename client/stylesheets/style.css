@@ -149,7 +149,7 @@ filter: alpha(opacity=50);
   top: 0;
   margin-top: 10px;
 }
-#openInviteDialog i.remove:hover, #inviteGroupDialog i.remove:hover {
+i.remove:hover {
     cursor: default;
 }
 #openInviteDialog h2, h3, #inviteGroupDialog h2, h3 {

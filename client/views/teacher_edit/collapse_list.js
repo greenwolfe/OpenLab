@@ -46,6 +46,7 @@ Template.ColStandardsList.helpers({
   }
 }); 
 
+//careful using this ... must be edited for standards!
 Template.ColStandardsSublist.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {

@@ -22,6 +22,8 @@ Template.AccActivitiesList.helpers({
  /** ACCORDION ACTIVITIES SUBLIST  **/
 /***********************************/
 
+var defaultText = 'Edit this text to add a new activity.'; 
+
 Template.AccActivitiesSublist.rendered = function() {
   if ($( "#activities" ).data('ui-accordion')) //if accordion already applied
     $('#activities').accordion("refresh");
@@ -42,6 +44,9 @@ Template.AccActivitiesSublist.rendered = function() {
 Template.AccActivitiesSublist.helpers({
   activities: function() {
     return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
+  },
+  defaultText: function() {
+    return defaultText;
   }
  }); 
 
@@ -51,14 +56,34 @@ Template.AccActivitiesSublist.helpers({
 
 Template.AccActivityItem.rendered = function() {
   if (Meteor.userId()) {
-    $(this.find("p")).hallo().bind( "hallodeactivated", function(event) {
-      var nA = {
-  	    _id: $(event.target).data('activityid'),
-  	    title: _.clean(_.stripTags($(event.target).text()))
-  	  };
-  	  Meteor.call('updateActivity',nA,
-  	    function(error, id) {if (error) return alert(error.reason);}
-  	  );
+    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
+      var $t = $(event.target);
+      var activityID = $t.data('activityid');
+      var title = _.clean(_.stripTags($t.text()));
+      var rank = $t.parent().prev().data('activityrank') + 1;
+      var modelID = $t.parent().parent().data('modelid');
+      var nA;
+      if ((activityID == -1)) {
+        nA = {
+          title : title,
+          modelID : modelID,
+          description : '',
+          rank : rank,
+          visible: true
+        };
+        Meteor.call('postActivity',nA,defaultText,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+        $t.text(defaultText);
+      } else {
+        nA = {
+    	    _id: activityID,
+    	    title: title
+    	  };
+    	  Meteor.call('updateActivity',nA,
+    	    function(error, id) {if (error) return alert(error.reason);}
+    	  );
+      };
     });
   };
 }; 
@@ -88,14 +113,11 @@ var SortOpt = function () { //default sortable options
         function(error, id) {if (error) return alert(error.reason);}
       );
     };
-    if (ui.item.data('received')) {
-      ui.item.remove(); 
-    };
   };
   var that = {
     revert : false,            //smooth slide onto target
     axis: "y", //prevents dragging to another model?
-    cancel: "a", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
+    cancel: "a,p[data-activityid=-1]", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
     forcePlaceholderSize : true,  //allows dropping on empty list
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow

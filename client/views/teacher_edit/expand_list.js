@@ -4,9 +4,9 @@ Template.expandList.rendered = function() {
     $('#ListOfLists').tabs('refresh');
 };
 
-  /***********************************/
- /*** ACCORDION ACTIVITIES LIST  ****/
-/***********************************/
+  /********************************/
+ /*** EXPAND ACTIVITIES LIST  ****/
+/********************************/
 
 Template.ExpActivitiesList.helpers({
   models: function() {
@@ -14,9 +14,11 @@ Template.ExpActivitiesList.helpers({
   }
 }); 
 
-  /***********************************/
- /** ACCORDION ACTIVITIES SUBLIST  **/
-/***********************************/
+  /********************************/
+ /** EXPAND ACTIVITIES SUBLIST  **/
+/********************************/
+
+var defaultText = 'Edit this text to add a new activity.';
 
 Template.ExpActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
@@ -36,23 +38,46 @@ Template.ExpActivitiesSublist.rendered = function() {
 Template.ExpActivitiesSublist.helpers({
   activities: function() {
     return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
+  },
+  defaultText: function() {
+    return defaultText;
   }
  }); 
 
-  /***********************************/
- /***** ACCORDION ACTIVITY ITEM  ****/
-/***********************************/
+  /********************************/
+ /***** EXPAND ACTIVITY ITEM  ****/
+/********************************/
 
 Template.ExpActivityItem.rendered = function() {
   if (Meteor.userId()) {
-    $(this.find("p")).hallo().bind( "hallodeactivated", function(event) {
-      var nA = {
-  	    _id: $(event.target).data('activityid'),
-  	    title: _.clean(_.stripTags($(event.target).text()))
-  	  };
-  	  Meteor.call('updateActivity',nA,
-  	    function(error, id) {if (error) return alert(error.reason);}
-  	  );
+    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
+      var $t = $(event.target);
+      var activityID = $t.data('activityid');
+      var title = _.clean(_.stripTags($t.text()));
+      var rank = $t.parent().prev().data('activityrank') + 1;
+      var modelID = $t.parent().parent().data('modelid');
+      var nA;
+      if ((activityID == -1)) {
+        nA = {
+          title : title,
+          modelID : modelID,
+          description : '',
+          rank : rank,
+          visible: true
+        };
+        Meteor.call('postActivity',nA,defaultText,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+        $t.text(defaultText);
+      } else {
+        nA = {
+          _id: activityID,
+          title: title
+        };
+        Meteor.call('updateActivity',nA,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+      };
     });
   };
 }; 
@@ -105,7 +130,7 @@ var SortOpt = function (connector) { //default sortable options
     connectWith: connector,  //connect with other lists
     revert : false,            //smooth slide onto target
     axis: "y", //prevents dragging to another model?
-    cancel: "a", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
+    cancel: "a,p[data-activityid=-1]", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
     forcePlaceholderSize : true,  //allows dropping on empty list
     tolerance : 'pointer',    
     placeholder : "ui-state-highlight", //yellow

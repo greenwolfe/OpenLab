@@ -19,12 +19,13 @@
 	      {{#each activities}}
           {{>ExpActivityItem}}
         {{/each}}
+        {{>AccActivityItem _id=-1 rank=-1 title=defaultText}}
       </div>
 </template>
 
 
 <template name = 'ExpActivityItem'>
       <p data-activityid={{_id}} data-activityrank={{rank}} class="ui-state-default">
-        <a href="#">{{title}}</a> 
+        <a href="#" data-activityid={{_id}}>{{title}}</a> 
       </p>
 </template>
