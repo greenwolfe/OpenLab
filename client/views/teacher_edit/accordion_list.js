@@ -88,6 +88,15 @@ Template.AccActivityItem.rendered = function() {
   };
 }; 
 
+Template.AccActivityItem.helpers({
+  disabled: function() {
+    activity = Activities.findOne(this._id);
+    if (activity)
+      return activity.visible ? '' : 'ui-state-disabled';
+    return '';
+  }
+});
+
 var SortOpt = function () { //default sortable options
 
   var stop = function(event, ui) { 
@@ -97,21 +106,24 @@ var SortOpt = function () { //default sortable options
     var activityID = ui.item.data('activityid');
     var rank = oldRank;
     var nA;
-    if (!_.isNumber(before) && _.isNumber(after)) {
+    if (!_.isFinite(before) && _.isFinite(after)) {
       rank = after - 1;
-    } else if (_.isNumber(before) && !_.isNumber(after)) {
+    } else if (_.isFinite(before) && !_.isFinite(after)) {
       rank = before + 1;
-    } else if (_.isNumber(before) && _.isNumber(after)) {
+    } else if (_.isFinite(before) && _.isFinite(after)) {
       rank = (before + after)/2
     };
     nA = {
       _id: activityID,
       rank: rank
     };
-    if (_.isNumber(oldRank) && (rank != oldRank)) {
+    if (_.isFinite(oldRank) && (rank != oldRank)) {
       Meteor.call('updateActivity',nA,
         function(error, id) {if (error) return alert(error.reason);}
       );
+      window.location.reload();  //surely there must be a way to reload just the part needed!!
+    } else {
+      $(this).sortable('cancel');
     };
   };
   var that = {

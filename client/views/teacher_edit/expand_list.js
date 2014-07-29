@@ -23,9 +23,13 @@ var defaultText = 'Edit this text to add a new activity.';
 Template.ExpActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
+      $t = $(event.target);      
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
+      var model = _.clean(_.stripTags($t.text()));
       var nM = {
-        _id: $(event.target).data('modelid'),
-        model: _.clean(_.stripTags($(event.target).text()))
+        _id: modelID,
+        model: model
       };
       Meteor.call('updateModel',nM,
         function(error, id) {if (error) return alert(error.reason);}
@@ -52,17 +56,16 @@ Template.ExpActivityItem.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var $t = $(event.target);
-      var activityID = $t.data('activityid');
       var title = _.clean(_.stripTags($t.text()));
-      var rank = $t.parent().prev().data('activityrank') + 1;
-      var modelID = $t.parent().parent().data('modelid');
+      var el = $t.get(0);
+      var activityID = (el) ? UI.getElementData(el)._id : NaN;
+      var modelID = (el) ? UI.getElementData(el).modelID : NaN;
       var nA;
       if (activityID == -1) {
         nA = {
           title : title,
           modelID : modelID,
           description : '',
-          rank : rank,
           visible: true
         };
         Meteor.call('postActivity',nA,defaultText,
@@ -82,12 +85,22 @@ Template.ExpActivityItem.rendered = function() {
   };
 }; 
 
+Template.ExpActivityItem.helpers({
+  disabled: function() {
+    activity = Activities.findOne(this._id);
+    if (activity && !activity.visible) return 'ui-state-disabled';
+    return '';
+  }
+});
+
 var SortOpt = function (connector) { //default sortable options
 
   var receive = function(event, ui) { 
-    var activityID = ui.item.data('activityid');
-    var oldModelID = Activities.findOne(activityID).modelID;
-    var newModelID = ui.item.parent().data('modelid');
+    var el = ui.item.get(0);
+    var activityID = (el) ? UI.getElementData(el)._id : NaN;
+    var oldModelID = (el) ? UI.getElementData(el).modelID : NaN;
+    var pa = ui.item.parent().get(0);
+    var newModelID = (pa) ? UI.getElementData(pa)._id : NaN;
     var nA = {
       _id: activityID,
       modelID: newModelID
@@ -100,27 +113,32 @@ var SortOpt = function (connector) { //default sortable options
     ui.item.data('received',true);
   };
   var stop = function(event, ui) { 
-    var before = ui.item.prev().data('activityrank');
-    var oldRank = ui.item.data('activityrank');
-    var after = ui.item.next().data('activityrank');
-    var activityID = ui.item.data('activityid');
+    var bf = ui.item.prev().get(0);
+    var before = (bf) ? UI.getElementData(bf).rank: NaN;
+    var el = ui.item.get(0);
+    var oldRank = (el) ? UI.getElementData(el).rank : NaN;
+    var activityID = (el) ? UI.getElementData(el)._id : NaN;
+    var af = ui.item.next().get(0);
+    var after = (af) ? UI.getElementData(af).rank : NaN;
     var rank = oldRank;
     var nA;
-    if (!_.isNumber(before) && _.isNumber(after)) {
+    if (!_.isFinite(before) && _.isFinite(after)) {
       rank = after - 1;
-    } else if (_.isNumber(before) && !_.isNumber(after)) {
+    } else if (_.isFinite(before) && !_.isFinite(after)) {
       rank = before + 1;
-    } else if (_.isNumber(before) && _.isNumber(after)) {
+    } else if (_.isFinite(before) && _.isFinite(after)) {
       rank = (before + after)/2
     };
     nA = {
       _id: activityID,
       rank: rank
     };
-    if (_.isNumber(oldRank) && (rank != oldRank)) {
+    if (_.isFinite(oldRank) && (rank != oldRank)) {
       Meteor.call('updateActivity',nA,
         function(error, id) {if (error) return alert(error.reason);}
       );
+    } else {
+      $(this).sortable('cancel');
     };
     if (ui.item.data('received')) {
       ui.item.remove(); 

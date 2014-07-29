@@ -16,7 +16,7 @@ Meteor.methods({
   /***** POST ACTIVITY ****/
   postActivity: function(Activity,defaultText) { 
     var cU = Meteor.user(); //currentUser
-    var ActivityId,maxRank;
+    var ActivityId,maxRank,ranks;
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to post an activity");
@@ -40,7 +40,12 @@ Meteor.methods({
     if (!Activity.hasOwnProperty('visible'))
       Activity.visible = true;
     
-    maxRank = _.max(Activities.find({modelID: Activity.modelID}).map(function(a) {return a.rank}))
+    ranks = Activities.find({modelID: Activity.modelID}).map(function(a) {return a.rank});
+    if (ranks.length) {
+      maxRank = _.max(ranks)
+    } else {
+      maxRank = -1;
+    }
     if (!Activity.hasOwnProperty('rank'))
       Activity.rank = maxRank + 1;
 
@@ -94,7 +99,7 @@ Meteor.methods({
       Activities.update(nA._id,{$set: {description: nA.description}});
 
     if (nA.hasOwnProperty('visible') && (nA.visible != Activity.visible)) 
-      Activitiess.update(nA._id,{$set: {visible: nA.visible}});
+      Activities.update(nA._id,{$set: {visible: nA.visible}});
     
     if (nA.modelID && (nA.modelID != Activity.modelID) && nA.modelID != '') {
       model = Models.findOne(nA.modelID);
@@ -115,13 +120,6 @@ Meteor.methods({
     
     if (nA.hasOwnProperty('rank') && (nA.rank != Activity.rank)) {
       Activities.update(nA._id,{$set: {rank: nA.rank}}); 
-      if (Meteor.isServer) { //use server to re-rank using integers
-        var r = 0;
-        Activities.find({modelID: Activity.modelID},{sort: {rank: 1}}).forEach(function(a) {
-          Activities.update(a._id,{$set: {rank:r}});
-          r++;
-        });
-      }; 
     };
 
     return Activity._id;

@@ -23,7 +23,7 @@ Meteor.methods({
   /***** POST MODEL ****/
   postModel: function(Model,defaultText) { 
     var cU = Meteor.user(); //currentUser
-    var ModelId,maxRank;
+    var ModelId,maxRank,ranks;
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to add a model");
@@ -43,7 +43,12 @@ Meteor.methods({
     if (!Model.hasOwnProperty('visible'))
       Model.visible = true;
    
-    maxRank = _.max(Models.find().map(function(m) {return m.rank}))
+    ranks = Models.find().map(function(m) {return m.rank});
+    if (ranks.length) {
+      maxRank = _.max(ranks)
+    } else {
+      maxRank = -1;
+    }
     if (!Model.hasOwnProperty('rank'))
       Model.rank = maxRank + 1;
 
@@ -77,7 +82,7 @@ Meteor.methods({
     return ModelID;
   }, 
 
-  /***** UPDATE ACTIVITY ****/
+  /***** UPDATE MODEL ****/
   updateModel: function(nM) { //newModel
     var cU = Meteor.user(); //currentUser
     var Model = Models.findOne(nM._id);
@@ -105,14 +110,7 @@ Meteor.methods({
       Models.update(nM._id,{$set: {visible: nM.visible}});
     
     if (nM.hasOwnProperty('rank') && (nM.rank != Model.rank)) {
-      Models.update(nM._id,{$set: {rank: nM.rank}}); 
-      if (Meteor.isServer) { //use server to re-rank using integers
-        var r = 0;
-        Models.find({},{sort: {rank: 1}}).forEach(function(m) {
-          Models.update(m._id,{$set: {rank:r}});
-          r++;
-        });
-      }; 
+      Models.update(nM._id,{$set: {rank: nM.rank}});  
     };
 
     return Model._id;
