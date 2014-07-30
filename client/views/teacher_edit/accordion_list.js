@@ -29,9 +29,13 @@ Template.AccActivitiesSublist.rendered = function() {
     $('#activities').accordion("refresh");
   if (Meteor.userId()) {
     $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
+      $t = $(event.target);      
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
+      var model = _.clean(_.stripTags($t.text()));
       var nM = {
-        _id: $(event.target).data('modelid'),
-        model: _.clean(_.stripTags($(event.target).text()))
+        _id: modelID,
+        model: model
       };
       Meteor.call('updateModel',nM,
         function(error, id) {if (error) return alert(error.reason);}
@@ -58,17 +62,16 @@ Template.AccActivityItem.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var $t = $(event.target);
-      var activityID = $t.data('activityid');
       var title = _.clean(_.stripTags($t.text()));
-      var rank = $t.parent().prev().data('activityrank') + 1;
-      var modelID = $t.parent().parent().data('modelid');
+      var el = $t.get(0);
+      var activityID = (el) ? UI.getElementData(el)._id : NaN;
+      var modelID = (el) ? UI.getElementData(el).modelID : NaN;
       var nA;
       if (activityID == -1) {
         nA = {
           title : title,
           modelID : modelID,
           description : '',
-          rank : rank,
           visible: true
         };
         Meteor.call('postActivity',nA,defaultText,
@@ -77,12 +80,12 @@ Template.AccActivityItem.rendered = function() {
         $t.text(defaultText);
       } else {
         nA = {
-    	    _id: activityID,
-    	    title: title
-    	  };
-    	  Meteor.call('updateActivity',nA,
-    	    function(error, id) {if (error) return alert(error.reason);}
-    	  );
+          _id: activityID,
+          title: title
+        };
+        Meteor.call('updateActivity',nA,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
       };
     });
   };
@@ -100,10 +103,13 @@ Template.AccActivityItem.helpers({
 var SortOpt = function () { //default sortable options
 
   var stop = function(event, ui) { 
-    var before = ui.item.prev().data('activityrank');
-    var oldRank = ui.item.data('activityrank');
-    var after = ui.item.next().data('activityrank');
-    var activityID = ui.item.data('activityid');
+    var bf = ui.item.prev().get(0);
+    var before = (bf) ? UI.getElementData(bf).rank: NaN;
+    var el = ui.item.get(0);
+    var oldRank = (el) ? UI.getElementData(el).rank : NaN;
+    var activityID = (el) ? UI.getElementData(el)._id : NaN;
+    var af = ui.item.next().get(0);
+    var after = (af) ? UI.getElementData(af).rank : NaN;
     var rank = oldRank;
     var nA;
     if (!_.isFinite(before) && _.isFinite(after)) {
@@ -121,7 +127,6 @@ var SortOpt = function () { //default sortable options
       Meteor.call('updateActivity',nA,
         function(error, id) {if (error) return alert(error.reason);}
       );
-      window.location.reload();  //surely there must be a way to reload just the part needed!!
     } else {
       $(this).sortable('cancel');
     };

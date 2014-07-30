@@ -31,16 +31,15 @@ Template.ColActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var $t = $(event.target);
-      var modelID = $t.data('modelid');
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
       var model = _.clean(_.stripTags($t.text()));
-      var rank = $t.parent().prev().data('modelrank') + 1;
       var nM;      
       if (modelID == -1) {
         nM = {
             model : model,
             longname : '',
             description : '',
-            rank: rank,
             visible: true
         }
         Meteor.call('postModel',nM,defaultText,
@@ -49,14 +48,14 @@ Template.ColActivitiesSublist.rendered = function() {
         $t.text(defaultText);
       } else {
         nM = {
-          _id: $(event.target).data('modelid'),
-          model: _.clean(_.stripTags($(event.target).text()))
+          _id: modelID,
+          model: model
         };
         Meteor.call('updateModel',nM,
           function(error, id) {if (error) return alert(error.reason);}
         );
       }
-      });
+    });
   };
 }
 
@@ -80,41 +79,63 @@ Template.ColStandardsList.helpers({
 Template.ColStandardsSublist.rendered = function() {
   if (Meteor.userId()) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
-      var nM = {
-        _id: $(event.target).data('modelid'),
-        model: _.clean(_.stripTags($(event.target).text()))
-      };
-      Meteor.call('updateModel',nM,
-        function(error, id) {if (error) return alert(error.reason);}
-      );
+      var $t = $(event.target);
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
+      var model = _.clean(_.stripTags($t.text()));
+      var nM;      
+      if (modelID == -1) {
+        nM = {
+            model : model,
+            longname : '',
+            description : '',
+            visible: true
+        }
+        Meteor.call('postModel',nM,defaultText,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+        $t.text(defaultText);
+      } else {
+        nM = {
+          _id: modelID,
+          model: model
+        };
+        Meteor.call('updateModel',nM,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+      }
     });
   };
 }
 
 var SortOpt = function () { //default sortable options
-
   var stop = function(event, ui) { 
-    var before = ui.item.prev().data('modelrank');
-    var oldRank = ui.item.data('modelrank');
-    var after = ui.item.next().data('modelrank');
-    var modelID = ui.item.data('modelid');
+    var bf = ui.item.prev().get(0);
+    var before = (bf) ? UI.getElementData(bf).rank: NaN;
+    var el = ui.item.get(0);
+    var oldRank = (el) ? UI.getElementData(el).rank : NaN;
+    var modelID = (el) ? UI.getElementData(el)._id : NaN;
+    var af = ui.item.next().get(0);
+    var after = (af) ? UI.getElementData(af).rank : NaN;
     var rank = oldRank;
     var nM;
-    if (!_.isNumber(before) && _.isNumber(after)) {
+    if (!_.isFinite(before) && _.isFinite(after)) {
       rank = after - 1;
-    } else if (_.isNumber(before) && !_.isNumber(after)) {
+    } else if (_.isFinite(before) && !_.isFinite(after)) {
       rank = before + 1;
-    } else if (_.isNumber(before) && _.isNumber(after)) {
+    } else if (_.isFinite(before) && _.isFinite(after)) {
       rank = (before + after)/2
     };
     nM = {
       _id: modelID,
       rank: rank
     };
-    if (_.isNumber(oldRank) && (rank != oldRank)) {
+    if (_.isFinite(oldRank) && (rank != oldRank)) {
       Meteor.call('updateModel',nM,
         function(error, id) {if (error) return alert(error.reason);}
       );
+    } else {
+      $(this).sortable('cancel');
     };
   };
   var that = {

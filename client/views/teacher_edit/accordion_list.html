@@ -14,18 +14,18 @@
 
 
 <template name='AccActivitiesSublist'>
-      <h3 data-modelID={{_id}}> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
-      <div class = 'Model' data-modelID={{_id}}>
+      <h3> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
+      <div class = 'Model'>
 	    {{#each activities}}
           {{>AccActivityItem}}
         {{/each}}
-        {{>AccActivityItem _id=-1 rank=NaN title=defaultText}}
+        {{>AccActivityItem _id=-1 rank=NaN title=defaultText modelID=_id}}
       </div>
 </template>
 
 
 <template name = 'AccActivityItem'>
-      <p data-activityid={{_id}} data-activityrank={{rank}} class="ui-state-default">
-        <a href="#" data-activityid={{_id}} class="{{disabled}}">{{title}}</a> 
+      <p class="ui-state-default">
+        <a href="#" class="{{disabled}}">{{title}}</a> 
       </p>
 </template>
