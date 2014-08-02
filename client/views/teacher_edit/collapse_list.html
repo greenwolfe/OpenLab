@@ -9,7 +9,7 @@
       {{#each models}}
         {{> ColActivitiesSublist }}
       {{/each}}
-      {{>ColActivitiesSublist _id=-1 rank=NaN model=defaultText title=''}}
+      {{>ColActivitiesSublist _id=-1 rank=NaN model=defaultText longname=''}}
     </div>
 </template>
 
@@ -26,13 +26,6 @@
       {{#each models}}
         {{> ColActivitiesSublist }}
       {{/each}}
-      {{>ColActivitiesSublist _id=-1 rank=NaN model=defaultText title=''}}
+      {{>ColActivitiesSublist _id=-1 rank=NaN model=defaultText longname=''}}
     </div>
-</template>
-
-<template name='ColStandardsSublist'>
-  <h3 title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
-    <i class='fa fa-caret-right'></i><a href="#" class="{{disabled}}">{{model}} </a> 
-    <i class={{listVisible}}></i>
-  </h3> 
 </template>

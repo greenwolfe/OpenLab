@@ -126,6 +126,9 @@ Template.ColStandardsList.rendered = function() {
 Template.ColStandardsList.helpers({
   models: function() {
     return Models.find({},{sort: {rank: 1}});
+  },
+  defaultText: function() {
+    return defaultText;
   }
 }); 
 

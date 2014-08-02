@@ -39,7 +39,7 @@ table#calendar tr td {
   font-weight: normal;
   float: right;
 }
-#activities a {
+#activities a, #standards a {
   padding-right: 1px;
 }
 #activities .Model .openInvites {
