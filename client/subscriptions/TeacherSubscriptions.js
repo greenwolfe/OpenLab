@@ -36,6 +36,8 @@ Deps.autorun(function() {
   var userID = Meteor.userId();
   var userToShow = Session.get('TeacherViewIDs');
   if (userID && Roles.userIsInRole(userID,'teacher') && userToShow) {
+    Meteor.subscribe('activities',true),
+    Meteor.subscribe('models',true),
     Meteor.subscribe('calendarEvents',userToShow),
     Meteor.subscribe('links',userToShow),
     Meteor.subscribe('notes',userToShow),

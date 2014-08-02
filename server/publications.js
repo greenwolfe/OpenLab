@@ -1,11 +1,19 @@
-Meteor.publish('activities',function() {
-  return Activities.find();
+Meteor.publish('activities',function(showHidden) {
+  if (showHidden) {
+    return Activities.find();
+  } else {
+    return Activities.find({visible:true});
+  }
 });
 Meteor.publish('sections',function() {
   return Sections.find();
 });
-Meteor.publish('models',function() {
-  return Models.find();
+Meteor.publish('models',function(showHidden) {
+  if (showHidden) {
+    return Models.find();
+  } else {
+    return Models.find({visible:true});
+  }
 });
 
 Meteor.publish('calendarEvents',function(userArray) {
