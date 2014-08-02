@@ -145,10 +145,19 @@ Template.calendarDay.helpers({
     var date = moment(this.ID,'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
     var userToShow = Session.get('TeacherViewIDs');
     var workPlaces = Session.get('visibleWorkplaces')
-    if (userToShow)
-      return CalendarEvents.find({group: {$in: userToShow}, 
+    var calendarEvents;
+    if (userToShow) {
+      calendarEvents =  CalendarEvents.find({group: {$in: userToShow}, 
         workplace: {$in: workPlaces},
-        eventDate: date});
+        eventDate: date}).fetch();
+      return calendarEvents.filter(function (cE) {
+        var activity = Activities.findOne(cE.activityID);
+        if (!activity) return false;
+        var model = Models.findOne(activity.modelID);
+        if (!model) return false;
+        return (activity.visible && model.visible);
+      });
+    }
     return '';
   }
 });
