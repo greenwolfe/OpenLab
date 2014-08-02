@@ -8,7 +8,7 @@ Template.activitiesList.rendered = function() {
 
 Template.activitiesList.helpers({
   models: function() {
-    return Models.find({},{sort: {rank: 1}});
+    return Models.find({visible:true},{sort: {rank: 1}});
   }
 });
 
@@ -24,14 +24,14 @@ Template.activitiesSublist.rendered = function() {
 
 Template.activitiesSublist.helpers({
   activities: function() {
-    return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
+    return Activities.find({modelID: this._id, visible: true},{sort: {rank: 1}}); 
   },
   openInviteCount: function() {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
     };
-    var activities = Activities.find({modelID: this._id});
+    var activities = Activities.find({modelID: this._id,visible:true});
     var count = 0;
     activities.forEach(function (activity) {
       count += CalendarEvents.find({activityID: activity._id, invite: {$in: [userToShow]}}).count();
