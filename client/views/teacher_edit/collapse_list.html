@@ -15,7 +15,9 @@
 
 <template name='ColActivitiesSublist'>
   <h3 title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
-    <i class='fa fa-caret-right'></i><a href=#>{{model}}</a>
+    <i class='fa fa-caret-right'></i><a href=# class="mName {{disabled}}">{{model}}</a>
+    <i class={{listVisible}}></i> 
+    <br/><a href="#" class="lName {{disabled}}">{{longname}}</a>
   </h3> 
 </template>
 
@@ -24,11 +26,13 @@
       {{#each models}}
         {{> ColActivitiesSublist }}
       {{/each}}
+      {{>ColActivitiesSublist _id=-1 rank=NaN model=defaultText title=''}}
     </div>
 </template>
 
 <template name='ColStandardsSublist'>
   <h3 title="{{longname}}" class='ui-state-default ui-accordion-header collapsed'>
-    <i class='fa fa-caret-right'></i><a href=#>{{model}}</a>
+    <i class='fa fa-caret-right'></i><a href="#" class="{{disabled}}">{{model}} </a> 
+    <i class={{listVisible}}></i>
   </h3> 
 </template>

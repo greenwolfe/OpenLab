@@ -6,7 +6,7 @@ also move accordion, sortable applications to rendered callbacks of specific tem
 blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
 6)  add school calendar and meeting category to third tab
-**5)  Teacher view - all fields editable, drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?), groups students where possible, add student's names to title of calendar events.
+**5)  Teacher view - drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?)
 9)  meetings dragged to calendar should be a hyperlink opening to form .
 with links, purpose, and comments (just use the same activity form for all activities? yes!)
 10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
@@ -16,7 +16,7 @@ with links, purpose, and comments (just use the same activity form for all activ
 15)   Add a drop-down list for all recent groups on activity page. 
 16)  sort messages with most recent first, include say the five most recent and then have a more button or allow to scroll ... put add message dialog at the top. (done except for the more button)
 17)  hallo editor:  get link button to work (done), get icons for ALL buttons, not just some, make my post button part of the toolbar (?)
-23)  Add a visible field to activities (done)and models (done) (and standards and links (done) and notes (done) and todos (done)), add an open/closed eye icon for teacher to show/hide.  For teacher, would want to show, but greyed out or something.  For links, notes, todos, may want to implement update function by passing object rather than single fields.
+23)  Add a visible field to standards. For links, notes, todos, may want to implement update function by passing object rather than single fields. Add show/hide icons and functions on activity_page.
 Standardize all calls to object notation {text:'new text'} instead of positional argument???
 **25)  Allow teacher to invite multiple sections ... make the session variable an array ... edit groupies.js to accept sections or users (using try ... except?)  Where else would I have to edit to complete this change?
 26)  Take care of last bit of null handling for editing activity descriptions ... default text disappears when editor opens.
@@ -41,6 +41,7 @@ handle username for header in activity if called from acvity list rather than ca
 for header text, pass group array and not eventID (done)
 3) invite group dialog:  putting checklist buttons in <p> tags creates a vertcial stack. How to put 4 horizontally, then place the </p><p> to
 make a grid?  (now better, but need to figure out how to handle lots of students and multiple sections) (done)
+5)  Teacher view - all fields editable (done)  , groups students where possible, add student's names to title of calendar events. (done) ... decided to put student's names in hover text.
 6)  Progress tracker tab. (deprecated) ... but would be nice if it were the SBG gradebook, and LOM's showed up in the standards list) ... just use scheduling of main teacher-initiated assessments as the progress tracker.
 Focus just on the grouping and in-class/out-of-class features of the student activity view. (done)
 7)  Hover texts for standards, (activities?), hover text is group for calendar events (done) (maybe don't need this. detail on page for that standard or activity). (done ... do not need for standards and activities,as they will open in their own separate informatin page)
@@ -53,7 +54,8 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 20) In router.js, move some subscriptions to individual pages rather than loading them all at once at the start?  (done, teacher subscriptions now in client and are conditional)
 21)  re-do viewAs select box in header as a custom-styled dropdown with simple caret ... just not time to figure it out now, and it's good enough (done)
 22)  Look into bootstrap-modal for nicer-looking dialoges.  simple attempt broke the functionality, and didn't have time to pursue further. (done)
-23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box) (done, but box needs a submit button???)
+23) notes on login ... callback right after login - check if teacher (nothing), check if student - check if have a section (present set section dialog box) (done, but box needs a submit button???) 
+23)  Add a visible field to activities (done)and models (done) (and links (done) and notes (done) and todos (done))  In edit mode, show hidden models and activities as greyed-out. (done).
 24)  ViewAs dropdown ... should exit on mouseout (handled in a different manner ... done)
 24)  Teacher View of calendar ... allow to select one or more of in-class, out-of-class or home, default view being in-class (done)
 25)  clean up error when student creates account and gets exception from teacher subscriptions when does not have section yet. ... harmless, but also not right.

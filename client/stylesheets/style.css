@@ -23,7 +23,7 @@ table#calendar tr td {
   vertical-align: top;
   margin-bottom: 10px;
 }
-.assessment.fadeout, #startEndDates.fadeout, #calendar.fadeout {
+.assessment.fadeout, #startEndDates.fadeout, #calendar.fadeout, .Model.fadeout {
   filter: alpha(opacity=30);
   opacity: 0.30;
 }
@@ -270,4 +270,12 @@ i.remove:hover {
 }
 .collapsed { 
   line-height: 27px !important;
+}
+i.icon-list-visible {
+  background: url('list_visible.svg');
+  background-size: contain;
+}
+i.icon-list-hidden {
+  background: url('list_hidden.svg');
+  background-size: contain;
 }

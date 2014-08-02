@@ -14,7 +14,7 @@
 
 
 <template name='AccActivitiesSublist'>
-      <h3> <a href="#" title="{{longname}}"> {{model}}</a></h3> 
+      <h3> <a href="#" title="{{longname}}" class="{{disabled}}"> {{model}}</a></h3> 
       <div class = 'Model'>
 	    {{#each activities}}
           {{>AccActivityItem}}
@@ -27,5 +27,6 @@
 <template name = 'AccActivityItem'>
       <p class="ui-state-default">
         <a href="#" class="{{disabled}}">{{title}}</a> 
+        <i class={{listVisible}}></i>
       </p>
 </template>

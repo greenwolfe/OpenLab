@@ -29,7 +29,7 @@ Template.ColActivitiesList.helpers({
 
 Template.ColActivitiesSublist.rendered = function() {
   if (Meteor.userId()) {
-    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
+    $(this.find(".mName")).hallo().bind( "hallodeactivated", function(event) {
       var $t = $(event.target);
       var el = $t.get(0);
       var modelID = (el) ? UI.getElementData(el)._id : NaN;
@@ -38,7 +38,7 @@ Template.ColActivitiesSublist.rendered = function() {
       if (modelID == -1) {
         nM = {
             model : model,
-            longname : '',
+            longname : 'model',
             description : '',
             visible: true
         }
@@ -56,8 +56,62 @@ Template.ColActivitiesSublist.rendered = function() {
         );
       }
     });
+    $(this.find(".lName")).hallo().bind( "hallodeactivated", function(event) {
+      var $t = $(event.target);
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
+      var longname = _.clean(_.stripTags($t.text()));
+      var model = (el) ? UI.getElementData(el).model : defaultText;
+      var nM;      
+      if (modelID == -1) {
+        nM = {
+            model: model,
+            longname : longname,
+            description : '',
+            visible: true
+        }
+        Meteor.call('postModel',nM,defaultText,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+        $t.text(defaultText);
+      } else {
+        nM = {
+          _id: modelID,
+          model: model,
+          longname: longname
+        };
+        Meteor.call('updateModel',nM,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+      }
+    });
   };
 }
+
+Template.ColActivitiesSublist.helpers({
+  disabled: function() {
+    model = Models.findOne(this._id);
+    if (model && !model.visible) return 'ui-state-disabled';
+    return '';
+  },
+  listVisible: function() {
+    model = Models.findOne(this._id);
+    if (!model) return '';
+    if (model.visible) return 'icon-list-visible';
+    return 'icon-list-hidden';    
+  }
+});
+
+Template.ColActivitiesSublist.events({
+  'click i.icon-list-hidden': function() {
+    model = Models.findOne(this._id);
+    if (model) Meteor.call('updateModel',{_id:this._id,visible:true});
+  },
+  'click i.icon-list-visible': function() {
+    model = Models.findOne(this._id);
+    if (model) Meteor.call('updateModel',{_id:this._id,visible:false});
+  }
+})
 
 
 
@@ -75,38 +129,6 @@ Template.ColStandardsList.helpers({
   }
 }); 
 
-//careful using this ... must be edited for standards!
-Template.ColStandardsSublist.rendered = function() {
-  if (Meteor.userId()) {
-    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
-      var $t = $(event.target);
-      var el = $t.get(0);
-      var modelID = (el) ? UI.getElementData(el)._id : NaN;
-      var model = _.clean(_.stripTags($t.text()));
-      var nM;      
-      if (modelID == -1) {
-        nM = {
-            model : model,
-            longname : '',
-            description : '',
-            visible: true
-        }
-        Meteor.call('postModel',nM,defaultText,
-          function(error, id) {if (error) return alert(error.reason);}
-        );
-        $t.text(defaultText);
-      } else {
-        nM = {
-          _id: modelID,
-          model: model
-        };
-        Meteor.call('updateModel',nM,
-          function(error, id) {if (error) return alert(error.reason);}
-        );
-      }
-    });
-  };
-}
 
 var SortOpt = function () { //default sortable options
   var stop = function(event, ui) { 

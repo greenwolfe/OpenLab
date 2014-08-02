@@ -43,6 +43,9 @@ Template.AccActivitiesSublist.rendered = function() {
     });
   };
   $(this.find(".Model")).sortable(SortOpt());
+  var model = Models.findOne(this.data._id);
+  if (model && !model.visible) 
+    $(this.find(".Model")).addClass('fadeout');
 }; 
 
 Template.AccActivitiesSublist.helpers({
@@ -51,6 +54,11 @@ Template.AccActivitiesSublist.helpers({
   },
   defaultText: function() {
     return defaultText;
+  },
+  disabled: function() {
+    model = Models.findOne(this._id);
+    if (model && !model.visible) return 'ui-state-disabled';
+    return '';
   }
  }); 
 
@@ -97,8 +105,26 @@ Template.AccActivityItem.helpers({
     if (activity)
       return activity.visible ? '' : 'ui-state-disabled';
     return '';
+  },
+  listVisible: function() {
+    activity = Activities.findOne(this._id);
+    if (!activity) return '';
+    if (activity.visible) return 'icon-list-visible';
+    return 'icon-list-hidden';    
   }
 });
+
+Template.AccActivityItem.events({
+  'click i.icon-list-hidden': function() {
+    activity = Activities.findOne(this._id);
+    if (activity) Meteor.call('updateActivity',{_id:this._id,visible:true});
+  },
+  'click i.icon-list-visible': function() {
+    activity = Activities.findOne(this._id);
+    if (activity) Meteor.call('updateActivity',{_id:this._id,visible:false});
+
+  }
+})
 
 var SortOpt = function () { //default sortable options
 
