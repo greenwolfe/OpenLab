@@ -62,6 +62,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 26) teacher can't delete calendar events assigned to a section
 27) Help dropdown for edit page (and others?)
 28) calendarEvent ... provide margin so titles or exactly one line don't flip to 2nd line when delete icon toggles
+29) correct error when attempting to visit hidden activity (by pasting previously copied URL when it was visible).  Then get router function working to re-route back to student view.
 
 
 Installation Notes:
