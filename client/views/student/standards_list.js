@@ -1,45 +1,65 @@
-var standardsData = [
-  {
-    title : 'Position Graphs',
-    URL : '#',
-    model : 'CAPM'
-  },
-  {
-    title : 'Velocity Graphs',
-    URL : '#',
-    model : 'CAPM'
-  },
-  {
-    title : 'Acceleration Graphs',
-    URL : '#',
-    model : 'CAPM'
-  },
-  {
-    title : "Newton's First Law",
-    URL : '#',
-    model : 'BFPM'
-  },
-  {
-    title : 'Weight vs. Mass',
-    URL : '#',
-    model : 'BFPM'
-  },
-  {
-    title : 'Vector Addition 2 (Force)',
-    URL : '#',
-    model : 'BFPM'
-  }
-]
+  /************************/
+ /*** STANDARDS LIST  ****/
+/************************/
+
+Template.standardsList.rendered = function() {
+  $('#standards').accordion({heightStyle: "content"});
+}
 
 Template.standardsList.helpers({
   models: function() {
-    return Models.find();
+    return Models.find({visible:true},{sort: {rank: 1}});
   }
 });
 
+  /************************/
+ /** STANDARDS SUBLIST  **/
+/************************/
+
+Template.standardsSublist.rendered = function() {
+  if ($( "#standards" ).data('ui-accordion')) //if accordion already applied
+    $('#standards').accordion("refresh");
+};
+
 Template.standardsSublist.helpers({
   standards: function() {
-                var model = this.model;
-                return $.grep(standardsData, function(a) { return a.model == model })
-              }
+    return Standards.find({modelID: this._id, visible: true},{sort: {rank: 1}}); 
+  }
 });
+
+  /*************************/
+ /***** STANDARD ITEM  ****/
+/*************************/
+
+Template.standardItem.rendered = function() {
+  $(this.find("p")).draggable(DragOpt('.assessmentsStandards') );
+};
+
+var DragOpt = function (sortable) { //default draggable options
+  var pos_fixed = 1;
+  var start = function(event,ui) {
+    pos_fixed = 0;
+  };
+  var drag = function(event,ui) { //corrects bug where scrolling of main window displaces helper from mouse
+    if (pos_fixed == 0) {
+      $(ui.helper).css('margin-top',$(event.target).offset().top - $(ui.helper).offset().top);
+      pos_fixed = 1;
+    };
+  };
+  var stop = function (event, ui) {  // so it can't be modified from outside
+    $('.placeholder').remove();  //remove all placeholders on the page
+  };
+
+  var that = {                  
+    connectToSortable : sortable,  //drag target
+    appendTo : "body",  //allows dragging out of frame to new object
+    helper : "clone",   
+    revert : "invalid",  //glide back into place if not dropped on target
+    start : start,
+    drag : drag,
+    stop : stop
+  };
+
+  return that;
+};
+

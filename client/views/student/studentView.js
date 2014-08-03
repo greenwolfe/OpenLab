@@ -1,9 +1,7 @@
 
 Template.studentView.rendered = function () {
-  $('#standards .Model p').draggable( DragOpt('.assessmentsStandards') );
   $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
   $('.assessmentsStandards').sortable(SortOpt('.assessmentsStandards') );
-  $('#standards').accordion({heightStyle: "content"});
   $('#ListOfLists').tabs(); 
 };
 

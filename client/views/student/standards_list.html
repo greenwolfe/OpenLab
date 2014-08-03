@@ -1,21 +1,26 @@
 <template name = 'standardsList'> 
    <div id='standards'>
     {{#each models}}
-      <h3> <a href="#" title="{{longname}}"> {{model}} </a> </h3>
       {{> standardsSublist }}
     {{/each}}
     </div>
 </template>
 
+
 <template name='standardsSublist'>
+      <h3> <a href="#" title="{{longname}}"> {{model}}</a> </h3> 
       <div class = 'Model'>
-	      {{#each standards}}
+        {{#each standards}}
           {{> standardItem}}
         {{/each}}
       </div>
 </template>
 
+
 <template name = 'standardItem'>
-    <p class="ui-state-default"><a href="{{URL}}">{{title}}</a></p>
+    <div>
+    <p data-standardid={{_id}} class="ui-state-default">
+      <a href="#" title="{{description}}">{{title}}</a> </p>
+    </div>
 </template>
 

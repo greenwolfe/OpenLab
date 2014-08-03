@@ -61,7 +61,7 @@ Meteor.methods({
   deleteModel: function(ModelID) { 
     var cU = Meteor.user(); //currentUser
     var Model = Models.findOne(ModelID);
-    var ActivitiesCount;
+    var ActivitiesCount, StandardsCount;
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to delete a model");
@@ -73,9 +73,9 @@ Meteor.methods({
       throw new Meteor.Error(412, "Cannot delete model.  Invalid ID.");
 
     ActivitiesCount = Activities.find({modelID: ModelID}).count();
-    if (ActivitiesCount) 
-      throw new Meteor.Error(412, "Cannot delete model until you delete or move all of its activities.");
-    //must do the same for standards
+    StandardsCount = Standards.find({modelID: ModelID}).count();
+    if (ActivitiesCount || StandardsCount) 
+      throw new Meteor.Error(412, "Cannot delete model until you delete or move all of its activities and standards.");
 
     Models.remove(ModelID);
     

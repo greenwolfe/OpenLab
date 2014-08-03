@@ -44,4 +44,12 @@ Meteor.publish('todos',function(userArray) {
   return Todos.find( {group: {$in: userArray} });
 });
 
+Meteor.publish('standards',function(showHidden) {
+  if (showHidden) {
+    return Standards.find();
+  } else {
+    return Standards.find({visible:true});
+  }
+});
+
 

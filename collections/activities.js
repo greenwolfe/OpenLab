@@ -107,14 +107,7 @@ Meteor.methods({
         throw new Meteor.Error(421, "Cannot update activity.  Improper model.")
       maxRank = _.max(Activities.find({modelID: nA.modelID}).map(function(a) {return a.rank}))
       Activities.update(nA._id,{$set: {modelID: nA.modelID,rank: maxRank+1}});
-      Activity.modelID = nA.modelID; 
-      if (Meteor.isServer) {  //user server to re-rank using integers
-        r = 0;
-        Activities.find({modelID: currentModelID},{sort: {rank: 1}}).forEach(function(a) {
-          Activities.update(a._id,{$set: {rank:r}});
-          r++;
-        });
-      }; 
+      Activity.modelID = nA.modelID;  
     };
 
     

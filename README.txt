@@ -1,6 +1,6 @@
 
 
-2.5) for #activities (done), #standards, #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
+2.5) for #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
 also move accordion, sortable applications to rendered callbacks of specific templates. #activities (done), #standards, #appointments
 3)  more fields in user profile:  block, firstname, last name, nick name(x not needed, using username but need validation) (and add to edit profile modal)
 blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
@@ -36,6 +36,7 @@ put in calendar code for max/min on end/start datepickers
 These were both dead ends.  Finally decided to record dates and user by creating new activity in meteor database (Activities.insert) and render the calendar again each time there were changes.
 2)  calendarDay helper renders activities for current user and date.  Dragging activity to calendar creates new activity with modified user and date fields.  Then the drag/sortable "helper" is canceled so that meteor can render the new activity.  When dates added to calendar, let meteor re-render the whole thing. ... done, but didn't do it quite exactly like this.
 2.5) make some functions for things like adding and removing users from group and invite lists (still to do), and creating the group text (done), date formats? (done)
+2.5) for #activities (done), #standards(done), .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.
 3)  highlighting is a problem - try reproducing ui-state-default with my own css, then modifying it ??? (figured it out, then simplified ... done)
 handle username for header in activity if called from acvity list rather than calendar (and therefore has no group). (done)
 for header text, pass group array and not eventID (done)

@@ -46,30 +46,7 @@ Template.activitiesSublist.helpers({
 /*************************/
 
 Template.activityItem.rendered = function() {
-  var that = this;
-  Deps.autorun(function() {
-  if (Meteor.userId()) {
-    var editing = (Roles.userIsInRole(Meteor.userId(),'teacher') && 
-      Session.get('editing'));
-
-    if (editing) {
-      $(that.find("p")).hallo().bind('click',function(event){
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }).bind( "hallodeactivated", function(event) {
-        var nA = {
-          _id: $(event.target).data('activityid'),
-          title: _.clean(_.stripTags($(event.target).text()))
-        };
-        Meteor.call('updateActivity',nA,
-          function(error, id) {if (error) return alert(error.reason);}
-        );
-      });
-    } else {
-      $(that.find("p")).draggable(DragOpt('.daysActivities') );
-    }
-  };
-  });
+  $(this.find("p")).draggable(DragOpt('.daysActivities') );
 };
 
 Template.activityItem.events({
