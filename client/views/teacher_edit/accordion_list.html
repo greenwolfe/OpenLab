@@ -1,6 +1,6 @@
 <template name = 'accordionList'>
     {{> AccActivitiesList}}
-    {{> standardsList}}
+    {{> AccStandardsList}}
     {{> appointmentsList}}
 </template>
 
@@ -14,7 +14,7 @@
 
 
 <template name='AccActivitiesSublist'>
-      <h3> <a href="#" title="{{longname}}" class="{{disabled}}"> {{model}}</a></h3> 
+      <h3 title="{{longname}}"> <a href="#"  class="mName {{disabled}}"> {{model}}</a></h3> 
       <div class = 'Model'>
 	    {{#each activities}}
           {{>AccActivityItem}}
@@ -27,6 +27,33 @@
 <template name = 'AccActivityItem'>
       <p class="ui-state-default">
         <a href="#" class="{{disabled}}">{{title}}</a> 
+        <i class={{listVisible}}></i>
+      </p>
+</template>
+
+<template name = 'AccStandardsList'> 
+   <div id='standards'>
+    {{#each models}}
+      {{> AccStandardsSublist }}
+    {{/each}}
+    </div>
+</template>
+
+
+<template name='AccStandardsSublist'>
+      <h3 title="{{longname}}"> <a href="#" class="mName {{disabled}}"> {{model}}</a> </h3> 
+      <div class = 'Model'>
+        {{#each standards}}
+          {{> AccStandardItem}}
+        {{/each}}
+        {{>AccStandardItem _id=-1 rank=NaN title=defaultText modelID=_id}}
+      </div>
+</template>
+
+
+<template name = 'AccStandardItem'>
+      <p class="ui-state-default">
+        <a href="#" title="{{longname}}" class="{{disabled}}">{{title}}</a> 
         <i class={{listVisible}}></i>
       </p>
 </template>

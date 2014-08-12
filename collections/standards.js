@@ -57,7 +57,7 @@ Meteor.methods({
     if (!Standard.hasOwnProperty('rank'))
       Standard.rank = maxRank + 1;
 
-    StandardID = Standards.insert(Standards);
+    StandardID = Standards.insert(Standard);
 
     return StandardID; 
   },  

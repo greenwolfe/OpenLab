@@ -28,7 +28,7 @@ Template.AccActivitiesSublist.rendered = function() {
   if ($( "#activities" ).data('ui-accordion')) //if accordion already applied
     $('#activities').accordion("refresh");
   if (Meteor.userId()) {
-    $(this.find("h3")).hallo().bind( "hallodeactivated", function(event) {
+    $(this.find(".mName")).hallo().bind( "hallodeactivated", function(event) {
       $t = $(event.target);      
       var el = $t.get(0);
       var modelID = (el) ? UI.getElementData(el)._id : NaN;
@@ -122,6 +122,128 @@ Template.AccActivityItem.events({
   'click i.icon-list-visible': function() {
     activity = Activities.findOne(this._id);
     if (activity) Meteor.call('updateActivity',{_id:this._id,visible:false});
+
+  }
+})
+
+  /**********************************/
+ /*** ACCORDION STANDARDS LIST  ****/
+/**********************************/
+
+Template.AccStandardsList.rendered = function() {
+  $('#standards').accordion({heightStyle: "content"});
+}
+
+Template.AccStandardsList.helpers({
+  models: function() {
+    return Models.find({},{sort: {rank: 1}});
+  }
+});
+
+  /**********************************/
+ /** ACCORDION STANDARDS SUBLIST  **/
+/**********************************/
+
+var defaultStandardText = 'Edit this text to add a new standard.';
+
+Template.AccStandardsSublist.rendered = function() {
+  if ($( "#standards" ).data('ui-accordion')) //if accordion already applied
+    $('#standards').accordion("refresh");
+  if (Meteor.userId()) {
+    $(this.find(".mName")).hallo().bind( "hallodeactivated", function(event) {
+      $t = $(event.target);      
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
+      var model = _.clean(_.stripTags($t.text()));
+      var nM = {
+        _id: modelID,
+        model: model
+      };
+      Meteor.call('updateModel',nM,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
+    });
+  };
+  $(this.find(".Model")).sortable(SortOpt());
+  var model = Models.findOne(this.data._id);
+  if (model && !model.visible) 
+    $(this.find(".Model")).addClass('fadeout');
+};
+
+Template.AccStandardsSublist.helpers({
+  standards: function() {
+    return Standards.find({modelID: this._id},{sort: {rank: 1}}); 
+  },
+  defaultText: function() {
+    return defaultStandardText;
+  },
+  disabled: function() {
+    model = Models.findOne(this._id);
+    if (model && !model.visible) return 'ui-state-disabled';
+    return '';
+  }
+});
+
+  /***********************************/
+ /***** ACCORDION STANDARD ITEM  ****/
+/***********************************/
+
+Template.AccStandardItem.rendered = function() {
+  if (Meteor.userId()) {
+    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
+      var $t = $(event.target);
+      var title = _.clean(_.stripTags($t.text()));
+      var el = $t.get(0);
+      var standardID = (el) ? UI.getElementData(el)._id : NaN;
+      var modelID = (el) ? UI.getElementData(el).modelID : NaN;
+      var nA;
+      if (standardID == -1) {
+        nS = {
+          title : title,
+          modelID : modelID,
+          description : '',
+          visible: true
+        };
+        Meteor.call('postStandard',nS,defaultStandardText,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+        $t.text(defaultStandardText);
+      } else {
+        nS = {
+          _id: standardID,
+          title: title
+        };
+        Meteor.call('updateStandard',nS,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+      };
+    });
+  };
+}; 
+
+Template.AccStandardItem.helpers({
+  disabled: function() {
+    standard = Standards.findOne(this._id);
+    if (standard)
+      return standard.visible ? '' : 'ui-state-disabled';
+    return '';
+  },
+  listVisible: function() {
+    standard = Standards.findOne(this._id);
+    if (!standard) return '';
+    if (standard.visible) return 'icon-list-visible';
+    return 'icon-list-hidden';    
+  }
+});
+
+Template.AccStandardItem.events({
+  'click i.icon-list-hidden': function() {
+    standard = Standards.findOne(this._id);
+    if (standard) Meteor.call('updateStandard',{_id:this._id,visible:true});
+  },
+  'click i.icon-list-visible': function() {
+    standard = Standards.findOne(this._id);
+    if (standard) Meteor.call('updateStandard',{_id:this._id,visible:false});
 
   }
 })
