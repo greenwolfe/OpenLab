@@ -2,7 +2,7 @@
    /*** Template.standardDescription ***/
   /************************************/
 
-var defaultText = 'Provide an explanatino for this standard.';
+var defaultText = 'Provide an explanation for this standard.';
 
 Template.standardDescription.helpers({
   description:  function() { 
@@ -21,14 +21,14 @@ Template.standardDescription.helpers({
 
 Template.standardDescription.events({
   'click .editDescription': function(event,tmpl) {
-    var $descriptionText = $('#descriptionText');   
+    var $descriptionText = $('#descriptionText');  
     var $updateButton = $(event.target).parent().parent().find('.updateDescriptionContainer');
-    $descriptionText.addClass('editing').addClass('defaultTextActive');
+    $descriptionText.addClass('editing'); //.addClass('defaultTextActive');
     $descriptionText.hallo(hallosettings(true)).bind( "hallodeactivated", function(event) { //hallomodified
       var standardID = $(event.target).data('standardid');
       var currentText = Standards.findOne(standardID).description;
       currentText = (_.clean(_.stripTags(currentText))) ? currentText: defaultText;
-      $descriptionText.removeClass('editing').addClass('defaultTextActive');
+      $descriptionText.removeClass('editing'); //.addClass('defaultTextActive');
       $descriptionText.hallo({editable: false});
       $descriptionText.html(currentText);
       $updateButton.addClass('hidden');
@@ -47,3 +47,24 @@ Template.standardDescription.events({
     );
   }
 }); 
+
+var hallosettings = function(editable) {
+  var that =  {
+   plugins: {
+     'halloformat' : {'formattings': {
+       "bold": true, 
+       "italic": true, 
+       "strikethrough": true, 
+       "underline": true
+     }},
+     'hallojustify' : {},
+     'hallolists': {},
+     'halloreundo': {},
+     'hallolink': {}
+   },
+   editable: editable,
+   toolbar: 'halloToolbarFixed'
+ };
+
+ return that;
+};

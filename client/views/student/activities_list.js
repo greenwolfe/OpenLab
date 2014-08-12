@@ -83,6 +83,37 @@ Template.activityItem.helpers({
   }
 });
 
+  /**************************/
+ /***** NEW ASSESSMENT  ****/
+/**************************/
+
+var defaultText = 'Edit this text to add a new assessment.'; 
+
+Template.newAssessment.helpers({
+  defaultText: function() {
+    return defaultText;
+  } 
+ }); 
+
+Template.newAssessment.rendered = function() {
+  if (Meteor.userId()) {
+    $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
+      var $t = $(event.target);
+      var title = _.clean(_.stripTags($t.text()));
+      var el = $t.get(0);
+      var modelID = (el) ? UI.getElementData(el)._id : NaN;
+      var nA = {
+          modelID: modelID,
+          title: title
+      };
+      console.log(nA);
+/*        Meteor.call('updateActivity',nA,
+          function(error, id) {if (error) return alert(error.reason);}
+        );*/
+    });
+  };
+};
+
 var DragOpt = function (sortable) { //default draggable options
   var pos_fixed = 1;
   var start = function(event,ui) {

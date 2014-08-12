@@ -35,6 +35,21 @@ Template.standardItem.rendered = function() {
   $(this.find("p")).draggable(DragOpt('.assessmentsStandards') );
 };
 
+Template.standardItem.events({
+  'click a': function(event) {
+    var TVA;
+    var currentUserID = Meteor.userId();
+    if (currentUserID && Roles.userIsInRole(currentUserID,'teacher')) {
+       TVA = Session.get('TeacherViewAs');
+       if (Meteor.user(TVA) || Sections.findOne(TVA)) {
+        Session.set('currentGroup',[TVA]);
+      };
+    } else {
+      Session.set('currentGroup',[Meteor.userId()]);
+    };
+  }
+});
+
 var DragOpt = function (sortable) { //default draggable options
   var pos_fixed = 1;
   var start = function(event,ui) {
