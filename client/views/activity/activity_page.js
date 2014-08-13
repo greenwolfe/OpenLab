@@ -10,6 +10,12 @@ Template.activityPage.rendered = function() {
 };
 
 Template.activityPage.helpers({
+  hasStandards: function() {
+    return this.hasOwnProperty('standardIDs') ? this.standardIDs.length : false;
+  },
+  Standards: function() {
+    return Standards.find({_id: {$in:this.standardIDs}});
+  },
   Notes:  function() {
     var userID = Meteor.userId();
     var userToShow = Session.get('TeacherViewIDs');
@@ -113,10 +119,10 @@ Template.activityPage.events({
     Meteor.call('postTodo', todo, 
       function(error, id) {if (error) return alert(error.reason);}
     );
-    $('#newTodoItem').addClass("defaultTextActive").val('New Todo Item');
+    $('#newTodoItem').addClass("defaultTextActive").val('New To Do Item');
   },
   'focus #newTodoItem':function(event) {
-    if ($('#newTodoItem').val() == 'New Todo Item') {
+    if ($('#newTodoItem').val() == 'New To Do Item') {
       $('#newTodoItem').removeClass("defaultTextActive");
       $('#newTodoItem').val("");
     };
@@ -124,7 +130,7 @@ Template.activityPage.events({
   'blur #newTodoItem':function(event) {
     if ($('#newTodoItem').val() == '') {
       $('#newTodoItem').addClass("defaultTextActive");
-      $('#newTodoItem').val('New Todo Item');
+      $('#newTodoItem').val('New To Do Item');
     };
   },
   'click #TodoList p input': function(event) {

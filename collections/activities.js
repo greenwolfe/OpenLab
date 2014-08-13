@@ -3,7 +3,9 @@ Activities = new Meteor.Collection('activities');
   /* Activities.insert({
     title : 'Acceleration Intro',
     modelID : Models.findOne({model:'CAPM'})._id,
-    description : ''
+    description : '',
+    ownerID: '',
+    standardIDs: [],
     rank : 0,
     visible: true
   }); */
@@ -20,9 +22,12 @@ Meteor.methods({
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to post an activity");
+
+    if (!Activity.hasOwnProperty('ownerID'))
+      Activity.ownerID = '';
     
-    if (!Roles.userIsInRole(cU,'teacher'))
-      throw new Meteor.Error(409, 'You must be a teacher to post an activity.')
+    if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
+      throw new Meteor.Error(409, 'Only teachers can post activities for the whole class.')
     
     if (!Activity.title || (Activity.title == defaultText) || (Activity.title == ''))
       throw new Meteor.Error(413, "Cannot post activity.  Missing title.");
@@ -36,6 +41,9 @@ Meteor.methods({
 
     if (!Activity.hasOwnProperty('description'))
       Activity.description = '';
+
+    if (!Activity.hasOwnProperty('standardIDs'))
+      Activity.standardIDs = [];
 
     if (!Activity.hasOwnProperty('visible'))
       Activity.visible = true;
@@ -62,12 +70,12 @@ Meteor.methods({
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to delete an activity");
 
-    if (!Roles.userIsInRole(cU,'teacher'))
-      throw new Meteor.Error(409, 'You must be a teacher to delete an activity.')
-  
     if (!Activity)
       throw new Meteor.Error(412, "Cannot delete activity.  Invalid ID.");
-    
+
+    if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
+      throw new Meteor.Error(409, 'You must be a teacher to delete a whole class activity.')
+      
     //check if activity has been used and post warning or suggest
     //just hiding it???
 
@@ -85,12 +93,12 @@ Meteor.methods({
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to update an activity");
 
-    if (!Roles.userIsInRole(cU,'teacher'))
-      throw new Meteor.Error(409, 'You must be a teacher to update an activity.')
-  
     if (!Activity)
       throw new Meteor.Error(412, "Cannot update activity.  Invalid ID.");
     currentModelID = Activity.modelID;
+
+    if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
+      throw new Meteor.Error(409, 'You must be a teacher to update a whole class activity.')
 
     if (nA.title && (nA.title != Activity.title) && nA.title != '') 
       Activities.update(nA._id,{$set: {title: nA.title}});
@@ -116,7 +124,49 @@ Meteor.methods({
     };
 
     return Activity._id;
-  } 
+  },
+
+  /**** ACTIVITY ADD STANDARD ****/
+  activityAddStandard: function(ActivityID,standardID) {
+    var cU = Meteor.user(); //currentUser
+    var Activity = Activities.findOne(ActivityID);
+    var Standard = Standards.findOne(standardID);
+
+    if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to add a standard to an activity");
+
+    if (!Activity)
+      throw new Meteor.Error(412, "Cannot add standard to activity.  Invalid activity ID.");
+
+    if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
+      throw new Meteor.Error(409, 'You must be a teacher to add a standard to a whole class activity.')
+
+    if (!Standard)
+      throw new Meteor.Error(430, "Cannot add standard, invalid ID.")
+    
+    Activities.update(ActivityID,{$addToSet: {standardIDs: standardID}});
+  },
+
+  /**** ACTIVITY REMOVE STANDARD ****/
+  activityRemoveStandard: function(ActivityID,standardID) {
+    var cU = Meteor.user(); //currentUser
+    var Activity = Activities.findOne(ActivityID);
+    var Standard = Standards.findOne(standardID);
+
+    if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to add a standard to an activity");
+
+    if (!Activity)
+      throw new Meteor.Error(412, "Cannot add standard to activity.  Invalid activity ID.");
+
+    if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
+      throw new Meteor.Error(409, 'You must be a teacher to add a standard to a whole class activity.')
+
+    if (!Standard)
+      throw new Meteor.Error(430, "Cannot add standard, invalid ID.")
+    
+    Activities.update(ActivityID,{$pull: {standardIDs: standardID}});
+  }
 });  
 
 if (Meteor.isServer) {

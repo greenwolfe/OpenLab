@@ -197,7 +197,7 @@ i.remove:hover {
   width: 63%;
   margin-bottom: 10px;
 }
-#activityDescription, #todos, #notes, .linksBox {
+#activityDescription, #activityStandards, #todos, #notes, .linksBox {
   display: block;
   border: thin black solid;
   margin-bottom: 10px;

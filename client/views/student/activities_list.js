@@ -45,8 +45,12 @@ Template.activitiesSublist.helpers({
  /***** ACTIVITY ITEM  ****/
 /*************************/
 
-Template.activityItem.rendered = function() {
-  $(this.find("p")).draggable(DragOpt('.daysActivities') );
+Template.activityItem.rendered = function() {    
+  var ownerID =  this.data.hasOwnProperty('ownerID') ? this.data.ownerID : '';
+  var sortables = '.daysActivities';
+  if (ownerID && (ownerID == Meteor.userId() ) )
+    sortables ='.daysActivities, .assessmentsStandards';
+  $(this.find("p")).draggable(DragOpt(sortables) );
 };
 
 Template.activityItem.events({
@@ -87,7 +91,7 @@ Template.activityItem.helpers({
  /***** NEW ASSESSMENT  ****/
 /**************************/
 
-var defaultText = 'Edit this text to add a new assessment.'; 
+var defaultText = 'Edit this text to create a new assessment.'; 
 
 Template.newAssessment.helpers({
   defaultText: function() {
@@ -96,7 +100,8 @@ Template.newAssessment.helpers({
  }); 
 
 Template.newAssessment.rendered = function() {
-  if (Meteor.userId()) {
+  var cU = Meteor.user();
+  if (cU) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var $t = $(event.target);
       var title = _.clean(_.stripTags($t.text()));
@@ -104,12 +109,13 @@ Template.newAssessment.rendered = function() {
       var modelID = (el) ? UI.getElementData(el)._id : NaN;
       var nA = {
           modelID: modelID,
-          title: title
+          title: title,
+          ownerID: cU._id
       };
-      console.log(nA);
-/*        Meteor.call('updateActivity',nA,
-          function(error, id) {if (error) return alert(error.reason);}
-        );*/
+      Meteor.call('postActivity',nA,defaultText,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
+      $t.text(defaultText);
     });
   };
 };
