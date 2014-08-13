@@ -3,7 +3,21 @@
 /********************/
 
 Template.assessment.rendered = function() {
+  $('.assessment').droppable(dropOpt());
   $('.assessmentsStandards').sortable(SortOpt() );
+}
+
+var dropOpt = function () { //droppable options
+  var drop = function (event, ui) {
+    $(this).addClass('ui-state-highlight');
+  };
+
+  var that = {
+    accept: '.assessmentAct',
+    drop: drop
+  };
+
+  return that;
 }
 
 var SortOpt = function () { //default sortable options

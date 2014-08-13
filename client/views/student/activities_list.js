@@ -46,11 +46,12 @@ Template.activitiesSublist.helpers({
 /*************************/
 
 Template.activityItem.rendered = function() {    
-  var ownerID =  this.data.hasOwnProperty('ownerID') ? this.data.ownerID : '';
+/*  var ownerID =  this.data.hasOwnProperty('ownerID') ? this.data.ownerID : '';
   var sortables = '.daysActivities';
   if (ownerID && (ownerID == Meteor.userId() ) )
     sortables ='.daysActivities, .assessmentsStandards';
-  $(this.find("p")).draggable(DragOpt(sortables) );
+  $(this.find("p")).draggable(DragOpt(sortables) ); */
+  $(this.find("p")).draggable(DragOpt('.daysActivities') );
 };
 
 Template.activityItem.events({
@@ -84,6 +85,10 @@ Template.activityItem.helpers({
       });
     });
     return openInvites;
+  },
+  assessmentAct: function () {
+    var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
+    return (ownerID && (ownerID == Meteor.userId() ) ) ? 'assessmentAct' : '';
   }
 });
 

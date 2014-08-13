@@ -25,7 +25,7 @@
 
 <template name = 'activityItem'>
     <div>
-    <p data-activityid={{_id}} class="ui-state-default">
+    <p data-activityid={{_id}} class="ui-state-default {{assessmentAct}}">
       <a href="{{pathFor 'activityPage'}}">{{title}}</a> </p>
       <div class='openInvites'>
       {{#if openInvites}}
