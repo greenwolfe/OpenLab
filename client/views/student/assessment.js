@@ -8,12 +8,21 @@ Template.assessment.rendered = function() {
 }
 
 Template.assessment.helpers({
-  currentAssessment: function() {
-    var cA = Session.get(currentAssessment);
+  isCurrentAssessment: function() {
+    var cA = Session.get('currentAssessment');
     return !!cA;
   },
+  currentAssessment: function() {
+    var cA = Session.get('currentAssessment');
+    return cA;
+  },
   standards: function() {
-    
+    var cA = Session.get('currentAssessment');
+    if (cA && cA.hasOwnProperty('standardIDs') && cA.standardIDs.length) {
+      return Standards.find({_id: {$in: cA.standardIDs}});      
+    } else {
+      return '';
+    }
   }
 });
 
