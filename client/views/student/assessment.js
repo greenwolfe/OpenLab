@@ -7,6 +7,16 @@ Template.assessment.rendered = function() {
   //$('.assessmentsStandards').sortable(SortOpt() );
 }
 
+Template.assessment.helpers({
+  currentAssessment: function() {
+    var cA = Session.get(currentAssessment);
+    return !!cA;
+  },
+  standards: function() {
+    
+  }
+});
+
 var dropOpt = function () { //droppable options
   var activate = function(event,ui) {
     $(this).addClass('ui-state-default');

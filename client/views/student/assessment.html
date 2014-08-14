@@ -1,13 +1,16 @@
  <template name='assessment'>
   <div class='assessment'>
     {{#if currentAssessment}}
-      {{#each standards}}
-        {{>standard}}
-      {{/each}}
+      <h3> {{title}} </h3>
+      <div class = 'assessmentsStandards'>
+	      {{#each standards}}
+	        {{>assessmentStandardItem}}
+	      {{/each}}
+       </div>
     {{/if}}
   </div>
  </template>
 
-     <h3> Assessment </h3>
-     <div class = 'assessmentsStandards'>
-     </div>
+<template name='assessmentStandardItem'>
+     <p>{{title}}</p>
+</template>
