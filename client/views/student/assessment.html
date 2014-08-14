@@ -1,7 +1,13 @@
  <template name='assessment'>
   <div class='assessment'>
-    <h3> Assessment </h3>
-     <div class = 'assessmentsStandards'>
-     </div>
+    {{#if currentAssessment}}
+      {{#each standards}}
+        {{>standard}}
+      {{/each}}
+    {{/if}}
   </div>
  </template>
+
+     <h3> Assessment </h3>
+     <div class = 'assessmentsStandards'>
+     </div>

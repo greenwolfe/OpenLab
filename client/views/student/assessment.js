@@ -4,16 +4,34 @@
 
 Template.assessment.rendered = function() {
   $('.assessment').droppable(dropOpt());
-  $('.assessmentsStandards').sortable(SortOpt() );
+  //$('.assessmentsStandards').sortable(SortOpt() );
 }
 
 var dropOpt = function () { //droppable options
-  var drop = function (event, ui) {
-    $(this).addClass('ui-state-highlight');
+  var activate = function(event,ui) {
+    $(this).addClass('ui-state-default');
+  };
+  var over = function (event, ui) {
+    $(this).switchClass('ui-state-default','ui-state-highlight');
+  };
+  var out = function(event,ui) {
+    $(this).switchClass('ui-state-highlight','ui-state-default');
+  };
+  var deactivate = function(event,ui) {
+    $(this).removeClass('ui-state-default');
+  };
+  var drop = function(event, ui) {
+    $(this).removeClass('ui-state-highlight');
+    var Activity = UI.getElementData(ui.draggable.get(0))
+    Session.set('currentAssessment',Activity);    
   };
 
   var that = {
     accept: '.assessmentAct',
+    activate: activate,
+    over: over,
+    out: out,
+    deactivate: deactivate,
     drop: drop
   };
 
@@ -35,7 +53,7 @@ var SortOpt = function () { //default sortable options
   };
   var receive = function(event, ui) {  //ditto
     $( '.placeholder').remove();
-  }
+  };
 
   var that = {
     revert : true,            //smooth slide onto target
