@@ -35,6 +35,12 @@ Template.assessment.helpers({
   }
 });
 
+Template.assessment.events({
+  'click #showAssessmentList': function() {
+    Session.set('currentAssessment','');
+  }
+});
+
 var dropOpt = function () { //droppable options
   var activate = function(event,ui) {
     $(this).addClass('ui-state-default');
