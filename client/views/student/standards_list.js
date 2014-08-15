@@ -32,7 +32,7 @@ Template.standardsSublist.helpers({
 /*************************/
 
 Template.standardItem.rendered = function() {
-  $(this.find("p")).draggable(DragOpt('.assessmentsStandards') );
+  $(this.find("p")).draggable(DragOpt('') );
 };
 
 Template.standardItem.events({

@@ -4,6 +4,15 @@
 
 Template.assessment.rendered = function() {
   $('.assessment').droppable(dropOpt());
+  Deps.autorun(function() {
+    console.log('currentAssessment changed, in autorun');
+    var cA = Session.get('currentAssessment');
+    if (!!cA) {
+      $( ".assessment" ).droppable( "option", "accept", ".assessmentAct, .assessmentStand" );
+    } else {
+      $(".assessment").droppable("option","accept",".assessmentAct");
+    };
+  });
   //$('.assessmentsStandards').sortable(SortOpt() );
 }
 
@@ -41,8 +50,23 @@ var dropOpt = function () { //droppable options
   };
   var drop = function(event, ui) {
     $(this).removeClass('ui-state-highlight');
-    var Activity = UI.getElementData(ui.draggable.get(0))
-    Session.set('currentAssessment',Activity);    
+    var elData = UI.getElementData(ui.draggable.get(0));
+    console.log(elData);
+    var Activity = Activities.findOne(elData._id);
+    console.log(Activity);
+    console.log(!!Activity);
+    var Standard = Standards.findOne(elData._id);
+    console.log(Standard);
+    console.log(!!Standard);
+    if (!!Activity) {
+      Session.set('currentAssessment',Activity);
+    } else if (!!Standard) {
+      Activity = Session.get('currentAssessment');
+      console.log(Activity._id);
+      console.log(Standard._id);
+      Meteor.call('activityAddStandard',Activity._id,Standard._id);
+      Session.set('currentAssessment',Activities.findOne(Activity._id));
+    }; 
   };
 
   var that = {
