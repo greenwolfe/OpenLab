@@ -16,6 +16,7 @@ table#calendar tr td {
 }
 .assessment {
   float: left;
+  position: relative;
   margin-left: 10%;
   width: 20%;
   padding: 1em 3em 1em 3em;
@@ -27,11 +28,18 @@ table#calendar tr td {
   filter: alpha(opacity=30);
   opacity: 0.30;
 }
+.assessment h4 {
+  margin-top: 20px;
+}
 .assessment h4 a, .assessment .assessmentsStandards p a {
   color: black;
 }
 #showAssessmentList {
-  float: right;
+  position: absolute;
+  right: 0;
+  margin-right: 2px;
+  top: 0;
+  margin-top: 2px;
 }
 #ListOfLists {
   float: left;
