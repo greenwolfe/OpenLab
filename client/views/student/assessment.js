@@ -5,12 +5,11 @@
 Template.assessment.rendered = function() {
   $('.assessment').droppable(dropOpt());
   Deps.autorun(function() {
-    console.log('currentAssessment changed, in autorun');
     var cA = Session.get('currentAssessment');
     if (!!cA) {
-      $( ".assessment" ).droppable( "option", "accept", ".assessmentAct, .assessmentStand" );
+      $( ".assessment" ).droppable( "option", "accept", ".assessmentAct, .assessmentStand, .assessmentsStandards p" );
     } else {
-      $(".assessment").droppable("option","accept",".assessmentAct");
+      $(".assessment").droppable("option","accept",".assessmentAct, .assessmentsStandards p");
     };
   });
   //$('.assessmentsStandards').sortable(SortOpt() );
@@ -41,35 +40,61 @@ Template.assessment.events({
   }
 });
 
+  /**********************************/
+ /**** ASSESSMENT STANDARD ITEM ****/
+/**********************************/
+
+Template.assessmentStandardItem.rendered = function() {
+  $(this.find('p')).draggable(dragOpt());
+};
+
+var dragOpt = function() { //draggable options
+  var that = {
+    distance: 10,
+    revert: 'valid'
+  };
+
+  return that;
+};
+
 var dropOpt = function () { //droppable options
   var activate = function(event,ui) {
-    $(this).addClass('ui-state-default');
+    if (!ui.draggable.hasClass('aSItem'))
+      $(this).addClass('ui-state-default');
   };
   var over = function (event, ui) {
-    $(this).switchClass('ui-state-default','ui-state-highlight');
+    if (!ui.draggable.hasClass('aSItem'))
+      $(this).switchClass('ui-state-default','ui-state-highlight');
   };
   var out = function(event,ui) {
-    $(this).switchClass('ui-state-highlight','ui-state-default');
+    if (!ui.draggable.hasClass('aSItem'))
+      $(this).switchClass('ui-state-highlight','ui-state-default');
   };
   var deactivate = function(event,ui) {
-    $(this).removeClass('ui-state-default');
+    if (ui.draggable.hasClass('aSItem')) {
+      if (ui.draggable.hasClass('aSItemDropped')) {
+        ui.draggable.removeClass('aSItemDropped');
+      } else {
+        var Standard = UI.getElementData(ui.helper.get(0));
+        var Activity = Session.get('currentAssessment');
+        Meteor.call('activityRemoveStandard',Activity._id,Standard._id);
+        Session.set('currentAssessment',Activities.findOne(Activity._id));
+      };
+    } else {
+      $(this).removeClass('ui-state-default, ui-state-highlight');
+    };
   };
   var drop = function(event, ui) {
-    $(this).removeClass('ui-state-highlight');
+    if (ui.draggable.hasClass('aSItem')) { //returned to list, so don't delete it
+      ui.draggable.addClass('aSItemDropped'); 
+    };
     var elData = UI.getElementData(ui.draggable.get(0));
-    console.log(elData);
     var Activity = Activities.findOne(elData._id);
-    console.log(Activity);
-    console.log(!!Activity);
     var Standard = Standards.findOne(elData._id);
-    console.log(Standard);
-    console.log(!!Standard);
     if (!!Activity) {
       Session.set('currentAssessment',Activity);
     } else if (!!Standard) {
       Activity = Session.get('currentAssessment');
-      console.log(Activity._id);
-      console.log(Standard._id);
       Meteor.call('activityAddStandard',Activity._id,Standard._id);
       Session.set('currentAssessment',Activities.findOne(Activity._id));
     }; 

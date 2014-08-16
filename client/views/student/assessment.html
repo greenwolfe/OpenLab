@@ -3,7 +3,7 @@
     {{#if isCurrentAssessment}}
       <button id="showAssessmentList">Show Assesssment List</button>
       {{#with currentAssessment}}
-	      <h4> {{title}} </h4>
+	      <h4> <a href="{{pathFor 'activityPage'}}">{{title}}</a></h4>
 	      <div class = 'assessmentsStandards'>
 		      {{#each standards}}
 		        {{>assessmentStandardItem}}
@@ -17,5 +17,5 @@
  </template>
 
 <template name='assessmentStandardItem'>
-     <p>{{title}}</p>
+     <p class='aSItem'><a href="{{pathFor 'standardPage'}}">{{title}}</a></p>
 </template>

@@ -27,6 +27,9 @@ table#calendar tr td {
   filter: alpha(opacity=30);
   opacity: 0.30;
 }
+.assessment h4 a, .assessment .assessmentsStandards p a {
+  color: black;
+}
 #showAssessmentList {
   float: right;
 }
