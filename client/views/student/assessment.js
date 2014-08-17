@@ -64,13 +64,14 @@ var dropOpt = function () { //droppable options
   };
   var over = function (event, ui) {
     if (!ui.draggable.hasClass('aSItem'))
-      $(this).switchClass('ui-state-default','ui-state-highlight');
+      $(this).switchClass('ui-state-default','ui-state-highlight',0);
   };
   var out = function(event,ui) {
     if (!ui.draggable.hasClass('aSItem'))
-      $(this).switchClass('ui-state-highlight','ui-state-default');
+      $(this).switchClass('ui-state-highlight','ui-state-default',0);
   };
-  var deactivate = function(event,ui) {
+  var deactivate = function(event,ui) { //called after drop
+    $(this).removeClass('ui-state-default ui-state-highlight');
     if (ui.draggable.hasClass('aSItem')) {
       if (ui.draggable.hasClass('aSItemDropped')) {
         ui.draggable.removeClass('aSItemDropped');
@@ -80,8 +81,6 @@ var dropOpt = function () { //droppable options
         Meteor.call('activityRemoveStandard',Activity._id,Standard._id);
         Session.set('currentAssessment',Activities.findOne(Activity._id));
       };
-    } else {
-      $(this).removeClass('ui-state-default, ui-state-highlight');
     };
   };
   var drop = function(event, ui) {

@@ -24,7 +24,10 @@ Template.activitiesSublist.rendered = function() {
 
 Template.activitiesSublist.helpers({
   activities: function() {
-    return Activities.find({modelID: this._id, visible: true},{sort: {rank: 1}}); 
+    return Activities.find({modelID: this._id, ownerID: {$nin: [Meteor.userId()]},visible: true},{sort: {rank: 1}}); 
+  },
+  reassessments: function() {
+    return Activities.find({modelID: this._id, ownerID: {$in: [Meteor.userId()]},visible: true},{sort: {rank: 1}});
   },
   openInviteCount: function() {
     var userToShow = Meteor.userId();
@@ -46,11 +49,6 @@ Template.activitiesSublist.helpers({
 /*************************/
 
 Template.activityItem.rendered = function() {    
-/*  var ownerID =  this.data.hasOwnProperty('ownerID') ? this.data.ownerID : '';
-  var sortables = '.daysActivities';
-  if (ownerID && (ownerID == Meteor.userId() ) )
-    sortables ='.daysActivities, .assessmentsStandards';
-  $(this.find("p")).draggable(DragOpt(sortables) ); */
   $(this.find("p")).draggable(DragOpt('.daysActivities') );
 };
 
@@ -66,6 +64,15 @@ Template.activityItem.events({
     } else {
       Session.set('currentGroup',[Meteor.userId()]);
     };
+  },
+  'click p .remove': function(event,ui) {
+    var Activity = UI.getElementData( $(event.target).parent().get(0) );
+    var currentAssessment = Session.get('currentAssessment');
+    if (Activity.hasOwnProperty('standardIDs') && (Activity.standardIDs.length == 0)) {
+      if (currentAssessment && currentAssessment.hasOwnProperty('standardIDs') && (currentAssessment._id == Activity._id))
+        Session.set('currentAssessment','');
+      Meteor.call('deleteActivity',Activity._id);
+    }
   }
 });
 
@@ -89,6 +96,16 @@ Template.activityItem.helpers({
   assessmentAct: function () {
     var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
     return (ownerID && (ownerID == Meteor.userId() ) ) ? 'assessmentAct' : '';
+  },
+  reassessment: function() {
+    var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
+    return (ownerID && (ownerID == Meteor.userId() ) ) ? '<strong>Reassessment: </strong>' : '';
+  },
+  deleteable: function() {
+    var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
+    var hasStandards = (this.hasOwnProperty('standardIDs') && this.standardIDs.length);
+    //also check for notes, todos and links ... similar in teacher edit and the method in the collection itself
+    return ( (ownerID == Meteor.userId()) && !hasStandards);
   }
 });
 
@@ -152,5 +169,8 @@ var DragOpt = function (sortable) { //default draggable options
 
   return that;
 };
+
+
+
 
 

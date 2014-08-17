@@ -236,6 +236,9 @@ i.remove:hover {
   display: inline-block;
   width: 80%;
 }
+#activityStandards p strong a {
+  color: black;
+}
 #addNoteContainer {
   display: inline-block;
   margin-bottom: 10px;
