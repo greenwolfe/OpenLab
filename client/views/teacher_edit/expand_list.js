@@ -44,7 +44,10 @@ Template.ExpActivitiesSublist.rendered = function() {
 
 Template.ExpActivitiesSublist.helpers({
   activities: function() {
-    return Activities.find({modelID: this._id},{sort: {rank: 1}}); 
+    return Activities.find({modelID: this._id, 
+      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
+      visible: true},
+      {sort: {rank: 1}}); 
   },
   defaultText: function() {
     return defaultText;
@@ -106,6 +109,16 @@ Template.ExpActivityItem.helpers({
     if (!activity) return '';
     if (activity.visible) return 'icon-list-visible';
     return 'icon-list-hidden';    
+  },
+  reassessment: function() { 
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
+    if ((this.type == 'assessment') && !ownerID) 
+      return '<strong>assessment: </strong>';
+    return ((this.type == 'assessment') && ownerID && (ownerID == userToShow) ) ? '<strong>Reassessment: </strong>' : '';
   }
 });
 

@@ -129,14 +129,13 @@ Template.activityItem.helpers({
   },
   deleteable: function() {
     var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    };
     var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
     var hasStandards = (this.hasOwnProperty('standardIDs') && this.standardIDs.length);
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      return ((this.type == 'assessment') && !hasStandards);
+    };
     //also check for notes, todos, calendarEvents and links ... similar in teacher edit and the method in the collection itself
-    //check chould be performed on the server as not all may be subscribed to on the client
-    
+    //check chould be performed on the server as not all may be subscribed to on the client   
     return ((this.type == 'assessment') && (ownerID == userToShow) && !hasStandards);
   }
 });
