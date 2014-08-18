@@ -24,10 +24,21 @@ Template.activitiesSublist.rendered = function() {
 
 Template.activitiesSublist.helpers({
   activities: function() {
-    return Activities.find({modelID: this._id, ownerID: {$nin: [Meteor.userId()]},visible: true},{sort: {rank: 1}}); 
+    return Activities.find({modelID: this._id, 
+      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
+      visible: true},
+      {sort: {rank: 1}}); 
   },
   reassessments: function() {
-    return Activities.find({modelID: this._id, ownerID: {$in: [Meteor.userId()]},visible: true},{sort: {rank: 1}});
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    return Activities.find({modelID: this._id, 
+      ownerID: {$in: [userToShow]},
+      type: 'assessment',
+      visible: true},
+      {sort: {rank: 1}});
   },
   openInviteCount: function() {
     var userToShow = Meteor.userId();
@@ -37,7 +48,8 @@ Template.activitiesSublist.helpers({
     var activities = Activities.find({modelID: this._id,visible:true});
     var count = 0;
     activities.forEach(function (activity) {
-      count += CalendarEvents.find({activityID: activity._id, invite: {$in: [userToShow]}}).count();
+      count += CalendarEvents.find({activityID: activity._id, 
+        invite: {$in: [userToShow]}}).count();
     });
     return count;
   }
@@ -71,7 +83,9 @@ Template.activityItem.events({
     if (Activity.hasOwnProperty('standardIDs') && (Activity.standardIDs.length == 0)) {
       if (currentAssessment && currentAssessment.hasOwnProperty('standardIDs') && (currentAssessment._id == Activity._id))
         Session.set('currentAssessment','');
-      Meteor.call('deleteActivity',Activity._id);
+      Meteor.call('deleteActivity',Activity._id,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
     }
   }
 });
@@ -93,19 +107,37 @@ Template.activityItem.helpers({
     });
     return openInvites;
   },
-  assessmentAct: function () {
-    var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
-    return (ownerID && (ownerID == Meteor.userId() ) ) ? 'assessmentAct' : '';
+  assessmentAct: function () {  
+    //var userToShow = Meteor.userId();
+    //if (Roles.userIsInRole(userToShow,'teacher')) {
+    //  userToShow = Session.get('TeacherViewAs');
+    //};
+    //var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
+    //return ((this.type  == 'assessment') && ownerID && (ownerID == userToShow ) ) ? 'assessmentAct' : '';
+    return (this.type == 'assessment') ? 'assessmentAct' : '';
+    //seems good for now ... leaving above in case troubles arise
   },
-  reassessment: function() {
+  reassessment: function() { 
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
     var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
-    return (ownerID && (ownerID == Meteor.userId() ) ) ? '<strong>Reassessment: </strong>' : '';
+    if ((this.type == 'assessment') && !ownerID) 
+      return '<strong>assessment: </strong>';
+    return ((this.type == 'assessment') && ownerID && (ownerID == userToShow) ) ? '<strong>Reassessment: </strong>' : '';
   },
   deleteable: function() {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
     var ownerID =  this.hasOwnProperty('ownerID') ? this.ownerID : '';
     var hasStandards = (this.hasOwnProperty('standardIDs') && this.standardIDs.length);
-    //also check for notes, todos and links ... similar in teacher edit and the method in the collection itself
-    return ( (ownerID == Meteor.userId()) && !hasStandards);
+    //also check for notes, todos, calendarEvents and links ... similar in teacher edit and the method in the collection itself
+    //check chould be performed on the server as not all may be subscribed to on the client
+    
+    return ((this.type == 'assessment') && (ownerID == userToShow) && !hasStandards);
   }
 });
 
@@ -123,7 +155,7 @@ Template.newAssessment.helpers({
 
 Template.newAssessment.rendered = function() {
   var cU = Meteor.user();
-  if (cU) {
+  if (cU && Roles.userIsInRole(cU,['teacher','student'])) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
       var $t = $(event.target);
       var title = _.clean(_.stripTags($t.text()));
@@ -132,8 +164,10 @@ Template.newAssessment.rendered = function() {
       var nA = {
           modelID: modelID,
           title: title,
-          ownerID: cU._id
+          type: 'assessment'
       };
+      if (Roles.userIsInRole(cU,'student')) 
+        nA.ownerID = cU._id;
       Meteor.call('postActivity',nA,defaultText,
         function(error, id) {if (error) return alert(error.reason);}
       );

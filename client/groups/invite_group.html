@@ -14,7 +14,7 @@
           <p>Click <i>Just Me</i> if this is an individual activity, or select names from the list to invite others to form a group. <br/> <button id="Invite">{{invite}}</button> 
            {{groupies '' '' groupToInvite '.' '.'}} </p>
             </div>
-
+          {{#if isNotAssessment}}
            <div class = 'row'>
            <div class = 'span10 offset1'>
             {{#each sections}}
@@ -32,6 +32,7 @@
             {{/each}}
           </div>
           </div>
+          {{/if}}
         </div>
         </div>
 

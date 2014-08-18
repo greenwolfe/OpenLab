@@ -133,13 +133,13 @@ Meteor.methods({
     var Standard = Standards.findOne(standardID);
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to add a standard to an activity");
+      throw new Meteor.Error(401, "You must be logged in to add a standard to an assessment");
 
     if (!Activity)
-      throw new Meteor.Error(412, "Cannot add standard to activity.  Invalid activity ID.");
+      throw new Meteor.Error(412, "Cannot add standard to assessment.  Invalid assessment ID.");
 
     if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
-      throw new Meteor.Error(409, 'You must be a teacher to add a standard to a whole class activity.')
+      throw new Meteor.Error(409, 'You must be a teacher to add a standard to an assessment that belongs to anther user.')
 
     if (!Standard)
       throw new Meteor.Error(430, "Cannot add standard, invalid ID.")
@@ -154,16 +154,16 @@ Meteor.methods({
     var Standard = Standards.findOne(standardID);
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to add a standard to an activity");
+      throw new Meteor.Error(401, "You must be logged in to remove a standard from an assessment");
 
     if (!Activity)
-      throw new Meteor.Error(412, "Cannot add standard to activity.  Invalid activity ID.");
+      throw new Meteor.Error(412, "Cannot remove standard from assessment.  Invalid assessment ID.");
 
     if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
-      throw new Meteor.Error(409, 'You must be a teacher to add a standard to a whole class activity.')
+      throw new Meteor.Error(409, 'You must be a teacher to add a standard to an assessment that belongs to another user.')
 
     if (!Standard)
-      throw new Meteor.Error(430, "Cannot add standard, invalid ID.")
+      throw new Meteor.Error(430, "Cannot remove standard, invalid ID.")
     
     Activities.update(ActivityID,{$pull: {standardIDs: standardID}});
   }

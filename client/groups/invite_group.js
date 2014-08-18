@@ -1,4 +1,9 @@
 Template.inviteGroup.helpers({
+  isNotAssessment: function() {
+    var InviteGroup = Session.get("InviteGroup");
+    if (!InviteGroup) return 'Invite Group';
+    return (Activities.findOne(InviteGroup.activityID).type != 'assessment');
+  },
   sections: function() {
     var sections = Sections.find().fetch();
     var IG = Session.get('InviteGroup');

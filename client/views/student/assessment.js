@@ -78,7 +78,9 @@ var dropOpt = function () { //droppable options
       } else {
         var Standard = UI.getElementData(ui.helper.get(0));
         var Activity = Session.get('currentAssessment');
-        Meteor.call('activityRemoveStandard',Activity._id,Standard._id);
+        Meteor.call('activityRemoveStandard',Activity._id,Standard._id,
+          function(error, id) {if (error) return alert(error.reason);}
+        );
         Session.set('currentAssessment',Activities.findOne(Activity._id));
       };
     };
@@ -94,7 +96,9 @@ var dropOpt = function () { //droppable options
       Session.set('currentAssessment',Activity);
     } else if (!!Standard) {
       Activity = Session.get('currentAssessment');
-      Meteor.call('activityAddStandard',Activity._id,Standard._id);
+      Meteor.call('activityAddStandard',Activity._id,Standard._id,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
       Session.set('currentAssessment',Activities.findOne(Activity._id));
     }; 
   };

@@ -41,6 +41,9 @@ table#calendar tr td {
   top: 0;
   margin-top: 2px;
 }
+#addAssessment {
+  color: gray;
+}
 #ListOfLists {
   float: left;
   width:  40%;
