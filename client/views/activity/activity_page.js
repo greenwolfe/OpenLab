@@ -41,6 +41,17 @@ Template.activityPage.helpers({
   Todos:  function() {
     var userToShow = Session.get('TeacherViewIDs');
     return Todos.find({group: {$in: userToShow},activityID: this._id});
+  },
+  completed: function() {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    userToShow = Meteor.users.findOne(userToShow);
+    if (userToShow && userToShow.hasOwnProperty('completedActivities')) {
+      return _.contains(userToShow.completedActivities,this._id) ? 'fa fa-check-square-o' : 'fa fa-square-o';
+    }
+    return 'fa fa-square-o'; 
   }
 });
 
@@ -145,6 +156,24 @@ Template.activityPage.events({
       function(error, id) {if (error) return alert(error.reason);}
     );
    }, 
+  'click i.fa-square-o': function(event) {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('currentGroup');
+    };
+    Meteor.call('activityMarkDone',this._id,userToShow,
+      function(error, id) {if (error) return alert(error.reason);}
+    );    
+  },
+  'click i.fa-check-square-o': function(event) {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('currentGroup');
+    };
+    Meteor.call('activityMarkNotDone',this._id,userToShow,
+      function(error, id) {if (error) return alert(error.reason);}
+    );     
+  },
 
     /*********************/
    /**** Note Section ***/

@@ -21,6 +21,7 @@ Deps.autorun(function() {
         teacherViewIDs = teacherViewIDs.concat([TVA,'_ALL_']);
         Session.set('TeacherViewIDs',teacherViewIDs)
       } else if (selectedUser) {
+        Meteor.subscribe('completedActivities',TVA);
         Session.set('TeacherViewIDs',
           [TVA,selectedUser.profile.sectionID,'_ALL_']);
       } else {

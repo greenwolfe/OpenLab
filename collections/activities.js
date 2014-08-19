@@ -160,12 +160,72 @@ Meteor.methods({
       throw new Meteor.Error(412, "Cannot remove standard from assessment.  Invalid assessment ID.");
 
     if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
-      throw new Meteor.Error(409, 'You must be a teacher to add a standard to an assessment that belongs to another user.')
+      throw new Meteor.Error(409, 'You must be a teacher to remove a standard from an assessment that belongs to another user.')
 
     if (!Standard)
       throw new Meteor.Error(430, "Cannot remove standard, invalid ID.")
     
     Activities.update(ActivityID,{$pull: {standardIDs: standardID}});
+  }, 
+
+  /**** ACTIVITY MARK DONE ****/
+  activityMarkDone: function(ActivityID,StudentIDs) {
+    var cU = Meteor.user(); //currentUser
+    var Activity = Activities.findOne(ActivityID);
+    if (!_.isArray(StudentIDs))
+      StudentIDs = [StudentIDs];
+
+    if (!cU)
+      throw new Meteor.Error(401, "You must be logged in to mark an activity as done");
+    
+    if (!Roles.userIsInRole(cU,'teacher'))
+      throw new Meteor.Error(409, "Only teachers may mark an activity as done");
+
+    if (!Activity) 
+      throw new Meteor.Error(412, "Cannot mark activity as done.  Invalid activity");
+
+    StudentIDs.forEach(function(StudentID) {
+      var student = Meteor.users.findOne(StudentID);
+      if (!student)
+        throw new Meteor.Error(425, "Cannot mark activity as done.  Invalid user.")
+
+      if (!Roles.userIsInRole(student,'student')) 
+        throw new Meteor.Error(426, "Cannot mark activity as done.  Not a student.")
+    });
+
+    StudentIDs.forEach(function(StudentID) {
+      Meteor.users.update(StudentID,{$addToSet: {completedActivities:ActivityID}});
+    });
+  },
+
+  /**** ACTIVITY MARK NOT DONE ****/
+  activityMarkNotDone: function(ActivityID,StudentIDs) {
+    var cU = Meteor.user(); //currentUser
+    var Activity = Activities.findOne(ActivityID);
+    if (!_.isArray(StudentIDs))
+      StudentIDs = [StudentIDs];
+
+    if (!cU)
+      throw new Meteor.Error(401, "You must be logged in to mark an activity as done");
+    
+    if (!Roles.userIsInRole(cU,'teacher'))
+      throw new Meteor.Error(409, "Only teachers may mark an activity as done");
+
+    if (!Activity) 
+      throw new Meteor.Error(412, "Cannot mark activity as done.  Invalid activity");
+
+    StudentIDs.forEach(function(StudentID) {
+      var student = Meteor.users.findOne(StudentID);
+      if (!student)
+        throw new Meteor.Error(425, "Cannot mark activity as done.  Invalid user.")
+
+      if (!Roles.userIsInRole(student,'student')) 
+        throw new Meteor.Error(426, "Cannot mark activity as done.  Not a student.")
+    });
+
+    StudentIDs.forEach(function(StudentID) {
+      Meteor.users.update(StudentID,{$pull: {completedActivities:ActivityID}});
+    });
   }
 });  
 

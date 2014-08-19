@@ -29,6 +29,7 @@
 <template name = 'activityItem'>
     <div>
     <p data-activityid={{_id}} class="ui-state-default {{assessmentAct}}">
+      <i class="{{completed}}"></i>
       <a href="{{pathFor 'activityPage'}}">{{{reassessment}}}{{title}}</a> 
       {{#if deleteable}}
         <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)"></i>

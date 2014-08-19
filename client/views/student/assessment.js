@@ -79,7 +79,12 @@ var dropOpt = function () { //droppable options
         var Standard = UI.getElementData(ui.helper.get(0));
         var Activity = Session.get('currentAssessment');
         Meteor.call('activityRemoveStandard',Activity._id,Standard._id,
-          function(error, id) {if (error) return alert(error.reason);}
+          function(error, id) {
+            if (error) {
+              Session.set('currentAssessment',Activities.findOne('')); //clean exit
+              return alert(error.reason);
+            };
+          }
         );
         Session.set('currentAssessment',Activities.findOne(Activity._id));
       };

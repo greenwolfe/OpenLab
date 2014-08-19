@@ -65,6 +65,24 @@ Template.activityItem.rendered = function() {
 };
 
 Template.activityItem.events({
+  'click i.fa-square-o': function(event) {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    Meteor.call('activityMarkDone',this._id,userToShow,
+      function(error, id) {if (error) return alert(error.reason);}
+    );    
+  },
+  'click i.fa-check-square-o': function(event) {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    Meteor.call('activityMarkNotDone',this._id,userToShow,
+      function(error, id) {if (error) return alert(error.reason);}
+    );     
+  },
   'click a': function(event) {
     var TVA;
     var currentUserID = Meteor.userId();
@@ -126,6 +144,17 @@ Template.activityItem.helpers({
     if ((this.type == 'assessment') && !ownerID) 
       return '<strong>assessment: </strong>';
     return ((this.type == 'assessment') && ownerID && (ownerID == userToShow) ) ? '<strong>Reassessment: </strong>' : '';
+  },
+  completed: function() {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    userToShow = Meteor.users.findOne(userToShow);
+    if (userToShow && userToShow.hasOwnProperty('completedActivities')) {
+      return _.contains(userToShow.completedActivities,this._id) ? 'fa fa-check-square-o' : 'fa fa-square-o';
+    }
+    return 'fa fa-square-o';   
   },
   deleteable: function() {
     var userToShow = Meteor.userId();

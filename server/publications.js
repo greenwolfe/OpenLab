@@ -20,6 +20,12 @@ Meteor.publish('calendarEvents',function(userArray) {
   //expecting userArray = [Meteor.userId(),Meteor.userId.profile.sectionID'_ALL_']
   return CalendarEvents.find({$or: [ {group: {$in: userArray}},{invite: {$in: userArray}} ]});  //do I want just userArray to include _ALL_ here?
 });
+Meteor.publish('completedActivities',function(userID) {
+  var cU = Meteor.users.findOne(userID);
+  if (cU && cU.hasOwnProperty('completedActivities'))
+    return Meteor.users.find(userID,{fields: {completedActivities: 1}});
+  return this.ready();
+});
 Meteor.publish('userList',function() {
   if (this.userId) {
     return Meteor.users.find({},{fields : {username : 1, roles: 1, profile: 1}});
