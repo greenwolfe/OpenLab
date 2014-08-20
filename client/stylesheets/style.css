@@ -150,7 +150,7 @@ filter: alpha(opacity=50);
 #inviteGroupDialog div.selected {
   background-color: #c9c9c9;
 }
-#openInviteDialog p, #inviteGroupDialog p {
+#openInviteDialog p, #inviteGroupDialog p, editProfileDialog p {
   margin-left: 8px;
   margin-right: 8px;
 }
@@ -159,7 +159,7 @@ filter: alpha(opacity=50);
   right: 0;
   margin-right: 4px;
 }
-#openInviteDialog i.remove, #inviteGroupDialog i.remove {
+#openInviteDialog i.remove, #inviteGroupDialog i.remove, #editProfileDialog i.remove {
   position: absolute;
   right: 0;
   margin-right: 10px;
@@ -169,7 +169,7 @@ filter: alpha(opacity=50);
 i.remove:hover, i.fa-check-square-o, i.fa-square-o {
     cursor: default;
 }
-#openInviteDialog h2, h3, #inviteGroupDialog h2, h3 {
+#openInviteDialog h2, h3, #inviteGroupDialog h2, h3, #editProfileDialog h2, h3 {
   text-align: center;
 }
 .headerInfo {

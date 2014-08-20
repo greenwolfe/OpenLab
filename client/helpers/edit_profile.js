@@ -17,10 +17,19 @@ Template._loginButtonsLoggedInDropdown.events({
 /**********************/
 
 Template.editProfile.events({
-  'change #sectionList': function(event,tmpl) {
+  'click i.remove' : function(event) {
+    var cU = Meteor.user();
+    $('#editProfileDialog').modal('hide');
+    $('#sectionList').val(cU.profile.sectionID);
+    $('#userName').val(cU.username);
+  },
+  'click #btnSave': function(event) {
     var sectionID = $('#sectionList').val();
+    var userName = $('#userName').val();
     var currentUser = Meteor.user();
     Meteor.users.update({_id:currentUser._id}, { $set:{"profile.sectionID":sectionID}} );
+    Meteor.call('updateUsername',currentUser._id,userName);
+    $('#editProfileDialog').modal('hide');
   }
 });
 
@@ -28,6 +37,10 @@ Template.editProfile.helpers({
   Sections: function() {
     return Sections.find();
   },
+  username: function() {
+    var cU = Meteor.user();
+    return (!!cU) ? Meteor.user().username : '';
+  }
 });
 
 //allow teacher to view/edit student profiles?
