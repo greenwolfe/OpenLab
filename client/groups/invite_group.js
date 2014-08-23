@@ -130,7 +130,7 @@ Template.inviteGroup.events({
 
 Template.sectionToInvite.events({
   'click div.IGsection' : function(event) {
-    console.log(event.ctrlKey);
+    //console.log(event.ctrlKey);
     var IG = Session.get('InviteGroup');
     var newID = $(event.target).data('sectionid');
     IG.sectionID = (IG.sectionID == newID) ? '' : newID;
