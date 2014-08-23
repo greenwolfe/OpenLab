@@ -45,8 +45,7 @@ Template.ExpActivitiesSublist.rendered = function() {
 Template.ExpActivitiesSublist.helpers({
   activities: function() {
     return Activities.find({modelID: this._id, 
-      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
-      visible: true},
+      ownerID: {$in: [null,'']}}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
       {sort: {rank: 1}}); 
   },
   defaultText: function() {

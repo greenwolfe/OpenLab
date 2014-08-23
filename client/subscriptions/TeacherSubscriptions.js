@@ -1,33 +1,36 @@
 Deps.autorun(function() {
-    var currentUser = Meteor.user();
-    var teacherViewIDs;
-    if (!currentUser) {
-      Session.set('TeacherViewIDs',['_ALL_']);
-      return;
-    }
-    if (Roles.userIsInRole(currentUser._id,'student')) 
+  var TVA = Session.get('TeacherViewAs');
+  var currentUser = Meteor.user();
+  var sectionID = (currentUser && 
+    currentUser.hasOwnProperty('profile') && 
+    currentUser.profile.hasOwnProperty(sectionID)) ? currentUser.profile.sectionID : '';
+  var teacherViewIDs;
+  if (!currentUser) {
+    Session.set('TeacherViewIDs',['_ALL_']);
+    return;
+  }
+  if (Roles.userIsInRole(currentUser._id,'student')) 
+    Session.set('TeacherViewIDs',
+      [currentUser._id,sectionID,'_ALL_']);
+  if (Roles.userIsInRole(currentUser,'teacher')) {
+    var SectionIDs = Sections.find().map(function(s) {return s._id});
+    var selectedUser = Meteor.users.findOne(TVA);
+    if (TVA == currentUser._id) {
       Session.set('TeacherViewIDs',
-        [currentUser._id,currentUser.profile.sectionID,'_ALL_']);
-    if (Roles.userIsInRole(currentUser,'teacher')) {
-      var TVA = Session.get('TeacherViewAs');
-      var SectionIDs = Sections.find().map(function(s) {return s._id});
-      var selectedUser = Meteor.users.findOne(TVA);
-      if (TVA == currentUser._id) {
-        Session.set('TeacherViewIDs',
-          [TVA,'_ALL_'].concat(SectionIDs));
-      } else if (_.contains(SectionIDs,TVA)) {
-        teacherViewIDs = Meteor.users.find({_id: {$ne: currentUser._id},
-        'profile.sectionID': TVA}).map(function(u) {return u._id}); 
-        teacherViewIDs = teacherViewIDs.concat([TVA,'_ALL_']);
-        Session.set('TeacherViewIDs',teacherViewIDs)
-      } else if (selectedUser) {
-        Meteor.subscribe('completedActivities',TVA);
-        Session.set('TeacherViewIDs',
-          [TVA,selectedUser.profile.sectionID,'_ALL_']);
-      } else {
-        Session.set('TeacherViewIDs',['_ALL_']);
-      };
+        [TVA,'_ALL_'].concat(SectionIDs));
+    } else if (_.contains(SectionIDs,TVA)) {
+      teacherViewIDs = Meteor.users.find({_id: {$ne: currentUser._id},
+      'profile.sectionID': TVA}).map(function(u) {return u._id}); 
+      teacherViewIDs = teacherViewIDs.concat([TVA,'_ALL_']);
+      Session.set('TeacherViewIDs',teacherViewIDs)
+    } else if (selectedUser) {
+      Meteor.subscribe('completedActivities',TVA);
+      Session.set('TeacherViewIDs',
+        [TVA,selectedUser.profile.sectionID,'_ALL_']);
+    } else {
+      Session.set('TeacherViewIDs',['_ALL_']);
     };
+  };
 }); 
 
 

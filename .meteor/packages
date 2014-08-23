@@ -16,6 +16,6 @@ bower
 jquery-ui-bootstrap
 underscore
 underscore-string-latest
-fast-render
 roles
 coffeescript
+fast-render
