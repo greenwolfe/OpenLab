@@ -8,8 +8,8 @@ if (Meteor.isServer) {
     if (Meteor.users.find().count() === 0) {
       var id = Accounts.createUser({
         password: "password",
-        email: "palmer_seeley@caryacademy.org",
-        username: 'MrSeeley'
+        email: "matt_greenwolfe@caryacademy.org",
+        username: 'Gwolfe'
       });
       Roles.addUsersToRoles(id, ['teacher']);
     };

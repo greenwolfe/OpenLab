@@ -1,4 +1,6 @@
-
+body, #ListOfLists, .Model {
+  background: #efefef;
+}
 .navbar { /* overriding defaults from bootstrap */
   margin-bottom: 10px;
 }

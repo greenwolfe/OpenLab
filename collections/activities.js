@@ -194,7 +194,6 @@ Meteor.methods({
     });
 
     StudentIDs.forEach(function(StudentID) {
-      //console.log('marking ' + Activities.findOne(ActivityID).title + ' done for ' + Meteor.users.findOne(StudentID).username);
       Meteor.users.update(StudentID,{$addToSet: {completedActivities:ActivityID}});
      });
   },
