@@ -159,19 +159,32 @@ Template.activityPage.events({
   'click i.fa-square-o': function(event) {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('currentGroup');
+      userToShow = Session.get('TeacherViewAs');
     };
     Meteor.call('activityMarkDone',this._id,userToShow,
-      function(error, id) {if (error) return alert(error.reason);}
+      function(error, id) {
+        if (error) {
+          return alert(error.reason);
+        } else { //register subscription in case this is the first completed Activity
+                 //and the user does not have a completedActivities field yet.
+          Meteor.subscribe('completedActivities',userToShow); 
+        }
+      }
     );    
   },
   'click i.fa-check-square-o': function(event) {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('currentGroup');
+      userToShow = Session.get('TeacherViewAs');
     };
     Meteor.call('activityMarkNotDone',this._id,userToShow,
-      function(error, id) {if (error) return alert(error.reason);}
+      function(error, id) {
+        if (error) {
+          return alert(error.reason);
+        } else { //shouldn't need this here ??
+          Meteor.subscribe('completedActivities',userToShow);
+        }
+      }
     );     
   },
 
