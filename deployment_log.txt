@@ -1,0 +1,11 @@
+commit 42ccebf7aae42f6b6a7290bf4c41a82140ff4f24		                             
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sat Aug 30 22:50:10 2014 -0400
+
+    fixed teacher check off from within activity as well
+Aug 30, 2014:  openlab.demo.meteor.com  broken on deployment, so did deploy --delete then restored database and then it worked
+Aug 30, 2014:  openlab.gwolfe.meteor.com installed with no problem ... so why does the demo page have problems each time I tried to push an update?  now it also has the same database as gwolfe, we can see if that makes a difference
+Aug 30, 2014:  openstudio.seeley.meteor.com ... went like demo, had to delete it all, deploy the empty app, then restore the database ... why?
+##############################################################################
+
+

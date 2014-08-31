@@ -26,8 +26,12 @@ Template.editProfile.events({
   'click #btnSave': function(event) {
     var sectionID = $('#sectionList').val();
     var userName = $('#userName').val();
+    var firstName = $('#firstName').val();
+    var lastName = $('#lastName').val();
     var currentUser = Meteor.user();
-    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.sectionID":sectionID}} );
+    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.lastName":lastName} });
+    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.firstName":firstName} });
+    Meteor.users.update({_id:currentUser._id}, { $set:{"profile.sectionID":sectionID} });      
     Meteor.call('updateUsername',currentUser._id,userName);
     $('#editProfileDialog').modal('hide');
   }
@@ -39,7 +43,15 @@ Template.editProfile.helpers({
   },
   username: function() {
     var cU = Meteor.user();
-    return (!!cU) ? Meteor.user().username : '';
+    return (!!cU) ? cU.username : '';
+  },
+  firstname: function() {
+    var cU = Meteor.user();
+    return (!!cU && cU.profile && cU.profile.hasOwnProperty('firstName')) ? cU.profile.firstName : '';
+  },
+  lastname: function() {
+    var cU = Meteor.user();
+    return (!!cU && cU.profile && cU.profile.hasOwnProperty('lastName')) ? cU.profile.lastName : '';
   }
 });
 

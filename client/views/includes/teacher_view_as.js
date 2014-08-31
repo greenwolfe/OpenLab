@@ -28,10 +28,12 @@ Template.TeacherViewAs.helpers({
       return '';
     if (_.contains(SectionIDs,TVA)) {
       uIS = Meteor.users.find({_id: {$ne: Meteor.userId()},
-        'profile.sectionID': TVA}).fetch(); 
+        'profile.sectionID': TVA},
+        {sort: [["profile.lastName", "asc"], ["profile.firstName", "asc"]]}).fetch(); 
     } else if (selectedUser && selectedUser.profile && selectedUser.profile.sectionID) {
       uIS =  Meteor.users.find({_id: {$ne: Meteor.userId()},
-        'profile.sectionID': selectedUser.profile.sectionID}).fetch();
+        'profile.sectionID': selectedUser.profile.sectionID},
+        {sort: [["profile.lastName", "asc"], ["profile.firstName", "asc"]]}).fetch();
     }; 
     if (!uIS.length) return '';
     uIS.forEach(function(u,i) {
@@ -83,4 +85,17 @@ Deps.autorun(function() {  //set TeacherViewAs when teacher logs in.
   if (userID && Roles.userIsInRole(userID,'teacher')) {
     Session.set('TeacherViewAs',userID);
   };
+});
+
+  /*************************/
+ /****  User To View  #****/
+/*************************/
+
+Template.userToView.helpers({
+  fullname : function() { //edit when users add names to profile
+    if (this.hasOwnProperty('profile') && this.profile.hasOwnProperty('firstName') && this.profile.hasOwnProperty('lastName')) {
+      return this.profile.firstName + ' ' + this.profile.lastName;
+    }
+    return '';
+  }
 });
