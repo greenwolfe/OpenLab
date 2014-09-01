@@ -44,8 +44,8 @@ Meteor.methods({
     if (!Note.hasOwnProperty('activityID') || !Activities.findOne(Note.activityID))
       throw new Meteor.Error(406, "Cannot post note.  Invalid activity ID.");
 
-    if (!Note.submitted)// || !moment(Note.submitted,'ddd[,] MMM D YYYY',true).isValid())
-      throw new Meteor.Error(411, "Cannot post note.  Invalid date");
+    if (!Note.hasOwnProperty('submitted'))// || !moment(Note.submitted,'ddd[,] MMM D YYYY',true).isValid())
+      Note.submitted = new Date().getTime();
 
     if (Roles.userIsInRole(cU,'teacher')) {
      NoteID = Notes.insert(Note);
