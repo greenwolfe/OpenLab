@@ -25,6 +25,7 @@ Deps.autorun(function() {
       Session.set('TeacherViewIDs',teacherViewIDs)
     } else if (selectedUser) {
       Meteor.subscribe('completedActivities',TVA);
+      Meteor.subscribe('levelsOfMastery',TVA);
       Session.set('TeacherViewIDs',
         [TVA,selectedUser.profile.sectionID,'_ALL_']);
     } else {

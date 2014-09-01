@@ -58,4 +58,14 @@ Meteor.publish('standards',function(showHidden) {
   }
 });
 
+Meteor.publish('levelsOfMastery',function(studentID) {
+  if ( this.userId && Roles.userIsInRole(this.userId,'teacher') ) {
+    return LevelsOfMastery.find( {studentID: studentID} );
+  } else if (this.userId && (studentID == this.userId)) {
+    return LevelsOfMastery.find( {studentID: studentID, visible:true} );
+  } else {
+    this.ready();
+  };
+});
+
 

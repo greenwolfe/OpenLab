@@ -118,7 +118,9 @@ Meteor.methods({
       Standard.modelID = nS.modelID;  
     };
 
-    
+    if (nS.hasOwnProperty('scale'))
+      Standards.update(nS._id,{$set: {scale:nS.scale}});
+
     if (nS.hasOwnProperty('rank') && (nS.rank != Standard.rank)) {
       Standards.update(nS._id,{$set: {rank: nS.rank}}); 
     };
@@ -145,7 +147,7 @@ if (Standards.find().count() === 0) {
     description : 'I can draw ... and calculate ... ',
     rank : 1,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: ''
   }); 
 
@@ -155,7 +157,7 @@ if (Standards.find().count() === 0) {
     description : 'I can draw ... and calculate ...',
     rank : 2,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: ''
   });
 
@@ -165,7 +167,7 @@ if (Standards.find().count() === 0) {
     description : 'I can draw ... and calculate ...',
     rank : 0,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: ''
   });
 
@@ -175,7 +177,7 @@ if (Standards.find().count() === 0) {
     description : 'I can define ... and explain ... and calculate ...',
     rank : 1,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: ''
   });
 
@@ -185,7 +187,7 @@ if (Standards.find().count() === 0) {
     description : '',
     rank : 2,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: ''
   });
 
@@ -195,7 +197,7 @@ if (Standards.find().count() === 0) {
     description : 'I can draw ...',
     rank : 3,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: ''
   });
 
