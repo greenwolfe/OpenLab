@@ -5,7 +5,7 @@
 Template.TeacherViewAs.helpers({
   sections: function() {
     var TVA = Session.get('TeacherViewAs');
-    var sections = Sections.find().fetch();
+    var sections = Sections.find({},{sort: [["section","asc"]]}).fetch();
     var SectionIDs = Sections.find().map(function(s) {return s._id});
     var selectedUser = Meteor.users.findOne(TVA);
     var selectedSectionID;

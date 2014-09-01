@@ -8,4 +8,19 @@ Aug 30, 2014:  openlab.gwolfe.meteor.com installed with no problem ... so why do
 Aug 30, 2014:  openstudio.seeley.meteor.com ... went like demo, had to delete it all, deploy the empty app, then restore the database ... why?
 ##############################################################################
 
+commit fd4bbfd9f8b372c4735dfc1174439de9ec24a831
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Aug 31 11:23:25 2014 -0400
+
+    same as last commit, but made sure active database wasnt push
+
+commit c8d99a6e53a3cc9005a0ccd8312777b103fd6086
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Aug 31 11:20:51 2014 -0400
+
+    pulled first and last names from e-mails and filled firstName ...
+
+Aug 31 2014:  openlab.demo.meteor.com ... crashed the site and had to deploy --delete, deploy with no database, then restore the database ... why?
+Aug 31 2014:  openlab.gwolfe.meteor.com ... no problems, no crash ... then installed database with first names and last names ... also fine
+
 

@@ -5,7 +5,7 @@ Template.inviteGroup.helpers({
     return (Activities.findOne(InviteGroup.activityID).type != 'assessment');
   },
   sections: function() {
-    var sections = Sections.find().fetch();
+    var sections = Sections.find({},{sort: [["section","asc"]]}).fetch();
     var IG = Session.get('InviteGroup');
     if (!IG) return '';
     sections.forEach(function(s,i) {
@@ -23,7 +23,8 @@ Template.inviteGroup.helpers({
       'roles': {$in: ['teacher']}}).fetch();
     } else {
       uIS = Meteor.users.find({_id: {$ne: Meteor.userId()},
-      'profile.sectionID': IG.sectionID},{sort: {username: 1}}).fetch();
+      'profile.sectionID': IG.sectionID},
+        {sort: [["profile.lastName", "asc"], ["profile.firstName", "asc"]]}).fetch(); 
     };
     if (!uIS.length) return '';
     var o,i,Ncol = 5;
@@ -145,6 +146,19 @@ Template.userToInvite.events({
     var i = IG.group.indexOf(userID);
     (i === -1) ? IG.group.push(userID) : IG.group.splice(i,1);
     Session.set('InviteGroup',IG)
+  }
+});
+
+  /*************************/
+ /****  User To Invite ****/
+/*************************/
+
+Template.userToInvite.helpers({
+  fullname : function() { 
+    if (this.hasOwnProperty('profile') && this.profile.hasOwnProperty('firstName') && this.profile.hasOwnProperty('lastName')) {
+      return this.profile.firstName + ' ' + this.profile.lastName;
+    }
+    return '';
   }
 });
 
