@@ -64,6 +64,35 @@ Meteor.methods({
     return eventID;
   },
 
+  /***** UPDATE CALENDAR EVENT ****/
+  updateInviteList: function(eventID,invite) { 
+    var cU = Meteor.user(); //currentUser
+    var cE = CalendarEvents.findOne(eventID);
+
+    if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to update a calendare event");
+
+    if (!_.isArray(invite))
+      throw new Meteor.Error(403, "Cannot update calendar event.  Improper invitation list.");
+    invite.forEach(function(ID) {
+      if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
+        throw new Meteor.Error(405, "Cannot update calendar event.  All invitees must be valid users.");
+    });
+
+    if (Roles.userIsInRole(cU,'teacher')) {
+     CalendarEvents.update(eventID,{$set: {invite: invite}});
+    } else if (Roles.userIsInRole(cU,'student')) {
+      if (!_.contains(cE.group,cU._id)) 
+        throw new Meteor.Error(408, 'Cannot update calendar event unless you are part of the group.')
+      CalendarEvents.update(eventID,{$set: {invite: invite}});
+    } else {
+      throw new Meteor.Error(409, 'You must be student or teacher to create  a new calendar event.')
+    };
+
+    return eventID;
+  },
+
+
   /***** ACCEPT INVITE ****/
   acceptInvite: function(eventID) {
     var cE = CalendarEvents.findOne(eventID); //calendarEvent

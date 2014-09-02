@@ -245,6 +245,25 @@ Template.calendarEvent.events({
     var eventID = $(event.currentTarget.parentElement).data('eventid');
     var calendarEvent = CalendarEvents.findOne(eventID);
     Session.set('currentGroup',calendarEvent.group);
+  },
+  'click .invitemore': function(event) {
+    var eventID = $(event.currentTarget.parentElement).data('eventid');
+    var cE = CalendarEvents.findOne(eventID);
+    var IG = { //Invite Group, for session variable
+      eventID: cE._id,
+      eventDate: cE.eventDate,
+      activityID: cE.activityID,
+      group: cE.invite,
+      currentGroup: cE.group
+    }
+    var cU = Meteor.user();
+    if (cU && cU.profile && cU.profile.sectionID) {
+      IG.sectionID = cU.profile.sectionID;   
+    } else {
+      IG.sectionID = Sections.findOne()._id;
+    }; 
+    Session.set("InviteGroup",IG);
+    $('#inviteGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
   }
 });
 
