@@ -315,6 +315,29 @@ Template.todo.helpers({
   }
 });
 
+    /************************************/
+   /*** Template.actPageStandardItem ***/
+  /************************************/
+Template.actPageStandardItem.helpers({
+  LoM: function(activity) {
+    var cU_id = Meteor.userId(); 
+    var selector = {
+      activityID: activity._id,
+      standardID: this._id
+    };
+    if (!cU_id) return '';
+    if (Roles.userIsInRole(cU_id,'teacher')) {
+      selector.studentID = Session.get('TeacherViewAs');
+      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]});
+    } else if (Roles.userIsInRole(cU_id,'student')) {
+      selector.studentID = cU_id;
+      selector.visible = true;
+      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]},{limit:1});
+    };
+  }
+ });
+
+
     /*********************/
    /*** Template.note ***/
   /*********************/

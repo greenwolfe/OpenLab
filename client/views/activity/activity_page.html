@@ -79,6 +79,12 @@
     <p>
       <strong><a href={{pathFor 'standardPage'}}>{{title}}: </a></strong>{{description}}
     </p>
+    {{#each LoM ..}}
+      <p>
+        <span class="badge">{{level}}</span> 
+        <a href='#'>{{comment}}</a>
+      </p>
+    {{/each}}
 </template>
 
 <template name='note'>

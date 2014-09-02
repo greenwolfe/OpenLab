@@ -66,6 +66,7 @@ Meteor.methods({
   deleteStandard: function(StandardID) { 
     var cU = Meteor.user(); //currentUser
     var Standard = Standards.findOne(StandardID);
+    var LoMcount;
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to delete a standard");
@@ -76,8 +77,9 @@ Meteor.methods({
     if (!Standard)
       throw new Meteor.Error(412, "Cannot delete standard.  Invalid ID.");
 
-    //check if standard has been used and post warning or suggest
-    //just hiding it???
+    LoMcount = LevelsOfMastery.find({standardID:StandardID}).count();
+    if (LoMcount)
+      throw new Meteor.Error(469, "Levels of Mastery have already been assigned to this Standard.  Cannot delete.");
 
     Standards.remove(StandardID);
     
