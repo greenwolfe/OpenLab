@@ -36,7 +36,7 @@ Template.inviteGroup.helpers({
   invite: function() {
     var IG = Session.get('InviteGroup');
     var currentUser = Meteor.user();
-    if (IG.hasOwnProperty('currentGroup'))
+    if (IG && IG.hasOwnProperty('currentGroup'))
       return 'Invite';
     if (Roles.userIsInRole(currentUser,'teacher') && 
       IG && IG.group && !IG.group.length && 

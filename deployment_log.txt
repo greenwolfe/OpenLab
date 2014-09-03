@@ -23,4 +23,15 @@ Date:   Sun Aug 31 11:20:51 2014 -0400
 Aug 31 2014:  openlab.demo.meteor.com ... crashed the site and had to deploy --delete, deploy with no database, then restore the database ... why?
 Aug 31 2014:  openlab.gwolfe.meteor.com ... no problems, no crash ... then installed database with first names and last names ... also fine
 
+#################################################################################
+
+commit 1dcf7d52dd0b1b05d44f80e6008f215a2bd622fd
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Sep 2 14:47:43 2014 -0400
+
+    added ability to update invite list
+
+September 2, 2014:  openlab.demo.meteor.com ... like usual, direct deploy crashed it, so delete, deploy and restore database to test
+September 2, 2014:  openlab.gwolfe.meteor.com
+
 
