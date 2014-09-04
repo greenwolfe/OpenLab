@@ -1,11 +1,13 @@
 Template.activityPage.rendered = function() {
   $(this.find('#TodoList')).sortable(SortOpt());
+  $('#newPGA').hallo(hallosettings(true));
   $('#newNote').hallo(hallosettings(true));
  /*  .bind( "hallodeactivated", function(event) { //hallomodified
       console.log(event.target.id + ' modified');
       console.log(event.target.innerHTML);
    }); */
    //will have to be moved, as here it isn't reactive if group changes
+   $('#newPGA').data('defaultText',$('#newPGA').html());
    $('#newNote').data('defaultText',$('#newNote').html());
 };
 
@@ -15,6 +17,13 @@ Template.activityPage.helpers({
   },
   Standards: function() {
     return Standards.find({_id: {$in:this.standardIDs}});
+  },
+  PGAs:  function() {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    return PostGameAnalyses.find({studentID:userToShow,activityID: this._id},{sort: {submitted: -1}});
   },
   Notes:  function() {
     var userID = Meteor.userId();
@@ -188,10 +197,76 @@ Template.activityPage.events({
     );     
   },
 
+
+    /********************/
+   /**** PGA Section ***/
+  /********************/
+  'click #addPGA':function(event) {
+    var text = $('#newPGA').html();
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    var PGA = {
+      authorID : Meteor.userId(),
+      studentID : userToShow,
+      submitted : new Date().getTime(),
+      activityID : this._id,
+      text : text
+    };   
+    event.preventDefault();
+    Meteor.call('postPGA', PGA, $('#newPGA').data('defaultText'),
+      function(error, id) {if (error) return alert(error.reason);}
+    );    
+    $('#newPGA').addClass("defaultTextActive");
+    $('#newPGA').text($('#newPGA').data('defaultText'));
+  },
+  'focus #newPGA':function(event) {
+    if ($('#newPGA').html() == $('#newPGA').data('defaultText')) {
+      $('#newPGA').removeClass("defaultTextActive");
+      $('#newPGA').text("");
+    };
+  },
+  'blur #newPGA':function(event) {
+    if ($('#newPGA').html() == '') {
+      $('#newPGA').addClass("defaultTextActive");
+      $('#newPGA').text($('#newPGA').data('defaultText'));
+    };
+  },
+  'click .removePga': function(event) {
+    var PgaID = $(event.target).data('pgaid');
+    Meteor.call('deletePGA', PgaID, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
+   },
+   'click .editPga': function(event,tmpl) {
+      var $pgaText = $(event.target).parent().parent().find('.pgaText');
+      var $updateButton = $(event.target).parent().parent().find('.updatePGAContainer');
+      $pgaText.addClass('editing');
+      $pgaText.hallo(hallosettings(true)).bind( "hallodeactivated", function(event) { //hallomodified
+        var pgaID = $(event.target).data('pgaid');
+        var currentText = PostGameAnalyses.findOne(pgaID).text;
+        $pgaText.removeClass('editing');
+        $pgaText.hallo({editable: false});
+        $pgaText.html(currentText);
+        $updateButton.addClass('hidden');
+      });
+      $pgaText.focus();
+      $updateButton.removeClass('hidden');
+    },
+    'mousedown .updatePGA': function(event,tmpl) {
+      //can't use click because have to catch this before the hallodeactivated binding
+      var newText = $(event.target).parent().parent().find('.pgaText').html();
+      var pgaID = $(event.target).data('pgaid');
+      Meteor.call('updatePGA', pgaID, newText,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
+    },
+
     /*********************/
    /**** Note Section ***/
   /*********************/
-  'click #addNote':function(event) {
+  'click #addNote': function(event) {
     var text = $('#newNote').html();
     var note = {
       author : Meteor.userId(),
@@ -338,6 +413,33 @@ Template.actPageStandardItem.helpers({
  });
 
 
+    /*********************/
+   /*** Template.PGA ***/
+  /*********************/
+
+Template.PGA.helpers({
+  allowDelete: function() {
+    var userID = Meteor.userId();
+    var now, editDeadline;
+    if (!userID) return false;
+    if (Roles.userIsInRole(userID,'teacher')) return true;
+    if (!Roles.userIsInRole(userID,'student')) return false;
+    if (!this.authorID || (userID != this.authorID)) return false;
+    now = moment();
+    editDeadline = moment(this.submitted).add('minutes',30);
+    return (editDeadline.isAfter(now));
+  },
+  allowEdit: function() {
+    var userID = Meteor.userId();
+    var now, editDeadline;
+    if (!userID) return false;
+    if (!Roles.userIsInRole(userID,['student','teacher'])) return false;
+    if (!this.authorID || (userID != this.authorID)) return false;
+    now = moment();
+    editDeadline = moment(this.submitted).add('minutes',30);
+    return (Roles.userIsInRole(userID,'teacher') || editDeadline.isAfter(now));
+  }
+});
     /*********************/
    /*** Template.note ***/
   /*********************/

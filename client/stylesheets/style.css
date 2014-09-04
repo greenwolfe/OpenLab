@@ -217,12 +217,12 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
   width: 63%;
   margin-bottom: 10px;
 }
-#activityDescription, #activityStandards, #todos, #notes, .linksBox {
+#activityDescription, #activityStandards, #todos, #notes, #pgas, .linksBox {
   display: block;
   border: thin black solid;
   margin-bottom: 10px;
 }
-#newNote {
+#newNote, #newPGA {
   display: inline-block;
   border: thin black solid;
   margin-bottom: 10px;
@@ -230,7 +230,7 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
   width: 89%;
   min-height: 24pt;
 }
-.noteText.editing {
+.noteText.editing, .pgaText.editing {
   display: inline-block;
   width: 89%;
 }
@@ -245,14 +245,14 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 #activityStandards p strong a {
   color: black;
 }
-#addNoteContainer {
+#addNoteContainer, #addPGAContainer {
   display: inline-block;
   margin-bottom: 10px;
   margin-top: 20px;
   width: 10%;
   vertical-align: top;
 }
-.updateNoteContainer, .updateDescriptionContainer {
+.updateNoteContainer, .updatePGAContainer, .updateDescriptionContainer {
   display: inline-block;
   width: 10%;
   vertical-align: top;
@@ -277,7 +277,7 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
   margin-top: 5px;
   vertical-align: top;
 }
-.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover,.editDescription:hover {
+.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover, .removePga:hover, .editPga:hover, .editDescription:hover {
   cursor: default;
 }
 /*.noteText {

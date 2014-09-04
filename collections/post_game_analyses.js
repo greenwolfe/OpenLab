@@ -98,7 +98,7 @@ Meteor.methods({
     if (!PGA)
       throw new Meteor.Error(412, "Cannot update Post Game Analysis.  Invalid ID.");
 
-    if (newText == PGA.text) return PgaID;
+    if (newText == '') newText = PGA.text;
     newText += _(newText).endsWith('<br>') ? '':'<br>';
 
     if (Roles.userIsInRole(cU,'teacher')) {

@@ -34,7 +34,7 @@
   </div>
 
   <div class='right-column'>
-     <div id='activityDescription'>
+    <div id='activityDescription'>
       <h3> Description </h3>
       {{>description}}
     </div>
@@ -46,6 +46,19 @@
         {{/each}}
       </div>
     {{/if}}
+    <div id='addPGAContainer'>
+      <button id="addPGA" name="addPGA"><i class="fa fa-caret-down"></i> Post <i class="fa fa-caret-down"></i></button>
+    </div>
+    <div id='newPGA' class='defaultTextActive'>
+      Write a post game analysis.  Just click here and start typing.   
+    </div>
+    <div id='pgas'>
+      <h3> Post Game Analysis </h3>
+      {{#each PGAs}}
+        {{> PGA}}
+      {{/each}}
+    </div>
+
     <div id='addNoteContainer'>
       <button id="addNote" name="addNote"><i class="fa fa-caret-down"></i> Post <i class="fa fa-caret-down"></i></button>
     </div>
@@ -59,7 +72,6 @@
       {{/each}}
     </div>
   </div>
-
 </template>
 
 <template name='description'>
@@ -87,6 +99,19 @@
     {{/each}}
 </template>
 
+<template name='PGA'>
+    <p></p>
+    <p> 
+    {{#if allowEdit}}
+    <div class='updatePGAContainer hidden'>
+      <button class="updatePGA" name="updatePGA" data-PgaID = {{_id}}>Update</button>
+    </div>
+    {{/if}}
+    <div class='pgaText' data-PgaID = {{_id}}> {{{text}}}</div>
+    <span style='font-size: 10pt;margin-left: 10px'> by: {{nameFormat authorID 'nick'}} on {{dateFormat submitted 'short'}} {{#if allowDelete}}<i class='removePga fa fa-times' data-PgaID = {{_id}} onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)"></i>{{/if}} {{#if allowEdit}}<i class='editPga fa fa-pencil-square-o' data-PgaID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span> 
+    </p>
+</template>
+
 <template name='note'>
     <p></p>
     <p> 
@@ -98,7 +123,6 @@
     <div class='noteText' data-noteID = {{_id}}> {{{text}}}</div>
     <span style='font-size: 10pt;margin-left: 10px'>from: {{nameFormat author 'nick'}} to: {{groupies "" "" group "" ""}} on {{dateFormat submitted 'short'}} {{#if allowDelete}}<i class='removeNote fa fa-times' data-noteID = {{_id}} onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)"></i>{{/if}} {{#if allowEdit}}<i class='editNote fa fa-pencil-square-o' data-noteID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span> 
     </p>
-      
 </template>
 
 <template name='link'>
