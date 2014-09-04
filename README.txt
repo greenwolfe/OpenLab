@@ -109,9 +109,11 @@ Bower:  jquery-htmlclean v1.3.0 successfully installed
 Bower:  jquery v1.9.1 successfully installed
 some of which are duplicates.  Is this overloading my code with some packages installed in multiple places?  I don't understand package loading and when something would see what.
 
-    /***************************** UPDATING OPENSTUDIO FOR PALMER ******************************/
-   /** files to edit:                                                                        **/
-  /** /client/views/includes/*_header.html ... Change Open Lab to Open Studio               **/
- /** /server/users.js ... Change account info from Gwolfe to MrSeeley and the e-mails      **/
+      /***************************** UPDATING OPENSTUDIO FOR PALMER ******************************/
+     /** files to edit:                                                                        **/
+    /** /client/views/includes/*_header.html ... Change Open Lab to Open Studio               **/
+   /** /server/users.js ... Change account info from Gwolfe to MrSeeley and the e-mails      **/
+  /** made patch file OpenStudio.diff. To apply:  git apply OpenStudio.diff                 **/
+ /**                                 to un-apply:  git apply --reverse OpenStudio.diff     **/
 /*******************************************************************************************/
 

@@ -67,7 +67,7 @@ Meteor.methods({
     var now, editDeadline;
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to delete a note");
+      throw new Meteor.Error(401, "You must be logged in to delete a note.");
 
     if (!Note)
       throw new Meteor.Error(412, "Cannot delete note.  Invalid ID.");
@@ -109,7 +109,7 @@ Meteor.methods({
     var now, editDeadline;
 
     if (!cU)  
-      throw new Meteor.Error(401, "You must be logged in to update a note");
+      throw new Meteor.Error(401, "You must be logged in to update a note.");
 
     if (!Note)
       throw new Meteor.Error(412, "Cannot update note.  Invalid ID.");
@@ -123,7 +123,7 @@ Meteor.methods({
         throw new Meteor.Error(404, "Cannot update note.  Group members must be valid users.");
     });
 
-    if (newText == Note.text) return NoteID;
+    if (newText == '') newText = Note.text;
     newText += _(newText).endsWith('<br>') ? '':'<br>';
 
     if (Roles.userIsInRole(cU,'teacher')) {

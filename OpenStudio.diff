@@ -1,0 +1,81 @@
+diff --git a/client/views/includes/activity_header.html b/client/views/includes/activity_header.html
+index bd45b37..44e624a 100644
+--- a/client/views/includes/activity_header.html
++++ b/client/views/includes/activity_header.html
+@@ -6,7 +6,7 @@
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
++      <a class="brand" href="{{pathFor 'studentView'}}">Open Studio</a>
+       <div class="nav-collapse collapse">
+         <ul class="nav">
+          {{> TeacherViewAs}}
+diff --git a/client/views/includes/standard_header.html b/client/views/includes/standard_header.html
+index e0cad0a..c9acbb1 100644
+--- a/client/views/includes/standard_header.html
++++ b/client/views/includes/standard_header.html
+@@ -6,7 +6,7 @@
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
++      <a class="brand" href="{{pathFor 'studentView'}}">Open Studio</a>
+       <div class="nav-collapse collapse">
+         <ul class="nav">
+          {{> TeacherViewAs}}
+@@ -26,4 +26,4 @@
+     {{> editProfile}}
+     {{>chooseSection}}
+   </header>
+-</template>
+\ No newline at end of file
++</template>
+diff --git a/client/views/includes/student_header.html b/client/views/includes/student_header.html
+index d1d21c7..725a55c 100644
+--- a/client/views/includes/student_header.html
++++ b/client/views/includes/student_header.html
+@@ -6,7 +6,7 @@
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
++      <a class="brand" href="{{pathFor 'studentView'}}">Open Studio</a>
+       {{#if isInRole 'teacher'}}
+       <a id='btnEdit' class="brand" href="{{pathFor 'editAccordion'}}">Edit</a>
+       {{/if}}
+diff --git a/client/views/includes/teacher_edit_header.html b/client/views/includes/teacher_edit_header.html
+index 2e6cfe8..043a0f1 100644
+--- a/client/views/includes/teacher_edit_header.html
++++ b/client/views/includes/teacher_edit_header.html
+@@ -6,7 +6,7 @@
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </a>
+-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
++      <a class="brand" href="{{pathFor 'studentView'}}">Open Studio</a>
+       <div class="nav-collapse collapse">
+         <ul class="nav">
+           <div id="btnTEstate" class="btn-group">
+@@ -23,4 +23,4 @@
+     {{> editProfile}}
+     {{>chooseSection}}
+   </header>
+-</template>
+\ No newline at end of file
++</template>
+diff --git a/server/users.js b/server/users.js
+index 5921eeb..e725efe 100644
+--- a/server/users.js
++++ b/server/users.js
+@@ -8,8 +8,8 @@ if (Meteor.isServer) {
+     if (Meteor.users.find().count() === 0) {
+       var id = Accounts.createUser({
+         password: "password",
+-        email: "matt_greenwolfe@caryacademy.org",
+-        username: 'Gwolfe'
++        email: "palmer_seeley@caryacademy.org",
++        username: 'MrSeeley'
+       });
+       Roles.addUsersToRoles(id, ['teacher']);
+     };

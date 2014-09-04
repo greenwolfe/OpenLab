@@ -68,4 +68,14 @@ Meteor.publish('levelsOfMastery',function(studentID) {
   };
 });
 
+Meteor.publish('postGameAnalyses',function(studentID) {
+  if ( this.userId && Roles.userIsInRole(this.userId,'teacher') ) {
+    return PostGameAnalyses.find( {studentID: studentID} );
+  } else if (this.userId && (studentID == this.userId)) {
+    return PostGameAnalyses.find( {studentID: studentID, visible:true} );
+  } else {
+    this.ready();
+  };
+});
+
 

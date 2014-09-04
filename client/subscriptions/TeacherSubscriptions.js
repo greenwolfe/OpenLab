@@ -26,6 +26,7 @@ Deps.autorun(function() {
     } else if (selectedUser) {
       Meteor.subscribe('completedActivities',TVA);
       Meteor.subscribe('levelsOfMastery',TVA);
+      Meteor.subscribe('postGameAnalyses',TVA);
       Session.set('TeacherViewIDs',
         [TVA,selectedUser.profile.sectionID,'_ALL_']);
     } else {

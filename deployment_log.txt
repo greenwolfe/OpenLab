@@ -32,6 +32,7 @@ Date:   Tue Sep 2 14:47:43 2014 -0400
     added ability to update invite list
 
 September 2, 2014:  openlab.demo.meteor.com ... like usual, direct deploy crashed it, so delete, deploy and restore database to test
-September 2, 2014:  openlab.gwolfe.meteor.com
+September 2, 2014:  openlab.gwolfe.meteor.com ... worked without crashing
+September 3, 2014:  openstudio.seeley.meteor.com ... worked without crashing ... made diff file to apply name changes for now
 
 

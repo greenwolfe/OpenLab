@@ -50,6 +50,12 @@ Template.standardItem.events({
   }
 });
 
+Template.standardItem.helpers({
+  plaindescription: function() {
+    return _.stripTags(this.description);
+  }
+});
+
 var DragOpt = function (sortable) { //default draggable options
   var pos_fixed = 1;
   var start = function(event,ui) {
