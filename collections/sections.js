@@ -7,7 +7,7 @@ Sections.allow({
   update: function(userId,doc) {
     return(!!userId && Roles.isUserInRole(userId,'teacher'));
   },
-  delete: function(userId,doc) {
+  remove: function(userId,doc) {
     return(!!userId && Roles.isUserInRole(userId,'teacher'))
   }
 }); 
