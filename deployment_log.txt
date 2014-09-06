@@ -35,4 +35,16 @@ September 2, 2014:  openlab.demo.meteor.com ... like usual, direct deploy crashe
 September 2, 2014:  openlab.gwolfe.meteor.com ... worked without crashing
 September 3, 2014:  openstudio.seeley.meteor.com ... worked without crashing ... made diff file to apply name changes for now
 
+###############################################################################3
+
+commit d7bb04b773099f66db8c8c37b20bbfd34b24361f
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Thu Sep 4 00:39:49 2014 -0400
+
+    PGAs now show up on activity page and can be added, deleted and edite
+
+
+September 4, 2014:  openlab.demo.meteor.com ... as usual
+September 4, 2014:  openlab.gwolfe.meteor.com ... this time this site crashed as well, and recovered by deleting, redeploying and then restoring the database
+
 
