@@ -3,6 +3,12 @@ Sections = new Meteor.Collection('sections');
 Sections.allow({
   insert: function(userId, doc) {
     return (!!userId && Roles.isUserInRole(userId,'teacher'));
+  },
+  update: function(userId,doc) {
+    return(!!userId && Roles.isUserInRole(userId,'teacher'));
+  },
+  delete: function(userId,doc) {
+    return(!!userId && Roles.isUserInRole(userId,'teacher'))
   }
 }); 
 
