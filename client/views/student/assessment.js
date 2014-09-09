@@ -48,6 +48,23 @@ Template.assessmentStandardItem.rendered = function() {
   $(this.find('p')).draggable(dragOpt());
 };
 
+Template.assessmentStandardItem.helpers({
+  LoM: function(a) {
+    activity = Activities.findOne(a._id);
+    if (!activity.hasOwnProperty('LoMs')) return null;
+    return activity.LoMs[this._id];
+  },
+  LoMcolorcode: function(a) {
+    activity = Activities.findOne(a._id);
+    if (!activity.hasOwnProperty('LoMs')) return null;
+    var LoM = activity.LoMs[this._id];
+    if (!LoM) return '';
+    var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
+    var index = this.scale.indexOf(LoM);
+    return colorcodes[index];
+  } 
+});
+
 var dragOpt = function() { //draggable options
   var that = {
     distance: 10,

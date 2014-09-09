@@ -1,3 +1,29 @@
+Template.standardPage.helpers({
+  LoMs: function() {
+    var cU_id = Meteor.userId(); 
+    var selector = {
+      standardID: this._id
+    };
+    if (!cU_id) return '';
+    if (Roles.userIsInRole(cU_id,'teacher')) {
+      selector.studentID = Session.get('TeacherViewAs');
+      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]});
+    } else if (Roles.userIsInRole(cU_id,'student')) {
+      selector.studentID = cU_id;
+      selector.visible = true;
+      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]});
+    };    
+  },
+  LoMcolorcode: function(standard) {
+    var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
+    var index = standard.scale.indexOf(this.level);
+    return colorcodes[index];
+  },
+  activity: function() {
+    return Activities.findOne(this.activityID);
+  }
+});
+
     /************************************/
    /*** Template.standardDescription ***/
   /************************************/

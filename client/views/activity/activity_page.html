@@ -91,12 +91,27 @@
     <p>
       <strong><a href={{pathFor 'standardPage'}}>{{title}}: </a></strong>{{description}}
     </p>
-    {{#each LoM ..}}
+    {{#if canPostLOM ..}}
+      {{> postLOM}}
+    {{/if}}
+    {{#each LoMs ..}}
       <p>
-        <span class="badge">{{level}}</span> 
-        <a href='#'>{{comment}}</a>
+        <span class="badge badge-inverse {{LoMcolorcode ..}}">{{level}}</span> 
+        <span>{{comment}}</span>
       </p>
     {{/each}}
+</template>
+
+<template name='postLOM'>
+    <div class='newLOM'>   
+      ---
+    </div>
+    <div class='newLOMcomment defaultTextActive'>
+      Enter comment.   
+    </div>
+    <div class='addLOMContainer'>
+      <button class="addLOM" name="addLOM" data-activityid={{../_id}}>Post</button>
+    </div>
 </template>
 
 <template name='PGA'>

@@ -24,9 +24,11 @@ Deps.autorun(function() {
       teacherViewIDs = teacherViewIDs.concat([TVA,'_ALL_']);
       Session.set('TeacherViewIDs',teacherViewIDs)
     } else if (selectedUser) {
+      Meteor.subscribe('activities',TVA), 
       Meteor.subscribe('completedActivities',TVA);
       Meteor.subscribe('levelsOfMastery',TVA);
       Meteor.subscribe('postGameAnalyses',TVA);
+      Meteor.subscribe('standards',TVA), //passing user to get Levels of Mastery for that user for that standard
       Session.set('TeacherViewIDs',
         [TVA,selectedUser.profile.sectionID,'_ALL_']);
     } else {
@@ -42,9 +44,7 @@ Deps.autorun(function() {
   var userID = Meteor.userId();
   var userToShow = Session.get('TeacherViewIDs');
   if (userID && Roles.userIsInRole(userID,'teacher') && userToShow) {
-    Meteor.subscribe('activities',true), //showHidden = true
     Meteor.subscribe('models',true),
-    Meteor.subscribe('standards',true),
     Meteor.subscribe('calendarEvents',userToShow),
     Meteor.subscribe('links',userToShow),
     Meteor.subscribe('notes',userToShow),

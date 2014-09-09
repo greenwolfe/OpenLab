@@ -17,5 +17,8 @@
  </template>
 
 <template name='assessmentStandardItem'>
-     <p class='aSItem'><a href="{{pathFor 'standardPage'}}">{{title}}</a></p>
+     <p class='aSItem'>
+       {{#if LoM ..}} <span class = 'badge badge-inverse {{LoMcolorcode ..}}'>{{LoM ..}}</span> {{/if}}
+       <a href="{{pathFor 'standardPage'}}">{{title}}</a>
+     </p>
 </template>

@@ -2,6 +2,16 @@
      <div id='standardDescription'>
       {{>standardDescription}}
     </div>
+    {{#each LoMs}}
+      <p></p>
+      <p>
+        <span class="badge badge-inverse {{LoMcolorcode ..}}">{{level}}</span> 
+        {{#with activity}}
+        <strong>from assessment: </strong><a href="{{pathFor 'activityPage'}}">{{title}}</a><br/>
+        {{/with}}
+        <span>{{comment}}</span>
+      </p>
+    {{/each}}
 </template>
 
 <template name='standardDescription'>

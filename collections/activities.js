@@ -7,7 +7,8 @@ Activities = new Meteor.Collection('activities');
     ownerID: '',
     standardIDs: [],
     rank : 0,
-    visible: true
+    visible: true,
+    LoMs: {standardID:LoM,standardID:LoM, ...}, //for a particular user ... calculated according to standard's calcMethod ... added temporarily in publication, not in database
   }); */
 
 Meteor.methods({

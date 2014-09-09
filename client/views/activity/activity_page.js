@@ -394,7 +394,7 @@ Template.todo.helpers({
    /*** Template.actPageStandardItem ***/
   /************************************/
 Template.actPageStandardItem.helpers({
-  LoM: function(activity) {
+  LoMs: function(activity) {
     var cU_id = Meteor.userId(); 
     var selector = {
       activityID: activity._id,
@@ -407,11 +407,93 @@ Template.actPageStandardItem.helpers({
     } else if (Roles.userIsInRole(cU_id,'student')) {
       selector.studentID = cU_id;
       selector.visible = true;
-      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]},{limit:1});
+      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]],limit:1});
     };
+  },
+  LoMcolorcode: function(standard) {
+    var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
+    var index = standard.scale.indexOf(this.level);
+    return colorcodes[index];
+  },
+  canPostLOM: function(activity) {
+    var teacherID = Meteor.userId();
+    var studentID = Session.get('TeacherViewAs');
+    if (!Roles.userIsInRole(teacherID,'teacher') || !Roles.userIsInRole(studentID,'student'))
+      return false;
+    if (!activity.hasOwnProperty('LoMs') || !activity.LoMs.hasOwnProperty(this._id)) 
+      return false;
+    return (!activity.LoMs[this._id]);
   }
  });
 
+  /**************************/
+ /**** Template.postLOM ****/
+/**************************/
+
+Template.postLOM.rendered = function() {
+  var teacherID = Meteor.userId();
+  var studentID = Session.get('TeacherViewAs');
+  if (Roles.userIsInRole(teacherID,'teacher') && Roles.userIsInRole(studentID,'student')) {
+    var $newLOM = $(this.find('.newLOM'));
+    var $newLOMcomment = $(this.find('.newLOMcomment'));
+    $newLOM.hallo();
+    $newLOMcomment.hallo(hallosettings(true));  
+    $newLOM.data('defaultText',$newLOM.html());
+    $newLOMcomment.data('defaultText',$newLOMcomment.html());
+  };
+};
+
+Template.postLOM.events({
+  'click .addLOM':function(event) {
+    var $newLOM = $(event.target).parent().prev().prev()
+    var $newLOMcomment = $(event.target).parent().prev();
+    var level = $newLOM.html(); 
+    var comment = $newLOMcomment.html();
+    var LOM = {
+      teacherID : Meteor.userId(),
+      studentID : Session.get('TeacherViewAs'),
+      activityID : $(event.target).data('activityid'), 
+      standardID : this._id, 
+      submitted : new Date().getTime(),
+      level : level,
+      comment : comment
+    };   
+    event.preventDefault();
+    Meteor.call('postLoM', LOM, $newLOMcomment.data('defaultText'),
+      function(error, id) {if (error) return alert(error.reason);}
+    );    
+    $newLOMcomment.addClass("defaultTextActive");
+    $newLOMcomment.text($newLOMcomment.data('defaultText'));
+  },
+  'focus .newLOMcomment':function(event) {
+    var $newLOMcomment = $(event.target);
+    if ($newLOMcomment.html() == $newLOMcomment.data('defaultText')) {
+      $newLOMcomment.removeClass("defaultTextActive");
+      $newLOMcomment.text("");
+    };
+  },
+  'blur .newLOMcomment':function(event) {
+    var $newLOMcomment = $(event.target);
+    if ($newLOMcomment.html() == '') {
+      $newLOMcomment.addClass("defaultTextActive");
+      $newLOMcomment.text($newLOMcomment.data('defaultText'));
+    };
+  },
+  'focus .newLOM':function(event) {
+    var $newLOM = $(event.target);
+    if ($newLOM.html() == $newLOM.data('defaultText')) {
+      $newLOM.removeClass("defaultTextActive");
+      $newLOM.text("");
+    };
+  },
+  'blur .newLOM':function(event) {
+    var $newLOM = $(event.target);
+    if ($newLOM.html() == '') {
+      $newLOM.addClass("defaultTextActive");
+      $newLOM.text($newLOM.data('defaultText'));
+    };
+  }
+});
 
     /*********************/
    /*** Template.PGA ***/

@@ -53,6 +53,12 @@ Template.standardItem.events({
 Template.standardItem.helpers({
   plaindescription: function() {
     return _.stripTags(this.description);
+  },
+  LoMcolorcode: function() {
+    if (!this.LoM) return '';
+    var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
+    var index = this.scale.indexOf(this.LoM);
+    return colorcodes[index];
   }
 });
 

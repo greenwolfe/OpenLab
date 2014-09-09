@@ -6,8 +6,9 @@ Standards = new Meteor.Collection('standards');
     description : 'I can ... '
     rank : 0,
     visible: true,
-    scale: [],
+    scale: ['NM','DM','M'],
     calcMethod: '' //function(gradesArray) { return most recent or some type of average}
+    LoM: 'M' //for a particular user ... calculated according to calcMethod ... added temporarily in publication, not in database
   }); */
 
 Meteor.methods({

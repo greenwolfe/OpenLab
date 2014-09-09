@@ -55,6 +55,9 @@ table#calendar tr td {
 #activities, #standards, #appointments {
   width: 90%; 
 }
+.LoMhigh { background: green;}
+.LoMmedium { background: yellow; color: black;}
+.LoMlow { background: red; }
 #activities h3 .openInvite {
   font-weight: normal;
   float: right;
@@ -229,6 +232,32 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
   margin-top: 20px;
   width: 89%;
   min-height: 24pt;
+}
+.newLOMcomment {
+  display: inline-block;
+  border: thin black solid;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  width: 84%;
+  min-height: 12pt;
+  vertical-align: top;
+}
+.newLOM {
+  display: inline-block;
+  border: thin black solid;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  width: 4%;
+  min-height: 15pt;
+  vertical-align: top;
+  text-align: center;
+}
+.addLOMContainer {
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-top: -2px;
+  width: 10%;
+  vertical-align: top;
 }
 .noteText.editing, .pgaText.editing {
   display: inline-block;

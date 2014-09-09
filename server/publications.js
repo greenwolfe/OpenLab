@@ -1,9 +1,18 @@
-Meteor.publish('activities',function(showHidden) {
-  if (showHidden) {
-    return Activities.find();
-  } else {
-    return Activities.find({visible:true});
-  }
+Meteor.publish('activities',function(userID) {  //change to user or section ID in order to generate summary page for whole activity and section ... later!
+  var userToShow = Meteor.users.findOne(userID);
+  var Acts = Activities.find({visible:true});
+  if (!userToShow) return Acts;
+  if (Roles.userIsInRole(userToShow,'teacher')) 
+    return Activities.find();  
+
+  Acts.forEach(function(Act) {
+    if (Act.standardIDs && Act.standardIDs.length) {
+      Act.LoMs = mostRecentLoMs(Act,userID);
+    }
+    this.added('activities',Act._id,Act);
+  }, this);
+
+  this.ready();
 });
 Meteor.publish('sections',function() {
   return Sections.find();
@@ -50,12 +59,19 @@ Meteor.publish('todos',function(userArray) {
   return Todos.find( {group: {$in: userArray} });
 });
 
-Meteor.publish('standards',function(showHidden) {
-  if (showHidden) {
+Meteor.publish('standards',function(userID) {  //change to user or section ID and pass array or IDs to grade calculator to get an object back {userID:LOM,userID,LOM, ...}
+  var userToShow = Meteor.users.findOne(userID);
+  var Sts =  Standards.find({visible:true});
+  if (!userToShow) return Sts;
+  if (Roles.userIsInRole(userToShow,'teacher')) 
     return Standards.find();
-  } else {
-    return Standards.find({visible:true});
-  }
+
+  Sts.forEach(function(St) {
+    St.LoM = mostRecent(St._id,userID,null); 
+    this.added('standards',St._id,St);
+  }, this);
+
+  this.ready();
 });
 
 Meteor.publish('levelsOfMastery',function(studentID) {
@@ -78,4 +94,24 @@ Meteor.publish('postGameAnalyses',function(studentID) {
   };
 });
 
+mostRecent = function(standardID,studentID,activityID) { //expand to activtyID as well
+  var selector = {
+    standardID: standardID,
+    studentID: studentID,
+    visible: true
+  };
+  if (activityID)
+    selector.activityID = activityID;
+  LoM = LevelsOfMastery.find(selector,
+                             {sort:[["submitted","desc"]]},
+                             {limit:1}).fetch();
+  return (LoM.length) ? LoM[0].level : null;
+};
 
+mostRecentLoMs = function(Activity,studentID) {
+  var LoMs = {};
+  Activity.standardIDs.forEach(function(standardID) {
+    LoMs[standardID] = mostRecent(standardID,studentID,Activity._id);
+  });
+  return LoMs;
+}
