@@ -18,14 +18,10 @@ table#calendar tr td {
   text-align: center;
 }
 .assessment {
-  float: left;
   position: relative;
-  margin-left: 10%;
-  width: 20%;
-  padding: 1em 3em 1em 3em;
+  margin-left: 1%;
+  width: 90%;
   border: thin black solid;
-  vertical-align: top;
-  margin-bottom: 10px;
 }
 .assessment.fadeout, #startEndDates.fadeout, #calendar.fadeout, .Model.fadeout {
   filter: alpha(opacity=30);

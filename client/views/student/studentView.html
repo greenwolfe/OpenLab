@@ -1,17 +1,18 @@
 <template name = "studentView">
 
-  <div id='ListOfLists'>
-    <ul>
-      <li><a href="#activities">ACTIVITIES</a></li>
-      <li><a href="#standards">STANDARDS</a></li>
-      <li><a href="#appointments">APPOINTMENTS</a></li>
-    </ul> 
-    {{> activitiesList}}
-    {{> standardsList}}
-    {{> appointmentsList}}
-  </div>
-
+ <div class='container-fluid'>
+ <div class="modal-body row">
+ <div class='span4'>
+  {{> activitiesList}}
+</div>
+<div class='span4'>
+  {{> standardsList}}
+</div>
+<div class='span4'>
   {{> assessment}}
+</div>
+</div>
+</div>
 
   {{> calendar}}
   {{> openInvites}}

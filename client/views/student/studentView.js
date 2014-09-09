@@ -1,10 +1,10 @@
 
-Template.studentView.rendered = function () {
-  $('#appointments .Model p').draggable( DragOpt('.daysActivities') );
-  $('#ListOfLists').tabs(); 
-};
+//Template.studentView.rendered = function () {
+  //$('#appointments .Model p').draggable( DragOpt('.daysActivities') );
+  //$('#ListOfLists').tabs(); 
+//};
 
-var DragOpt = function (sortable) { //default draggable options
+/*var DragOpt = function (sortable) { //default draggable options
 
   var stop = function (event, ui) {  // so it can't be modified from outside
     $('.placeholder').remove();  //remove all placeholders on the page
@@ -19,4 +19,4 @@ var DragOpt = function (sortable) { //default draggable options
   };
 
   return that;
-};
+}; */
