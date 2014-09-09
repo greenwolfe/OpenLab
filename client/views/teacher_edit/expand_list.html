@@ -1,10 +1,17 @@
 <template name = 'expandList'>
-    {{> ExpActivitiesList}}
-    {{> standardsList}}
-    {{> appointmentsList}}
+    <div class='span4'>
+      {{> ExpActivitiesList}}
+    </div>
+    <div class='span4'>
+      {{> standardsList}}
+    </div>
+    <div class='span4'>
+      {{> assessment}}
+    </div>
 </template>
 
 <template name = 'ExpActivitiesList'> 
+   <h5>activities</h5>
    <div id='activities'>
       {{#each models}}
         {{> ExpActivitiesSublist }}

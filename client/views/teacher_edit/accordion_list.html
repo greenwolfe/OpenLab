@@ -1,11 +1,18 @@
 <template name = 'accordionList'>
-    {{> AccActivitiesList}}
-    {{> AccStandardsList}}
-    {{> appointmentsList}}
+    <div class='span4'>
+      {{> AccActivitiesList}}
+    </div>
+    <div class='span4'>
+      {{> AccStandardsList}}
+    </div>
+    <div class='span4'>
+      {{> assessment}}
+    </div>
 </template>
 
 <template name = 'AccActivitiesList'> 
-   <div id='activities'>
+    <h5>activities</h5>
+    <div id='activities'>
       {{#each models}}
         {{> AccActivitiesSublist }}
       {{/each}}
@@ -32,6 +39,7 @@
 </template>
 
 <template name = 'AccStandardsList'> 
+   <h5>standards</h5>
    <div id='standards'>
     {{#each models}}
       {{> AccStandardsSublist }}

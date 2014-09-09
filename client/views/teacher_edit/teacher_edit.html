@@ -2,19 +2,10 @@
    <div id="help row-fluid">
      <div class="alert alert-info">{{{info}}}</div>
   </div>
-   <div id='ListOfLists'>
-    <ul>
-      <li><a href="#activities">ACTIVITIES</a></li>
-      <li><a href="#standards">STANDARDS</a></li>
-      <li><a href="#appointments">APPOINTMENTS</a></li>
-    </ul> 
+   <div class='container-fluid'>
+   <div class="modal-body row">
     {{> yield region='lists'}}
   </div>
-
-  <div class='assessment'>
-    <h3> Reassessment </h3>
-     <div class = 'assessmentsStandards'>
-     </div>
   </div>
 
   {{> calendar}}

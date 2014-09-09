@@ -110,3 +110,4 @@ index 5921eeb..e725efe 100644
        });
        Roles.addUsersToRoles(id, ['teacher']);
      };
+     
