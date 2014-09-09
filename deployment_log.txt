@@ -47,4 +47,14 @@ Date:   Thu Sep 4 00:39:49 2014 -0400
 September 4, 2014:  openlab.demo.meteor.com ... as usual
 September 4, 2014:  openlab.gwolfe.meteor.com ... this time this site crashed as well, and recovered by deleting, redeploying and then restoring the database
 
+#################################################################################3
 
+commit 33703e077f4344cf14bca80e5df779094ebbbb7e
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Sep 9 00:13:56 2014 -0400
+
+    posting of levels of mastery basic functions are there.
+
+September 5, 2014:  openlab.demo.meteor.com ... as usual
+September 5, 2014:  openlab.gwolfe.meteor.com ... worked without crashing
+September 5, 2014:  openstudio.seeley.meteor.com ... worked without crashing
