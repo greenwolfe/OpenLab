@@ -1,0 +1,21 @@
+diff --git a/collections/sections.js b/collections/sections.js
+index 3fb13da..899c113 100644
+--- a/collections/sections.js
++++ b/collections/sections.js
+@@ -3,21 +3,19 @@ Sections = new Meteor.Collection('sections');
+ if (Meteor.isServer) {
+ if (Sections.find().count() === 0) {
+   Sections.insert({
+-    section : 'Bblock',
+-  });
+-
+-  Sections.insert({
+-    section : 'Fblock',
+-  });
+-
+-  Sections.insert({
+-    section : 'Gblock',
++    section : 'Eblock',
+   });
+ 
+ };

@@ -7,6 +7,9 @@ body, #ListOfLists, .Model {
 .navbar .navbar-inner {
     border-radius: 0px 0px 3px 3px; 
 }
+#counters {
+  margin-bottom: 0;
+}
 table#calendar {
   width: 98%;
   margin-left: 1%;
