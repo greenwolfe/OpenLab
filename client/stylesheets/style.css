@@ -1,6 +1,10 @@
 body, #ListOfLists, .Model {
   background: #efefef;
 }
+.Model {
+  max-height: 185px;
+  overflow-y:auto;
+}
 .navbar { /* overriding defaults from bootstrap */
   margin-bottom: 10px;
 }
