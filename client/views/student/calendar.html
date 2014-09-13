@@ -23,7 +23,13 @@
 
 <template name = 'calendarDay'>
   <td class='calendar-day'>
-    <h3> {{day}} </h3>
+    <h3> 
+      {{#if isInRole 'teacher'}}
+        <a href="{{pathFor 'attendance'}}">{{day}}</a> 
+      {{else}}
+        {{day}}
+      {{/if}}
+    </h3>
      <div id={{ID}} class = 'daysActivities'>
        {{#each daysEvents}}
           {{> calendarEvent}}        

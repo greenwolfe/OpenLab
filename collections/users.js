@@ -11,11 +11,19 @@ Meteor.methods({
     if (!user)
     	throw new Meteor.Error(440, "Cannot change username.  Invalid user.");
 
-    if (userID != cU._id)
-    	throw new Meteor.Error(441,"You cannot change someone else's user name.");
+    if (!userName || userName.length < 3)
+      throw new Meteor.Error(441, "Usernames must be at least 3 characters long.");
 
-    if ((userName != cU.username) && (userName != '')) {
-    	Meteor.users.update({_id:userID}, { $set:{username:userName}} );
+    if (Roles.userIsInRole(cU,'teacher')) {
+      if (userName != user.username) {
+        Meteor.users.update({_id:userID}, { $set:{username:userName}} );
+      }      
+    } else if (userID  == cU._id) {
+      if (userName != cU.username) {
+        Meteor.users.update({_id:userID}, { $set:{username:userName}} );
+      }
+    } else {
+    	throw new Meteor.Error(441,"You cannot change someone else's user name.");
     }
   }
  });

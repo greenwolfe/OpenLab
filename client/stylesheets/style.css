@@ -24,6 +24,9 @@ table#calendar tr td {
   vertical-align: top;
   text-align: center;
 }
+table#calendar tr td h3 a {
+  color: black;
+}
 .assessment {
   position: relative;
   margin-left: 1%;
