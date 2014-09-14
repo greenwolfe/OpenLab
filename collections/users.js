@@ -25,5 +25,24 @@ Meteor.methods({
     } else {
     	throw new Meteor.Error(441,"You cannot change someone else's user name.");
     }
+  },
+
+  /***** REMOVE USER ****/
+  removeUser: function(userID) { 
+    var cU = Meteor.user(); //current user
+    var user = Meteor.users.findOne(userID);
+
+    if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to change your username");
+
+    if (!user)
+      throw new Meteor.Error(440, "Cannot delete user.  Invalid ID.");
+
+    if (!Roles.userIsInRole(cU,'teacher')) 
+      throw new Meteor.Error(442, "You must be a teacher to delete a user.")
+    
+    console.log('removing ' + user.username);
+    Meteor.users.remove(userID);
   }
+
  });
