@@ -27,6 +27,26 @@ table#calendar tr td {
 table#calendar tr td h3 a {
   color: black;
 }
+table#attendanceTable {
+  page-break-after:always;
+}
+table#attendanceTable tr td {
+  border: thin black solid;
+  width:  20%;
+  height: 30px;
+}
+table#attendanceTable tr td.inClass {
+  border: none;
+}
+table#attendanceTable tr td.outClass {
+  border-top: none;
+  border-right: none;
+  border-bottom: thin black solid;
+}
+table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInClassTable tr td .attendanceName.present {
+  background-color: green;
+  color: white;
+}
 .assessment {
   position: relative;
   margin-left: 1%;

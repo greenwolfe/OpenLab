@@ -1,3 +1,49 @@
 <template name='attendance'>
-  <h3> This is the attendance page </h3>
+  {{#if sectionID}}
+    <h3> Attendance Sheet for {{section}}: {{attendanceDate}} </h3>
+    <table id='attendanceTable'>
+	    {{#each students}}
+	      {{>attendanceStudent}}
+	    {{/each}}
+    </table>
+    <table id='attendanceGroupsInClassTable'>
+      <tr> <th>Groups In Class </th></tr>
+      {{#each groupsInClass}}
+        {{>attendanceGroupInClass}}
+      {{/each}}
+    </table>
+  {{else}}
+    <h3> Please select a section. </h3>
+  {{/if}}
+</template>
+
+<template name='attendanceStudent'>
+  <tr>
+	  <td>
+	    <span class='attendanceName {{present}}' data-userid='{{_id}}'>
+	      {{profile.firstName}} {{profile.lastName}}
+	    </span>
+	  </td>
+	  <td> {{status}}</td>
+	  <td class="{{inClass}}"></td>
+  </tr>
+</template>
+
+<template name='attendanceGroupInClass'>
+  <tr>
+    <td>
+      <button class='attendanceToggleGroup' name='attendanceToggleGroup'>{{allPresent}}</button>
+    </td>
+    {{#each studentsInGroup}}
+      {{>attendanceStudentInGroup}}
+    {{/each}}
+  </tr>
+</template>
+
+<template name='attendanceStudentInGroup'>
+  <td>
+    <span class='attendanceName {{present}}' data-userid='{{_id}}'>
+      {{profile.firstName}} {{profile.lastName}}
+    </span>
+  </td>
 </template>

@@ -1,9 +1,15 @@
 Deps.autorun(function() {
+  date = Session.get('attendanceDate');
+  if (date && moment(date,'MMM[_]D[_]YYYY',true).isValid())
+    Meteor.subscribe('attendance',date);
+});
+
+Deps.autorun(function() {
   var TVA = Session.get('TeacherViewAs');
   var currentUser = Meteor.user();
   var sectionID = (currentUser && 
     currentUser.hasOwnProperty('profile') && 
-    currentUser.profile.hasOwnProperty(sectionID)) ? currentUser.profile.sectionID : '';
+    currentUser.profile.hasOwnProperty('sectionID')) ? currentUser.profile.sectionID : '';
   var teacherViewIDs;
   if (!currentUser) {
     Session.set('TeacherViewIDs',['_ALL_']);
