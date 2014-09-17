@@ -58,3 +58,16 @@ Date:   Tue Sep 9 00:13:56 2014 -0400
 September 9, 2014:  openlab.demo.meteor.com ... as usual
 September 9, 2014:  openlab.gwolfe.meteor.com ... worked without crashing
 September 9, 2014:  openstudio.seeley.meteor.com ... worked without crashing
+
+###################################################################################
+
+commit 4d77722a85abf0afaccb4c446293423519ae8a3c
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Sep 14 15:21:33 2014 -0400
+
+    added remove user function.
+    attendence system set, can mark by group as well and save result
+
+September 14, 2014:  openlab.gwolfe.meteor.com ... worked without crashing also removed two extra user accounts
+September 14, 2014:  openstudio.seeley.meteor.com ... worked without crashing 
+
