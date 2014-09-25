@@ -81,5 +81,19 @@ Date:   Wed Sep 24 20:49:34 2014 -0400
 
 September 24, 2014:  openlab.physics2.meteor.com ... worked without crashing ... had to deploy several times to get sections and standards correct
 
+################################################################################
+
+commit 77ba8ea78948dbc819813a5cdcc5646f6e02811b
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Wed Sep 24 22:12:58 2014 -0400
+
+    cleaned up presentation of standard descriptions and LOM comments, d
+
+September 24, 2014 openlab.physics2.meteor.com .... normal
+September24, 2014 openlab.gwolfe.meteor.com ... normal
+
+
+
+
 
 
