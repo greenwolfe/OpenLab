@@ -21,6 +21,9 @@ Template.standardPage.helpers({
   },
   activity: function() {
     return Activities.findOne(this.activityID);
+  },
+  CleanComment: function() {
+    return _.clean(_.stripTags(this.comment));
   }
 });
 
@@ -36,7 +39,7 @@ Template.standardDescription.helpers({
     if (Roles.userIsInRole(Meteor.userId(),'teacher')) {
       return (_.clean(_.stripTags(desc))) ? desc : defaultText;
     } else {
-      return (desc) ? desc : '';
+      return (_.clean(_.stripTags(desc))) ? desc : '';
     }
   },
   defaultTextActive: function() {

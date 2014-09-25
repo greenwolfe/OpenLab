@@ -71,3 +71,15 @@ Date:   Sun Sep 14 15:21:33 2014 -0400
 September 14, 2014:  openlab.gwolfe.meteor.com ... worked without crashing also removed two extra user accounts
 September 14, 2014:  openstudio.seeley.meteor.com ... worked without crashing 
 
+###################################################################################
+
+commit 207803b9832a13ad6782ae14be032e5e63d6840a
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Wed Sep 24 20:49:34 2014 -0400
+
+    fixed updating of standards so could reorder them ... deployed for p
+
+September 24, 2014:  openlab.physics2.meteor.com ... worked without crashing ... had to deploy several times to get sections and standards correct
+
+
+

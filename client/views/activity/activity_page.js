@@ -423,6 +423,12 @@ Template.actPageStandardItem.helpers({
     if (!activity.hasOwnProperty('LoMs') || !activity.LoMs.hasOwnProperty(this._id)) 
       return false;
     return (!activity.LoMs[this._id]);
+  },
+  CleanDescription: function() {
+    return _.clean(_.stripTags(this.description));
+  },
+  CleanComment: function() {
+    return _.clean(_.stripTags(this.comment));
   }
  });
 
@@ -464,6 +470,8 @@ Template.postLOM.events({
     );    
     $newLOMcomment.addClass("defaultTextActive");
     $newLOMcomment.text($newLOMcomment.data('defaultText'));
+    $newLOM.addClass("defaultTextActive");
+    $newLOM.text($newLOM.data('defaultText'));
   },
   'focus .newLOMcomment':function(event) {
     var $newLOMcomment = $(event.target);

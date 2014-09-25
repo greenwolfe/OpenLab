@@ -27,10 +27,5 @@ if (Sections.find().count() === 0) {
   });
 
 };
-if (Sections.find().count() === 3) {
-  Sections.insert({
-    section : 'Eblock',
-  });
-};
 
 };

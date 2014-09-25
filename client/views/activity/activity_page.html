@@ -89,7 +89,7 @@
 <template name='actPageStandardItem'>
     <p></p>
     <p>
-      <strong><a href={{pathFor 'standardPage'}}>{{title}}: </a></strong>{{description}}
+      <strong><a href={{pathFor 'standardPage'}}>{{title}}: </a></strong>{{CleanDescription}}
     </p>
     {{#if canPostLOM ..}}
       {{> postLOM}}
@@ -97,7 +97,7 @@
     {{#each LoMs ..}}
       <p>
         <span class="badge badge-inverse {{LoMcolorcode ..}}">{{level}}</span> 
-        <span>{{comment}}</span>
+        <span>{{CleanComment}}</span>
       </p>
     {{/each}}
 </template>
