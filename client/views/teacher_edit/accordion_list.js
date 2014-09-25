@@ -176,7 +176,7 @@ Template.AccStandardsSublist.rendered = function() {
       );
     });
   };
-  $(this.find(".Model")).sortable(SortOpt());
+  $(this.find(".Model")).sortable(SortOptStandards());
   var model = Models.findOne(this.data._id);
   if (model && !model.visible) 
     $(this.find(".Model")).addClass('fadeout');
@@ -285,6 +285,51 @@ var SortOpt = function () { //default sortable options
     };
     if (_.isFinite(oldRank) && (rank != oldRank)) {
       Meteor.call('updateActivity',nA,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
+    } else {
+      $(this).sortable('cancel');
+    };
+  };
+  var that = {
+    revert : false,            //smooth slide onto target
+    axis: "y", //prevents dragging to another model?
+    cancel: "a,p[data-activityid=-1]", //allows hallo to activate when clicking on the inner a-tag part, but dragging from out p-tag part
+    forcePlaceholderSize : true,  //allows dropping on empty list
+    tolerance : 'pointer',    
+    placeholder : "ui-state-highlight", //yellow
+    helper: 'clone', //for some reason stops click event also firing on receive when dragging event to change date
+    stop: stop
+  };
+
+  return that;
+};
+
+var SortOptStandards = function () { //sortable options for standards
+
+  var stop = function(event, ui) { 
+    var bf = ui.item.prev().get(0);
+    var before = (bf) ? UI.getElementData(bf).rank: NaN;
+    var el = ui.item.get(0);
+    var oldRank = (el) ? UI.getElementData(el).rank : NaN;
+    var standardID = (el) ? UI.getElementData(el)._id : NaN;
+    var af = ui.item.next().get(0);
+    var after = (af) ? UI.getElementData(af).rank : NaN;
+    var rank = oldRank;
+    var nS;
+    if (!_.isFinite(before) && _.isFinite(after)) {
+      rank = after - 1;
+    } else if (_.isFinite(before) && !_.isFinite(after)) {
+      rank = before + 1;
+    } else if (_.isFinite(before) && _.isFinite(after)) {
+      rank = (before + after)/2
+    };
+    nS = {
+      _id: standardID,
+      rank: rank
+    };
+    if (_.isFinite(oldRank) && (rank != oldRank)) {
+      Meteor.call('updateStandard',nS,
         function(error, id) {if (error) return alert(error.reason);}
       );
     } else {
