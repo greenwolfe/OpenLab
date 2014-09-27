@@ -92,6 +92,18 @@ Date:   Wed Sep 24 22:12:58 2014 -0400
 September 24, 2014 openlab.physics2.meteor.com .... normal
 September24, 2014 openlab.gwolfe.meteor.com ... normal
 
+################################################################################
+
+commit e5b91bca8f20d228b94cd031fc43676156c68333
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Thu Sep 25 00:59:22 2014 -0400
+
+    further cleaned up the display of comments on LOMs
+
+September 24, 2014 openlab.physics2.meteor.com .... normal
+September24, 2014 openlab.gwolfe.meteor.com ... normal
+
+
 
 
 

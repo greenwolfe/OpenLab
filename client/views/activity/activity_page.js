@@ -407,7 +407,7 @@ Template.actPageStandardItem.helpers({
     } else if (Roles.userIsInRole(cU_id,'student')) {
       selector.studentID = cU_id;
       selector.visible = true;
-      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]],limit:1});
+      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]});
     };
   },
   LoMcolorcode: function(standard) {
@@ -422,7 +422,8 @@ Template.actPageStandardItem.helpers({
       return false;
     if (!activity.hasOwnProperty('LoMs') || !activity.LoMs.hasOwnProperty(this._id)) 
       return false;
-    return (!activity.LoMs[this._id]);
+    return true;
+    //return (!activity.LoMs[this._id]);
   },
   CleanDescription: function() {
     return _.clean(_.stripTags(this.description));
