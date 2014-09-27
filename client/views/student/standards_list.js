@@ -24,6 +24,19 @@ Template.standardsSublist.rendered = function() {
 Template.standardsSublist.helpers({
   standards: function() {
     return Standards.find({modelID: this._id, visible: true},{sort: {rank: 1}}); 
+  },
+  standardsMastered: function() {
+    var standards = Standards.find({modelID: this._id, visible: true}).fetch();
+    var Mcount = 0;
+    var LoMcount = 0;
+    standards.forEach(function(st) {
+      if (st.LoM) {
+        LoMcount += 1;
+        var index = st.scale.indexOf(st.LoM);
+        if (index == st.scale.length - 1) Mcount += 1;
+      }
+    });
+    return ' (' + Mcount + '/' + LoMcount + '/' + standards.length + ')';
   }
 });
 

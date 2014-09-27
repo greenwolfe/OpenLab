@@ -1,5 +1,5 @@
 <template name = 'standardsList'> 
-   <h5>standards</h5>
+   <h5 id='standardsListTitle'>standards <span>(mastered/assessed/total)</span></h5>
    <div id='standards'>
     {{#each models}}
       {{> standardsSublist }}
@@ -9,7 +9,10 @@
 
 
 <template name='standardsSublist'>
-      <h3> <a href="#" title="{{longname}}"> {{model}}</a> </h3> 
+      <h3> <a href="#" title="{{longname}}"> 
+        {{model}}
+        <span>{{standardsMastered}}</span>
+      </a> </h3> 
       <div class = 'Model'>
         {{#each standards}}
           {{> standardItem}}

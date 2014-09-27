@@ -104,6 +104,9 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   margin-left: 10px; 
   margin-top: 8px;
 }
+#standardsListTitle span, #standards h3 a span, #activities h3 a span {
+  font-weight: normal;
+}
 
 /* being very, very specific here so that these classes will override the default ui classes */
 .daysActivities .inClass, #inClassSwatch.ui-state-default.inClass, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging {

@@ -103,6 +103,22 @@ Date:   Thu Sep 25 00:59:22 2014 -0400
 September 24, 2014 openlab.physics2.meteor.com .... normal
 September24, 2014 openlab.gwolfe.meteor.com ... normal
 
+##################################################################################
+
+commit bff8ab6f3814d2b760309fe7cc40d259960a2553
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sat Sep 27 10:16:53 2014 -0400
+
+    cleaned up standard description on activity page using triple braces
+    allowed teacher to post multiple LOMS to one standare on one assessm
+
+September 27, 2014 openlab.physics2.meteor.com .... normal
+September27, 2014 openlab.gwolfe.meteor.com ... normal
+
+
+
+
+
 
 
 

@@ -52,6 +52,26 @@ Template.activitiesSublist.helpers({
         invite: {$in: [userToShow]}}).count();
     });
     return count;
+  },
+  activitiesCompleted: function() {
+    var userToShow = Meteor.userId();
+    var activities = Activities.find({modelID: this._id, 
+      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
+      visible: true}).fetch();
+    var count = 0;
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    userToShow = Meteor.users.findOne(userToShow);
+    if (userToShow && userToShow.hasOwnProperty('completedActivities'))  {
+      activities.forEach(function(act) {
+        if (_.contains(userToShow.completedActivities,act._id))
+          count += 1;
+      });
+      return ' (' + count + '/' + activities.length + ')'; 
+    }  else {
+      return ' (0/' + activities.length + ')'; 
+    }
   }
 });
 
