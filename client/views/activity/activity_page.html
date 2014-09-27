@@ -89,7 +89,7 @@
 <template name='actPageStandardItem'>
     <p></p>
     <p>
-      <strong><a href={{pathFor 'standardPage'}}>{{title}}: </a></strong>{{CleanDescription}}
+      <strong><a href={{pathFor 'standardPage'}}>{{title}}: </a></strong>{{{CleanDescription}}}
     </p>
     {{#if canPostLOM ..}}
       {{> postLOM}}
