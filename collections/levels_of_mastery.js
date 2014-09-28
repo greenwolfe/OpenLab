@@ -71,9 +71,6 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if (!LoM.teacherID || (cU._id != LoM.teacherID) || !Roles.userIsInRole(cU,'teacher'))
       throw new Meteor.Error(402, "Only a teacher can delete a level of mastery, and it must be one you posted in the first place.");
 
-    if (LoM.hasOwnProperty('visible') && LoM.visible)
-      throw new Meteor.Error(468, "To delete a level of mastery, first hide it and then you will be able to delete it.  ");
-
     LevelsOfMastery.remove(LoMId);
 
     return LoMId;    

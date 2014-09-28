@@ -393,6 +393,15 @@ Template.todo.helpers({
     /************************************/
    /*** Template.actPageStandardItem ***/
   /************************************/
+Template.actPageStandardItem.events({
+  'click .removeLoM': function(event) {
+    var LoMID = $(event.target).data('lomid');
+    Meteor.call('deleteLoM', LoMID, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
+   }
+});
+
 Template.actPageStandardItem.helpers({
   LoMs: function(activity) {
     var cU_id = Meteor.userId(); 
