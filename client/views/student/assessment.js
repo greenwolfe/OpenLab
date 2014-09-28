@@ -27,7 +27,8 @@ Template.assessment.helpers({
   standards: function() {
     var cA = Session.get('currentAssessment');
     if (cA && cA.hasOwnProperty('standardIDs') && cA.standardIDs.length) {
-      return Standards.find({_id: {$in: cA.standardIDs}});      
+      return Standards.find({_id: {$in: cA.standardIDs}},
+        {sort: {rank: 1}});      
     } else {
       return '';
     }

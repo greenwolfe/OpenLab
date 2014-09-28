@@ -16,7 +16,8 @@ Template.activityPage.helpers({
     return this.hasOwnProperty('standardIDs') ? this.standardIDs.length : false;
   },
   Standards: function() {
-    return Standards.find({_id: {$in:this.standardIDs}});
+    return Standards.find({_id: {$in:this.standardIDs}},
+      {sort: {rank: 1}});
   },
   PGAs:  function() {
     var userToShow = Meteor.userId();

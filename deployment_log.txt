@@ -126,6 +126,18 @@ Date:   Sat Sep 27 14:42:37 2014 -0400
 September 27, 2014 openlab.physics2.meteor.com .... normal
 September27, 2014 openlab.gwolfe.meteor.com ... normal
 
+#################################################################################
+
+
+commit 47ae39048710460b173b4f6759a73dc1280132b8
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sat Sep 27 21:49:32 2014 -0400
+
+    added ability to delete LoMs in activity view
+
+September 28, 2014 openlab.physics2.meteor.com .... normal
+September28, 2014 openlab.gwolfe.meteor.com ... normal
+
 
 
 
