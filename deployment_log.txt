@@ -138,6 +138,18 @@ Date:   Sat Sep 27 21:49:32 2014 -0400
 September 28, 2014 openlab.physics2.meteor.com .... normal
 September28, 2014 openlab.gwolfe.meteor.com ... normal
 
+################################################################################
+
+
+commit f3e8080cd487854305a85431506545ceeb7206bf
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Sep 28 06:09:20 2014 -0400
+
+    sorted standards in assessment list and activity page by rank
+
+September 28, 2014 openlab.physics2.meteor.com .... normal
+September28, 2014 openlab.gwolfe.meteor.com ... normal
+
 
 
 

@@ -566,8 +566,31 @@ Template.note.helpers({
     now = moment();
     editDeadline = moment(this.submitted).add('minutes',30);
     return (Roles.userIsInRole(userID,'teacher') || editDeadline.isAfter(now));
-  }
+  },
+  disabled: function() {
+    note = Notes.findOne(this._id);
+    if (note && !note.visible) return 'ui-state-disabled';
+    return '';
+  },  
+  listVisible: function() {
+    note = Notes.findOne(this._id);
+    if (!note) return '';
+    if (note.visible) return 'icon-list-visible';
+    return 'icon-list-hidden';    
+  },
 });
+
+Template.note.events({
+  'click i.icon-list-hidden': function() {
+    note = Notes.findOne(this._id);
+    if (note) Meteor.call('updateNote',this._id,'',{visible:true});
+  },
+  'click i.icon-list-visible': function() {
+    note = Notes.findOne(this._id);
+    if (note) Meteor.call('updateNote',this._id,'',{visible:false});
+
+  }
+})
 
 var SortOpt = function() {
   var that = {
