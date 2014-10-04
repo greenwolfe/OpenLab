@@ -376,6 +376,42 @@ Template.description.events({
   }
 }); 
 
+  /******************************/
+ /**** Template.editDueDate ****/
+/******************************/
+
+Template.editDueDate.rendered = function() {
+  var activity = Activities.findOne(this.data._id);
+  $('#dueDate').datepicker(DateOpt(activity._id));
+};
+
+Template.editDueDate.events({
+  'click #clearDueDate': function() {
+    var nA = {
+      _id: this._id,
+      dueDate: null
+    }
+    Meteor.call('updateActivity',nA);
+  }
+});
+
+var DateOpt = function(activityID) { //default datepicker options
+  var onSelect = function(dueDate,Object) {
+    var nA = {
+      _id: activityID,
+      dueDate: dueDate
+    }
+    Meteor.call('updateActivity',nA);
+  };
+  var that = {
+    dateFormat:'D, M dd yy',
+    onSelect: onSelect,
+    showOn: 'both',
+    buttonText: 'Set/Change Due Date'
+  };
+  return that;
+};
+
 
 
     /*********************/
@@ -622,3 +658,5 @@ var hallosettings = function(editable) {
 
  return that;
 };
+
+

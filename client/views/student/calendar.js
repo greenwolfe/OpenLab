@@ -84,10 +84,13 @@ var DateOpt = function(sessionKey) { //default datepicker options
     Monday = Monday.format('ddd[,] MMM D YYYY');
     Session.set(sessionKey,Monday); //Meteor takes care of not invalidating templates and causing re-rendering if the key is set to an identical value, and therefore not changed
   };
+  var onClose = function(dateText,Object) {
+    console.log(dateText);
+  }
   var that = {
     dateFormat:'D, M dd yy',
     onSelect: onSelect,
-    helper: "clone"
+    onClose: onClose
   };
   return that;
 };

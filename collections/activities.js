@@ -46,6 +46,13 @@ Meteor.methods({
     if (!Activity.hasOwnProperty('standardIDs'))
       Activity.standardIDs = [];
 
+    if (Activity.hasOwnProperty('dueDate') && Activity.dueDate) {
+      if (!moment(Activity.dueDate,'ddd[,] MMM D YYYY',true).isValid())
+        throw new Meteor.Error(414,'Cannot add/change due date. Invalid date');
+    } else {
+      Activity.dueDate = null;    
+    };
+
     if (!Activity.hasOwnProperty('visible'))
       Activity.visible = true;
     
@@ -106,6 +113,14 @@ Meteor.methods({
 
     if (nA.hasOwnProperty('description') && (nA.description != Activity.description)) 
       Activities.update(nA._id,{$set: {description: nA.description}});
+
+    if (nA.hasOwnProperty('dueDate')) {
+      if (moment(nA.dueDate,'ddd[,] MMM D YYYY',true).isValid()) {
+        Activities.update(nA._id,{$set: {dueDate: nA.dueDate}});
+      } else {
+        Activities.update(nA._id,{$set: {dueDate: null}});
+      };
+    }
 
     if (nA.hasOwnProperty('visible') && (nA.visible != Activity.visible)) 
       Activities.update(nA._id,{$set: {visible: nA.visible}});

@@ -83,7 +83,26 @@
     {{/if}}
     <div id='descriptionText' class={{defaultTextActive}} data-activityID = {{_id}}> {{{description}}}</div> 
     <span>{{#if isInRole 'teacher'}}<i class='editDescription fa fa-pencil-square-o' data-activityID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span>
+
+    <div>
+      Suggested due date: 
+      
+      {{#if isInRole 'teacher'}}
+        {{>editDueDate}}
+      {{else}}
+        {{#if dueDate}} {{dueDate}} {{else}} none {{/if}}
+      {{/if}}        
+      {{#if dueDate}}
+        <blockquote> 
+          So long as you communicate with me about your learning process, use time efficiently, and work hard, it is better to take enough time to master the standards, than to fall behind in understanding by moving on to new activities without the necessary concepts and skills.          
+        </blockquote>
+      {{/if}}
+    </div>
   </div>
+</template>
+
+<template name='editDueDate'>
+    <input type="text" name="dueDate" id="dueDate" value="{{#if dueDate}} {{dueDate}} {{else}} none {{/if}}"/> <button id="clearDueDate"> Clear </button>
 </template>
 
 <template name='actPageStandardItem'>

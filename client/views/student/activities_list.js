@@ -58,7 +58,12 @@ Template.activitiesSublist.helpers({
     var activities = Activities.find({modelID: this._id, 
       ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
       visible: true}).fetch();
-    var count = 0;
+    var completed = 0;
+    var expected = 0;
+    activities.forEach(function(act) {
+      if (act.hasOwnProperty('dueDate') && act.dueDate && moment().isAfter(act.dueDate)) 
+        expected += 1;
+    });
     if (Roles.userIsInRole(userToShow,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
     };
@@ -66,12 +71,10 @@ Template.activitiesSublist.helpers({
     if (userToShow && userToShow.hasOwnProperty('completedActivities'))  {
       activities.forEach(function(act) {
         if (_.contains(userToShow.completedActivities,act._id))
-          count += 1;
+          completed += 1;
       });
-      return ' (' + count + '/' + activities.length + ')'; 
-    }  else {
-      return ' (0/' + activities.length + ')'; 
     }
+    return ' (' + completed + '/' + expected + '/' + activities.length + ')'; 
   }
 });
 

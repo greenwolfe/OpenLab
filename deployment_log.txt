@@ -150,6 +150,19 @@ Date:   Sun Sep 28 06:09:20 2014 -0400
 September 28, 2014 openlab.physics2.meteor.com .... normal
 September28, 2014 openlab.gwolfe.meteor.com ... normal
 
+##############################################################################
+
+
+commit 9106b0952047b196b345399c684612f21f141c77
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Mon Sep 29 08:37:34 2014 -0400
+
+    can hide notes
+
+September 28, 2014 openlab.physics2.meteor.com .... normal
+September28, 2014 openlab.gwolfe.meteor.com ... normal
+
+
 
 
 
