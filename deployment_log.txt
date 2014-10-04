@@ -162,6 +162,17 @@ Date:   Mon Sep 29 08:37:34 2014 -0400
 September 28, 2014 openlab.physics2.meteor.com .... normal
 September28, 2014 openlab.gwolfe.meteor.com ... normal
 
+##############################################################################333
+
+commit 5110153040cf85b8ef156807f6bd59be3e842e69
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Fri Oct 3 23:43:54 2014 -0400
+
+    due dates added to activities completed/expected/total
+
+October 4, 2014 openlab.physics2.meteor.com .... normal, also edited diff file to change due date warning message
+Ocbober 4, 2014 openlab.gwolfe.meteor.com ... normal
+
 
 
 
