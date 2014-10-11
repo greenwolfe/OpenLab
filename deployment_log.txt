@@ -171,7 +171,8 @@ Date:   Fri Oct 3 23:43:54 2014 -0400
     due dates added to activities completed/expected/total
 
 October 4, 2014 openlab.physics2.meteor.com .... normal, also edited diff file to change due date warning message
-Ocbober 4, 2014 openlab.gwolfe.meteor.com ... normal
+October 4, 2014 openlab.gwolfe.meteor.com ... normal
+October 4, 2014 openstudio.seeley.meteor.com ... normal, edited iff as above
 
 
 

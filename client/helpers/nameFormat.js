@@ -1,10 +1,17 @@
 var nameFormat = function (userID,howlong) {
   var user = Meteor.users.findOne(userID);
+  var fullName = '';
   if (!user) return '';
   if (howlong == 'full') {
-    return user.username;
+    if (user.hasOwnProperty('profile') && user.profile.hasOwnProperty('firstName')) 
+      fullName = user.profile.firstName + ' ';
+    if (user.hasOwnProperty('profile') && user.profile.hasOwnProperty('lastName'))
+      fullName += user.profile.lastName;
+    return fullName ? fullName : user.username;
   } else if (howlong == 'first') {
-    return user.username;
+    if (user.hasOwnProperty('profile') && user.profile.hasOwnProperty('firstName')) 
+      fullName = user.profile.firstName + ' ';
+    return fullName ? fullName : user.username;
   } else if (howlong == 'nick') {
     return user.username;
   }

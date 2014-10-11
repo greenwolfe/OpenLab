@@ -443,7 +443,7 @@ Template.actPageStandardItem.helpers({
   LoMs: function(activity) {
     var cU_id = Meteor.userId(); 
     var selector = {
-      activityID: activity._id,
+      //activityID: activity._id,
       standardID: this._id
     };
     if (!cU_id) return '';
@@ -475,7 +475,16 @@ Template.actPageStandardItem.helpers({
     return _.clean(_.stripTags(this.description));
   },
   CleanComment: function() {
-    return _.clean(_.stripTags(this.comment));
+    var cleanComment = _.clean(_.stripTags(this.comment));
+    return cleanComment ? cleanComment: 'No teacher comment.'
+  },
+  assessmentName: function() {
+    var activity = Activities.findOne(this.activityID);
+    if (activity) return activity.title;
+    return '';
+  },
+  highlight: function(cA) {
+    return (this.activityID == cA._id) ? 'highlight' : '';
   }
  });
 

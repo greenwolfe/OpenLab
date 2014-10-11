@@ -23,7 +23,8 @@ Template.standardPage.helpers({
     return Activities.findOne(this.activityID);
   },
   CleanComment: function() {
-    return _.clean(_.stripTags(this.comment));
+    var cleanComment = _.clean(_.stripTags(this.comment));
+    return cleanComment ? cleanComment: 'No teacher comment.'
   }
 });
 

@@ -303,6 +303,9 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 #activityStandards p strong a {
   color: black;
 }
+#activityStandards p span.highlight {
+  background-color: rgba(203,137,219,0.5);
+}
 #addNoteContainer, #addPGAContainer {
   display: inline-block;
   margin-bottom: 10px;

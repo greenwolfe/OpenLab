@@ -1,3 +1,127 @@
+diff --git a/OpenLabPhysicsII-2.diff b/OpenLabPhysicsII-2.diff
+new file mode 100644
+index 0000000..253f94a
+--- /dev/null
++++ b/OpenLabPhysicsII-2.diff
+@@ -0,0 +1,99 @@
++diff --git a/client/main.html b/client/main.html
++index f79bc0d..c46942a 100644
++--- a/client/main.html
+++++ b/client/main.html
++@@ -1,4 +1,4 @@
++ <head>
++-  <title>Open Lab</title>
+++  <title>Open Lab Physics II</title>
++ </head>
++ 
++diff --git a/client/views/activity/activity_page.html b/client/views/activity/activity_page.html
++index 0c6fc37..97e6159 100644
++--- a/client/views/activity/activity_page.html
+++++ b/client/views/activity/activity_page.html
++@@ -85,8 +85,7 @@
++     <span>{{#if isInRole 'teacher'}}<i class='editDescription fa fa-pencil-square-o' data-activityID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span>
++ 
++     <div>
++-      Suggested due date: 
++-      
+++      Due date: 
++       {{#if isInRole 'teacher'}}
++         {{>editDueDate}}
++       {{else}}
++@@ -94,7 +93,7 @@
++       {{/if}}        
++       {{#if dueDate}}
++         <blockquote> 
++-          So long as you communicate with me about your learning process, use time efficiently, and work hard, it is better to take enough time to master the standards, than to fall behind in understanding by moving on to new activities without the necessary concepts and skills.          
+++          Remember you must check the Haiku dropbox for my comments and if they <i>need work</i> revise and resubmit worksheets and lab reports until they are <i>done</i>.        
++         </blockquote>
++       {{/if}}
++     </div>
++diff --git a/client/views/includes/activity_header.html b/client/views/includes/activity_header.html
++index bd45b37..85f9b85 100644
++--- a/client/views/includes/activity_header.html
+++++ b/client/views/includes/activity_header.html
++@@ -6,7 +6,7 @@
++         <span class="icon-bar"></span>
++         <span class="icon-bar"></span>
++       </a>
++-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+++      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab Physics II</a>
++       <div class="nav-collapse collapse">
++         <ul class="nav">
++          {{> TeacherViewAs}}
++diff --git a/client/views/includes/standard_header.html b/client/views/includes/standard_header.html
++index e0cad0a..35b2227 100644
++--- a/client/views/includes/standard_header.html
+++++ b/client/views/includes/standard_header.html
++@@ -6,7 +6,7 @@
++         <span class="icon-bar"></span>
++         <span class="icon-bar"></span>
++       </a>
++-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+++      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab Physics II</a>
++       <div class="nav-collapse collapse">
++         <ul class="nav">
++          {{> TeacherViewAs}}
++@@ -26,4 +26,4 @@
++     {{> editProfile}}
++     {{>chooseSection}}
++   </header>
++-</template>
++\ No newline at end of file
+++</template>
++diff --git a/client/views/includes/student_header.html b/client/views/includes/student_header.html
++index d1d21c7..a06a930 100644
++--- a/client/views/includes/student_header.html
+++++ b/client/views/includes/student_header.html
++@@ -6,7 +6,7 @@
++         <span class="icon-bar"></span>
++         <span class="icon-bar"></span>
++       </a>
++-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+++      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab Physics II</a>
++       {{#if isInRole 'teacher'}}
++       <a id='btnEdit' class="brand" href="{{pathFor 'editAccordion'}}">Edit</a>
++       {{/if}}
++diff --git a/client/views/includes/teacher_edit_header.html b/client/views/includes/teacher_edit_header.html
++index 2e6cfe8..23be7ad 100644
++--- a/client/views/includes/teacher_edit_header.html
+++++ b/client/views/includes/teacher_edit_header.html
++@@ -6,7 +6,7 @@
++         <span class="icon-bar"></span>
++         <span class="icon-bar"></span>
++       </a>
++-      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+++      <a class="brand" href="{{pathFor 'studentView'}}">Open Lab Physics II</a>
++       <div class="nav-collapse collapse">
++         <ul class="nav">
++           <div id="btnTEstate" class="btn-group">
++@@ -23,4 +23,4 @@
++     {{> editProfile}}
++     {{>chooseSection}}
++   </header>
++-</template>
++\ No newline at end of file
+++</template>
+diff --git a/OpenLabPhysicsII.diff b/OpenLabPhysicsII.diff
+index 253f94a..9644289 100644
+--- a/OpenLabPhysicsII.diff
++++ b/OpenLabPhysicsII.diff
+@@ -97,3 +97,14 @@ index 2e6cfe8..23be7ad 100644
+ -</template>
+ \ No newline at end of file
+ +</template>
++diff --git a/client/views/student/studentView.html b/client/views/student/studentView.html
++index 7c75d93..910e42d 100644
++--- a/client/views/student/studentView.html
+++++ b/client/views/student/studentView.html
++@@ -1,6 +1,4 @@
++ <template name = "studentView">
++- <div id="counters" class="alert alert-info">{{{counters}}}</div>
++- <div id="reminder" class="alert alert-error">{{{reminder}}}</div>
++  <div class='container-fluid'>
++  <div class="modal-body row">
++ 	 <div class='span4'>
 diff --git a/client/main.html b/client/main.html
 index f79bc0d..de5bfa2 100644
 --- a/client/main.html
@@ -8,6 +132,30 @@ index f79bc0d..de5bfa2 100644
 +  <title>Open Studio</title>
  </head>
  
+diff --git a/client/views/activity/activity_page.html b/client/views/activity/activity_page.html
+index 0c6fc37..f611a5b 100644
+--- a/client/views/activity/activity_page.html
++++ b/client/views/activity/activity_page.html
+@@ -85,18 +85,13 @@
+     <span>{{#if isInRole 'teacher'}}<i class='editDescription fa fa-pencil-square-o' data-activityID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span>
+ 
+     <div>
+-      Suggested due date: 
++      Due Date: 
+       
+       {{#if isInRole 'teacher'}}
+         {{>editDueDate}}
+       {{else}}
+         {{#if dueDate}} {{dueDate}} {{else}} none {{/if}}
+       {{/if}}        
+-      {{#if dueDate}}
+-        <blockquote> 
+-          So long as you communicate with me about your learning process, use time efficiently, and work hard, it is better to take enough time to master the standards, than to fall behind in understanding by moving on to new activities without the necessary concepts and skills.          
+-        </blockquote>
+-      {{/if}}
+     </div>
+   </div>
+ </template>
 diff --git a/client/views/includes/activity_header.html b/client/views/includes/activity_header.html
 index bd45b37..44e624a 100644
 --- a/client/views/includes/activity_header.html
@@ -74,6 +222,17 @@ index 2e6cfe8..043a0f1 100644
 -</template>
 \ No newline at end of file
 +</template>
+diff --git a/client/views/student/studentView.html b/client/views/student/studentView.html
+index 7c75d93..910e42d 100644
+--- a/client/views/student/studentView.html
++++ b/client/views/student/studentView.html
+@@ -1,6 +1,4 @@
+ <template name = "studentView">
+- <div id="counters" class="alert alert-info">{{{counters}}}</div>
+- <div id="reminder" class="alert alert-error">{{{reminder}}}</div>
+  <div class='container-fluid'>
+  <div class="modal-body row">
+ 	 <div class='span4'>
 diff --git a/server/users.js b/server/users.js
 index 5921eeb..e725efe 100644
 --- a/server/users.js
@@ -89,4 +248,3 @@ index 5921eeb..e725efe 100644
        });
        Roles.addUsersToRoles(id, ['teacher']);
      };
-     
