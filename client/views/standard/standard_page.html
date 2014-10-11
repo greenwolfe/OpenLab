@@ -6,10 +6,13 @@
       <p></p>
       <p>
         <span class="badge badge-inverse {{LoMcolorcode ..}}">{{level}}</span> 
-        {{#with activity}}
-        <strong>from assessment: </strong><a href="{{pathFor 'activityPage'}}">{{title}}</a><br/>
-        {{/with}}
         <span>{{{CleanComment}}}</span>
+        <div style='font-size: 10pt;margin-left: 50px'>
+          {{#with activity}}
+            <a href="{{pathFor 'activityPage'}}">{{title}}</a>
+          {{/with}}
+          graded by {{nameFormat teacherID 'full'}} on  {{dateFormat submitted 'datetime'}}
+        </div>
       </p>
     {{/each}}
 </template>

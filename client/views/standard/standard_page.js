@@ -25,6 +25,11 @@ Template.standardPage.helpers({
   CleanComment: function() {
     var cleanComment = _.clean(_.stripTags(this.comment));
     return cleanComment ? cleanComment: 'No teacher comment.'
+  },
+  assessmentName: function() {
+    var activity = Activities.findOne(this.activityID);
+    if (activity) return activity.title;
+    return '';
   }
 });
 
