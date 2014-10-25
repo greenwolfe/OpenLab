@@ -276,7 +276,19 @@ Template.calendarEvent.helpers({
   },
   classes: function() {
     return "ui-state-default" + " " + this.workplace;
-  }
+  },
+  reassessment: function() { 
+    var userToShow = Meteor.userId();
+    var activity = Activities.findOne(this.activityID);
+    if (!activity) return '';
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    var ownerID =  activity.hasOwnProperty('ownerID') ? activity.ownerID : '';
+    if ((activity.type == 'assessment') && !ownerID) 
+      return '<strong>assessment: </strong>';
+    return ((activity.type == 'assessment') && ownerID && (ownerID == userToShow) ) ? '<strong>Reassessment: </strong>' : '';
+  }  
 });
 
 

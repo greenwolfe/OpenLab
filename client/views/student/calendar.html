@@ -41,7 +41,7 @@
 <template name = 'calendarEvent'>
   <p data-activityid={{activityID}} data-eventid = {{_id}} class={{classes}}>
     <a href="{{pathFor 'activityPage' _id=activityID}}" title={{groupies "" "" group "" ""}}>
-      {{title}}
+      {{{reassessment}}}{{title}}
     </a>
     <i class='invitemore fa fa-users' onmouseover="$(this).addClass('fa-inverse')" onmouseout = "$(this).removeClass('fa-inverse')" title="invite additional participants"></i>
     <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title="delete"></i>

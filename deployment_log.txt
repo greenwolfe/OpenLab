@@ -174,6 +174,16 @@ October 4, 2014 openlab.physics2.meteor.com .... normal, also edited diff file t
 October 4, 2014 openlab.gwolfe.meteor.com ... normal
 October 4, 2014 openstudio.seeley.meteor.com ... normal, edited iff as above
 
+#################################################################################
+
+commit 679c9e22c67202864975388a05e50f1614dec8e4
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sat Oct 11 10:33:39 2014 -0400
+
+    updated standards page to display dates
+    displaying grading dates and all comments on activity page with highlighting
+
+October 11, 2014 openlab.gwolfe.meteor.com ... normal
 
 
 
