@@ -9,7 +9,7 @@ index f79bc0d..c46942a 100644
  </head>
  
 diff --git a/client/views/activity/activity_page.html b/client/views/activity/activity_page.html
-index 0c6fc37..97e6159 100644
+index 8d81a14..48f610b 100644
 --- a/client/views/activity/activity_page.html
 +++ b/client/views/activity/activity_page.html
 @@ -85,8 +85,7 @@
@@ -97,3 +97,17 @@ index 2e6cfe8..23be7ad 100644
 -</template>
 \ No newline at end of file
 +</template>
+diff --git a/client/views/student/studentView.html b/client/views/student/studentView.html
+index 7c75d93..4edb4e9 100644
+--- a/client/views/student/studentView.html
++++ b/client/views/student/studentView.html
+@@ -1,6 +1,5 @@
+ <template name = "studentView">
+- <div id="counters" class="alert alert-info">{{{counters}}}</div>
+- <div id="reminder" class="alert alert-error">{{{reminder}}}</div>
++
+  <div class='container-fluid'>
+  <div class="modal-body row">
+ 	 <div class='span4'>
+diff --git a/deployment_log.txt b/deployment_log.txt
+ 
