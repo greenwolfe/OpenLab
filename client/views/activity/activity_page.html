@@ -115,7 +115,7 @@
     {{/if}}
     {{#each LoMs ..}}
       <p>
-        <span class="badge badge-inverse {{LoMcolorcode ..}}">{{level}}</span> 
+        <span class="badge badge-inverse {{LoMcolorcode ..}}">{{LoMtext ..}}</span> 
         <span>{{{CleanComment}}}</span>
        <div style='font-size: 10pt;margin-left: 50px'><span class="{{highlight ../..}}">{{assessmentName}}</span> graded by {{nameFormat teacherID 'full'}} on  {{dateFormat submitted 'datetime'}}
         {{#if isInRole 'teacher'}}<i class='removeLoM fa fa-times' data-LoMID = {{_id}} onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)"></i>{{/if}}

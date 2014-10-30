@@ -1,6 +1,7 @@
 <template name = 'standardsList'> 
    <h5 id='standardsListTitle'>standards <span>(mastered/assessed/total)</span></h5>
    <div id='standards'>
+    {{>standardsSublist _id='wholecourse' model='whole course' longname="Standards that aren't specific to a particular model."}}
     {{#each models}}
       {{> standardsSublist }}
     {{/each}}
@@ -24,7 +25,7 @@
 <template name = 'standardItem'>
     <div>
     <p data-standardid={{_id}} class="ui-state-default assessmentStand">
-      {{#if LoM}} <span class = 'badge badge-inverse {{LoMcolorcode}}'>{{LoM}}</span> {{/if}}
+      {{#if LoM}} <span class = 'badge badge-inverse {{LoMcolorcode ..}}'>{{LoMtext ..}}</span> {{/if}}
       <a href="{{pathFor 'standardPage'}}" title="{{plaindescription}}">{{title}}</a> </p>
     </div>
 </template>

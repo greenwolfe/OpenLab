@@ -41,6 +41,7 @@
 <template name = 'AccStandardsList'> 
    <h5>standards</h5>
    <div id='standards'>
+    {{>AccStandardsSublist _id='wholecourse' model='whole course' longname="Standards that aren't specific to a particular model."}}
     {{#each models}}
       {{> AccStandardsSublist }}
     {{/each}}

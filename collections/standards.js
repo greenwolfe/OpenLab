@@ -30,18 +30,23 @@ Meteor.methods({
     if (!Standard.title || (Standard.title == defaultText) || (Standard.title == ''))
       throw new Meteor.Error(413, "Cannot post standard.  Missing title.");
 
-    if (!Standard.modelID)
+    if (!Standard.hasOwnProperty('modelID'))
       throw new Meteor.Error(402, "Cannot post standard.  Missing model.");
    
-    model = Models.findOne(Standard.modelID);
-    if (!model)
-       throw new Meteor.Error(421, "Cannot post standard.  Improper model.")
+    if (Standard.modelID != 'wholecourse') {
+      model = Models.findOne(Standard.modelID);
+      if (!model)
+         throw new Meteor.Error(421, "Cannot post standard.  Improper model.")
+    };
 
     if (!Standard.hasOwnProperty('description'))
       Standard.description = '';
 
     if (!Standard.hasOwnProperty('scale'))
       Standard.scale = ['NM','DM','M'];
+    if (!( (_.isArray(Standard.scale)) || 
+      ((_.isFinite(Standard.scale)) && (Standard.scale > 0)) ))
+      throw new Meteor.Error(471, "Cannot post standard. Scale must be an array of acronyms or a positive number.")
 
     if (!Standard.hasOwnProperty('calcMethod'))
       Standard.calcMethod = '';  //function(gradesArray) { return most recent or some type of average}
@@ -112,16 +117,21 @@ Meteor.methods({
     if (nS.hasOwnProperty('visible') && (nS.visible != Standard.visible)) 
       Standards.update(nS._id,{$set: {visible: nS.visible}});
     
-    if (nS.modelID && (nS.modelID != Standard.modelID) && nS.modelID != '') {
-      model = Models.findOne(nS.modelID);
-      if (!model)
-        throw new Meteor.Error(421, "Cannot update standard.  Improper model.")
+    if (nS.hasOwnProperty('modelID') && (nS.modelID != Standard.modelID)) {
+      if (nS.modelID != 'wholecourse') {
+        model = Models.findOne(nS.modelID);
+        if (!model)
+          throw new Meteor.Error(421, "Cannot update standard.  Improper model.")
+      };
       maxRank = _.max(Standards.find({modelID: nS.modelID}).map(function(a) {return a.rank}))
       Standards.update(nS._id,{$set: {modelID: nS.modelID,rank: maxRank+1}});
-      Standard.modelID = nS.modelID;  
+      Standard.modelID = nS.modelID;  //??? what is this doing?
     };
 
     if (nS.hasOwnProperty('scale'))
+      if (!( (_.isArray(Standard.scale)) || 
+      ((_.isFinite(Standard.scale)) && (Standard.scale > 0)) ))
+        throw new Meteor.Error(471, "Cannot update standard. Scale must be an array of acronyms or a positive number.");
       Standards.update(nS._id,{$set: {scale:nS.scale}});
 
     if (nS.hasOwnProperty('rank') && (nS.rank != Standard.rank)) {

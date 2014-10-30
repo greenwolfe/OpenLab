@@ -40,8 +40,17 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if (!activity.hasOwnProperty('standardIDs') || !_.contains(activity.standardIDs,LoM.standardID))
       throw new Meteor.Error(466, "Cannot post level of mastery.  Indicated standard not assigned to indicated activity.");
 
-    if (!LoM.hasOwnProperty('level') || !_.contains(standard.scale,LoM.level))
+    if (!LoM.hasOwnProperty('level')) {
+      if (_.isArray(standard.scale)) 
+        throw new Meteor.Error(467, "Cannot post level of mastery.  Level must be one of " + standard.scale.join(", ") + ".");
+      if (_.isFinite(standard.scale)) 
+        throw new Meteor.Error(467, "Cannot post level of mastery. Level must be a number between 0 and " + standard.scale + ".");
+      throw new Meteor.Error(467, "Cannot post level of mastery. Invalid level or scale.");
+    }
+    if (_.isArray(standard.scale) && !_.contains(standard.scale,LoM.level)) 
       throw new Meteor.Error(467, "Cannot post level of mastery.  Level must be one of " + standard.scale.join(", ") + ".");
+    if ((_.isFinite(standard.scale)) && (!_.isFinite(LoM.level) || (LoM.level < 0) || (LoM.level > standard.scale)))
+      throw new Meteor.Error(467, "Cannot post level of mastery. Level must be a number between 0 and " + standard.scale + ".");
 
     if (!LoM.hasOwnProperty('submitted'))// || !moment(LoM.submitted,'ddd[,] MMM D YYYY',true).isValid())
       LoM.submitted = new Date().getTime();
@@ -99,8 +108,10 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
       throw new Meteor.Error(406, "Cannot update level of mastery.  Invalid standard ID.");
     standard = Standards.findOne(LoM.standardID);
 
-    if (nLoM.hasOwnProperty('level') && !_.contains(standard.scale,nLoM.level))
+    if (_.isArray(standard.scale) && !_.contains(standard.scale,LoM.level)) 
       throw new Meteor.Error(467, "Cannot post level of mastery.  Level must be one of " + standard.scale.join(", ") + ".");
+    if ((_.isFinite(standard.scale)) && (!_.isFinite(LoM.level) || (LoM.level < 0) || (LoM.level > standard.scale)))
+      throw new Meteor.Error(467, "Cannot post level of mastery. Level must be a number between 0 and " + standard.scale + ".");
     if (nLoM.hasOwnProperty('level') && (nLoM.level != LoM.level)) {
       LevelsOfMastery.update(nLoM._id,{$set: {level: nLoM.level}});
       uT = updateTime;

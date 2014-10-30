@@ -16,8 +16,20 @@ Template.standardPage.helpers({
   },
   LoMcolorcode: function(standard) {
     var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
-    var index = standard.scale.indexOf(this.level);
+    var index;
+    if (_.isArray(standard.scale)) {
+      index = standard.scale.indexOf(this.level);
+    }
+    if (_.isFinite(standard.scale)) {
+      index = Math.floor(this.level*3/standard.scale);
+      index = Math.min(index,2);
+    }
     return colorcodes[index];
+  },
+  LoMtext: function(standard) {
+    if (_.isArray(standard.scale))
+      return this.level;
+    return this.level + ' out of ' + standard.scale;
   },
   activity: function() {
     return Activities.findOne(this.activityID);
@@ -39,6 +51,32 @@ Template.standardPage.helpers({
 
 var defaultText = 'Provide an explanation for this standard.';
 
+Template.standardDescription.rendered = function() {
+  var cU = Meteor.userId();
+  if (Roles.userIsInRole(cU,'teacher')) {
+    $('#scaleText').hallo().bind("hallodeactivated",function(event) {
+      var $t = $(event.target);
+      var scale = $t.text();
+      if (scale.indexOf(',') > -1) {
+        scale = scale.split(',');
+      } else if (parseFloat(scale)) {
+        scale = parseFloat(scale);
+      } else {
+        return;
+      }
+      var el = $t.get(0);
+      var standardID = (el) ? UI.getElementData(el)._id : NaN;
+      var nS = {
+        _id: standardID,
+        scale: scale
+      };
+      Meteor.call('updateStandard', nS,
+        function(error, id) {if (error) return alert(error.reason);}
+      );
+    });
+  };
+};
+
 Template.standardDescription.helpers({
   description:  function() { 
     var desc = Standards.findOne(this._id).description;
@@ -51,6 +89,10 @@ Template.standardDescription.helpers({
   defaultTextActive: function() {
     var desc = Standards.findOne(this._id).description;
     return (_.clean(_.stripTags(desc))) ? '' : 'defaultTextActive';
+  },
+  scaleText: function() {
+    if (_.isFinite(this.scale)) return this.scale;
+    return this.scale.join(", ");
   }
 });
 

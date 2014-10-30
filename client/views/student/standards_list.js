@@ -9,6 +9,9 @@ Template.standardsList.rendered = function() {
 Template.standardsList.helpers({
   models: function() {
     return Models.find({visible:true},{sort: {rank: 1}});
+  },
+  standardsWtihNoModel: function() {
+    return Standards.find({visible:true,modelID:null},{sort: {rank:1}});
   }
 });
 
@@ -26,13 +29,21 @@ Template.standardsSublist.helpers({
     return Standards.find({modelID: this._id, visible: true},{sort: {rank: 1}}); 
   },
   standardsMastered: function() {
+    if (this.modelID == 'wholecourse') return '';
     var standards = Standards.find({modelID: this._id, visible: true}).fetch();
     var Mcount = 0;
     var LoMcount = 0;
     standards.forEach(function(st) {
       if (st.LoM) {
+        var index;
+        if (_.isArray(st.scale)) {
+          index = st.scale.indexOf(st.LoM);
+        }
+        if (_.isFinite(st.scale)) {
+          index = Math.floor(st.LoM*3/st.scale);
+          index = Math.min(index,2);
+        }
         LoMcount += 1;
-        var index = st.scale.indexOf(st.LoM);
         if (index == st.scale.length - 1) Mcount += 1;
       }
     });
@@ -68,11 +79,22 @@ Template.standardItem.helpers({
     return _.stripTags(this.description);
   },
   LoMcolorcode: function() {
-    if (!this.LoM) return '';
     var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
-    var index = this.scale.indexOf(this.LoM);
+    var index;
+    if (_.isArray(this.scale)) {
+      index = this.scale.indexOf(this.LoM);
+    }
+    if (_.isFinite(this.scale)) {
+      index = Math.floor(this.LoM*3/this.scale);
+      index = Math.min(index,2);
+    }
     return colorcodes[index];
-  }
+  },
+  LoMtext: function() {
+    if (_.isArray(this.scale))
+      return this.LoM;
+    return this.LoM + ' out of ' + this.scale;
+  },
 });
 
 var DragOpt = function (sortable) { //default draggable options

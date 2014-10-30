@@ -458,8 +458,20 @@ Template.actPageStandardItem.helpers({
   },
   LoMcolorcode: function(standard) {
     var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
-    var index = standard.scale.indexOf(this.level);
+    var index;
+    if (_.isArray(standard.scale)) {
+      index = standard.scale.indexOf(this.level);
+    }
+    if (_.isFinite(standard.scale)) {
+      index = Math.floor(this.level*3/standard.scale);
+      index = Math.min(index,2);
+    }
     return colorcodes[index];
+  },
+  LoMtext: function(standard) {
+    if (_.isArray(standard.scale))
+      return this.level;
+    return this.level + ' out of ' + standard.scale;
   },
   canPostLOM: function(activity) {
     var teacherID = Meteor.userId();

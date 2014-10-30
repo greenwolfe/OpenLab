@@ -338,7 +338,7 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
   margin-top: 5px;
   vertical-align: top;
 }
-.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover, .removePga:hover, .editPga:hover, .editDescription:hover, .removeLoM:hover {
+.removeLink:hover, .removeTodo:hover, .removeNote:hover, .editNote:hover, .removePga:hover, .editPga:hover, .editDescription:hover, .editScale:hover, .removeLoM:hover {
   cursor: default;
 }
 /*.noteText {
