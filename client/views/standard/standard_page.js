@@ -58,6 +58,7 @@ Template.standardDescription.rendered = function() {
       var $t = $(event.target);
       var scale = $t.text();
       if (scale.indexOf(',') > -1) {
+        scale = scale.replace(/\s+/g, '');
         scale = scale.split(',');
       } else if (parseFloat(scale)) {
         scale = parseFloat(scale);

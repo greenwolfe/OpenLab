@@ -38,13 +38,13 @@ Template.standardsSublist.helpers({
         var index;
         if (_.isArray(st.scale)) {
           index = st.scale.indexOf(st.LoM);
+          if (index == st.scale.length - 1) Mcount += 1;
         }
         if (_.isFinite(st.scale)) {
           index = Math.floor(st.LoM*3/st.scale);
-          index = Math.min(index,2);
+          if (index >= 2) Mcount += 1;
         }
         LoMcount += 1;
-        if (index == st.scale.length - 1) Mcount += 1;
       }
     });
     return ' (' + Mcount + '/' + LoMcount + '/' + standards.length + ')';
