@@ -129,8 +129,8 @@ Meteor.methods({
     };
 
     if (nS.hasOwnProperty('scale'))
-      if (!( (_.isArray(Standard.scale)) || 
-      ((_.isFinite(Standard.scale)) && (Standard.scale > 0)) ))
+      if (!( (_.isArray(nS.scale)) || 
+      ((_.isFinite(nS.scale)) && (nS.scale > 0)) ))
         throw new Meteor.Error(471, "Cannot update standard. Scale must be an array of acronyms or a positive number.");
       Standards.update(nS._id,{$set: {scale:nS.scale}});
 
