@@ -61,9 +61,25 @@ Template.assessmentStandardItem.helpers({
     var LoM = activity.LoMs[this._id];
     if (!LoM) return '';
     var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
-    var index = this.scale.indexOf(LoM);
+    var index;
+    if (_.isArray(this.scale)) {
+      index = this.scale.indexOf(LoM);
+    }
+    if (_.isFinite(this.scale)) {
+      index = Math.floor(LoM*3/this.scale);
+      index = Math.min(index,2);
+    }
     return colorcodes[index];
-  } 
+  },
+  LoMtext: function(a) {
+    activity = Activities.findOne(a._id);
+    if (!activity.hasOwnProperty('LoMs')) return null;
+    var LoM = activity.LoMs[this._id];
+    if (!LoM) return '';
+    if (_.isArray(this.scale))
+      return LoM;
+    return LoM + ' out of ' + this.scale;
+  }
 });
 
 var dragOpt = function() { //draggable options

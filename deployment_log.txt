@@ -208,6 +208,15 @@ Date:   Wed Oct 29 23:18:05 2014 -0400
 
 October 29, 2014 openlab.gwolfe.meteor.com ... normal
 
+###################################################################################
+
+commit f62dc4dec0935faf0ac32f08a4d4a18c08b0409d
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Thu Oct 30 00:23:54 2014 -0400
+
+    further cleaned up numerical standards
+
+October 29, 2014 openlab.gwolfe.meteor.com ... normal
 
 
 

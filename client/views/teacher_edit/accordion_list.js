@@ -214,6 +214,7 @@ Template.AccStandardItem.rendered = function() {
           title : title,
           modelID : modelID,
           description : '',
+          scale: ['NM','DM','M'],
           visible: true
         };
         Meteor.call('postStandard',nS,defaultStandardText,

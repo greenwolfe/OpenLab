@@ -94,7 +94,7 @@ Template.standardItem.helpers({
     if (_.isArray(this.scale))
       return this.LoM;
     return this.LoM + ' out of ' + this.scale;
-  },
+  }
 });
 
 var DragOpt = function (sortable) { //default draggable options
