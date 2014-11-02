@@ -85,7 +85,8 @@
     <span>{{#if isInRole 'teacher'}}<i class='editDescription fa fa-pencil-square-o' data-activityID = {{_id}} onmouseover="$(this).switchClass('fa-pencil-square-o','fa-pencil-square',0)" onmouseout="$(this).switchClass('fa-pencil-square','fa-pencil-square-o',0)"></i>{{/if}}</span>
 
     <div>
-      Due date: 
+      Suggested due date: 
+      
       {{#if isInRole 'teacher'}}
         {{>editDueDate}}
       {{else}}
@@ -93,7 +94,7 @@
       {{/if}}        
       {{#if dueDate}}
         <blockquote> 
-          Remember you must check the Haiku dropbox for my comments and if they <i>need work</i> revise and resubmit worksheets and lab reports until they are <i>done</i>.        
+          So long as you communicate with me about your learning process, use time efficiently, and work hard, it is better to take enough time to master the standards, than to fall behind in understanding by moving on to new activities without the necessary concepts and skills.          
         </blockquote>
       {{/if}}
     </div>
