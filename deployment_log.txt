@@ -218,6 +218,20 @@ Date:   Thu Oct 30 00:23:54 2014 -0400
 
 October 29, 2014 openlab.gwolfe.meteor.com ... normal
 
+#################################################################################
+
+
+commit 30c1e73c13a55cd9653ae7893b752e3e421b8d3c
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Fri Oct 31 04:02:20 2014 -0400
+
+
+    numerical standards show up properly in assessment block, new standards get 
+
+October 31, 2014 openlab.gwolfe.meteor.com ... normal
+November 2, 2014 openlab.physics2.meteor.com ... normal
+
+
 
 
 
