@@ -141,7 +141,17 @@ Template.activityItem.events({
         function(error, id) {if (error) return alert(error.reason);}
       );
     }
-  }
+  },
+  'click .openInvite .remove': function(event) {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    var calendarEvent = UI.getElementData( $(event.currentTarget).get(0) );
+    Meteor.call('declineInvite', calendarEvent._id, userToShow, 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
+   },
 });
 
 Template.activityItem.helpers({
@@ -155,6 +165,7 @@ Template.activityItem.helpers({
     if (!calendarEvents) return '';
     calendarEvents.forEach(function (event) {
       openInvites.push({
+        _id: event._id,
         date: moment(event.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D'),
         group: _.without( event.invite.concat(event.group), userToShow )
       });

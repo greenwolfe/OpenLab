@@ -231,6 +231,17 @@ Date:   Fri Oct 31 04:02:20 2014 -0400
 October 31, 2014 openlab.gwolfe.meteor.com ... normal
 November 2, 2014 openlab.physics2.meteor.com ... normal
 
+#################################################################################
+
+commit a6c2c2e76fb06f81bff44474f81eb59c5a57edb3
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Nov 2 13:21:29 2014 -0500
+
+    corrected bug in updateStandard
+
+November 2, 2014 openlab.gwolfe.meteor.com ... normal
+November 2, 2014 openlab.physics2.meteor.com ... normal
+
 
 
 

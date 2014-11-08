@@ -123,12 +123,18 @@ Meteor.methods({
   },
 
   /***** DECLINE INVITE ****/
-  declineInvite: function(eventID) {
+  declineInvite: function(eventID,userID) {
     var cE = CalendarEvents.findOne(eventID); //calendarEvent
     var cU = Meteor.user(); //currentUser
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to decline an invitation.");
+
+    if (Roles.userIsInRole(cU,'teacher') && userID) {
+      cU = Meteor.users.findOne(userID);
+      if (!cU)
+        throw new Meteor.Error(401, "Passed invalid userID to decline event.");
+    }
 
     if (!cE)
       throw new Meteor.Error(412, "Cannot decline invite.  Invalid event ID.");

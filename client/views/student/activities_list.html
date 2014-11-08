@@ -39,7 +39,10 @@
       <div class='openInvites'>
       {{#if openInvites}}
         {{#each openInvites}}
-          <div class='openInvite'>invitation from {{groupies "" "" group "" ""}} on {{date}}</div>
+          <div class='openInvite'>
+          <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title="decline invitation"></i>
+          invitation from {{groupies "" "" group "" ""}} on {{date}}
+          </div>
         {{/each}}
       {{/if}}
       </div>
