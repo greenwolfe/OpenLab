@@ -242,6 +242,17 @@ Date:   Sun Nov 2 13:21:29 2014 -0500
 November 2, 2014 openlab.gwolfe.meteor.com ... normal
 November 2, 2014 openlab.physics2.meteor.com ... normal
 
+###############################################################################
+
+
+commit bb6e25315905165a5051941270398b6c6b196506
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sat Nov 8 07:23:41 2014 -0500
+
+    can now decline invites from activities list
+
+November 8, 2014 openlab.gwolfe.meteor.com ... normal
+
 
 
 
