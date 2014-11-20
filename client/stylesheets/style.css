@@ -355,11 +355,24 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 .collapsed { 
   line-height: 27px !important;
 }
+/*  notes  in preparation for worksheet status indicators */
+/* use fa fa-square-o (empty) gray_inbox (submitted) gray_outbox (needs work) */
+/* fa fa-check-square-o (done) */
+/* i.icon-submitted {
+  background: url('inbox.png');
+  background-size: contain;
+  background-color: green;
+  } 
+  i.icon-needswork {
+  background: url('outbox.png');
+  background-size: contain;
+  background-color: red;    
+    }*/
 i.icon-list-visible {
-  background: url('list_visible.svg');
+  background: url('list_visible.svg'); 
   background-size: contain;
 }
 i.icon-list-hidden {
-  background: url('list_hidden.svg');
+  background: url('list_hidden.svg'); 
   background-size: contain;
 }

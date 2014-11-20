@@ -103,13 +103,13 @@ Template.AccActivityItem.rendered = function() {
 
 Template.AccActivityItem.helpers({
   disabled: function() {
-    activity = Activities.findOne(this._id);
+    var activity = Activities.findOne(this._id);
     if (activity)
       return activity.visible ? '' : 'ui-state-disabled';
     return '';
   },
   listVisible: function() {
-    activity = Activities.findOne(this._id);
+    var activity = Activities.findOne(this._id);
     if (!activity) return '';
     if (activity.visible) return 'icon-list-visible';
     return 'icon-list-hidden';    

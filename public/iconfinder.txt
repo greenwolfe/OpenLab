@@ -1,0 +1,47 @@
+  https://www.iconfinder.com/icons/62179/checkmark_icon#size=64
+**https://www.iconfinder.com/icons/62236/outbox_icon#size=64
+  https://www.iconfinder.com/icons/62268/tray_icon#size=64
+**https://www.iconfinder.com/icons/62219/inbox_icon#size=64
+
+https://www.iconfinder.com/icons/265515/nosignal_weak_wifi_icon#size=128
+https://www.iconfinder.com/icons/265508/signal_weak_wifi_icon#size=128
+https://www.iconfinder.com/icons/265526/signal_weak_wifi_icon#size=128
+https://www.iconfinder.com/icons/265512/medium_signal_wifi_icon#size=128
+https://www.iconfinder.com/icons/265530/signal_strong_wifi_icon#size=128
+https://www.iconfinder.com/icons/265519/signal_strong_wifi_icon#size=128
+
+/*  notes  in preparation for worksheet status indicators */
+/* use fa fa-square-o (empty) gray_inbox (submitted) gray_outbox (returned with comments for revision) */
+/* fa fa-check-square-o (done) */
+
+html:  <i class={{status}}></i>
+js:  
+Template.AccActivityItem.helpers({
+  status: function() {
+    var activity = Activities.findOne(this._id);
+    var teacher = Roles.userIsInRole(Meteor.userId(),'teacher') ? ' teacher' : '';
+    if (!activity) return ''; 
+    if (activity.status == 'submitted') return 'icon-submitted' + teacher;
+    if (activity.status == 'returned') return 'icon-returned' + teacher;
+    if (activity.status == 'done') return 'fa fa-check-square-o';
+    return 'fa fa-square-o';    
+  }
+});
+
+CSS: /* reverse colors for teacher? */
+i.icon-submitted {
+  background: url('inbox.png');
+  background-size: contain;
+  background-color: green;
+} 
+i.icon-submitted.teacher { /* will this work if teacher class is added? */
+  background-color: red;
+}
+i.icon-needswork {
+  background: url('outbox.png');
+  background-size: contain;
+  background-color: red;    
+}
+i.icon-submitted.teacher { /* will this work if teacher class is added? */
+  background-color: green;
+}
