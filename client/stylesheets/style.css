@@ -358,16 +358,44 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 /*  notes  in preparation for worksheet status indicators */
 /* use fa fa-square-o (empty) gray_inbox (submitted) gray_outbox (needs work) */
 /* fa fa-check-square-o (done) */
-/* i.icon-submitted {
-  background: url('inbox.png');
+i.icon-notStarted {
+  background: url('notStarted.png');
+  background-size: contain;
+}
+i.icon-oneBar {
+  background: url('oneBar.png');
+  background-size: contain;
+}
+i.icon-twoBars {
+  background: url('twoBars.png');
+  background-size: contain;
+}
+i.icon-threeBars {
+  background: url('threeBars.png');
+  background-size: contain;
+}
+i.icon-fourBars {
+  background: url('fourBars.png');
+  background-size: contain;
+}
+i.icon-fiveBars {
+  background: url('fiveBars.png');
+  background-size: contain;
+}
+i.icon-submitted {
+  background: url('submitted.png');
   background-size: contain;
   background-color: green;
-  } 
-  i.icon-needswork {
-  background: url('outbox.png');
+} 
+i.icon-returned {
+  background: url('returned.png');
   background-size: contain;
   background-color: red;    
-    }*/
+}
+i.icon-done {
+  background: url('done.png');
+  background-size: contain;
+}
 i.icon-list-visible {
   background: url('list_visible.svg'); 
   background-size: contain;

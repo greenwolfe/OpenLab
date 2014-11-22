@@ -184,34 +184,73 @@ Meteor.methods({
     Activities.update(ActivityID,{$pull: {standardIDs: standardID}});
   }, 
 
-  /**** ACTIVITY MARK DONE ****/
-  activityMarkDone: function(ActivityID,StudentIDs) {
+  /**** ACTIVITY INCREMENT STATUS ****/
+  activityIncrementStatus: function(ActivityID,StudentID,Increment) {
     var cU = Meteor.user(); //currentUser
     var Activity = Activities.findOne(ActivityID);
-    if (!_.isArray(StudentIDs))
-      StudentIDs = [StudentIDs];
+    var student = Meteor.users.findOne(StudentID);
+    var statuses = ['notStarted','oneBar','twoBars','threeBars','fourBars','fiveBars','submitted','returned','done']
+    var currentStatus;
+    var newStatus;
+    var Index;
+
+    if (_.isFinite(Increment) && (Increment != 0)) {
+      Increment = (Increment > 0) ? 1 : -1;
+    } else {
+      throw new Meteor.Error(500, "Invalid increment.  Can only increment activity's status by +/- 1.")
+    }
 
     if (!cU)
-      throw new Meteor.Error(401, "You must be logged in to mark an activity as done");
+      throw new Meteor.Error(401, "You must be logged in to increment an activity's status");
     
-    if (!Roles.userIsInRole(cU,'teacher'))
-      throw new Meteor.Error(409, "Only teachers may mark an activity as done");
-
     if (!Activity) 
-      throw new Meteor.Error(412, "Cannot mark activity as done.  Invalid activity");
+      throw new Meteor.Error(412, "Cannot increment activity's status.  Invalid activity");
 
-    StudentIDs.forEach(function(StudentID) {
-      var student = Meteor.users.findOne(StudentID);
-      if (!student)
-        throw new Meteor.Error(425, "Cannot mark activity as done.  Invalid user.")
+    if (!student)
+      throw new Meteor.Error(425, "Cannot increment activity's status.  Invalid user.")
 
-      if (!Roles.userIsInRole(student,'student')) 
-        throw new Meteor.Error(426, "Cannot mark activity as done.  Not a student.")
-    });
+    if (!Roles.userIsInRole(student,'student')) 
+      throw new Meteor.Error(426, "Cannot increment activity's status.  Not a student.")
 
-    StudentIDs.forEach(function(StudentID) {
-      Meteor.users.update(StudentID,{$addToSet: {completedActivities:ActivityID}});
-     });
+    if (Roles.userIsInRole(cU,'student') && !(cU._id == student._id))
+      throw new Meteor.Error(427, "A student can only change their own status for an activity.")
+
+    if (student.hasOwnProperty('activityStatus')) 
+      currentStatus = _.findWhere(student.activityStatus,{_id:ActivityID});
+    var hasCurrentStatus = !!currentStatus;
+    if (!hasCurrentStatus) {
+      if (student.hasOwnProperty('completedActivities') && (_.indexOf(student.completedActivities,ActivityID) + 1)) {
+        currentStatus = { //converts status from old system
+          _id: ActivityID,
+          status: 'done'
+        };
+      } else {
+        currentStatus = {
+          _id: ActivityID,
+          status: 'notStarted'
+        };  
+      };   
+    };
+
+    Index = _.indexOf(statuses,currentStatus.status);
+    if (Roles.userIsInRole(cU,'teacher')) {
+      newStatus = Math.max(0,Math.min(8,Index + Increment));
+    } else if (Roles.userIsInRole(cU,'student')) {
+      if (Index > 7) return; //teacher does final check, student cannot change
+      newStatus = Math.max(0,Math.min(6,Index + Increment));
+    } else {
+      throw new Meteor.Error(428, "You must be a student or a teacher to change an activity's status.")
+    }
+
+    if (newStatus != Index) {
+      newStatus = statuses[newStatus]; 
+      if (hasCurrentStatus) {
+        Meteor.users.update({_id:StudentID,"activityStatus._id":ActivityID},{$set : {"activityStatus.$.status":newStatus}});
+      } else {
+        currentStatus.status = newStatus;
+        Meteor.users.update(StudentID,{$push: {activityStatus: currentStatus}});
+      };
+    }
   },
 
   /**** ACTIVITY MARK NOT DONE ****/

@@ -82,42 +82,61 @@ Template.activitiesSublist.helpers({
   /*************************/
  /***** ACTIVITY ITEM  ****/
 /*************************/
+var lastClicked = {  //records last click to determine when to decrement 
+  userID: null,
+  studentID: null,
+  activityID: null,
+};
+var Increment = 1;
 
 Template.activityItem.rendered = function() {    
   $(this.find("p")).draggable(DragOpt('.daysActivities') );
 };
 
 Template.activityItem.events({
-  'click i.fa-square-o': function(event) {
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
+  'click i.activityStatus': function(event) {
+    var cU = Meteor.user();
+    var userToShow = cU._id;
+    cU.isTeacher = Roles.userIsInRole(cU,'teacher');
+    cU.isStudent = Roles.userIsInRole(cU,'student')
+    if (cU.isTeacher) {
       userToShow = Session.get('TeacherViewAs');
     };
-    Meteor.call('activityMarkDone',this._id,userToShow,
+    var justClicked = {  
+      userID: cU._id,
+      studentID: userToShow,
+      activityID: this._id,
+    };
+    if (_.isEqual(justClicked,lastClicked)) {
+      var student = Meteor.users.findOne(userToShow);
+      var status = null;
+      if (student && student.hasOwnProperty('activityStatus')) 
+        status = _.findWhere(student.activityStatus,{_id:this._id});
+      //deprecated ... checking for status under old system
+      if ((!status) && student && student.hasOwnProperty('completedActivities')) {
+        if (_.contains(student.completedActivities,this._id)) {
+          status = {status:'done'};
+        } else {
+          status = {status:'notStarted'};
+        };
+      };        
+      if (cU.isStudent && (status.status== 'submitted')) Increment = -1;
+      if (cU.isTeacher && (status.status == 'done'))  Increment = -1;
+      if (status.status == 'notStarted') Increment = 1;
+    } else {
+      lastClicked = justClicked;
+      Increment = 1;
+    };
+    Meteor.call('activityIncrementStatus',this._id,userToShow,Increment,
       function(error, id) {
         if (error) {
           return alert(error.reason);
         } else { //register subscription in case this is the first completed Activity
                  //and the user does not have a completedActivities field yet.
-          Meteor.subscribe('completedActivities',userToShow); 
+          Meteor.subscribe('activityStatus',userToShow); 
         }
       }
-    );   
-  },
-  'click i.fa-check-square-o': function(event) {
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    };
-    Meteor.call('activityMarkNotDone',this._id,userToShow,
-      function(error, id) {        
-        if (error) {
-          return alert(error.reason);
-        } else { //shouldn't need this here ??
-          Meteor.subscribe('completedActivities',userToShow);
-        }
-      }
-    );    
+    );  
   },
   'click a': function(event) {
     var TVA;
@@ -192,16 +211,24 @@ Template.activityItem.helpers({
       return '<strong>assessment: </strong>';
     return ((this.type == 'assessment') && ownerID && (ownerID == userToShow) ) ? '<strong>Reassessment: </strong>' : '';
   },
-  completed: function() {
+  status: function() {
     var userToShow = Meteor.userId();
+    var status;
     if (Roles.userIsInRole(userToShow,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
     };
     userToShow = Meteor.users.findOne(userToShow);
-    if (userToShow && userToShow.hasOwnProperty('completedActivities')) {
-      return _.contains(userToShow.completedActivities,this._id) ? 'fa fa-check-square-o' : 'fa fa-square-o';
+    if (userToShow && userToShow.hasOwnProperty('activityStatus')) {
+      status = _.findWhere(userToShow.activityStatus,{_id:this._id});
+      if (status) {
+        return 'icon-' + status.status;
+      }
     }
-    return 'fa fa-square-o';   
+    //deprecated checking to see if there's a status posted using the old system
+    if (userToShow && userToShow.hasOwnProperty('completedActivities')) {
+      return _.contains(userToShow.completedActivities,this._id) ? 'icon-done' : 'icon-notStarted';
+    }
+    return 'icon-notStarted';   
   },
   deleteable: function() {
     var userToShow = Meteor.userId();
