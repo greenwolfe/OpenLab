@@ -32,7 +32,7 @@ Deps.autorun(function() {
     } else if (selectedUser) {
       Meteor.subscribe('activities',TVA), 
       Meteor.subscribe('completedActivities',TVA);
-      Meteor.subscribe('activityStatus',TVA);
+      Meteor.subscribe('gradesAndStatus',TVA);
       Meteor.subscribe('levelsOfMastery',TVA);
       Meteor.subscribe('postGameAnalyses',TVA);
       Meteor.subscribe('standards',TVA), //passing user to get Levels of Mastery for that user for that standard

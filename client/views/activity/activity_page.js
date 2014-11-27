@@ -478,8 +478,9 @@ Template.actPageStandardItem.helpers({
     var studentID = Session.get('TeacherViewAs');
     if (!Roles.userIsInRole(teacherID,'teacher') || !Roles.userIsInRole(studentID,'student'))
       return false;
-    if (!activity.hasOwnProperty('LoMs') || !activity.LoMs.hasOwnProperty(this._id)) 
-      return false;
+    //no longer attaching LoMs to an activity
+    //if (!activity.hasOwnProperty('standardIDs') || !activity.standardIDs.hasOwnProperty(this._id)) 
+    //  return false;
     return true;
     //return (!activity.LoMs[this._id]);
   },

@@ -5,14 +5,20 @@ Meteor.publish('activities',function(userID) {  //change to user or section ID i
   if (Roles.userIsInRole(userToShow,'teacher')) 
     return Activities.find();  
 
-  Acts.forEach(function(Act) {
+  return Acts;
+  //removed because caused problems with subscription not updating
+  //when reassessment added.
+  //I think it was only being used in the assessment block of
+  //studentView, which has been elminated in any case
+  
+  /*Acts.forEach(function(Act) {
     if (Act.standardIDs && Act.standardIDs.length) {
       Act.LoMs = mostRecentLoMs(Act,userID);
     }
     this.added('activities',Act._id,Act);
   }, this);
 
-  this.ready();
+  this.ready();*/
 });
 Meteor.publish('sections',function() {
   return Sections.find();
@@ -40,11 +46,14 @@ Meteor.publish('completedActivities',function(userID) {
     return Meteor.users.find(userID,{fields: {completedActivities: 1}});
   return this.ready();
 });
-Meteor.publish('activityStatus',function(userID){
+Meteor.publish('gradesAndStatus',function(userID){
   var cU = Meteor.users.findOne(userID);
-  if (cU && cU.hasOwnProperty('activityStatus'))
-    return Meteor.users.find(userID,{fields: {activityStatus: 1}});
-  return this.ready();
+  var fields = {};
+  if (!cU) return this.ready();
+  if (cU.hasOwnProperty('activityStatus')) fields.activityStatus = 1;
+  if (cU.hasOwnProperty('LoMs')) fields.LoMs = 1;
+  if (_.isEmpty(fields)) return this.ready();
+  return Meteor.users.find(userID,{fields: fields});
 });
 Meteor.publish('userList',function() {
   if (this.userId) {
@@ -77,12 +86,15 @@ Meteor.publish('standards',function(userID) {  //change to user or section ID an
   if (Roles.userIsInRole(userToShow,'teacher')) 
     return Standards.find();
 
-  Sts.forEach(function(St) {
+  return Sts;
+//replaced with system that stores and updates a users
+//current LoM in the user object
+/*  Sts.forEach(function(St) {
     St.LoM = mostRecent(St._id,userID,null); 
     this.added('standards',St._id,St);
-  }, this);
+  }, this); 
 
-  this.ready();
+  this.ready(); */
 });
 
 Meteor.publish('levelsOfMastery',function(studentID) {

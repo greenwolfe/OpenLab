@@ -215,7 +215,8 @@ Meteor.methods({
     if (Roles.userIsInRole(cU,'student') && !(cU._id == student._id))
       throw new Meteor.Error(427, "A student can only change their own status for an activity.")
 
-    if (student.hasOwnProperty('activityStatus')) 
+    var hasActivityStatusField = student.hasOwnProperty('activityStatus');
+    if (hasActivityStatusField) 
       currentStatus = _.findWhere(student.activityStatus,{_id:ActivityID});
     var hasCurrentStatus = !!currentStatus;
     if (!hasCurrentStatus) {
@@ -251,6 +252,8 @@ Meteor.methods({
         Meteor.users.update(StudentID,{$push: {activityStatus: currentStatus}});
       };
     }
+    if (!hasActivityStatusField && Meteor.isClient) 
+      Meteor.subscribe('gradesAndStatus',Meteor.userId());
   },
 
   /**** ACTIVITY MARK NOT DONE ****/

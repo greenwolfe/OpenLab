@@ -24,21 +24,31 @@ Template.activitiesSublist.rendered = function() {
 
 Template.activitiesSublist.helpers({
   activities: function() {
-    return Activities.find({modelID: this._id, 
-      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
-      visible: true},
-      {sort: {rank: 1}}); 
-  },
-  reassessments: function() {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
     };
-    return Activities.find({modelID: this._id, 
-      ownerID: {$in: [userToShow]},
-      type: 'assessment',
+    var Acts = Activities.find({modelID: this._id, //general activities created by teacher
+      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
       visible: true},
-      {sort: {rank: 1}});
+      {sort: {rank: 1}}).fetch(); 
+    var R = Activities.find({modelID: this._id, //reassessments for a particular student
+            ownerID: {$in: [userToShow]},
+            type: 'assessment',
+            visible: true},
+            {sort: {rank: 1}}).fetch();
+    Acts = Acts.concat(R);  //reassessments at end of list
+    Acts.forEach(function(A,i) {
+      A.irank = i;
+    });
+    var max = Acts.length - 1;
+    var half = Math.floor(max/2);
+    Acts.sort(function(A,B) {  //reorder for presentation in two columns
+      var Ai = (A.irank <= half) ? 2*A.irank : 2*A.irank - max + max%2 - 1;
+      var Bi = (B.irank <= half) ? 2*B.irank : 2*B.irank - max + max%2 - 1;      
+      return Ai-Bi;
+    });
+    return Acts; 
   },
   openInviteCount: function() {
     var userToShow = Meteor.userId();
@@ -68,10 +78,19 @@ Template.activitiesSublist.helpers({
       userToShow = Session.get('TeacherViewAs');
     };
     userToShow = Meteor.users.findOne(userToShow);
-    if (userToShow && userToShow.hasOwnProperty('completedActivities'))  {
-      activities.forEach(function(act) {
-        if (_.contains(userToShow.completedActivities,act._id))
-          completed += 1;
+    if (userToShow && (userToShow.hasOwnProperty('activityStatus') || userToShow.hasOwnProperty('completedActivities'))) {
+      activities.forEach(function(act) {  
+        var done = 0;
+        if (userToShow.hasOwnProperty('completedActivities')) {
+          if (_.contains(userToShow.completedActivities,act._id))
+            done = 1;          
+        }
+        if (userToShow.hasOwnProperty('activityStatus')) {
+          var status = _.findWhere(userToShow.activityStatus,{_id:act._id});
+          if (status) 
+            done = (status.status == 'done') ? 1 : 0;       
+        } 
+        completed += done;
       });
     }
     return ' (' + completed + '/' + expected + '/' + activities.length + ')'; 
@@ -271,7 +290,9 @@ Template.newAssessment.rendered = function() {
       if (Roles.userIsInRole(cU,'student')) 
         nA.ownerID = cU._id;
       Meteor.call('postActivity',nA,defaultText,
-        function(error, id) {if (error) return alert(error.reason);}
+        function(error, id) {
+          if (error) return alert(error.reason);
+        }
       );
       $t.text(defaultText);
     });

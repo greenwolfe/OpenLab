@@ -29,24 +29,32 @@ Template.standardsSublist.helpers({
     return Standards.find({modelID: this._id, visible: true},{sort: {rank: 1}}); 
   },
   standardsMastered: function() {
-    if (this.modelID == 'wholecourse') return '';
+    if (this.modelID == 'wholecourse') return ''; //??? does this do anything ??
     var standards = Standards.find({modelID: this._id, visible: true}).fetch();
     var Mcount = 0;
     var LoMcount = 0;
-    standards.forEach(function(st) {
-      if (st.LoM) {
-        var index;
-        if (_.isArray(st.scale)) {
-          index = st.scale.indexOf(st.LoM);
-          if (index == st.scale.length - 1) Mcount += 1;
+    var student = Meteor.userId(); //could be teacher
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    if (student && student.hasOwnProperty('LoMs')) {
+      standards.forEach(function(st) {
+        var LoM = _.findWhere(student.LoMs,{standardID:st._id});
+        if (LoM) {
+          var index;
+          if (_.isArray(st.scale)) {
+            index = st.scale.indexOf(LoM.level);
+            if (index == st.scale.length - 1) Mcount += 1;
+          }
+          if (_.isFinite(st.scale)) {
+            index = Math.floor(LoM.level*3/st.scale);
+            if (index >= 2) Mcount += 1;
+          }
+          LoMcount += 1;
         }
-        if (_.isFinite(st.scale)) {
-          index = Math.floor(st.LoM*3/st.scale);
-          if (index >= 2) Mcount += 1;
-        }
-        LoMcount += 1;
-      }
-    });
+      });
+    };
     return ' (' + Mcount + '/' + LoMcount + '/' + standards.length + ')';
   }
 });
@@ -78,7 +86,7 @@ Template.standardItem.helpers({
   plaindescription: function() {
     return _.stripTags(this.description);
   },
-  LoMcolorcode: function() {
+/*  LoMcolorcode: function() {
     var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
     var index;
     if (_.isArray(this.scale)) {
@@ -94,6 +102,46 @@ Template.standardItem.helpers({
     if (_.isArray(this.scale))
       return this.LoM;
     return this.LoM + ' out of ' + this.scale;
+  }, */
+  LoMcolorcodeNew: function() { //assumes hasLoMnew checked in html
+    var colorcodes = ['LoMlow','LoMmedium','LoMhigh']
+    var index;
+    var student = Meteor.userId(); //could be teacher
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    var LoM = _.findWhere(student.LoMs,{standardID:this._id});
+    if (_.isArray(this.scale)) {
+      index = this.scale.indexOf(LoM.level);
+    }
+    if (_.isFinite(this.scale)) {
+      index = Math.floor(LoM.level*3/this.scale);
+      index = Math.min(index,2);
+    }
+    return colorcodes[index];    
+  },
+  hasLoMnew: function() {
+    var student = Meteor.userId(); //could be teacher
+    var LoM = null;
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    if (student && student.hasOwnProperty('LoMs'))
+      LoM = _.findWhere(student.LoMs,{standardID:this._id});
+    return !!LoM;
+  },
+  LoMtextNew: function() { //assumes hasLoMnew checked in html
+    var student = Meteor.userId(); //could be teacher
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    var LoM = _.findWhere(student.LoMs,{standardID:this._id});  
+    if (_.isArray(this.scale))
+      return LoM.level;
+    return LoM.level + ' out of ' + this.scale;      
   }
 });
 

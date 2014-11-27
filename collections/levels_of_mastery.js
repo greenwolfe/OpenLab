@@ -26,8 +26,11 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if (!LoM.teacherID || (cU._id != LoM.teacherID) || !Roles.userIsInRole(cU,'teacher'))
       throw new Meteor.Error(402, "Only a teacher can post a level of mastery.");
 
-    if (!LoM.hasOwnProperty('studentID') || !Meteor.users.findOne(LoM.studentID))
+    if (!LoM.hasOwnProperty('studentID'))
       throw new Meteor.Error(402, "Cannot post level of mastery.  Invalid student ID.");
+    var student = Meteor.users.findOne(LoM.studentID);
+    if (!student || !Roles.userIsInRole(student,'student'))
+      throw new Meteor.Error(403, "Cannot post level of mastery.  Invalid student ID.");
 
     if (!LoM.hasOwnProperty('activityID') || !Activities.findOne(LoM.activityID))
       throw new Meteor.Error(406, "Cannot post level of mastery.  Invalid activity ID.");
@@ -61,8 +64,24 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if (!LoM.hasOwnProperty('visible'))
       LoM.visible = true;
 
-    LoMId = LevelsOfMastery.insert(LoM);
+    LoMId = LevelsOfMastery.insert(LoM, function(error,id) {
+      if (error) return;
+      var newLevel = mostRecent(LoM.standardID,student._id,null);
+      if (!newLevel) return;
+      if (student.hasOwnProperty('LoMs')) {
+        var currentLoM = _.findWhere(student.LoMs,{standardID:LoM.standardID});
+        if (currentLoM) {
+          Meteor.users.update({_id:student._id,"LoMs.standardID":LoM.standardID},{$set : {"LoMs.$.level":newLevel}});
+        } else {
+          Meteor.users.update(student._id,{$push: {LoMs: {standardID:LoM.standardID,level:newLevel} }});
+        }
+      } else {
+        Meteor.users.update(student._id,{$push: {LoMs: {standardID:LoM.standardID,level:newLevel} }});
+      }
+    });
 
+    if (!student.hasOwnProperty('LoMs') && Meteor.isClient)
+      Meteor.subscribe('gradesAndStatus',Meteor.userId());
     return LoMId;
   },
 
@@ -80,7 +99,13 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if (!LoM.teacherID || (cU._id != LoM.teacherID) || !Roles.userIsInRole(cU,'teacher'))
       throw new Meteor.Error(402, "Only a teacher can delete a level of mastery, and it must be one you posted in the first place.");
 
-    LevelsOfMastery.remove(LoMId);
+    LevelsOfMastery.remove(LoMId, function(error,id) {
+      if (error) return;
+      var student = Meteor.users.findOne(LoM.studentID);
+      if (!student) return;
+      var newLevel = mostRecent(LoM.standardID,student._id,null);
+      Meteor.users.update({_id:student._id,"LoMs.standardID":LoM.standardID},{$set : {"LoMs.$.level":newLevel}});
+    });
 
     return LoMId;    
   },
@@ -113,7 +138,13 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if ((_.isFinite(standard.scale)) && (!_.isFinite(LoM.level) || (LoM.level < 0) || (LoM.level > standard.scale)))
       throw new Meteor.Error(467, "Cannot post level of mastery. Level must be a number between 0 and " + standard.scale + ".");
     if (nLoM.hasOwnProperty('level') && (nLoM.level != LoM.level)) {
-      LevelsOfMastery.update(nLoM._id,{$set: {level: nLoM.level}});
+      LevelsOfMastery.update(nLoM._id,{$set: {level: nLoM.level}}, function(error,id) {
+        if (error) return;
+        var student = Meteor.users.findOne(LoM.studentID);
+        if (!student) return;
+        var newLevel = mostRecent(LoM.standardID,student._id,null);
+        Meteor.users.update({_id:student._id,"LoMs.standardID":LoM.standardID},{$set : {"LoMs.$.level":newLevel}});
+      });
       uT = updateTime;
     }
 
