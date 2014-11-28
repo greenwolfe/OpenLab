@@ -121,30 +121,35 @@ Template.activityItem.events({
     if (cU.isTeacher) {
       userToShow = Session.get('TeacherViewAs');
     };
+    var student = Meteor.users.findOne(userToShow);
+    var status = null;
+    if (student && student.hasOwnProperty('activityStatus')) 
+      status = _.findWhere(student.activityStatus,{_id:this._id});
+    //deprecated ... checking for status under old system
+    if ((!status) && student && student.hasOwnProperty('completedActivities')) {
+      if (_.contains(student.completedActivities,this._id)) {
+        status = {status:'done'};
+      } else {
+        status = {status:'notStarted'};
+      };
+    };
+    //end deprecated section
+    if (!status) status = {status:'notStarted'};
+
     var justClicked = {  
       userID: cU._id,
       studentID: userToShow,
       activityID: this._id,
     };
     if (_.isEqual(justClicked,lastClicked)) {
-      var student = Meteor.users.findOne(userToShow);
-      var status = null;
-      if (student && student.hasOwnProperty('activityStatus')) 
-        status = _.findWhere(student.activityStatus,{_id:this._id});
-      //deprecated ... checking for status under old system
-      if ((!status) && student && student.hasOwnProperty('completedActivities')) {
-        if (_.contains(student.completedActivities,this._id)) {
-          status = {status:'done'};
-        } else {
-          status = {status:'notStarted'};
-        };
-      };        
       if (cU.isStudent && (status.status== 'submitted')) Increment = -1;
       if (cU.isTeacher && (status.status == 'done'))  Increment = -1;
       if (status.status == 'notStarted') Increment = 1;
     } else {
       lastClicked = justClicked;
       Increment = 1;
+      if (cU.isStudent && (status.status== 'submitted')) Increment = -1;
+      if (cU.isTeacher && (status.status == 'done'))  Increment = -1;
     };
     Meteor.call('activityIncrementStatus',this._id,userToShow,Increment,
       function(error, id) {

@@ -253,6 +253,27 @@ Date:   Sat Nov 8 07:23:41 2014 -0500
 
 November 8, 2014 openlab.gwolfe.meteor.com ... normal
 
+#############################################################################
+
+
+commit dd28eeb7ae88b9e40d29a8b09034ef5479ab6840
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Fri Nov 21 22:47:24 2014 -0500
+
+    five bar status indicators implemented for all activities
+
+November 21, 2014 openlab.gwolfe.meteor.com ... normal
+
+###########################################################################
+
+commit f96bd77cc6c92c3c78a7b1708fd5629538f82b06
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Thu Nov 27 09:53:58 2014 -0500
+
+    Levels of Mastery now stored in user object instead of added to stand
+
+November 27, 2014 openlab.gwolfe.meteor.com ... normal
+November 27, 2014 openlab.physics2.meteor.com ... normal
 
 
 
