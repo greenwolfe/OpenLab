@@ -190,7 +190,7 @@ Meteor.methods({
     var cU = Meteor.user(); //currentUser
     var Activity = Activities.findOne(ActivityID);
     var student = Meteor.users.findOne(StudentID);
-    var statuses = ['notStarted','oneBar','twoBars','threeBars','fourBars','fiveBars','submitted','returned','done']
+    var statuses = ['notStarted','oneBar','twoBars','threeBars','fourBars','fiveBars','submitted','returned','donewithcomments','done']
     var currentStatus;
     var newStatus;
     var Index;
@@ -236,10 +236,16 @@ Meteor.methods({
 
     Index = _.indexOf(statuses,currentStatus.status);
     if (Roles.userIsInRole(cU,'teacher')) {
-      newStatus = Math.max(0,Math.min(8,Index + Increment));
+      newStatus = Math.max(0,Math.min(9,Index + Increment));
     } else if (Roles.userIsInRole(cU,'student')) {
-      if (Index > 7) return; //teacher does final check, student cannot change
-      newStatus = Math.max(0,Math.min(6,Index + Increment));
+      if (Index == 9) return; //teacher does final check, student cannot change
+      if (Index == 8) { //done with comments, student indicates they reviewed the comments
+        newStatus = 9;
+      } else if (Index == 7) { // student indicates they submitted revisions
+        newStatus = 6;
+      } else { 
+        newStatus = Math.max(0,Math.min(6,Index + Increment));
+      }
     } else {
       throw new Meteor.Error(428, "You must be a student or a teacher to change an activity's status.")
     }
