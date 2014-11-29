@@ -8,7 +8,8 @@ Standards = new Meteor.Collection('standards');
     visible: true,
     scale: ['NM','DM','M'],
     calcMethod: '' //function(gradesArray) { return most recent or some type of average}
-    LoM: 'M' //for a particular user ... calculated according to calcMethod ... added temporarily in publication, not in database
+    LoM: 'M' //deprecated
+            //for a particular user ... calculated according to calcMethod ... added temporarily in publication, not in database
   }); */
 
 Meteor.methods({

@@ -3,15 +3,12 @@
 /************************/
 
 Template.standardsList.rendered = function() {
-  $('#standards').accordion({heightStyle: "content"});
+  $('.standards').accordion({heightStyle: "content"});
 }
 
 Template.standardsList.helpers({
   models: function() {
     return Models.find({visible:true},{sort: {rank: 1}});
-  },
-  standardsWtihNoModel: function() {
-    return Standards.find({visible:true,modelID:null},{sort: {rank:1}});
   }
 });
 
@@ -20,8 +17,8 @@ Template.standardsList.helpers({
 /************************/
 
 Template.standardsSublist.rendered = function() {
-  if ($( "#standards" ).data('ui-accordion')) //if accordion already applied
-    $('#standards').accordion("refresh");
+  if ($( ".standards" ).data('ui-accordion')) //if accordion already applied
+    $('.standards').accordion("refresh");
 };
 
 Template.standardsSublist.helpers({
@@ -64,7 +61,22 @@ Template.standardsSublist.helpers({
 /*************************/
 
 Template.standardItem.rendered = function() {
-  $(this.find("p")).draggable(DragOpt('') );
+  var $standard = $(this.find("p")); 
+  if ($(this.find("p")).closest('#assessment').length) { 
+    //if is in create assessment modal dialog and further is in assessment box to be added to the assessment
+    $standard.draggable({
+      distance: 10,
+      revert: 'valid', //don't slide back into place when dropped
+      start: function(event,ui) {
+        ui.helper.addClass('draggingOut');
+      }
+      /*start: function(event,ui) {
+        ui.addClass('draggedOut');
+      } */
+    });
+  } else {
+    $standard.draggable(DragOpt('') );
+  };
 };
 
 Template.standardItem.events({
@@ -161,13 +173,13 @@ var DragOpt = function (sortable) { //default draggable options
   };
 
   var that = {                  
-    connectToSortable : sortable,  //drag target
-    appendTo : "body",  //allows dragging out of frame to new object
+    //connectToSortable : sortable,  //drag target
+    appendTo : "#addAssessmentDialog",  //allows dragging out of frame to new object
     helper : "clone",   
     revert : "invalid",  //glide back into place if not dropped on target
-    start : start,
-    drag : drag,
-    stop : stop
+    //start : start,
+    //drag : drag,
+    //stop : stop
   };
 
   return that;

@@ -1,0 +1,39 @@
+<template name = 'addAssessment' >
+  <div id = 'addAssessmentDialog' class = 'modal hide fade large' data-backdrop = 'static'>
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title="Cancel"></i>
+          <h2>{{addAssessment}}</h2>
+        </div>
+       
+        <div class='container-fluid'>
+          <div class="modal-body row">
+            <div class='span12'>
+              <div class = 'row'>
+                <div class = 'span4 offset1'>
+                   <div id="title" class="defaultTextActive">Title (required).</div>
+                   <h5>Drag standards here to add.</h5>
+                   <div id = 'assessment'>
+                      {{#each standards}}
+                        {{>standardItem}}
+                      {{/each}}
+                   </div>
+                </div>
+                <div class='span5 offset1'>
+                  {{>standardsList}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="saveNewAssessment">Save New Assessment</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

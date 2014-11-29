@@ -47,20 +47,18 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   background-color: green;
   color: white;
 }
-.assessment {
-  position: relative;
-  margin-left: 1%;
-  width: 90%;
+#assessment {
   border: thin black solid;
+  min-height: 100px;
 }
-.assessment.fadeout, #startEndDates.fadeout, #calendar.fadeout, .Model.fadeout {
+#assessment.fadeout, #startEndDates.fadeout, #calendar.fadeout, .Model.fadeout {
   filter: alpha(opacity=30);
   opacity: 0.30;
 }
-.assessment h4 {
+#assessment h4 {
   margin-top: 20px;
 }
-.assessment h4 a, .assessment .assessmentsStandards p a {
+#assessment h4 a, #assessment #assessmentsStandards p a {
   color: black;
 }
 #showAssessmentList {
@@ -78,7 +76,7 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   width:  40%;
   margin-left: 1%;
 }
-#activities, #standards, #appointments {
+#activities, .standards, #appointments {
   width: 90%; 
 }
 .LoMhigh { background: green;}
@@ -88,7 +86,7 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   font-weight: normal;
   float: right;
 }
-#activities a, #standards a {
+#activities a, .standards a {
   padding-right: 1px;
 }
 #activities .Model p {
@@ -105,12 +103,12 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   text-align: right;
   font-style: italic;
 }
-#activities i.fa-caret-right, #standards i.fa-caret-right {
+#activities i.fa-caret-right, .standards i.fa-caret-right {
   float: left; 
   margin-left: 10px; 
   margin-top: 8px;
 }
-#standardsListTitle span, #standards h3 a span, #activitiesListTitle span, #activities h3 a span {
+.standardsListTitle span, .standards h3 a span, #activitiesListTitle span, #activities h3 a span {
   font-weight: normal;
 }
 
@@ -180,6 +178,13 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 opacity: 0.5;
 filter: alpha(opacity=50);
 }
+.modal.large {
+  width: 90%; /* desired relative width */
+  left: 5%; /* (100%-width)/2 */
+  /* place center */
+  margin-left:auto;
+  margin-right:auto;
+}
 #inviteGroupDialog .btn-user.selected, #inviteGroupDialog .btn-section.selected {
   background-image: none;
   background-color: #00ffff;
@@ -200,7 +205,10 @@ filter: alpha(opacity=50);
   right: 0;
   margin-right: 4px;
 }
-#openInviteDialog i.remove, #inviteGroupDialog i.remove, #editProfileDialog i.remove {
+#openInviteDialog i.remove, 
+#inviteGroupDialog i.remove, 
+#editProfileDialog i.remove, 
+#addAssessmentDialog i.remove {
   position: absolute;
   right: 0;
   margin-right: 10px;
@@ -210,8 +218,20 @@ filter: alpha(opacity=50);
 i.remove:hover, i.fa-check-square-o, i.fa-square-o {
     cursor: default;
 }
-#openInviteDialog h2, h3, #inviteGroupDialog h2, h3, #editProfileDialog h2, h3 {
+#openInviteDialog h2, h3, 
+#inviteGroupDialog h2, h3, 
+#editProfileDialog h2, h3,
+#addAssessmentDialog h2, h3 {
   text-align: center;
+}
+#addAssessmentDialog #title {
+  display: inline-block;
+  border: thin black solid;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  width: 84%;
+  min-height: 12pt;
+  vertical-align: top;
 }
 .headerInfo {
   font-size: 14pt;

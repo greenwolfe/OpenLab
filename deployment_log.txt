@@ -275,6 +275,18 @@ Date:   Thu Nov 27 09:53:58 2014 -0500
 November 27, 2014 openlab.gwolfe.meteor.com ... normal
 November 27, 2014 openlab.physics2.meteor.com ... normal
 
+#############################################################################
+
+commit d4063a49519901f4412c40d97eef3d4ae0b9d7d2
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Thu Nov 27 21:11:47 2014 -0500
+    fixture converts completed activities all to new activity status system.  cleaned up activity status icons.
+
+November 27, 2014 openlab.gwolfe.meteor.com ... normal
+November 27, 2014 openlab.physics2.meteor.com ... normal
+
+
+
 
 
 

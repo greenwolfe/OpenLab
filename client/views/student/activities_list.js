@@ -304,6 +304,16 @@ Template.newAssessment.rendered = function() {
   };
 };
 
+Template.newAssessment.events({
+  'click #addAssessment': function(event,tmpl) {
+     Session.set('newAssessment',{
+      modelID:this._id,
+      type:'assessment'
+    });
+     $('#addAssessmentDialog').modal();
+  }
+});
+
 var DragOpt = function (sortable) { //default draggable options
   var pos_fixed = 1;
   var start = function(event,ui) {

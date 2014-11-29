@@ -8,7 +8,8 @@ Activities = new Meteor.Collection('activities');
     standardIDs: [],
     rank : 0,
     visible: true,
-    LoMs: {standardID:LoM,standardID:LoM, ...}, //for a particular user ... calculated according to standard's calcMethod ... added temporarily in publication, not in database
+    LoMs: {standardID:LoM,standardID:LoM, ...}, //deprecated
+                                               //for a particular user ... calculated according to standard's calcMethod ... added temporarily in publication, not in database
   }); */
 
 Meteor.methods({
