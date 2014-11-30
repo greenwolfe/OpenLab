@@ -285,6 +285,17 @@ Date:   Thu Nov 27 21:11:47 2014 -0500
 November 27, 2014 openlab.gwolfe.meteor.com ... normal
 November 27, 2014 openlab.physics2.meteor.com ... normal
 
+#########################################################################
+
+
+commit 1177fc143826f82ea639b9298976b91745d55195
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Nov 30 08:51:24 2014 -0500
+
+    edit functions added to add/edit assessment dialog
+
+November 30, 2014 openlab.gwolfe.meteor.com ... normal
+November 30, 2014 openlab.physics2.meteor.com ... normal
 
 
 
