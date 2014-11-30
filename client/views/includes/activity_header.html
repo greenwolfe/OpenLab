@@ -7,6 +7,8 @@
         <span class="icon-bar"></span>
       </a>
       <a class="brand" href="{{pathFor 'studentView'}}">Open Lab</a>
+      {{#if canEditAssessment}}
+      <a href='#' id='btnEdit' class="brand">Edit</a>{{/if}}
       <div class="nav-collapse collapse">
         <ul class="nav">
          {{> TeacherViewAs}}
@@ -25,5 +27,6 @@
     </div>
     {{> editProfile}}
     {{>chooseSection}}
+    {{> addAssessment}}
   </header>
 </template>

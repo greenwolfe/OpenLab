@@ -13,7 +13,8 @@
             <div class='span12'>
               <div class = 'row'>
                 <div class = 'span4 offset1'>
-                   <div id="title" class="defaultTextActive">Title (required).</div>
+                   <div id="title" class="{{defaultTextActive}}">{{titleOrDefault}}</div>
+                   <div id="description" class="{{defaultDescriptionActive}}">{{descriptionOrDefault}}</div>
                    <h5>Drag standards here to add.</h5>
                    <div id = 'assessment'>
                       {{#each standards}}

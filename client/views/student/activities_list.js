@@ -310,7 +310,7 @@ Template.newAssessment.events({
       modelID:this._id,
       type:'assessment'
     });
-     $('#addAssessmentDialog').modal();
+    $('#addAssessmentDialog').modal();
   }
 });
 

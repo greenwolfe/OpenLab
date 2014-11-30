@@ -140,6 +140,25 @@ Meteor.methods({
       Activities.update(nA._id,{$set: {rank: nA.rank}}); 
     };
 
+    if (nA.hasOwnProperty('standardIDs')) {
+      if (!Activity.hasOwnProperty('standardIDs') || Activity.standardIDs.length == 0) {
+        nA.standardIDs.forEach( function(standardID) {
+          Meteor.call('activityAddStandard',Activity._id,standardID);
+        });
+        Activities.update(nA._id,{$set: {type: 'assessment'}});
+      } else {
+        _.difference(nA.standardIDs,Activity.standardIDs).forEach( function(standardID) {
+          Meteor.call('activityAddStandard',Activity._id,standardID);
+        });
+        _.difference(Activity.standardIDs,nA.standardIDs).forEach( function(standardID) {
+          Meteor.call('activityRemoveStandard',Activity._id,standardID);
+        });
+        Activity = Activities.findOne(nA._id);
+        if (!Activity.hasOwnProperty('standardIDs') || (Activity.standardIDs.length == 0))
+          Activities.update(nA._id,{$set: {type: 'activity'}});
+      }
+    }
+
     return Activity._id;
   },
 
@@ -181,6 +200,12 @@ Meteor.methods({
 
     if (!Standard)
       throw new Meteor.Error(430, "Cannot remove standard, invalid ID.")
+
+    if (!Activity.hasOwnProperty('standardIDs'))
+      return false; //nothing to remove if no standardIDs
+
+    if (LevelsOfMastery.find({activityID:Activity._id,standardID:standardID}).count() > 0)
+      throw new Meteor.Error(431, "Cannot remove standard, as it already has levels of mastery posted for it.")
     
     Activities.update(ActivityID,{$pull: {standardIDs: standardID}});
   }, 
