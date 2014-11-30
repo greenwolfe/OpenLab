@@ -30,6 +30,9 @@ Meteor.methods({
     
     if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
       throw new Meteor.Error(409, 'Only teachers can post activities for the whole class.')
+
+    if (Roles.userIsInRole(cU,'student') && ( !Activity.hasOwnProperty('description') || !Activity.description ))
+      throw new Meteor.Error(491, 'Explain what you will do to prepare for this reassessment, including meeting with your teacher to discuss a past assessment and which specific lab activities you will do or problems you will solve for individual practice.');
     
     if (!Activity.title || (Activity.title == defaultText) || (Activity.title == ''))
       throw new Meteor.Error(413, "Cannot post activity.  Missing title.");
@@ -109,6 +112,9 @@ Meteor.methods({
     if (!Roles.userIsInRole(cU,'teacher') && (cU._id != Activity.ownerID))
       throw new Meteor.Error(409, 'You must be a teacher to update a whole class activity.')
 
+    if (Roles.userIsInRole(cU,'student') && ( !nA.hasOwnProperty('description') || !nA.description ))
+      throw new Meteor.Error(491, 'Explain what you will do to prepare for this reassessment, including meeting with your teacher to discuss a past assessment and which specific lab activities you will do or problems you will solve for individual practice.');
+ 
     if (nA.title && (nA.title != Activity.title) && nA.title != '') 
       Activities.update(nA._id,{$set: {title: nA.title}});
 

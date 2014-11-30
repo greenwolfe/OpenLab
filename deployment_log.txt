@@ -297,6 +297,17 @@ Date:   Sun Nov 30 08:51:24 2014 -0500
 November 30, 2014 openlab.gwolfe.meteor.com ... normal
 November 30, 2014 openlab.physics2.meteor.com ... normal
 
+###############################################################################
+
+commit 97cd00471ec49460d63af605eb309c07ada188f5
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Nov 30 10:36:05 2014 -0500
+
+    cleaned up add assessment modal formatting
+
+November 30, 2014 openlab.gwolfe.meteor.com ... normal
+November 30, 2014 openlab.physics2.meteor.com ... normal
+
 
 
 

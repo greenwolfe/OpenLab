@@ -42,22 +42,25 @@ Template.addAssessment.events({
       Meteor.call('updateActivity',newAssessment,function(error,id) {
         if (error) 
           return alert(error.reason);
+        var Activity = Activities.findOne(id);
         Session.set('newAssessment',{});
         var $title = $('#title');
         $title.addClass("defaultTextActive");
-        $title.text(newAssessment.title);
+        $title.text(Activity.title);
 
-        $description = $('#description');
-        $description.text($description.data('defaultText'));
         var userToShow = Meteor.userId();
-        if (Roles.userIsInRole(userToShow,'teacher')) {
-          userToShow = Session.get('TeacherViewAs');
-        }    
-        if (Roles.userIsInRole(userToShow,'teacher')) {
-          $description.addClass('defaultTextActive');
+        var $description = $('#description');
+        if (Activity.hasOwnProperty('description') && Activity.description) {
+          $description.text(Activity.description)
         } else {
-          $description.addClass('defaultDescriptionActive');
+          $description.text($description.data('defaultText'));
+          if (Roles.userIsInRole(userToShow,'teacher')) {
+            $description.addClass('defaultTextActive');
+          } else {
+            $description.addClass('defaultDescriptionActive');
+          };
         };
+           
         $('#addAssessmentDialog').modal('hide');      
       });
     } else {
@@ -66,22 +69,25 @@ Template.addAssessment.events({
       Meteor.call('postActivity',newAssessment,function(error,id) {
         if (error) 
           return alert(error.reason);
+        var Activity = Activities.findOne(id);
         Session.set('newAssessment',{});
         var $title = $('#title');
         $title.addClass("defaultTextActive");
         $title.text($title.data('defaultText'));
 
-        $description = $('#description');
-        $description.text($description.data('defaultText'));
         var userToShow = Meteor.userId();
-        if (Roles.userIsInRole(userToShow,'teacher')) {
-          userToShow = Session.get('TeacherViewAs');
-        }    
-        if (Roles.userIsInRole(userToShow,'teacher')) {
-          $description.addClass('defaultTextActive');
+        var $description = $('#description');
+        if (Activity.hasOwnProperty('description') && Activity.description) {
+          $description.text(Activity.description)
         } else {
-          $description.addClass('defaultDescriptionActive');
+          $description.text($description.data('defaultText'));
+          if (Roles.userIsInRole(userToShow,'teacher')) {
+            $description.addClass('defaultTextActive');
+          } else {
+            $description.addClass('defaultDescriptionActive');
+          };
         };
+
         $('#addAssessmentDialog').modal('hide');      
       });
     };
@@ -102,24 +108,27 @@ Template.addAssessment.events({
   },
   'focus #description':function(event) {
     var $description = $(event.target);
-    if ($description.html() == $description.data('defaultText')) {
-      $description.removeClass("defaultTextActive").removeClass("defaultDescriptionActive");
+    var defaultText = $description.data('defaultText');
+    var newAssessment = Session.get('newAssessment');
+    if (newAssessment && newAssessment.hasOwnProperty('_id')) {
+      var Activity = Activities.findOne('newAssessment._id')
+      if (Activity.hasOwnProperty('description') && Activity.description)
+        defaultText = '';
+    }
+    if ($description.html() == defaultText) 
       $description.text("");
-    };
+    $description.removeClass("defaultTextActive").removeClass("defaultDescriptionActive");
   },
   'blur #description':function(event) {
     var $description = $(event.target);
     if ($description.html() == '') {
-      var userToShow = Meteor.userId();
-      if (Roles.userIsInRole(userToShow,'teacher')) {
-        userToShow = Session.get('TeacherViewAs');
-      }    
-      if (Roles.userIsInRole(userToShow,'teacher')) {
-        $description.addClass("defaultTextActive");
-      } else {
-        $description.addClass("defaultDescriptionActive");
-      };
       $description.text($description.data('defaultText'));
+      var userToShow = Meteor.userId(); 
+      if (Roles.userIsInRole(userToShow,'teacher')) {
+        $description.addClass('defaultTextActive');
+      } else {
+        $description.addClass('defaultDescriptionActive');
+      };
     };
   },
   'click i.remove' : function(event) {
@@ -128,12 +137,9 @@ Template.addAssessment.events({
     $title.addClass("defaultTextActive");
     $title.text($title.data('defaultText'));
 
-    $description = $('#description');
+    var $description = $('#description');
     $description.text($description.data('defaultText'));
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    }    
+    var userToShow = Meteor.userId(); 
     if (Roles.userIsInRole(userToShow,'teacher')) {
       $description.addClass('defaultTextActive');
     } else {
@@ -181,10 +187,7 @@ Template.addAssessment.helpers({
     var newAssessment = Session.get('newAssessment');
     if (newAssessment && newAssessment.hasOwnProperty('description') && newAssessment.description)
       return newAssessment.description;
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    }    
+    var userToShow = Meteor.userId();  
     if (Roles.userIsInRole(userToShow,'teacher')) {
       return 'Description (optional)'
     } else {
@@ -195,10 +198,7 @@ Template.addAssessment.helpers({
     var newAssessment = Session.get('newAssessment');
     if (newAssessment && newAssessment.hasOwnProperty('description') && newAssessment.description)
       return '';
-    var userToShow = Meteor.userId();
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    }    
+    var userToShow = Meteor.userId();   
     if (Roles.userIsInRole(userToShow,'teacher')) {
       return 'defaultTextActive';
     } else {

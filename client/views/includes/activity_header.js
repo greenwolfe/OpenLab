@@ -29,7 +29,24 @@ Template.activityHeader.helpers({
 
 Template.activityHeader.events({
   'click #btnEdit' : function() {
-    Session.set('newAssessment',Activities.findOne(this._id));
+    var Activity = Activities.findOne(this._id);
+    var userToShow = Meteor.userId();
+    Session.set('newAssessment',Activity);
+    var $title = $('#addAssessmentDialog #title');
+    $title.text(Activity.title);
+    $title.data('defaultText',Activity.title);
+
+    var $description = $('#addAssessmentDialog #description');
+    if (Activity.hasOwnProperty('description') && Activity.description) {
+      $description.text(Activity.description);
+    } else {
+      if (Roles.userIsInRole(userToShow,'teacher')) {
+        $description.text('Description (optional)');
+      } else {
+       $description.text('Explain what you will do to prepare for this reassessment, including meeting with your teacher to discuss a past assessment and which specific lab activities you will do or problems you will solve for individual practice.');
+      };
+    }
+    $description.data('defaultText',$description.html());
     $('#addAssessmentDialog').modal(); 
   }
 });
