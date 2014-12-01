@@ -23,7 +23,13 @@ Template.addAssessment.rendered = function() {
 Template.addAssessment.events({
   'click #saveNewAssessment': function(event,tmpl) {
     var cU = Meteor.userId();
+    var userToShow;
     var newAssessment = Session.get('newAssessment');
+    if (newAssessment.hasOwnProperty('standardIDs') && (newAssessment.standardIDs.length > 0)) {
+      newAssessment.type = 'assessment';
+    } else {
+      newAssessment.type = 'activity';
+    }
     if (Roles.userIsInRole(cU,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
       if (Roles.userIsInRole(userToShow,'student')) {
@@ -204,6 +210,10 @@ Template.addAssessment.helpers({
     } else {
       return 'defaultDescriptionActive'; 
     };
+  },
+  saveNewAssessment: function () {
+    var newAssessment = Session.get('newAssessment');
+    return (newAssessment.hasOwnProperty('_id') && Activities.findOne(newAssessment._id)) ? 'Save' : 'Save New Assessment';
   }
 });
 
