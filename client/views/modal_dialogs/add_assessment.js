@@ -213,7 +213,7 @@ Template.addAssessment.helpers({
   },
   saveNewAssessment: function () {
     var newAssessment = Session.get('newAssessment');
-    return (newAssessment.hasOwnProperty('_id') && Activities.findOne(newAssessment._id)) ? 'Save' : 'Save New Assessment';
+    return (newAssessment && newAssessment.hasOwnProperty('_id') && Activities.findOne(newAssessment._id)) ? 'Save' : 'Save New Assessment';
   }
 });
 
