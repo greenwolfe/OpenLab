@@ -25,11 +25,8 @@ Template.addAssessment.events({
     var cU = Meteor.userId();
     var userToShow;
     var newAssessment = Session.get('newAssessment');
-    if (newAssessment.hasOwnProperty('standardIDs') && (newAssessment.standardIDs.length > 0)) {
-      newAssessment.type = 'assessment';
-    } else {
-      newAssessment.type = 'activity';
-    }
+    console.log('click #saveNewAssessment');
+    console.log(newAssessment);
     if (Roles.userIsInRole(cU,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
       if (Roles.userIsInRole(userToShow,'student')) {
@@ -48,7 +45,9 @@ Template.addAssessment.events({
       Meteor.call('updateActivity',newAssessment,function(error,id) {
         if (error) 
           return alert(error.reason);
+        console.log('in updateActivity callback');
         var Activity = Activities.findOne(id);
+        console.log(Activity);
         Session.set('newAssessment',{});
         var $title = $('#title');
         $title.addClass("defaultTextActive");
@@ -97,6 +96,13 @@ Template.addAssessment.events({
         $('#addAssessmentDialog').modal('hide');      
       });
     };
+  },
+  'change #type': function(event) {
+    var newAssessment = Session.get('newAssessment');
+    newAssessment.type = $('#type').val();
+    Session.set('newAssessment',newAssessment);
+    console.log('type changed');
+    console.log(newAssessment);
   },
   'focus #title':function(event) {
     var $title = $(event.target);
@@ -165,7 +171,7 @@ Template.addAssessment.helpers({
     var newAssessment = Session.get('newAssessment');
     var titleText =  (newAssessment && newAssessment.hasOwnProperty('_id')) ? 'Edit ' : 'Add ';
     if (!Roles.userIsInRole(userToShow,['teacher','student'])) return '';
-    titleText +=  (Roles.userIsInRole(userToShow,'teacher')) ? 'Assessment': 'Reassessment';
+    titleText +=  (Roles.userIsInRole(userToShow,'teacher')) ? 'Activity': 'Reassessment';
     return titleText;
   },
   standards: function() {
@@ -188,6 +194,15 @@ Template.addAssessment.helpers({
     if (newAssessment && newAssessment.hasOwnProperty('title'))
       return '';
     return 'defaultTextActive'; 
+  },
+  types: function() {
+    return [{_id:1,type:'activity'},{_id:2,type:'assessment'}];
+  },
+  selected: function() {
+    var newAssessment = Session.get('newAssessment');
+    if (!newAssessment || !newAssessment.hasOwnProperty('type')) 
+      return '';
+    return (newAssessment.type == this.type) ? 'selected' : '';
   },
   descriptionOrDefault: function() {
     var newAssessment = Session.get('newAssessment');

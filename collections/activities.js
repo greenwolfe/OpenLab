@@ -50,6 +50,9 @@ Meteor.methods({
     if (!Activity.hasOwnProperty('standardIDs'))
       Activity.standardIDs = [];
 
+    if (!Activity.hasOwnProperty('type'))
+      Activity.type = (Activity.standardIDs.length > 0) ? 'assessment' : 'activity';
+
     if (Activity.hasOwnProperty('dueDate') && Activity.dueDate) {
       if (!moment(Activity.dueDate,'ddd[,] MMM D YYYY',true).isValid())
         throw new Meteor.Error(414,'Cannot add/change due date. Invalid date');
@@ -149,21 +152,20 @@ Meteor.methods({
     if (nA.hasOwnProperty('standardIDs')) {
       if (!Activity.hasOwnProperty('standardIDs') || Activity.standardIDs.length == 0) {
         nA.standardIDs.forEach( function(standardID) {
-          Meteor.call('activityAddStandard',Activity._id,standardID);
+          Activities.update(nA._id,{$addToSet: {standardIDs: standardID}});
         });
-        Activities.update(nA._id,{$set: {type: 'assessment'}});
       } else {
         _.difference(nA.standardIDs,Activity.standardIDs).forEach( function(standardID) {
-          Meteor.call('activityAddStandard',Activity._id,standardID);
+          Activities.update(nA._id,{$addToSet: {standardIDs: standardID}});
         });
         _.difference(Activity.standardIDs,nA.standardIDs).forEach( function(standardID) {
-          Meteor.call('activityRemoveStandard',Activity._id,standardID);
+          Activities.update(nA._id,{$pull: {standardIDs: standardID}});
         });
-        Activity = Activities.findOne(nA._id);
-        if (!Activity.hasOwnProperty('standardIDs') || (Activity.standardIDs.length == 0))
-          Activities.update(nA._id,{$set: {type: 'activity'}});
-      }
+      };
     }
+
+    if (nA.hasOwnProperty('type') && nA.type)
+      Activities.update(nA._id,{$set: {type: nA.type}});
 
     return Activity._id;
   },

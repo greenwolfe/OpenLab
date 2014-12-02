@@ -271,15 +271,27 @@ Template.activityItem.helpers({
  /***** NEW ASSESSMENT  ****/
 /**************************/
 
-var defaultText = 'Edit this text to create a new assessment.'; 
+ 
 
 Template.newAssessment.helpers({
-  defaultText: function() {
-    return defaultText;
+  clickToAdd: function() {
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher')) {
+      var userToShow = Session.get('TeacherViewAs');
+      userToShow = Meteor.users.findOne(userToShow);
+      if (userToShow && Roles.userIsInRole(userToShow,'student')) {
+        return 'Click to add Reassessment for ' + userToShow.username;
+      } else {
+        return 'Click to add activity';
+      };
+    };
+    if (Roles.userIsInRole(cU,'student'))
+      return 'Click to add reassessment.';
+    return '';
   } 
  }); 
 
-Template.newAssessment.rendered = function() {
+/*Template.newAssessment.rendered = function() {
   var cU = Meteor.user();
   if (cU && Roles.userIsInRole(cU,['teacher','student'])) {
     $(this.find("a")).hallo().bind( "hallodeactivated", function(event) {
@@ -302,13 +314,17 @@ Template.newAssessment.rendered = function() {
       $t.text(defaultText);
     });
   };
-};
+}; */
 
 Template.newAssessment.events({
   'click #addAssessment': function(event,tmpl) {
-     Session.set('newAssessment',{
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) 
+      var userToShow = Session.get('TeacherViewAs');
+    userToShow = Meteor.users.findOne(userToShow);
+    Session.set('newAssessment',{
       modelID:this._id,
-      type:'assessment'
+      type: (Roles.userIsInRole(userToShow,'student')) ? 'assessment' : 'activity'
     });
     $('#addAssessmentDialog').modal();
   }

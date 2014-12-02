@@ -14,6 +14,14 @@
               <div class = 'row'>
                 <div class = 'span4'>
                    <div id="title" class="{{defaultTextActive}}">{{titleOrDefault}}</div>
+                   {{#if isInRole 'teacher'}}
+                    Type:
+                     <select id="type">
+                      {{#each types}}
+                        <option value="{{type}}"  {{selected}}>{{type}}</option>
+                      {{/each}}
+                     </select>
+                   {{/if}}
                    <div id="description" class="{{defaultDescriptionActive}}">{{descriptionOrDefault}}</div>
                    <h5>Drag standards here to add.</h5>
                    <div id = 'assessment'>
