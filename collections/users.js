@@ -43,6 +43,17 @@ Meteor.methods({
     
     console.log('removing ' + user.username);
     Meteor.users.remove(userID);
+  },
+
+  changePass: function(userID,newPassword) {
+    var cU = Meteor.userId();
+    if (!Roles.userIsInRole(cU,'teacher'))
+      throw new Meteor.Error(402, "Only a teacher can change another users password.");
+    if (Meteor.isServer) {
+      var student = Meteor.users.findOne(userID);
+      Accounts.setPassword(userID,newPassword);
+      student = Meteor.users.findOne(userID);
+    }
   }
 
  });

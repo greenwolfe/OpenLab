@@ -308,6 +308,18 @@ Date:   Sun Nov 30 10:36:05 2014 -0500
 November 30, 2014 openlab.gwolfe.meteor.com ... normal
 November 30, 2014 openlab.physics2.meteor.com ... normal
 
+#############################################################################
+
+commit a89adb4604248c9019fb605a902ce961e5150e0b
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Dec 2 13:25:41 2014 -0500
+
+    teacher can choose type when adding assessment
+    bug fix for addAssessment.js/.addNewAssessment helper
+
+December 2, 2014 openlab.gwolfe.meteor.com ... normal
+December 2, 2014 openlab.physics2.meteor.com ... normal
+
 
 
 
