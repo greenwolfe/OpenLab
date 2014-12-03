@@ -321,6 +321,16 @@ December 2, 2014 openlab.gwolfe.meteor.com ... normal
 December 2, 2014 openlab.physics2.meteor.com ... normal
 
 
+#########################################################################
+
+commit 472ea7d537f7023acacde6f6fba4955fb236126b
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Dec 2 19:43:07 2014 -0500
+
+    changePass function implemented
+
+December 2, 2014 openlab.gwolfe.meteor.com ... normal
+December 2, 2014 openlab.physics2.meteor.com ... normal
 
 
 

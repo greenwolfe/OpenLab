@@ -3,7 +3,18 @@
 /*************************/
 
 Template.activitiesList.rendered = function() {
-  $('#activities').accordion({heightStyle: "content"});
+  var cU = Meteor.user();
+  var activePanel = 0;
+  if (cU && ('profile' in cU) && ('lastOpened' in cU.profile) && ('studentActivityList' in cU.profile.lastOpened) && _.isFinite(cU.profile.lastOpened.studentActivityList))
+    activePanel = cU.profile.lastOpened.studentActivityList;
+  $('#activities').accordion({
+    heightStyle: "content",
+    active:activePanel,
+    activate: function(event,ui) {
+      var activePanel = parseInt(ui.newHeader.attr('id').split('-').slice(-1)[0]);
+      Meteor.users.update({_id:cU._id}, { $set:{"profile.lastOpened.studentActivityList":activePanel} });
+    }
+  });
 }
 
 Template.activitiesList.helpers({

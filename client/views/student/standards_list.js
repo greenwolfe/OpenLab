@@ -3,7 +3,18 @@
 /************************/
 
 Template.standardsList.rendered = function() {
-  $('.standards').accordion({heightStyle: "content"});
+  var cU = Meteor.user();
+  var activePanel = 0;
+  if (cU && ('profile' in cU) && ('lastOpened' in cU.profile) && ('studentStandardList' in cU.profile.lastOpened) && _.isFinite(cU.profile.lastOpened.studentStandardList))
+    activePanel = cU.profile.lastOpened.studentStandardList;
+  $('.standards').accordion({
+    heightStyle: "content",
+    active:activePanel,
+    activate: function(event,ui) {
+      var activePanel = parseInt(ui.newHeader.attr('id').split('-').slice(-1)[0]);
+      Meteor.users.update({_id:cU._id}, { $set:{"profile.lastOpened.studentStandardList":activePanel} });
+    }
+  });
 }
 
 Template.standardsList.helpers({
@@ -17,8 +28,9 @@ Template.standardsList.helpers({
 /************************/
 
 Template.standardsSublist.rendered = function() {
-  if ($( ".standards" ).data('ui-accordion')) //if accordion already applied
-    $('.standards').accordion("refresh");
+  var $standardsDiv = $(this.find('a')).closest('.standards')
+  if ($standardsDiv.data('ui-accordion')) //if accordion already applied
+   $standardsDiv.accordion("refresh");
 };
 
 Template.standardsSublist.helpers({
