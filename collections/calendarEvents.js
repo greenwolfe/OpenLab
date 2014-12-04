@@ -57,6 +57,7 @@ Meteor.methods({
       if (!_.contains(cE.group,cU._id)) 
         throw new Meteor.Error(408, 'Cannot create calendar event unless you are part of the group.')
       eventID = CalendarEvents.insert(cE);
+      Meteor.call('updateRecentGroupies',cE.group);
     } else {
       throw new Meteor.Error(409, 'You must be student or teacher to create  a new calendar event.')
     };
@@ -64,7 +65,33 @@ Meteor.methods({
     return eventID;
   },
 
-  /***** UPDATE CALENDAR EVENT ****/
+ /***** JOIN GROUP ****/
+  joinGroup: function(eventID) {
+    var cE = CalendarEvents.findOne(eventID); //calendarEvent
+    var cU = Meteor.user(); //currentUser
+
+    if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to join a group.");
+
+    if (!cE)
+      throw new Meteor.Error(412, "Cannot join group.  Invalid event ID.");
+
+    if (!cE.hasOwnProperty('group') || !_.isArray(cE.group))
+      throw new Meteor.Error(402, "Cannot join group.  Improper group.");
+
+    if (_.contains(cE.group,cU._id))
+      throw new Meteor.Error(413, "You are already part of this group. No need to join.")
+
+   if (!Roles.userIsInRole(cU,['teacher','student']))
+      throw new Meteor.Error(409, 'You must be student or teacher to join a group.') 
+
+    CalendarEvents.update(eventID,{$addToSet: {group : cU._id} });
+    Meteor.call('updateRecentGroupies',_.union(cE.group,cU._id));
+
+    return eventID;
+  },
+
+  /***** UPDATE INVITE LIST ****/
   updateInviteList: function(eventID,invite) { 
     var cU = Meteor.user(); //currentUser
     var cE = CalendarEvents.findOne(eventID);
@@ -118,6 +145,7 @@ Meteor.methods({
 
     CalendarEvents.update(eventID,{$addToSet: {group : cU._id} });
     CalendarEvents.update(eventID,{$pull: {invite : cU._id}});
+    Meteor.call('updateRecentGroupies',_.union(cE.group,cU._id));
 
     return eventID;
   },

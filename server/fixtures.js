@@ -8,7 +8,7 @@ Meteor.startup(function () {
           LoMs.push({standardID:standard._id,level:LoM})
       });
       Meteor.users.update({_id:user._id}, {$set:{LoMs:LoMs}})
-    }  
+    };  
 
     if (Roles.userIsInRole(user,'student') && user.hasOwnProperty('completedActivities')) {
       Activities.find({visible:true}).forEach(function(activity){
@@ -19,6 +19,23 @@ Meteor.startup(function () {
           Meteor.users.update(user._id,{$push: {activityStatus: {_id:activity._id,status:'done'} }});
         }      
       });
-    }
+    };
+
+    if (Roles.userIsInRole(user._id,'student') ) {
+      var recentGroupies = [];
+      var groups = CalendarEvents.find({group : {$in : [user._id]}},
+        {$sort : {eventDate: -1}}).map(function(cE) {
+          return cE.group;
+      });
+      groups.every(function(group) {
+        recentGroupies = _.union(recentGroupies,group);
+        return (recentGroupies.length >= 6);
+      });
+      recentGroupies = _.without(recentGroupies,user._id);
+      var recentGroupiesNames = recentGroupies.map(function(groupie) {
+        return Meteor.users.findOne(groupie).username;
+      })
+      Meteor.users.update(user._id,{$set: {'profile.recentGroupies': recentGroupies }});
+    };
   });
 });

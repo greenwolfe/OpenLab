@@ -54,6 +54,20 @@ Meteor.methods({
       Accounts.setPassword(userID,newPassword);
       student = Meteor.users.findOne(userID);
     }
+  },
+
+  updateRecentGroupies: function(group) {
+    group.forEach(function(userID) {
+      var reducedGroup = _.without(group,userID);
+      var cU = Meteor.users.findOne(userID);
+      if (!cU) return;
+      if (('profile' in cU) && ('recentGroupies' in cU.profile)) 
+        reducedGroup = _.union(reducedGroup,cU.profile.recentGroupies);
+      if (reducedGroup.length > 5)
+        reducedGroup = reducedGroup.slice(0,5);
+      Meteor.users.update(userID,{$set: {'profile.recentGroupies':reducedGroup}});   
+    })
+
   }
 
  });

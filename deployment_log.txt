@@ -332,6 +332,17 @@ Date:   Tue Dec 2 19:43:07 2014 -0500
 December 2, 2014 openlab.gwolfe.meteor.com ... normal
 December 2, 2014 openlab.physics2.meteor.com ... normal
 
+######################################################################
+
+commit 3e92d23ba5a7b6938f8b33ad2be89d67b7d805bb
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Wed Dec 3 16:38:34 2014 -0500
+
+    remember last opened section
+
+
+December 2, 2014 openlab.gwolfe.meteor.com ... normal
+December 2, 2014 openlab.physics2.meteor.com ... normal
 
 
 
