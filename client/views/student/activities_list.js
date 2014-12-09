@@ -34,7 +34,7 @@ Template.activitiesSublist.rendered = function() {
 };
 
 Template.activitiesSublist.helpers({
-  activities: function() {
+  activities: function(whichHalf) {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
       userToShow = Session.get('TeacherViewAs');
@@ -49,7 +49,7 @@ Template.activitiesSublist.helpers({
             visible: true},
             {sort: {rank: 1}}).fetch();
     Acts = Acts.concat(R);  //reassessments at end of list
-    Acts.forEach(function(A,i) {
+    /*Acts.forEach(function(A,i) {
       A.irank = i;
     });
     var max = Acts.length - 1;
@@ -58,8 +58,8 @@ Template.activitiesSublist.helpers({
       var Ai = (A.irank <= half) ? 2*A.irank : 2*A.irank - max + max%2 - 1;
       var Bi = (B.irank <= half) ? 2*B.irank : 2*B.irank - max + max%2 - 1;      
       return Ai-Bi;
-    });
-    return Acts; 
+    });*/
+    return (whichHalf == 1) ? Acts.slice(0,Math.ceil(Acts.length/2)) : Acts.slice(Math.ceil(Acts.length/2)); 
   },
   openInviteCount: function() {
     var userToShow = Meteor.userId();

@@ -89,12 +89,12 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 #activities a, .standards a {
   padding-right: 1px;
 }
-#activities .Model p {
+/* #activities .Model p {
   float: left;
-  margin: 1px 1% 1px 0; /* T R B L */
+  margin: 1px 1% 1px 0; /* T R B L */ /*
   padding: 1px; 
   width: 48%; 
-}
+} */
 #activities .Model .openInvites {
   margin-top: -10px;
   margin-bottom: 20px;

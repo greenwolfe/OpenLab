@@ -21,7 +21,7 @@ Meteor.startup(function () {
       });
     };
 
-    if (Roles.userIsInRole(user._id,'student') ) {
+    if (Roles.userIsInRole(user._id,'student') && ('profile' in user) && !('recentGroupies' in user.profile)) {
       var recentGroupies = [];
       var groups = CalendarEvents.find({group : {$in : [user._id]}},
         {$sort : {eventDate: -1}}).map(function(cE) {

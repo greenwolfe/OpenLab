@@ -16,11 +16,18 @@
             <span class="badge badge-inverse">{{openInviteCount}}</span> 
           Open Invitation{{#if isGT openInviteCount 1}}s{{/if}}</span>
         {{/if}} </a> </h3> 
-      <div class = 'Model'>
-	      {{#each activities}}
-          {{> activityItem}}
-        {{/each}}
-        {{> newAssessment}}
+      <div class = 'Model row'>
+        <div class='span6'>
+  	      {{#each activities 1}}
+            {{> activityItem}}
+          {{/each}}
+        </div>
+        <div class='span6'>
+          {{#each activities 2}}
+            {{> activityItem}}
+          {{/each}}
+          {{> newAssessment}}
+        </div>
       </div>
 </template>
 
