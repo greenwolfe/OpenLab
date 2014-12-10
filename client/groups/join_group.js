@@ -50,6 +50,10 @@ Template.joinGroup.events({
     $('#joinGroupDialog').modal('hide');
     $('#joinGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
   },
+  'click #joinGroupEditList' : function(event) {
+    $('#joinGroupDialog').modal('hide');
+    $('#changeGroupiesDialog').modal();
+  },
   'click i.remove' : function(event) {
     $('#joinGroupDialog').modal('hide');
     $('#joinGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below

@@ -216,7 +216,8 @@ filter: alpha(opacity=50);
 #inviteGroupDialog i.remove, 
 #editProfileDialog i.remove, 
 #addAssessmentDialog i.remove,
-#joinGroupDialog i.remove {
+#joinGroupDialog i.remove,
+#changeGroupiesDialog i.remove {
   position: absolute;
   right: 0;
   margin-right: 10px;
@@ -230,7 +231,8 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 #inviteGroupDialog h2, h3, 
 #editProfileDialog h2, h3,
 #addAssessmentDialog h2, h3,
-#joinGroupDialog h2, h3 {
+#joinGroupDialog h2, h3,
+#changeGroupiesDialog h2, h3 {
   text-align: center;
 }
 #addAssessmentDialog #title, #addAssessmentDialog #description {
