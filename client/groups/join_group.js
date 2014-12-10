@@ -1,6 +1,8 @@
 Template.joinGroup.helpers({
   recentGroupieEvents: function() {
     //filter out assessments or reassessments?
+    //default to section and then all users but keep 5 max
+    //add message to choose a group
     var JG = Session.get("joinGroup");
     if (!JG) return '';
     var cU = Meteor.user();
@@ -23,6 +25,15 @@ Template.joinGroup.helpers({
     if (!cU || !('profile' in cU) || !('recentGroupies' in cU.profile))
       return '';
     return cU.profile.recentGroupies;
+  },
+  sections: function() {
+    var sections = Sections.find({},{sort: [["section","asc"]]}).fetch();
+    var JG = Session.get("joinGroup");
+    if (!JG || !('sectionIDs' in JG)) return sections;
+    sections.forEach(function(s,i) {
+      s.selected = (_.contains(JG.sectionIDs,s._id)) ? 'ui-state-highlight' : '';
+    });
+    return sections;
   }
 });
 
@@ -58,5 +69,40 @@ Template.joinGroup.events({
     $('#joinGroupDialog').modal('hide');
     $('#joinGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
     //calendar_event.html adds data-eventid when placing event in calendar, the duplicate event placed by jquery-ui on end of sort does not have this field, and is no longer needed to hold the place.
+  },
+  'click .addSection' : function(event) {
+    var sectionID = $(event.target).data('id');
+    var JG = Session.get("joinGroup");
+    if (!JG) return;
+    if (!('sectionIDs' in JG)) {
+      JG.sectionIDs = [sectionID];
+    } else {
+      if (_.contains(JG.sectionIDs,sectionID)) {
+        JG.sectionIDs = _.without(JG.sectionIDs,sectionID);
+      } else {
+        JG.sectionIDs.push(sectionID);
+      };
+    };
+    Session.set("joinGroup",JG);
+  },
+  'click #joinGroupInviteSections' : function(event) {
+    var JG = Session.get("joinGroup");
+    if (!JG || !('sectionIDs' in JG) || (JG.sectionIDs.length == 0)) 
+      return;
+    var cU = Meteor.user();
+    if (!Roles.userIsInRole(cU,'teacher')) return;
+    var calendarEvent = {
+      creator : cU._id,
+      group : JG.sectionIDs,
+      invite : [], 
+      eventDate : JG.eventDate,  //'ddd[,] MMM D YYYY'
+      activityID : JG.activityID,
+      workplace : 'inClass'
+    };
+    Meteor.call('postCalendarEvent', calendarEvent,
+      function(error, id) {if (error) return alert(error.reason);}
+    );
+    $('#joinGroupDialog').modal('hide');
+    $('#joinGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
   }
 });

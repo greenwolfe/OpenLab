@@ -5,23 +5,54 @@
 
         <div class="modal-header">
           <i class='remove fa fa-times' onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title="Cancel"></i>
-          <h2>Change List of Potential Group Members</h2>
+          <h2>Group Members</h2>
+          <h3>     
+            {{#if recentGroupies}}
+              {{groupies "" "" recentGroupies "" ""}}
+            {{else}}
+              None
+            {{/if}}
+          </h3>
         </div>
        
         <div class='container-fluid'>
           <div class="modal-body row">
             <div class = 'row'>
               <div class = 'span5'>
-                Select (or unselect) each username in the lists below to change your list of potential group members.  This list is used to find calendar events you can join after you drag an activity to the calendar.   
-                  -- list of users here --
+                <p>
+                  Select (or unselect) each username below to add or remove members from your group.  Changes are applied as soon as you click. 
+                </p>
+                <ul class="nav nav-pills">
+                  {{#each sections}}
+                    <li class="{{active}}">
+                      <a href="#{{section}}" data-toggle="tab"> 
+                        {{section}} 
+                      </a>
+                    </li>
+                  {{/each}}
+                </ul>
               </div>
-
+            </div>
+            <div class = 'row'>
+              <div class = 'span5'>
+                <div class="tab-content">
+                  {{#each sections}}
+                    <div class="tab-pane {{active}}" id="{{section}}">
+                      {{#each usersInSection}}
+                        <p class="{{selected}}" data-id={{_id}}>    
+                          {{username}} 
+                        </p>
+                      {{/each}}
+                    </div>
+                  {{/each}}
+                </div>  
+              </div>
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button id="AcceptNewGroupies">Accept</button>
+          <button id="changeGroupiesReturn">Return</button>
         </div>
 
       </div>

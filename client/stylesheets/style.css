@@ -235,6 +235,12 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 #changeGroupiesDialog h2, h3 {
   text-align: center;
 }
+#changeGroupiesDialog .tab-content .tab-pane p {
+  float: left; 
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
 #addAssessmentDialog #title, #addAssessmentDialog #description {
   display: inline-block;
   border: thin black solid;

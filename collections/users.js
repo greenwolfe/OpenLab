@@ -70,7 +70,24 @@ Meteor.methods({
         reducedGroup = reducedGroup.slice(0,5);
       Meteor.users.update(userID,{$set: {'profile.recentGroupies':reducedGroup}});   
     })
+  },
 
+  toggleGroupie: function(userID) {
+    var cU = Meteor.user();
+    if (!cU) 
+      throw new Meteor.Error(402, "You must be logged in to change your recent groupies list.");
+    var userToToggle = Meteor.users.findOne(userID);
+    if (!userToToggle) 
+      throw new Meteor.Error(403, "Cannot change groupies list. Invalid user.");
+    if (('profile' in cU) && ('recentGroupies' in cU.profile)) {
+      if (_.contains(cU.profile.recentGroupies,userID)) {
+        Meteor.users.update(cU._id,{$pull: {'profile.recentGroupies':userID}})
+      } else {
+        Meteor.users.update(cU._id,{$addToSet: {'profile.recentGroupies':userID}});        
+      };
+    } else {
+      Meteor.users.update(cU._id,{$set: {'profile.recentGroupies':[userID]}});
+    };
   }
 
  });
