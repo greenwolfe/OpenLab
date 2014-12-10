@@ -248,17 +248,25 @@ Meteor.methods({
   deleteEvent: function(eventID,userID) {
     var cE = CalendarEvents.findOne(eventID); //calendarEvent
     var cU = Meteor.user(); //currentUser
+    var sections = Sections.find().map(function(s) { return s._id });
+    var groupOnlySections = true;
 
    if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to modify a calendar event.");
 
      if (!cE)
       throw new Meteor.Error(412, "Cannot modify calendar event.  Invalid event ID.");
-
+  
     if (!cE.hasOwnProperty('group') || !_.isArray(cE.group))
       throw new Meteor.Error(402, "Cannot modify calendar event.  Improper group.");
+
+    cE.group.forEach(function(id) {
+      groupOnlySections = (groupOnlySections && _.contains(sections,id));
+    })
     
-    if (Roles.userIsInRole(cU,'teacher') && !!userID) {
+    if (Roles.userIsInRole(cU,'teacher') && groupOnlySections) {
+      CalendarEvents.update(eventID,{$set: {group: []}});
+    } else if (Roles.userIsInRole(cU,'teacher') && !!userID) {
       var userToRemove = Meteor.user(userID);
       if (!userToRemove)
         throw new Meteor.Error(405,'Cannot delete event.  Invalid user.');
