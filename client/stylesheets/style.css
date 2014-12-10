@@ -185,6 +185,13 @@ filter: alpha(opacity=50);
   margin-left:auto;
   margin-right:auto;
 }
+.modal.medium {
+  width: 60%; /* desired relative width */
+  left: 20%; /* (100%-width)/2 */
+  /* place center */
+  margin-left:auto;
+  margin-right:auto;
+}
 #inviteGroupDialog .btn-user.selected, #inviteGroupDialog .btn-section.selected {
   background-image: none;
   background-color: #00ffff;
@@ -208,7 +215,8 @@ filter: alpha(opacity=50);
 #openInviteDialog i.remove, 
 #inviteGroupDialog i.remove, 
 #editProfileDialog i.remove, 
-#addAssessmentDialog i.remove {
+#addAssessmentDialog i.remove,
+#joinGroupDialog i.remove {
   position: absolute;
   right: 0;
   margin-right: 10px;
@@ -221,7 +229,8 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 #openInviteDialog h2, h3, 
 #inviteGroupDialog h2, h3, 
 #editProfileDialog h2, h3,
-#addAssessmentDialog h2, h3 {
+#addAssessmentDialog h2, h3,
+#joinGroupDialog h2, h3 {
   text-align: center;
 }
 #addAssessmentDialog #title, #addAssessmentDialog #description {

@@ -207,8 +207,11 @@ var SortOpt = function (connector) { //default sortable options
       Session.set("OpenInvites",{'eventDate': IG.eventDate,'activityID': IG.activityID});
       $('#openInviteDialog').data('daysActivities',$(this)).modal();  
     } else { 
-      Session.set("InviteGroup",IG);
-      $('#inviteGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
+      Session.set("joinGroup",IG);
+      //$('#joinGroupDialog').modal();
+      $('#joinGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
+      //Session.set("InviteGroup",IG);
+      //$('#inviteGroupDialog').data('daysActivities',$(this)).modal();  //pass list object from calendar day 
     };
   };
 

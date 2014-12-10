@@ -45,6 +45,7 @@ Meteor.methods({
     Meteor.users.remove(userID);
   },
 
+  /***** CHANGE PASS ****/
   changePass: function(userID,newPassword) {
     var cU = Meteor.userId();
     if (!Roles.userIsInRole(cU,'teacher'))
@@ -56,6 +57,8 @@ Meteor.methods({
     }
   },
 
+
+  /***** UPDATE RECENT GROUPIES ****/
   updateRecentGroupies: function(group) {
     group.forEach(function(userID) {
       var reducedGroup = _.without(group,userID);
