@@ -355,6 +355,21 @@ Date:   Mon Dec 8 23:21:34 2014 -0500
 December 8, 2014 openlab.gwolfe.meteor.com ... normal
 December 8, 2014 openlab.physics2.meteor.com ... normal
 
+##################################################################
+
+commit 169eb57c19793defd6b0119dc22b5efefde2f2a3
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Wed Dec 10 16:29:29 2014 -0500
+
+    join group and edit group modals complete
+    fixed delect event for sections bug
+
+December 10, 2014 openlab.gwolfe.meteor.com ... normal
+December 11, 2014 openlab.physics2.meteor.com ... normal
+
+    
+
+
 
 
 

@@ -33,22 +33,19 @@ Template.openInvites.events({
         function(error, id) {if (error) return alert(error.reason);}
       );
 //      CalendarEvents.update(event.target.id,{$addToSet: {group : Meteor.userId()} });
-    }
-    calendarEvents.forEach(function(event) {
-     if (event._id != inviteToAccept) { 
-      Meteor.call('declineInvite', event._id, 
-        function(error, id) {if (error) return alert(error.reason);}
-      );
-//      CalendarEvents.update(event._id,{$pull: {invite : Meteor.userId()}});
-     };
-    });
-    $('#openInviteDialog').modal('hide');
-    if (event.target.id == 'Decline') {
-     Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
-     $('#inviteGroupDialog').data('daysActivities',$('#openInviteDialog').data('daysActivities')).modal();
     } else {
-      $('#openInviteDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
-    }
+      calendarEvents.forEach(function(event) {
+       if (event._id != inviteToAccept) { 
+        Meteor.call('declineInvite', event._id, 
+          function(error, id) {if (error) return alert(error.reason);}
+        );
+  //      CalendarEvents.update(event._id,{$pull: {invite : Meteor.userId()}});
+       };
+      });
+      $('#openInviteDialog').modal('hide');
+       Session.set("InviteGroup",{'eventDate': date,'activityID': activityID});
+       $('#inviteGroupDialog').data('daysActivities',$('#openInviteDialog').data('daysActivities')).modal();
+    };
   },
   'click i.remove' : function(event) {
     $('#openInviteDialog').modal('hide');
