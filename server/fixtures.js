@@ -1,4 +1,39 @@
 Meteor.startup(function () {
+  if (Site.find().count() == 0) {
+    Site.insert({
+      title : 'Open Lab',
+      activityTypes: ['activity','assessment','reassessment','lab']
+    });
+  };
+
+  var meetingDays = [{'Mon':1},{'Tue':1},{'Wed':0},{'Thu':2},{'Fri':1}];
+  var section = Sections.findOne({section:'Bblock'});
+  if (!('meetingDays' in section)) {
+    Sections.update(section._id,{$set: {meetingDays: meetingDays}});
+  }
+  var section = Sections.findOne({section:'Fblock'});
+  if (!('meetingDays' in section)) {
+    Sections.update(section._id,{$set: {meetingDays: meetingDays}});
+  }
+  meetingDays = [{'Mon':1},{'Tue':1},{'Wed':2},{'Thu':0},{'Fri':1}];
+  var section = Sections.findOne({section:'Gblock'});
+  if (!('meetingDays' in section)) {
+    Sections.update(section._id,{$set: {meetingDays: meetingDays}});
+  }
+  
+
+
+  var RA = {
+    title : 'In class.  Attendance Required.',
+    modelID : 'wholecourse',
+    description : 'You did not complete your open lab schedule, and are required to be in class.  Your teacher will consult with your about what work to do.',
+    ownerID: '',
+    standardIDs: [],
+    visible: true
+  }
+  if (!Activities.findOne({modelID:RA.modelID,title:RA.title}))
+    Activities.insert(RA); 
+
   Meteor.users.find().forEach(function(user) {
     if (Roles.userIsInRole(user._id,'student') && !user.hasOwnProperty('LoMs')) {
       var LoMs = [];

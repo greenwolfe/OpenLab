@@ -40,9 +40,11 @@ Meteor.methods({
     if (!Activity.modelID)
       throw new Meteor.Error(402, "Cannot post activity.  Missing model.");
    
-    model = Models.findOne(Activity.modelID);
-    if (!model)
-       throw new Meteor.Error(421, "Cannot post activity.  Improper model.")
+    if (Activity.modelID != 'wholecourse') {
+      model = Models.findOne(Activity.modelID);
+      if (!model)
+         throw new Meteor.Error(421, "Cannot post activity.  Improper model.")
+    };
 
     if (!Activity.hasOwnProperty('description'))
       Activity.description = '';
@@ -136,9 +138,11 @@ Meteor.methods({
       Activities.update(nA._id,{$set: {visible: nA.visible}});
     
     if (nA.modelID && (nA.modelID != Activity.modelID) && nA.modelID != '') {
-      model = Models.findOne(nA.modelID);
-      if (!model)
-        throw new Meteor.Error(421, "Cannot update activity.  Improper model.")
+      if (nA.modelID != 'wholecourse') {
+        model = Models.findOne(nA.modelID);
+        if (!model)
+          throw new Meteor.Error(421, "Cannot update activity.  Improper model.")
+      }
       maxRank = _.max(Activities.find({modelID: nA.modelID}).map(function(a) {return a.rank}))
       Activities.update(nA._id,{$set: {modelID: nA.modelID,rank: maxRank+1}});
       Activity.modelID = nA.modelID;  

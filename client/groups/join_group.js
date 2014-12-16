@@ -39,7 +39,9 @@ Template.joinGroup.helpers({
 
 Template.joinGroup.events({
   'click .joinGroupButton' : function(event) {
-    Meteor.call('joinGroup',$(event.target).data('id'))
+    Meteor.call('joinGroup',$(event.target).data('id'), 
+      function(error, id) {if (error) return alert(error.reason);}
+    );
     $('#joinGroupDialog').modal('hide');
     $('#joinGroupDialog').data('daysActivities').find('p:not([data-eventid])').remove(); // see below
   },

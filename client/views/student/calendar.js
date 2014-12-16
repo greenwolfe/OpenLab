@@ -156,16 +156,62 @@ Template.calendarDay.helpers({
       return calendarEvents.filter(function (cE) {
         var activity = Activities.findOne(cE.activityID);
         if (!activity) return false;
+        if (activity.modelID == 'wholecourse') return true;
         var model = Models.findOne(activity.modelID);
         if (!model) return false;
         return (activity.visible && model.visible);
       });
     }
     return '';
+  },
+  frozen: function() {
+    var userIDToShow = Meteor.userId();
+    var isTeacher = Roles.userIsInRole(userIDToShow,'teacher');
+    var iconThawed = (isTeacher) ? 'icon-thawed' : '';
+    var iconFrozen = (isTeacher) ? 'icon-frozen' : 'icon-frozen-student';
+    if (isTeacher) {
+      userIDToShow = Session.get('TeacherViewAs');
+    };
+    var userToShow = Meteor.users.findOne(userIDToShow);
+    var section = (userToShow && ('profile' in userToShow) && ('sectionID' in userToShow.profile))
+     ? Sections.findOne(userToShow.profile.sectionID) : Sections.findOne(userIDToShow);
+    var site = Site.findOne();
+    var date = this.ID;
+    var day;
+    if (userToShow && ('frozen' in userToShow)) {
+      day = _.find(userToShow.frozen,function(f) {return (f.date == date)});
+      if (day) return day.frozen ?  iconFrozen : iconThawed;
+    }
+    if (section && 'frozen' in section) {
+      day = _.find(section.frozen,function(f) {return (f.date == date)});
+      if (day) return day.frozen ?  iconFrozen : iconThawed;
+    }
+    if (!('frozen' in site)) return iconThawed;   
+    return (_.contains(site.frozen,date)) ?  iconFrozen : iconThawed;
+  }
+});
+
+Template.calendarDay.events({
+  'click .icon-thawed' : function(event) {
+    var userToShow = Meteor.userId();
+    if (!Roles.userIsInRole(userToShow,'teacher')) return;
+    userToShow = Session.get('TeacherViewAs');
+    Meteor.call('Freeze',$(event.target).data('day'),userToShow,true);
+  },
+  'click .icon-frozen' : function(event) {
+    var userToShow = Meteor.userId();
+    if (!Roles.userIsInRole(userToShow,'teacher')) return;
+    userToShow = Session.get('TeacherViewAs');
+    Meteor.call('Freeze',$(event.target).data('day'),userToShow,false);
   }
 });
 
 var SortOpt = function (connector) { //default sortable options
+
+  var start = function(event,ui) { //stores current location of helper
+    var element = $(ui.item[0]);
+    element.data('lastParent', element.parent());
+  };
 
   var activate = function(event, ui) {  //puts placeholders on all targets
     $( this).prepend($('<p class="ui-state-default placeholder">.</p>'));
@@ -200,9 +246,17 @@ var SortOpt = function (connector) { //default sortable options
     $( '.placeholder').remove();
     if (eventID && CalendarEvents.find(eventID).count()) { //just moved to new date
       Meteor.call('changeDate', eventID, IG.eventDate, 
-        function(error, id) {if (error) return alert(error.reason);}
+        function(error, id) {
+          if (error) {
+            var lastParent = ui.item.data('lastParent');
+            if (lastParent) $(lastParent).append(ui.item); //moves jquery,ui helper back to its original position
+            return alert(error.reason);
+          } else {
+            ui.item.remove(); // removes jquery.ui helper 
+          }
+        }
       );
-      ui.item.remove(); // removes jquery.ui helper 
+      
     } else if (OpenInvites.count() ) { 
       Session.set("OpenInvites",{'eventDate': IG.eventDate,'activityID': IG.activityID});
       $('#openInviteDialog').data('daysActivities',$(this)).modal();  
@@ -223,6 +277,7 @@ var SortOpt = function (connector) { //default sortable options
     placeholder : "ui-state-highlight", //yellow
     activate : activate,
     helper: 'clone', //for some reason stops click event also firing on receive when dragging event to change date
+    start: start,
     over : over,
     stop : stop,
     receive : receive
@@ -242,8 +297,10 @@ Template.calendarEvent.rendered = function() {
 Template.calendarEvent.events({
   'click .remove': function(event) {
     var eventID = $(event.currentTarget.parentElement).data('eventid');
-    var calendarEvent;
-    Meteor.call('deleteEvent', eventID, null, 
+    var userToShow = null;
+    if (Roles.userIsInRole(Meteor.userId(),'teacher'))
+      userToShow = Session.get('TeacherViewAs');
+    Meteor.call('deleteEvent', eventID, userToShow, 
       function(error, id) {if (error) return alert(error.reason);}
     );
    },

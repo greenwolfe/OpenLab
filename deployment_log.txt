@@ -367,6 +367,19 @@ Date:   Wed Dec 10 16:29:29 2014 -0500
 December 10, 2014 openlab.gwolfe.meteor.com ... normal
 December 11, 2014 openlab.physics2.meteor.com ... normal
 
+##############################################################
+
+commit 187dbed2066a88e594e69473fadfb9eebe6fa4ea
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Thu Dec 11 11:13:55 2014 -0500
+
+    allows multiple acceptances to invitations.
+
+December 11, 2014 openlab.gwolfe.meteor.com ... normal
+December 11, 2014 openlab.physics2.meteor.com ... normal
+December 11, 2014 openstudio.seeley.meteor.com ... normal
+
+
     
 
 

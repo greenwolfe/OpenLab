@@ -23,6 +23,7 @@
 
 <template name = 'calendarDay'>
   <td class='calendar-day'>
+    <i class="{{frozen}}" data-day={{ID}}></i>
     <h3> 
       {{#if isInRole 'teacher'}}
         <a href="{{pathFor 'attendance'}}">{{day}}</a> 

@@ -27,6 +27,10 @@ table#calendar tr td {
 table#calendar tr td h3 a {
   color: black;
 }
+table#calendar tr td ul.dropdown-menu li.selected {
+  background-color: #EEDC94;
+  margin-bottom: 5px;
+}
 table#attendanceTable {
   page-break-after:always;
 }
@@ -452,4 +456,19 @@ i.icon-list-visible {
 i.icon-list-hidden {
   background: url('list_hidden.svg'); 
   background-size: contain;
+}
+i.icon-thawed {
+  background: url('thawed.png');
+  background-size: contain;
+  background-repeat: no-repeat; /*not 64x64, some odd size*/
+  float: left;
+}
+i.icon-frozen, i.icon-frozen-student {
+  background: url('frozen.png');
+  background-size: contain;
+  float: left;
+}
+i.require-in-class {
+  float: left;  
+  cursor: default;
 }

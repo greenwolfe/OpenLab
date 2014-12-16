@@ -9,6 +9,23 @@ CalendarEvents = new Meteor.Collection('calendarEvents');
       activityID : InviteGroup.activityID,
       workplace : 'inClass'
     }; */
+var frozen = function(date,ID) {
+  var userToShow = Meteor.users.findOne(ID);
+  var section = (userToShow && ('profile' in userToShow) && ('sectionID' in userToShow.profile))
+   ? Sections.findOne(userToShow.profile.sectionID) : Sections.findOne(ID);
+  var site = Site.findOne();
+  var day;
+  if (userToShow && ('frozen' in userToShow)) {
+    day = _.find(userToShow.frozen,function(f) {return (f.date == date)});
+    if (day) return day.frozen;
+  }
+  if (section && 'frozen' in section) {
+    day = _.find(section.frozen,function(f) {return (f.date == date)});
+    if (day) return day.frozen;
+  }
+  if (!('frozen' in site)) return false;   
+  return (_.contains(site.frozen,date));
+}
 
 Meteor.methods({
 
@@ -50,6 +67,9 @@ Meteor.methods({
 
     if (!cE.eventDate || !moment(cE.eventDate,'ddd[,] MMM D YYYY',true).isValid())
       throw new Meteor.Error(411, "Cannot create calendar event.  Invalid date");
+    var date = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && frozen(date,cU._id))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
     
     if (Roles.userIsInRole(cU,'teacher')) {
      eventID = CalendarEvents.insert(cE);
@@ -82,8 +102,12 @@ Meteor.methods({
     if (_.contains(cE.group,cU._id))
       throw new Meteor.Error(413, "You are already part of this group. No need to join.")
 
-   if (!Roles.userIsInRole(cU,['teacher','student']))
+    if (!Roles.userIsInRole(cU,['teacher','student']))
       throw new Meteor.Error(409, 'You must be student or teacher to join a group.') 
+
+    var date = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && frozen(date,cU._id))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
 
     CalendarEvents.update(eventID,{$addToSet: {group : cU._id} });
     Meteor.call('updateRecentGroupies',_.union(cE.group,cU._id));
@@ -105,6 +129,10 @@ Meteor.methods({
       if (!Meteor.users.findOne(ID) && !Sections.findOne(ID) && !(ID == '_ALL_'))
         throw new Meteor.Error(405, "Cannot update calendar event.  All invitees must be valid users.");
     });
+
+    var date = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && frozen(date,cU._id))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
 
     if (Roles.userIsInRole(cU,'teacher')) {
      CalendarEvents.update(eventID,{$set: {invite: invite}});
@@ -140,8 +168,12 @@ Meteor.methods({
     if (_.contains(cE.group,cU._id) || !_.contains(cE.invite,cU._id))
       throw new Meteor.Error(413, "You must be in the invitation list, and not yet part of the group in order to accept an invitation.")
 
-   if (!Roles.userIsInRole(cU,['teacher','student']))
+    if (!Roles.userIsInRole(cU,['teacher','student']))
       throw new Meteor.Error(409, 'You must be student or teacher to invite others to collaborate.') 
+
+    var date = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && frozen(date,cU._id))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
 
     CalendarEvents.update(eventID,{$addToSet: {group : cU._id} });
     CalendarEvents.update(eventID,{$pull: {invite : cU._id}});
@@ -204,8 +236,12 @@ Meteor.methods({
     if (!_.contains(['inClass','outClass','home'],workplace))
       throw new Meteor.Error(407, 'Cannot modify calendar event. "' + workplace + '" is not a valid workplace');
 
-   if (!Roles.userIsInRole(cU,['teacher','student']))
+    if (!Roles.userIsInRole(cU,['teacher','student']))
       throw new Meteor.Error(409, 'You must be student or teacher to modify a calendar event.') 
+
+    var date = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && frozen(date,cU._id))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
 
    CalendarEvents.update(eventID,{$set: {workplace: workplace}});
 
@@ -235,10 +271,16 @@ Meteor.methods({
     if (!moment(newDate,'ddd[,] MMM D YYYY',true).isValid())
       throw new Meteor.Error(411, "Cannot modify calendar event.  Invalid date");
   
-   if (!Roles.userIsInRole(cU,['teacher','student']))
+    if (!Roles.userIsInRole(cU,['teacher','student']))
       throw new Meteor.Error(409, 'You must be student or teacher to modify a calendar event.')  
 
-   if (newDate != cE.eventDate)
+    var oldDate = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    var newDateShortFormat = moment(newDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && 
+       (frozen(oldDate,cU._id) || frozen(newDateShortFormat,cU._id)))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
+
+    if (newDate != cE.eventDate)
      CalendarEvents.update(eventID,{$set: {eventDate : newDate} });
  
     return eventID;
@@ -249,25 +291,36 @@ Meteor.methods({
     var cE = CalendarEvents.findOne(eventID); //calendarEvent
     var cU = Meteor.user(); //currentUser
     var sections = Sections.find().map(function(s) { return s._id });
-    var groupOnlySections = true;
+    var groupOnlySections = true; // probably no longer needed
 
-   if (!cU)  
+    if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to modify a calendar event.");
 
-     if (!cE)
+    if (!cE)
       throw new Meteor.Error(412, "Cannot modify calendar event.  Invalid event ID.");
   
     if (!cE.hasOwnProperty('group') || !_.isArray(cE.group))
       throw new Meteor.Error(402, "Cannot modify calendar event.  Improper group.");
 
-    cE.group.forEach(function(id) {
+    cE.group.forEach(function(id) { //probably no longer needed.
       groupOnlySections = (groupOnlySections && _.contains(sections,id));
-    })
-    
-    if (Roles.userIsInRole(cU,'teacher') && groupOnlySections) {
+    }) 
+
+    var date = moment(cE.eventDate,'ddd[,] MMM D YYYY').format('MMM[_]D[_]YYYY');
+    if (Roles.userIsInRole(cU,'student') && frozen(date,cU._id))
+      throw new Meteor.Error(432, "This date is frozen.  Students must consult their teacher to change their schedule once dates are frozen.");
+
+    if (Roles.userIsInRole(cU,'teacher') && _.contains(sections,userID)) {
+      var usersInSection = Meteor.users.find({"profile.sectionID":userID}).map(function(u){
+        return u._id;
+      });
+      usersInSection.push(userID);
+      CalendarEvents.update(eventID,{$pullAll: {group: usersInSection}}); 
+    //this next section probably does nothing now
+    } else if (Roles.userIsInRole(cU,'teacher') && groupOnlySections) {
       CalendarEvents.update(eventID,{$set: {group: []}});
     } else if (Roles.userIsInRole(cU,'teacher') && !!userID) {
-      var userToRemove = Meteor.user(userID);
+      var userToRemove = Meteor.users.findOne(userID);
       if (!userToRemove)
         throw new Meteor.Error(405,'Cannot delete event.  Invalid user.');
        if (!_.contains(cE.group,userToRemove._id)) 

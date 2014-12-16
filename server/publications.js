@@ -20,6 +20,9 @@ Meteor.publish('activities',function(userID) {  //change to user or section ID i
 
   this.ready();*/
 });
+Meteor.publish('site',function() {
+  return Site.find();
+});
 Meteor.publish('sections',function() {
   return Sections.find();
 });
@@ -52,6 +55,7 @@ Meteor.publish('gradesAndStatus',function(userID){
   if (!cU) return this.ready();
   if (cU.hasOwnProperty('activityStatus')) fields.activityStatus = 1;
   if (cU.hasOwnProperty('LoMs')) fields.LoMs = 1;
+  if (cU.hasOwnProperty('frozen')) fields.frozen = 1;
   if (_.isEmpty(fields)) return this.ready();
   return Meteor.users.find(userID,{fields: fields});
 });
