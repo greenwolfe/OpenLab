@@ -379,6 +379,18 @@ December 11, 2014 openlab.gwolfe.meteor.com ... normal
 December 11, 2014 openlab.physics2.meteor.com ... normal
 December 11, 2014 openstudio.seeley.meteor.com ... normal
 
+#################################################################
+
+commit 99d69b9e8f1e15d934be1fb9e33a903ca2bcc0c4
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Dec 16 01:26:13 2014 -0500
+
+    can freeze dates and automatically enter in-class even for those without 
+
+December 16, 2014 openlab.gwolfe.meteor.com ... normal
+December 16, 2014 openlab.physics2.meteor.com ... crashed
+
+
 
     
 

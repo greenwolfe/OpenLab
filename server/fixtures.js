@@ -8,16 +8,20 @@ Meteor.startup(function () {
 
   var meetingDays = [{'Mon':1},{'Tue':1},{'Wed':0},{'Thu':2},{'Fri':1}];
   var section = Sections.findOne({section:'Bblock'});
-  if (!('meetingDays' in section)) {
+  if (section && !('meetingDays' in section)) {
     Sections.update(section._id,{$set: {meetingDays: meetingDays}});
   }
   var section = Sections.findOne({section:'Fblock'});
-  if (!('meetingDays' in section)) {
+  if (section && !('meetingDays' in section)) {
+    Sections.update(section._id,{$set: {meetingDays: meetingDays}});
+  }
+  var section = Sections.findOne({section:'Eblock'});
+  if (section && !('meetingDays' in section)) {
     Sections.update(section._id,{$set: {meetingDays: meetingDays}});
   }
   meetingDays = [{'Mon':1},{'Tue':1},{'Wed':2},{'Thu':0},{'Fri':1}];
   var section = Sections.findOne({section:'Gblock'});
-  if (!('meetingDays' in section)) {
+  if (section && !('meetingDays' in section)) {
     Sections.update(section._id,{$set: {meetingDays: meetingDays}});
   }
   
