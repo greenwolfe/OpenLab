@@ -390,6 +390,16 @@ Date:   Tue Dec 16 01:26:13 2014 -0500
 December 16, 2014 openlab.gwolfe.meteor.com ... normal
 December 16, 2014 openlab.physics2.meteor.com ... crashed
 
+##################################################################
+
+
+commit 7fd3e23617dacabc71f584f34b047343ede6f2fc
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Dec 16 01:44:09 2014 -0500
+
+    corrected bug in meetingDays fixture
+
+December 16, 2014 openlab.physics2.meteor.com ... normal
 
 
     

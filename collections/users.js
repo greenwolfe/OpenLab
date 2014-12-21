@@ -27,6 +27,27 @@ Meteor.methods({
     }
   },
 
+    /***** UPDATE USERNAME ****/
+  updateName: function(userID,firstName,lastName) { 
+    var cU = Meteor.user(); //current user
+    var user = Meteor.users.findOne(userID);
+
+    if (!cU)  
+      throw new Meteor.Error(401, "You must be logged in to change your username");
+
+    if (!user)
+      throw new Meteor.Error(440, "Cannot change username.  Invalid user.");
+
+    if (Roles.userIsInRole(cU,'teacher') || (userID  == cU._id)) {
+      if (_.isString(firstName)) 
+        Meteor.users.update({_id:userID}, { $set:{"profile.firstName":firstName}} );
+      if (_.isString(lastName)) 
+        Meteor.users.update({_id:userID}, { $set:{"profile.lastName":lastName}} );           
+    } else {
+      throw new Meteor.Error(441,"You cannot change someone else's user name.");
+    }
+  },
+
   /***** REMOVE USER ****/
   removeUser: function(userID) { 
     var cU = Meteor.user(); //current user
