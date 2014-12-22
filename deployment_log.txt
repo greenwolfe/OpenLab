@@ -401,6 +401,17 @@ Date:   Tue Dec 16 01:44:09 2014 -0500
 
 December 16, 2014 openlab.physics2.meteor.com ... normal
 
+############################################################################
+
+commit ff7f471cef3aeae78e497484a7719cdc1f7421cb
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Dec 21 09:06:56 2014 -0500
+
+    teacher can update user names - first and alst
+
+December 21, 2014 openlab.gwolfe.meteor.com ... normal
+December 21, 2014 openlab.physics2.meteor.com ... crashed
+
 
     
 

@@ -353,6 +353,9 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 #activityStandards p span.highlight {
   background-color: rgba(203,137,219,0.5);
 }
+#activityStandards p button.selected {
+  background-color: #EEDC94;
+}
 #addNoteContainer, #addPGAContainer {
   display: inline-block;
   margin-bottom: 10px;

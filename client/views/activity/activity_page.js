@@ -62,6 +62,13 @@ Template.activityPage.helpers({
       return _.contains(userToShow.completedActivities,this._id) ? 'fa fa-check-square-o' : 'fa fa-square-o';
     }
     return 'fa fa-square-o'; 
+  },
+  LomFilter : function(btn) {
+    var LomFilterA = Session.get('LomFilterA');
+    var LomFilterT = Session.get('LomFilterT');
+    if (!LomFilterA || !LomFilterT) return '';
+    if ((btn == LomFilterA) || (btn == LomFilterT)) return 'btn-info';
+    return '';
   }
 });
 
@@ -323,7 +330,23 @@ Template.activityPage.events({
       Meteor.call('updateNote', noteID, newText,
         function(error, id) {if (error) return alert(error.reason);}
       );
-    }
+    },
+
+    /*************************/
+   /**** Activity Section ***/
+  /*************************/
+  'click #ThisAssessment': function(event,tmpl) {
+    Session.set('LomFilterA','ThisAssessment');
+  },
+  'click #AllAssessments': function(event,tmpl) {
+    Session.set('LomFilterA','AllAssessments');
+  },
+  'click #MostRecent': function(event,tmpl) {
+    Session.set('LomFilterT','MostRecent');
+  },
+  'click #AllTime': function(event,tmpl) {
+    Session.set('LomFilterT','AllTime');
+  },  
 });
 
     /****************************/
@@ -442,18 +465,24 @@ Template.actPageStandardItem.events({
 Template.actPageStandardItem.helpers({
   LoMs: function(activity) {
     var cU_id = Meteor.userId(); 
-    var selector = {
-      //activityID: activity._id,
-      standardID: this._id
-    };
+    var LomFilterA = Session.get('LomFilterA');
+    var LomFilterT = Session.get('LomFilterT');
+    var selector = {standardID: this._id};
+    if (LomFilterA == 'ThisAssessment') selector.activityID = activity._id;
     if (!cU_id) return '';
     if (Roles.userIsInRole(cU_id,'teacher')) {
       selector.studentID = Session.get('TeacherViewAs');
-      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]});
+      return LevelsOfMastery.find(selector, {
+        sort:[["submitted","desc"]],
+        limit:(LomFilterT == 'MostRecent') ? 1 : 0
+      });
     } else if (Roles.userIsInRole(cU_id,'student')) {
       selector.studentID = cU_id;
       selector.visible = true;
-      return LevelsOfMastery.find(selector,{sort:[["submitted","desc"]]});
+      return LevelsOfMastery.find(selector, {
+        sort:[["submitted","desc"]],
+        limit:(LomFilterT == 'MostRecent') ? 1 : 0
+      });
     };
   },
   LoMcolorcode: function(standard) {
