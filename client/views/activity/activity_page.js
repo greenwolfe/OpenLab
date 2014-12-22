@@ -19,6 +19,13 @@ Template.activityPage.helpers({
     return Standards.find({_id: {$in:this.standardIDs}},
       {sort: {rank: 1}});
   },
+  canPostLOM: function() {
+    var teacherID = Meteor.userId();
+    var studentID = Session.get('TeacherViewAs');
+    if (!Roles.userIsInRole(teacherID,'teacher') || !Roles.userIsInRole(studentID,'student'))
+      return false;
+    return true;
+  },
   PGAs:  function() {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
@@ -529,6 +536,33 @@ Template.actPageStandardItem.helpers({
     return (this.activityID == cA._id) ? 'highlight' : '';
   }
  });
+
+  /************************************/
+ /**** Template.assessmentVersion ****/
+/************************************/
+
+Template.assessmentVersion.rendered = function() {
+    var $aV = $(this.find('#assessmentVersion'));
+    $aV.hallo();
+    $aV.data('defaultText',$aV.html());
+}
+
+Template.assessmentVersion.events({
+  'focus #assessmentVersion':function(event) {
+    var $aV = $(event.target);
+    if ($aV.html() == $aV.data('defaultText')) {
+      $aV.removeClass("defaultTextActive");
+      $aV.text("");
+    };
+  },
+  'blur #assessmentVersion':function(event) {
+    var $aV = $(event.target);
+    if ($aV.html() == '') {
+      $aV.addClass("defaultTextActive");
+      $aV.html($aV.data('defaultText'));
+    };
+  }
+});
 
   /**************************/
  /**** Template.postLOM ****/

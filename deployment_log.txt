@@ -410,9 +410,18 @@ Date:   Sun Dec 21 09:06:56 2014 -0500
     teacher can update user names - first and alst
 
 December 21, 2014 openlab.gwolfe.meteor.com ... normal
-December 21, 2014 openlab.physics2.meteor.com ... crashed
+December 21, 2014 openlab.physics2.meteor.com ... normal
 
+##########################################################################
 
+commit 19b61dbb0d1afc2f29f9113df913067647b0423a
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sun Dec 21 21:48:04 2014 -0500
+
+    activity page has LoM filter buttons
+
+December 21, 2014 openlab.gwolfe.meteor.com ... normal
+December 21, 2014 openlab.physics2.meteor.com ... normal
     
 
 

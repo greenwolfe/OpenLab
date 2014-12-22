@@ -52,6 +52,9 @@
             <button id="MostRecent" class="btn {{LomFilter 'MostRecent'}}">Most Recent</button>
             <button id="AllTime" class="btn {{LomFilter 'AllTime'}}">All Time</button>
           </div>
+          {{#if canPostLOM}}
+            {{>assessmentVersion}}
+          {{/if}}
         </p>
         {{#each Standards}}
           {{>actPageStandardItem}}
@@ -136,8 +139,16 @@
     {{/each}}
 </template>
 
+<template name='assessmentVersion'>
+  <div style="float:right">
+    Version: <div id='assessmentVersion' class='defaultTextActive'>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+  </div>
+</template>
+
 <template name='postLOM'>
-    <div class='newLOM'>   
+    <div class='newLOM defaultTextActive'>   
       ---
     </div>
     <div class='newLOMcomment defaultTextActive'>
