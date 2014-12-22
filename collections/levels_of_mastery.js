@@ -9,7 +9,8 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
       level : level,
       submitted : new Date().getTime(),
       comment : comment,
-      visible: true
+      visible: true,
+      version: version //version of assessment taken
     };   
 */
   
@@ -66,6 +67,7 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
 
     LoMId = LevelsOfMastery.insert(LoM, function(error,id) {
       if (error) return;
+      //if (Meteor.isClient) return;  //avoids difficulty simulating mostRecent on the client ... why?
       var newLevel = mostRecent(LoM.standardID,student._id,null);
       if (!newLevel) return;
       if (student.hasOwnProperty('LoMs')) {
@@ -140,6 +142,7 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
     if (nLoM.hasOwnProperty('level') && (nLoM.level != LoM.level)) {
       LevelsOfMastery.update(nLoM._id,{$set: {level: nLoM.level}}, function(error,id) {
         if (error) return;
+        //if (Meteor.isClient) return; //avoids difficulty simulating mostRecent on the client ... why?
         var student = Meteor.users.findOne(LoM.studentID);
         if (!student) return;
         var newLevel = mostRecent(LoM.standardID,student._id,null);
@@ -158,6 +161,13 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
       uT = updateTime;
     }
 
+    if ( nLoM.hasOwnProperty('version') && 
+      !( LoM.hasOwnProperty('version') ||
+         (LoM.hasOwnProperty('version') && (nLoM.version != LoM.version)) )) {
+      LevelsOfMastery.update(nLoM._id,{$set: {version: nLoM.version}});
+      uT = updateTime;
+    }
+
     if (uT)
       LevelsOfMastery.update(nLoM._id,{$set: {submitted: new Date().getTime()}});
 
@@ -165,6 +175,31 @@ LevelsOfMastery = new Meteor.Collection('levelsofmastery');
   }
 
 });
+
+//warning .. duplicated in /server/fixtures.js to convert from
+//old system to new system where most recent LoMs are stored in
+//the user object ... should not be needede
+var mostRecent = function(standardID,studentID,activityID) { //expand to activtyID as well
+  var selector = {
+    standardID: standardID,
+    studentID: studentID,
+    visible: true
+  };
+  if (activityID)
+    selector.activityID = activityID;
+  LoM = LevelsOfMastery.find(selector,
+                             {sort:[["submitted","desc"]]},
+                             {limit:1}).fetch();
+  return (LoM.length) ? LoM[0].level : null;
+};
+
+var mostRecentLoMs = function(Activity,studentID) {
+  var LoMs = {};
+  Activity.standardIDs.forEach(function(standardID) {
+    LoMs[standardID] = mostRecent(standardID,studentID,Activity._id);
+  });
+  return LoMs;
+}
 
 
 

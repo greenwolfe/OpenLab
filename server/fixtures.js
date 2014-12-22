@@ -78,3 +78,21 @@ Meteor.startup(function () {
     };
   });
 });
+
+//warning .. duplicated from /collections/levels_of_master.js 
+//version here is just to convert from
+//old system to new system where most recent LoMs are stored in
+//the user object ... should not be needed any more
+var mostRecent = function(standardID,studentID,activityID) { //expand to activtyID as well
+  var selector = {
+    standardID: standardID,
+    studentID: studentID,
+    visible: true
+  };
+  if (activityID)
+    selector.activityID = activityID;
+  LoM = LevelsOfMastery.find(selector,
+                             {sort:[["submitted","desc"]]},
+                             {limit:1}).fetch();
+  return (LoM.length) ? LoM[0].level : null;
+};

@@ -27,7 +27,7 @@ Meteor.methods({
     }
   },
 
-    /***** UPDATE USERNAME ****/
+    /***** UPDATE FIRST AND LAST NAME ****/
   updateName: function(userID,firstName,lastName) { 
     var cU = Meteor.user(); //current user
     var user = Meteor.users.findOne(userID);

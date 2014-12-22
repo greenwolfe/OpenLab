@@ -121,24 +121,4 @@ Meteor.publish('postGameAnalyses',function(studentID) {
   };
 });
 
-mostRecent = function(standardID,studentID,activityID) { //expand to activtyID as well
-  var selector = {
-    standardID: standardID,
-    studentID: studentID,
-    visible: true
-  };
-  if (activityID)
-    selector.activityID = activityID;
-  LoM = LevelsOfMastery.find(selector,
-                             {sort:[["submitted","desc"]]},
-                             {limit:1}).fetch();
-  return (LoM.length) ? LoM[0].level : null;
-};
 
-mostRecentLoMs = function(Activity,studentID) {
-  var LoMs = {};
-  Activity.standardIDs.forEach(function(standardID) {
-    LoMs[standardID] = mostRecent(standardID,studentID,Activity._id);
-  });
-  return LoMs;
-}

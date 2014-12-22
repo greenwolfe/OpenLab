@@ -529,7 +529,10 @@ Template.actPageStandardItem.helpers({
   },
   assessmentName: function() {
     var activity = Activities.findOne(this.activityID);
-    if (activity) return activity.title;
+    var version = '';
+    if (Roles.userIsInRole(Meteor.userId(),'teacher') && ('version' in this) && this.version)
+      version =  ' (version: ' + this.version + ')';
+    if (activity) return activity.title + version;
     return '';
   },
   highlight: function(cA) {
@@ -585,8 +588,11 @@ Template.postLOM.events({
   'click .addLOM':function(event) {
     var $newLOM = $(event.target).parent().prev().prev()
     var $newLOMcomment = $(event.target).parent().prev();
+    var $aV = $('#assessmentVersion'); 
     var level = $newLOM.html(); 
     var comment = $newLOMcomment.html();
+    var version = $aV.text();
+    var version = (version == $aV.data('defaultText')) ? '' : version;
     var LOM = {
       teacherID : Meteor.userId(),
       studentID : Session.get('TeacherViewAs'),
@@ -596,6 +602,7 @@ Template.postLOM.events({
       level : level,
       comment : comment
     };   
+    if (version) LOM.version = version;
     event.preventDefault();
     Meteor.call('postLoM', LOM, $newLOMcomment.data('defaultText'),
       function(error, id) {if (error) return alert(error.reason);}
