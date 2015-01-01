@@ -32,6 +32,18 @@
        </div>
       </div>
     </div>
+
+    <!--{{#if isInRole 'teacher'}} -->
+      <div id='summaryReport'>
+        <h3> Status </h3>
+        {{#each students}}
+          {{#with student=this activity=..}}
+            {{>studentReport}}
+          {{/with}}
+        {{/each}}
+      </div>
+    <!-- {{/if}} -->
+
   </div>
 
   <div class='right-column'>
@@ -196,5 +208,12 @@
 <template name='todo'>
   <p class = {{isDone}}><input type='checkbox' value={{_id}} title="Mark as done" {{isChecked}}><span title={{groupies "belongs to just " "belongs to " group "" ""}}>{{{text}}}</span>
   <i class='removeTodo fa fa-times' data-todoID = {{_id}} onmouseover="$(this).switchClass('fa-times','fa-times-circle',0)" onmouseout="$(this).switchClass('fa-times-circle','fa-times',0)" title = 'Delete Todo Item'></i></p>
+</template>
+
+<template name = 'studentReport'>
+  <p> 
+    {{fullname}}
+    <i class="activityStatus {{status}}"></i>
+  </p>
 </template>
 

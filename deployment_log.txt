@@ -422,7 +422,18 @@ Date:   Sun Dec 21 21:48:04 2014 -0500
 
 December 21, 2014 openlab.gwolfe.meteor.com ... normal
 December 21, 2014 openlab.physics2.meteor.com ... normal
-    
+
+##########################################################################
+
+commit 33f5733986cee48c64845c7d2628ca2e807c2823
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Mon Dec 22 12:35:10 2014 -0500
+
+    version system for LoMs complete
+
+December 22, 2014 openlab.gwolfe.meteor.com ... normal
+December 22, 2014 openlab.physics2.meteor.com ... normal
+
 
 
 

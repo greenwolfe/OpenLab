@@ -296,7 +296,7 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
   width: 63%;
   margin-bottom: 10px;
 }
-#activityDescription, #activityStandards, #todos, #notes, #pgas, .linksBox {
+#activityDescription, #activityStandards, #todos, #notes, #pgas, .linksBox, #summaryReport {
   display: block;
   border: thin black solid;
   margin-bottom: 10px;

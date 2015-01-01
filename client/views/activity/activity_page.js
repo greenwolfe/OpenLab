@@ -59,6 +59,22 @@ Template.activityPage.helpers({
     var userToShow = Session.get('TeacherViewIDs');
     return Todos.find({group: {$in: userToShow},activityID: this._id});
   },
+  students: function() {
+    var userToShow = Meteor.user();
+    var TVA = Session.get('TeacherViewAs');
+    if (Roles.userIsInRole(userToShow,'teacher')) 
+      userToShow = Meteor.users.findOne(TVA);
+    var sectionToShow = Sections.findOne(TVA);
+    if (userToShow && Roles.userIsInRole(userToShow,'student'))
+      return Meteor.users.find({_id:userToShow._id});
+    if (sectionToShow)
+      return Meteor.users.find({'profile.sectionID':sectionToShow._id},{sort: [['profile.lastName','asc'],['profile.firstName','asc']]});
+    if (Roles.userIsInRole(userToShow,'teacher'))
+      return '';
+      //have to publish/subscribe gradesAndStatus for this case
+      //return Meteor.users.find({'profile.sectionID': {$exists : true}},{sort: [['profile.lastName','asc'],['profile.firstName','asc']]});
+    return '';
+  },
   completed: function() {
     var userToShow = Meteor.userId();
     if (Roles.userIsInRole(userToShow,'teacher')) {
@@ -454,6 +470,86 @@ Template.todo.helpers({
   },
   isChecked: function() {
     return this.checked ? 'checked' : '';
+  }
+});
+
+    /******************************/
+   /*** Template.studentReport ***/
+  /******************************/
+
+var lastClicked = {  //records last click to determine when to decrement 
+  userID: null,
+  studentID: null,
+  activityID: null,
+};
+var Increment = 1;
+
+Template.studentReport.helpers({
+  fullname: function() {
+    var fullname = this.student.profile.firstName + ' ' + this.student.profile.lastName;
+    return fullname;
+  },
+  status: function() {
+    if (this.student.hasOwnProperty('activityStatus')) {
+      var status = _.findWhere(this.student.activityStatus,{_id:this.activity._id});
+      if (status) {
+        return 'icon-' + status.status;
+      }
+    }
+    //deprecated checking to see if there's a status posted using the old system
+    if (this.student.hasOwnProperty('completedActivities')) {
+      return _.contains(this.student.completedActivities,this.activity._id) ? 'icon-done' : 'icon-notStarted';
+    }
+    return 'icon-notStarted';   
+  }
+});
+
+Template.studentReport.events({
+  'click i.activityStatus': function(event,template) {
+    var cU = Meteor.user();
+    cU.isTeacher = Roles.userIsInRole(cU,'teacher');
+    cU.isStudent = Roles.userIsInRole(cU,'student');
+    var student = this.student;
+    var activity = this.activity;
+    var status = null;
+    if (student && student.hasOwnProperty('activityStatus')) 
+      status = _.findWhere(student.activityStatus,{_id:activity._id});
+    //deprecated ... checking for status under old system
+    if ((!status) && student && student.hasOwnProperty('completedActivities')) {
+      if (_.contains(student.completedActivities,activity._id)) {
+        status = {status:'done'};
+      } else {
+        status = {status:'notStarted'};
+      };
+    };
+    //end deprecated section
+    if (!status) status = {status:'notStarted'};
+
+    var justClicked = {  
+      userID: Meteor.userId(),
+      studentID: student._id,
+      activityID: activity._id,
+    };
+    if (_.isEqual(justClicked,lastClicked)) {
+      if (cU.isStudent && (status.status== 'submitted')) Increment = -1;
+      if (cU.isTeacher && (status.status == 'done'))  Increment = -1;
+      if (status.status == 'notStarted') Increment = 1;
+    } else {
+      lastClicked = justClicked;
+      Increment = 1;
+      if (cU.isStudent && (status.status== 'submitted')) Increment = -1;
+      if (cU.isTeacher && (status.status == 'done'))  Increment = -1;
+    };
+    Meteor.call('activityIncrementStatus',activity._id,student._id,Increment,
+      function(error, id) {
+        if (error) {
+          return alert(error.reason);
+        } else { //register subscription in case this is the first completed Activity
+                 //and the user does not have a completedActivities field yet.
+          Meteor.subscribe('activityStatus',student._id); 
+        }
+      }
+    );  
   }
 });
 

@@ -49,15 +49,26 @@ Meteor.publish('completedActivities',function(userID) {
     return Meteor.users.find(userID,{fields: {completedActivities: 1}});
   return this.ready();
 });
-Meteor.publish('gradesAndStatus',function(userID){
-  var cU = Meteor.users.findOne(userID);
+Meteor.publish('gradesAndStatus',function(ID){
+  var cU = Meteor.users.findOne(ID);
+  var section = Sections.findOne(ID);
   var fields = {};
-  if (!cU) return this.ready();
-  if (cU.hasOwnProperty('activityStatus')) fields.activityStatus = 1;
-  if (cU.hasOwnProperty('LoMs')) fields.LoMs = 1;
-  if (cU.hasOwnProperty('frozen')) fields.frozen = 1;
-  if (_.isEmpty(fields)) return this.ready();
-  return Meteor.users.find(userID,{fields: fields});
+  if (cU) {
+    if (cU.hasOwnProperty('activityStatus')) fields.activityStatus = 1;
+    if (cU.hasOwnProperty('LoMs')) fields.LoMs = 1;
+    if (cU.hasOwnProperty('frozen')) fields.frozen = 1;
+    if (_.isEmpty(fields)) return this.ready();
+    return Meteor.users.find(ID,{fields: fields});
+  }
+  if (section) {
+    fields = {
+      activityStatus: 1,
+      LoMs: 1,
+      frozen: 1
+    }
+    return Meteor.users.find({'profile.sectionID':ID},{fields:fields});
+  }
+  return this.ready();
 });
 Meteor.publish('userList',function() {
   if (this.userId) {

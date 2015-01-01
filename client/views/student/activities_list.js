@@ -128,7 +128,7 @@ Template.activityItem.events({
     var cU = Meteor.user();
     var userToShow = cU._id;
     cU.isTeacher = Roles.userIsInRole(cU,'teacher');
-    cU.isStudent = Roles.userIsInRole(cU,'student')
+    cU.isStudent = Roles.userIsInRole(cU,'student');
     if (cU.isTeacher) {
       userToShow = Session.get('TeacherViewAs');
     };

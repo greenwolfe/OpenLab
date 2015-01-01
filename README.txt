@@ -2,14 +2,11 @@
 
 2.5) for #appointments .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.  For example appointmentItem.js.
 also move accordion, sortable applications to rendered callbacks of specific templates. #activities (done), #standards, #appointments
-3)  more fields in user profile:  block, firstname, last name, nick name(x not needed, using username but need validation) (and add to edit profile modal)
-blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
+3)  blocks in calendar???  keeping track of sort orders (both calendar and activities in main list and todo items )?
 4)  Reassessment - make activities for: go over past assessment, additional practice, and the test date itself available to drag to the calendar. Hover text is standards list. ... or just keep track of this on that reassessment's page in the todo list or the notes and drag it several places on the calendar.
 6)  add school calendar and meeting category to third tab
-**5)  Teacher view - drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?)
 9)  meetings dragged to calendar should be a hyperlink opening to form .
 with links, purpose, and comments (just use the same activity form for all activities? yes!)
-10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
 11)  improve drag to calendar ... allow new event to occupy proper place in list, put placeholder always at the bottom of the list and don't allow dragging elsewhere until it's dropped, or highlight the whole day rather than use a placeholder (& actually this would eliminate the only direct DOM manipulation in the code, the placing and deleting of placeholders, although not sure I want to do the CSS for coloring the calendar days through the database ... too costly? ... model in calendarEvents.js droppable)
 12)  calendar, put min and max days on both date selectors and keep them updated, show at least one week of calendar, disable delete for past events?
 14)  DATES:  consider using format for storing dates from activity_page.js. 
@@ -23,7 +20,7 @@ Standardize all calls to object notation {text:'new text'} instead of positional
 27)  check calendar events links todos notes ... delete and update functions need to handle cases of teacher with postings to section or all
 **28)  add functions for posting to all
 29)  Add a dismiss button to help messages, and put a help button on the nav bar to make them visible again.  Add a field helpHidden to the user profile - an array showing pages where the user has chosen to dismiss help.  Display errors in the same place?  
-30) Final teacher check-off for each activity, checks show up in activities list.  user profile field with array of activity ids?
+
 
 
 
@@ -38,6 +35,7 @@ These were both dead ends.  Finally decided to record dates and user by creating
 2)  calendarDay helper renders activities for current user and date.  Dragging activity to calendar creates new activity with modified user and date fields.  Then the drag/sortable "helper" is canceled so that meteor can render the new activity.  When dates added to calendar, let meteor re-render the whole thing. ... done, but didn't do it quite exactly like this.
 2.5) make some functions for things like adding and removing users from group and invite lists (still to do), and creating the group text (done), date formats? (done)
 2.5) for #activities (done), #standards(done), .Model p move draggable association to rendered function as I did for calendarDay so entire body won't be re-rendered when a new item is added to the list.
+3)  more fields in user profile:  block, firstname, last name, nick name(x not needed, using username but need validation) (and add to edit profile modal)
 3)  highlighting is a problem - try reproducing ui-state-default with my own css, then modifying it ??? (figured it out, then simplified ... done)
 handle username for header in activity if called from acvity list rather than calendar (and therefore has no group). (done)
 for header text, pass group array and not eventID (done)
@@ -47,8 +45,10 @@ make a grid?  (now better, but need to figure out how to handle lots of students
 6)  Progress tracker tab. (deprecated) ... but would be nice if it were the SBG gradebook, and LOM's showed up in the standards list) ... just use scheduling of main teacher-initiated assessments as the progress tracker.
 Focus just on the grouping and in-class/out-of-class features of the student activity view. (done)
 7)  Hover texts for standards, (activities?), hover text is group for calendar events (done) (maybe don't need this. detail on page for that standard or activity). (done ... do not need for standards and activities,as they will open in their own separate informatin page)
+**5)  Teacher view - drag assessment to main activities list (? or just require students to build their assessment and put it in their calendar?)
 ***invite and accept dialogs, also require selecting in-class and out-of-class, and some way this is highlighted in the calendar. (done)
 8)  Add links, to-do lists and comments to student activity view.
+10)  Make it an SBG gradebook ??? by allowing LOM's and comments, click on standard to see it's history.  click on assessment to see it's LOM's and comments, hover on assessment to see it's standards and LOM's, show LOM's in standards tab so organized by model, 
 13)  Open Invitations counter and pop-up info box or drop down in header of student page. ... revise to put next to models and activities.
 15)  On logout should go back to main page and not stay on activity sub-page ... when following a link and returning to an activity, group info is not saved, causing an error. Return to just-me?
 18)  hover texts for links say "belongs to ..." just like the to-do items. (done)
@@ -65,6 +65,7 @@ Focus just on the grouping and in-class/out-of-class features of the student act
 27) Help dropdown for edit page (and others?)
 28) calendarEvent ... provide margin so titles or exactly one line don't flip to 2nd line when delete icon toggles
 29) correct error when attempting to visit hidden activity (by pasting previously copied URL when it was visible).  Then get router function working to re-route back to student view.
+30) Final teacher check-off for each activity, checks show up in activities list.  user profile field with array of activity ids?
 
 
 Installation Notes:
