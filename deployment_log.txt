@@ -434,6 +434,19 @@ Date:   Mon Dec 22 12:35:10 2014 -0500
 December 22, 2014 openlab.gwolfe.meteor.com ... normal
 December 22, 2014 openlab.physics2.meteor.com ... normal
 
+###########################################################################
+
+
+commit 2d45fd3fe877dcddc985c6d12c783efa9abd4b25
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Wed Dec 31 19:43:02 2014 -0500
+
+    status indicator in activity page and report by section
+
+December 31, 2014 openlab.gwolfe.meteor.com ... normal
+December 31, 2014 openlab.physics2.meteor.com ... normal
+December 31, 2014 openstudio.seeley.meteor.com ... normal
+
 
 
 

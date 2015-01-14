@@ -99,7 +99,7 @@ Template.activitiesSublist.helpers({
         if (userToShow.hasOwnProperty('activityStatus')) {
           var status = _.findWhere(userToShow.activityStatus,{_id:act._id});
           if (status) 
-            done = (status.status == 'done') ? 1 : 0;       
+            done = ((status.status == 'done') || (status.status == 'donewithcomments')) ? 1 : 0;       
         } 
         completed += done;
       });
