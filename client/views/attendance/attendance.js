@@ -149,6 +149,22 @@ Template.attendanceStudentInGroup.helpers({
     var att = Attendance.findOne({date:date,sectionID:sectionID});
     if (!att) return '';
     return (_.contains(att.presence,this._id)) ? 'present' : '';
+  },
+  inClass: function() {
+    var date = Template.attendance.attendanceDate();
+    var inClassCount = CalendarEvents.find({group: {$in: [this._id]}, 
+        workplace: {$in: ['inClass']},
+        eventDate: date}).count();
+     var outClassCount = CalendarEvents.find({group: {$in: [this._id]}, 
+        workplace: {$in: ['outClass']},
+        eventDate: date}).count();
+    if (inClassCount) {
+      return 'inClass';
+    } else if (outClassCount) {
+      return 'outClass';
+    } else {
+      return 'inClass'; //unverified, but don't want a line to sign for them
+    }
   }
 });
 

@@ -20,7 +20,7 @@
 <template name='attendanceStudent'>
   <tr>
 	  <td>
-	    <span class='attendanceName {{present}}' data-userid='{{_id}}'>
+	    <span class='attendanceName {{present}} {{inClass}}' data-userid='{{_id}}'>
 	      {{profile.firstName}} {{profile.lastName}}
 	    </span>
 	  </td>
@@ -42,7 +42,7 @@
 
 <template name='attendanceStudentInGroup'>
   <td>
-    <span class='attendanceName {{present}}' data-userid='{{_id}}'>
+    <span class='attendanceName {{present}} {{inClass}}' data-userid='{{_id}}'>
       {{profile.firstName}} {{profile.lastName}}
     </span>
   </td>

@@ -47,6 +47,12 @@ table#attendanceTable tr td.outClass {
   border-right: none;
   border-bottom: thin black solid;
 }
+table#attendanceTable tr td .attendanceName.outClass, table#attendanceGroupsInClassTable tr td .attendanceName.outClass {
+  background-color: #ffff00;
+}
+table#attendanceTable tr td .attendanceName.inClass, table#attendanceGroupsInClassTable tr td .attendanceName.inClass {
+  background-color: #00ffff;
+}
 table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInClassTable tr td .attendanceName.present {
   background-color: green;
   color: white;

@@ -447,6 +447,17 @@ December 31, 2014 openlab.gwolfe.meteor.com ... normal
 December 31, 2014 openlab.physics2.meteor.com ... normal
 December 31, 2014 openstudio.seeley.meteor.com ... normal
 
+##########################################################################
+
+
+commit 8f7183db26ff659af569b1eea014620810ac7e58
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Wed Jan 14 09:37:08 2015 -0500
+
+    activities counted as completed if donewithcomments
+
+January 14, 2015 openlab.gwolfe.meteor.com ... normal
+January 14, 2015 openlab.physics2.meteor.com ... normal
 
 
 
