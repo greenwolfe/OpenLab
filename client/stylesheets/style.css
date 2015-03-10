@@ -121,6 +121,9 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   margin-left: 10px; 
   margin-top: 8px;
 }
+.standardsListTitle, #activitiesListTitle {
+  text-align: center;
+}
 .standardsListTitle span, .standards h3 a span, #activitiesListTitle span, #activities h3 a span {
   font-weight: normal;
 }
@@ -136,6 +139,15 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 }
 #activitiesListTitle span.progress-your, .standardsListTitle span.progress-your {
   background-color: #4BB1CF;
+}
+#units, #categories {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+#units li, #categories li {
+  float: none;
+  display: table-cell;
 }
 #units li a, #categories li a {
   color: black;
