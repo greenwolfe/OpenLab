@@ -2,36 +2,121 @@
  /*** STANDARDS LIST  ****/
 /************************/
 
-Template.standardsList.rendered = function() {
-  var cU = Meteor.user();
-  var activePanel = 0;
-  if (cU && ('profile' in cU) && ('lastOpened' in cU.profile) && ('studentStandardList' in cU.profile.lastOpened) && _.isFinite(cU.profile.lastOpened.studentStandardList))
-    activePanel = cU.profile.lastOpened.studentStandardList;
-  $('.standards').accordion({
-    heightStyle: "content",
-    active:activePanel,
-    activate: function(event,ui) {
-      var activePanel = parseInt(ui.newHeader.attr('id').split('-').slice(-1)[0]);
-      Meteor.users.update({_id:cU._id}, { $set:{"profile.lastOpened.studentStandardList":activePanel} });
-    }
-  });
-}
-
 Template.standardsList.helpers({
   models: function() {
     return Models.find({visible:true},{sort: {rank: 1}});
+  },
+  activeCategory: function() {
+    var activeCategory = Session.get('activeCategory');
+    if (activeCategory == 'wholecourse') {
+      var wholecourse = {
+        _id: 'wholecourse',
+        model: 'whole course',
+        longname: "Standards that aren't specific to a particular model."
+      }
+      return wholecourse;
+    }
+    return Models.findOne(activeCategory);
   }
 });
+
+  /*************************/
+ /** CATEGORY TITLE      **/
+/*************************/
+
+Template.categoryTitle.helpers({
+  active: function() {
+    var activeCategory = Session.get('activeCategory');
+    if (!activeCategory) {
+      var categories = Models.find({visible:true},{sort: {rank: 1}}).fetch();
+      var cU = Meteor.user();
+      activeCategory = categories[0]._id;
+      if (cU && ('profile' in cU) && ('lastOpened' in cU.profile) && 
+        ('studentStandardList' in cU.profile.lastOpened) && 
+        ((cU.profile.lastOpened.studentStandardList == 'wholecourse') ||
+        Models.findOne(cU.profile.lastOpened.studentStandardList))) 
+          activeCategory = cU.profile.lastOpened.studentStandardList;
+      Session.set('activeCateory', activeCategory);
+    }
+    return (this._id == activeCategory) ? 'active' : '';
+  },
+  percentCompleted: function() {
+    var standards = Standards.find({modelID: this._id, visible: true}).fetch();
+    var Mcount = 0;
+    var LoMcount = 0;
+    var student = Meteor.userId(); //could be teacher
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    if (student && student.hasOwnProperty('LoMs')) {
+      standards.forEach(function(st) {
+        var LoM = _.findWhere(student.LoMs,{standardID:st._id});
+        if (LoM) {
+          var index;
+          if (_.isArray(st.scale)) {
+            index = st.scale.indexOf(LoM.level);
+            if (index == st.scale.length - 1) Mcount += 1;
+          }
+          if (_.isFinite(st.scale)) {
+            index = Math.floor(LoM.level*3/st.scale);
+            if (index >= 2) Mcount += 1;
+          }
+          LoMcount += 1;
+        }
+      });
+    };
+    //return ' (' + Mcount + '/' + LoMcount + '/' + standards.length + ')';
+    return Mcount*100/standards.length;
+  },
+  percentExpected: function() {
+    //right now this gives the percent of standards assessed by that student
+    //need to change to track Sagredo and give percent of standards expected to be assessed
+    var standards = Standards.find({modelID: this._id, visible: true}).fetch();
+    var Mcount = 0;
+    var LoMcount = 0;
+    var student = Meteor.userId(); //could be teacher
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    if (student && student.hasOwnProperty('LoMs')) {
+      standards.forEach(function(st) {
+        var LoM = _.findWhere(student.LoMs,{standardID:st._id});
+        if (LoM) {
+          var index;
+          if (_.isArray(st.scale)) {
+            index = st.scale.indexOf(LoM.level);
+            if (index == st.scale.length - 1) Mcount += 1;
+          }
+          if (_.isFinite(st.scale)) {
+            index = Math.floor(LoM.level*3/st.scale);
+            if (index >= 2) Mcount += 1;
+          }
+          LoMcount += 1;
+        }
+      });
+    };
+    return LoMcount*100/standards.length;
+  }
+});
+
+Template.categoryTitle.events({
+  'click li a': function(event,tmpl) {
+    event.preventDefault();
+    Session.set('activeCategory',tmpl.data._id);
+    var cU = Meteor.user();
+    if (cU && ('profile' in cU)) {
+      Meteor.users.update({_id:cU._id}, { $set:{"profile.lastOpened.studentStandardList":tmpl.data._id} });
+    }
+  }
+})
+
+
 
   /************************/
  /** STANDARDS SUBLIST  **/
 /************************/
-
-Template.standardsSublist.rendered = function() {
-  var $standardsDiv = $(this.find('a')).closest('.standards')
-  if ($standardsDiv.data('ui-accordion')) //if accordion already applied
-   $standardsDiv.accordion("refresh");
-};
 
 Template.standardsSublist.helpers({
   standards: function() {

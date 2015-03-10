@@ -86,10 +86,10 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   width:  40%;
   margin-left: 1%;
 }
-.standards, #appointments {
+#appointments {
   width: 90%; 
 }
-#activities {
+#activities, .standards {
   outline: 1px solid #AAA;
 }
 .LoMhigh { background: green;}
@@ -102,7 +102,7 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 #activities a, .standards a {
   padding-right: 1px;
 }
-#activities .Model p, #activities .Model button {
+#activities .Model p, #activities .Model button, .standards .Model p {
   width: 92%;
   margin-right: 4%;
   margin-left: 4%;
@@ -124,25 +124,25 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 .standardsListTitle span, .standards h3 a span, #activitiesListTitle span, #activities h3 a span {
   font-weight: normal;
 }
-#activitiesListTitle h4 {
+#activitiesListTitle h4, .standardsListTitle h4 {
   display: inline-block;
 }
-#activitiesListTitle span {
+#activitiesListTitle span, .standardsListTitle span {
   margin-right: 4px;
   font-size: small;
 }
-#activitiesListTitle span.progress-expected {
+#activitiesListTitle span.progress-expected, .standardsListTitle span.progress-expected {
   background-color: #FAA732;
 }
-#activitiesListTitle span.progress-your {
+#activitiesListTitle span.progress-your, .standardsListTitle span.progress-your {
   background-color: #4BB1CF;
 }
-#units li a {
+#units li a, #categories li a {
   color: black;
   border: thin;
   text-align: center;
 }
-#units li div.progress {
+#units li div.progress, #categories li div.progress {
   margin-bottom: 0;
   height: 10px;
 }

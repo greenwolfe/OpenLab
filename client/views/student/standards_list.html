@@ -1,19 +1,38 @@
 <template name = 'standardsList'> 
-   <h5 id='standardsListTitle'>standards <span>(mastered/assessed/total)</span></h5>
+    <div class="standardsListTitle">
+      <h4 >standards</h4>
+      <span class="progress-expected"> expected progress </span>
+      <span class="progress-your"> your progress </span>
+   </div>
+   <ul id='categories' class="nav nav-pills">
+      {{>categoryTitle _id='wholecourse' model='whole course' longname="Standards that aren't specific to a particular model."}}
+      {{#each models}}
+        {{> categoryTitle}}
+      {{/each}}
+    </ul>
    <div class='standards'>
-    {{>standardsSublist _id='wholecourse' model='whole course' longname="Standards that aren't specific to a particular model."}}
-    {{#each models}}
-      {{> standardsSublist }}
-    {{/each}}
+      {{#with activeCategory}}
+        {{> standardsSublist }}
+      {{/with}}
     </div>
+</template>
+
+<template name="categoryTitle">
+  <li class="{{active}}">
+    <div class="progress progress-warning">
+      <div class="bar" style="width: {{percentExpected}}%;"></div>
+    </div>
+    <div class="progress progress-info">
+      <div class="bar" style="width: {{percentCompleted}}%;"></div>
+    </div>
+    <a href="#" title="{{longname}}">
+      {{model}}
+    </a>
+  </li>
 </template>
 
 
 <template name='standardsSublist'>
-      <h3> <a href="#" title="{{longname}}"> 
-        {{model}}
-        <span>{{standardsMastered}}</span>
-      </a> </h3> 
       <div class = 'Model'>
         {{#each standards}}
           {{> standardItem}}
