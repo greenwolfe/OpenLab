@@ -459,6 +459,17 @@ Date:   Wed Jan 14 09:37:08 2015 -0500
 January 14, 2015 openlab.gwolfe.meteor.com ... normal
 January 14, 2015 openlab.physics2.meteor.com ... normal
 
+########################################################################
+
+commit b7d196897f8398e3339aaf8a00eafdec8bcdda88
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Sat Jan 24 10:50:11 2015 -0500
+
+    attendance table uses color codes
+
+January 24, 2015 openlab.gwolfe.meteor.com ... normal
+
+
 
 
 

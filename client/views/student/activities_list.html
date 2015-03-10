@@ -1,21 +1,36 @@
 <template name = 'activitiesList'> 
-   <h5 id='activitiesListTitle'>activities <span>(completed/expected/total)</span></h5>
+    <div id="activitiesListTitle">
+      <h4 >activities</h4>
+      <span class="progress-expected"> expected progress </span>
+      <span class="progress-your"> your progress </span>
+   </div>
+   <ul id='units' class="nav nav-pills">
+      {{#each models}}
+        {{> unitTitle}}
+      {{/each}}
+    </ul>
    <div id='activities'>
-    {{#each models}}
-      {{> activitiesSublist }}
-    {{/each}}
+      {{#with activeUnit}}
+        {{>activitiesSublist}}
+      {{/with}}
     </div>
 </template>
 
+<template name="unitTitle">
+  <li class="{{active}}">
+    <div class="progress progress-warning">
+      <div class="bar" style="width: {{percentExpected}}%;"></div>
+    </div>
+    <div class="progress progress-info">
+      <div class="bar" style="width: {{percentCompleted}}%;"></div>
+    </div>
+    <a href="#" title="{{longname}}">
+      {{model}}
+    </a>
+  </li>
+</template>
 
-<template name='activitiesSublist'>
-      <h3> <a href="#" title="{{longname}}"> {{model}} 
-        <span>{{activitiesCompleted}}</span>
-        {{#if openInviteCount}}
-          <span class='openInvite'>
-            <span class="badge badge-inverse">{{openInviteCount}}</span> 
-          Open Invitation{{#if isGT openInviteCount 1}}s{{/if}}</span>
-        {{/if}} </a> </h3> 
+<template name='activitiesSublist'> 
       <div class = 'Model row'>
         <div class='span6'>
   	      {{#each activities 1}}

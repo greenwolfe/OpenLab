@@ -86,8 +86,11 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   width:  40%;
   margin-left: 1%;
 }
-#activities, .standards, #appointments {
+.standards, #appointments {
   width: 90%; 
+}
+#activities {
+  outline: 1px solid #AAA;
 }
 .LoMhigh { background: green;}
 .LoMmedium { background: yellow; color: black;}
@@ -99,12 +102,12 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 #activities a, .standards a {
   padding-right: 1px;
 }
-/* #activities .Model p {
-  float: left;
-  margin: 1px 1% 1px 0; /* T R B L */ /*
-  padding: 1px; 
-  width: 48%; 
-} */
+#activities .Model p, #activities .Model button {
+  width: 92%;
+  margin-right: 4%;
+  margin-left: 4%;
+  margin-bottom: 4px;
+}
 #activities .Model .openInvites {
   margin-top: -10px;
   margin-bottom: 20px;
@@ -121,7 +124,28 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 .standardsListTitle span, .standards h3 a span, #activitiesListTitle span, #activities h3 a span {
   font-weight: normal;
 }
-
+#activitiesListTitle h4 {
+  display: inline-block;
+}
+#activitiesListTitle span {
+  margin-right: 4px;
+  font-size: small;
+}
+#activitiesListTitle span.progress-expected {
+  background-color: #FAA732;
+}
+#activitiesListTitle span.progress-your {
+  background-color: #4BB1CF;
+}
+#units li a {
+  color: black;
+  border: thin;
+  text-align: center;
+}
+#units li div.progress {
+  margin-bottom: 0;
+  height: 10px;
+}
 /* being very, very specific here so that these classes will override the default ui classes */
 .daysActivities .inClass, #inClassSwatch.ui-state-default.inClass, .ui-state-default.inClass.ui-draggable.ui-draggable-dragging {
   background-color: #00ffff;
@@ -463,7 +487,7 @@ i.icon-returned {
 i.icon-donewithcomments {
   background: url('done.png');
   background-size: contain;  
-  background-color: red;  
+  background-color: pink;  
 }
 i.icon-done {
   background: url('done.png');

@@ -193,6 +193,46 @@ var mostRecent = function(standardID,studentID,activityID) { //expand to activty
   return (LoM.length) ? LoM[0].level : null;
 };
 
+//pseudocode
+//var currentLoM = function(standardID,studentID,activityID) {
+//  var selector = {
+//    standardID: standardId,
+//    studentID:  studentID,
+//    visible: true
+//  };
+//  if (activityID)
+//    selector.activityID = activityID;
+//  var standard = Standards.findOne(standardID)
+//  if standard.calcMethod = 'mostRecent'
+//    LoM = as above
+//    return ... as above
+//  else if standard.calcMethod = 'minimum'
+//    var LoMs = LevelsOfMastery.find(selector).fetch();
+//    length check and return null if no length
+//    get scale as array or numerical value
+//    LoM = 0;
+//    LoMs.forEach(function(L) {
+//      LoM = min(LoM,L.level ... converted by scale as necessary)
+//    })
+//    return LoM
+//  else if standard.calcMethod = 'average'
+//    as above except add instead of check for min in the each loop
+//    return the average
+//    
+//                               
+//}
+//  ****** best method? *****
+// or as mostRecent above but with no limit on the find.
+// then LoMs = ... exactly as above
+//  if null return
+//  LoM = LoM[0].level
+//   if  standard.calcMethod = mostRecent, return LoM
+//  go through forEach and keep min or calc average according to standard.calcMethod
+//  return LoM
+//  ***** even better? ****
+//  variation ... extract array of levels from LoMs ... get straight from find?
+//  call function of array according to calc Method and return result
+
 var mostRecentLoMs = function(Activity,studentID) {
   var LoMs = {};
   Activity.standardIDs.forEach(function(standardID) {

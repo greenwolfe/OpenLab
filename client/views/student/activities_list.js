@@ -2,36 +2,89 @@
  /*** ACTIVITIES LIST  ****/
 /*************************/
 
-Template.activitiesList.rendered = function() {
-  var cU = Meteor.user();
-  var activePanel = 0;
-  if (cU && ('profile' in cU) && ('lastOpened' in cU.profile) && ('studentActivityList' in cU.profile.lastOpened) && _.isFinite(cU.profile.lastOpened.studentActivityList))
-    activePanel = cU.profile.lastOpened.studentActivityList;
-  $('#activities').accordion({
-    heightStyle: "content",
-    active:activePanel,
-    activate: function(event,ui) {
-      var activePanel = parseInt(ui.newHeader.attr('id').split('-').slice(-1)[0]);
-      Meteor.users.update({_id:cU._id}, { $set:{"profile.lastOpened.studentActivityList":activePanel} });
-    }
-  });
-}
-
 Template.activitiesList.helpers({
   models: function() {
     return Models.find({visible:true},{sort: {rank: 1}});
+  },
+  activeUnit: function() {
+    return Models.findOne(Session.get('activeUnit'));
   }
 });
+
+  /*********************/
+ /** UNIT TITLE      **/
+/*********************/
+
+Template.unitTitle.helpers({
+  active: function() {
+    var activeUnit = Session.get('activeUnit');
+    if (!activeUnit) {
+      var units = Models.find({visible:true},{sort: {rank: 1}}).fetch();
+      var cU = Meteor.user();
+      activeUnit = units[0]._id;
+      if (cU && ('profile' in cU) && ('lastOpened' in cU.profile) && 
+        ('studentActivityList' in cU.profile.lastOpened) && 
+        Models.findOne(cU.profile.lastOpened.studentActivityList)) 
+          activeUnit = cU.profile.lastOpened.studentActivityList;
+      Session.set('activeUnit', activeUnit);
+    }
+    return (this._id == activeUnit) ? 'active' : '';
+  },
+  percentCompleted: function() {
+    var userToShow = Meteor.userId();
+    var activities = Activities.find({modelID: this._id, 
+      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
+      visible: true}).fetch();
+    var completed = 0;
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    userToShow = Meteor.users.findOne(userToShow);
+    if (userToShow && (userToShow.hasOwnProperty('activityStatus') || userToShow.hasOwnProperty('completedActivities'))) {
+      activities.forEach(function(act) {  
+        var done = 0;
+        if (userToShow.hasOwnProperty('completedActivities')) {
+          if (_.contains(userToShow.completedActivities,act._id))
+            done = 1;          
+        }
+        if (userToShow.hasOwnProperty('activityStatus')) {
+          var status = _.findWhere(userToShow.activityStatus,{_id:act._id});
+          if (status) 
+            done = ((status.status == 'done') || (status.status == 'donewithcomments')) ? 1 : 0;       
+        } 
+        completed += done;
+      });
+    }
+    return completed*100/activities.length;
+  },
+  percentExpected: function() {
+    var activities = Activities.find({modelID: this._id, 
+      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
+      visible: true}).fetch();
+    var expected = 0;
+    activities.forEach(function(act) {
+      if (act.hasOwnProperty('dueDate') && act.dueDate && moment().isAfter(act.dueDate)) 
+        expected += 1;
+    });
+    return expected*100/activities.length;
+  }
+});
+
+Template.unitTitle.events({
+  'click li a': function(event,tmpl) {
+    event.preventDefault();
+    Session.set('activeUnit',tmpl.data._id);
+    var cU = Meteor.user();
+    if (cU && ('profile' in cU)) {
+      Meteor.users.update({_id:cU._id}, { $set:{"profile.lastOpened.studentActivityList":tmpl.data._id} });
+    }
+  }
+})
 
 
   /*************************/
  /** ACTIVITIES SUBLIST  **/
 /*************************/
-
-Template.activitiesSublist.rendered = function() {
-  if ($( "#activities" ).data('ui-accordion')) //if accordion already applied
-    $('#activities').accordion("refresh");
-};
 
 Template.activitiesSublist.helpers({
   activities: function(whichHalf) {
@@ -73,38 +126,6 @@ Template.activitiesSublist.helpers({
         invite: {$in: [userToShow]}}).count();
     });
     return count;
-  },
-  activitiesCompleted: function() {
-    var userToShow = Meteor.userId();
-    var activities = Activities.find({modelID: this._id, 
-      ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
-      visible: true}).fetch();
-    var completed = 0;
-    var expected = 0;
-    activities.forEach(function(act) {
-      if (act.hasOwnProperty('dueDate') && act.dueDate && moment().isAfter(act.dueDate)) 
-        expected += 1;
-    });
-    if (Roles.userIsInRole(userToShow,'teacher')) {
-      userToShow = Session.get('TeacherViewAs');
-    };
-    userToShow = Meteor.users.findOne(userToShow);
-    if (userToShow && (userToShow.hasOwnProperty('activityStatus') || userToShow.hasOwnProperty('completedActivities'))) {
-      activities.forEach(function(act) {  
-        var done = 0;
-        if (userToShow.hasOwnProperty('completedActivities')) {
-          if (_.contains(userToShow.completedActivities,act._id))
-            done = 1;          
-        }
-        if (userToShow.hasOwnProperty('activityStatus')) {
-          var status = _.findWhere(userToShow.activityStatus,{_id:act._id});
-          if (status) 
-            done = ((status.status == 'done') || (status.status == 'donewithcomments')) ? 1 : 0;       
-        } 
-        completed += done;
-      });
-    }
-    return ' (' + completed + '/' + expected + '/' + activities.length + ')'; 
   }
 });
 
