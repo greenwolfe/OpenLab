@@ -17,6 +17,12 @@ Template.standardsList.helpers({
       return wholecourse;
     }
     return Models.findOne(activeCategory);
+  },
+  rabbits: function() {
+    var rabbits = Roles.getUsersInRole('rabbit').fetch();
+    if (!!rabbits & (rabbits.length > 0))
+      return rabbits[0].username + "'s";
+    return 'expected';
   }
 });
 
@@ -36,14 +42,38 @@ Template.categoryTitle.helpers({
         ((cU.profile.lastOpened.studentStandardList == 'wholecourse') ||
         Models.findOne(cU.profile.lastOpened.studentStandardList))) 
           activeCategory = cU.profile.lastOpened.studentStandardList;
-      Session.set('activeCateory', activeCategory);
+      Session.set('activeCategory', activeCategory);
     }
     return (this._id == activeCategory) ? 'active' : '';
+  },
+  percentExpected: function() {
+    var standards = Standards.find({modelID: this._id, visible: true}).fetch();
+    var Mcount = 0;
+    var rabbits = Roles.getUsersInRole('rabbit').fetch();
+    if (!rabbits || (rabbits.length == 0))
+      return 0;
+    var rabbit = rabbits[0];
+    if (rabbit.hasOwnProperty('LoMs')) {
+      standards.forEach(function(st) {
+        var LoM = _.findWhere(rabbit.LoMs,{standardID:st._id});
+        if (LoM) {
+          var index;
+          if (_.isArray(st.scale)) {
+            index = st.scale.indexOf(LoM.level);
+            if (index == st.scale.length - 1) Mcount += 1;
+          }
+          if (_.isFinite(st.scale)) {
+            index = Math.floor(LoM.level*3/st.scale);
+            if (index >= 2) Mcount += 1;
+          }
+        }
+      });
+    };
+    return Mcount*100/standards.length;
   },
   percentCompleted: function() {
     var standards = Standards.find({modelID: this._id, visible: true}).fetch();
     var Mcount = 0;
-    var LoMcount = 0;
     var student = Meteor.userId(); //could be teacher
     if (Roles.userIsInRole(student,'teacher')) {
       student = Session.get('TeacherViewAs');
@@ -62,42 +92,10 @@ Template.categoryTitle.helpers({
             index = Math.floor(LoM.level*3/st.scale);
             if (index >= 2) Mcount += 1;
           }
-          LoMcount += 1;
         }
       });
     };
-    //return ' (' + Mcount + '/' + LoMcount + '/' + standards.length + ')';
     return Mcount*100/standards.length;
-  },
-  percentExpected: function() {
-    //right now this gives the percent of standards assessed by that student
-    //need to change to track Sagredo and give percent of standards expected to be assessed
-    var standards = Standards.find({modelID: this._id, visible: true}).fetch();
-    var Mcount = 0;
-    var LoMcount = 0;
-    var student = Meteor.userId(); //could be teacher
-    if (Roles.userIsInRole(student,'teacher')) {
-      student = Session.get('TeacherViewAs');
-    };
-    student = Meteor.users.findOne(student);
-    if (student && student.hasOwnProperty('LoMs')) {
-      standards.forEach(function(st) {
-        var LoM = _.findWhere(student.LoMs,{standardID:st._id});
-        if (LoM) {
-          var index;
-          if (_.isArray(st.scale)) {
-            index = st.scale.indexOf(LoM.level);
-            if (index == st.scale.length - 1) Mcount += 1;
-          }
-          if (_.isFinite(st.scale)) {
-            index = Math.floor(LoM.level*3/st.scale);
-            if (index >= 2) Mcount += 1;
-          }
-          LoMcount += 1;
-        }
-      });
-    };
-    return LoMcount*100/standards.length;
   }
 });
 

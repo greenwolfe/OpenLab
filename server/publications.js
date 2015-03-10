@@ -77,6 +77,9 @@ Meteor.publish('userList',function() {
     this.ready(); //returns blank collection
   };
 });
+Meteor.publish('rabbit',function() {
+  return Roles.getUsersInRole('rabbit');
+});
 Meteor.publish('links',function(userArray) {
   return Links.find( {group: {$in: userArray} });
 });

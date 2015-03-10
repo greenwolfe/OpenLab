@@ -8,6 +8,12 @@ Template.activitiesList.helpers({
   },
   activeUnit: function() {
     return Models.findOne(Session.get('activeUnit'));
+  },
+  rabbits: function() {
+    var rabbits = Roles.getUsersInRole('rabbit').fetch();
+    if (!!rabbits & (rabbits.length > 0))
+      return rabbits[0].username + "'s";
+    return 'expected';
   }
 });
 
@@ -58,15 +64,30 @@ Template.unitTitle.helpers({
     return completed*100/activities.length;
   },
   percentExpected: function() {
+    var rabbits = Roles.getUsersInRole('rabbit').fetch();
+    if (!rabbits || (rabbits.length == 0))
+      return 0;
+    var rabbit = rabbits[0];
     var activities = Activities.find({modelID: this._id, 
       ownerID: {$in: [null,'']}, //matches if Activities does not have onwerID field, or if it has the field, but it contains the value null or an empty string
       visible: true}).fetch();
-    var expected = 0;
-    activities.forEach(function(act) {
-      if (act.hasOwnProperty('dueDate') && act.dueDate && moment().isAfter(act.dueDate)) 
-        expected += 1;
-    });
-    return expected*100/activities.length;
+    var completed = 0;
+    if ((rabbit.hasOwnProperty('activityStatus') || rabbit.hasOwnProperty('completedActivities'))) {
+      activities.forEach(function(act) {  
+        var done = 0;
+        if (rabbit.hasOwnProperty('completedActivities')) {
+          if (_.contains(rabbit.completedActivities,act._id))
+            done = 1;          
+        }
+        if (rabbit.hasOwnProperty('activityStatus')) {
+          var status = _.findWhere(rabbit.activityStatus,{_id:act._id});
+          if (status) 
+            done = ((status.status == 'done') || (status.status == 'donewithcomments')) ? 1 : 0;       
+        } 
+        completed += done;
+      });
+    }
+    return completed*100/activities.length;
   }
 });
 
