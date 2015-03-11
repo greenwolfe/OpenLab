@@ -469,6 +469,21 @@ Date:   Sat Jan 24 10:50:11 2015 -0500
 
 January 24, 2015 openlab.gwolfe.meteor.com ... normal
 
+#######################################################################
+
+commit 884e3b118d56f467a47d8b6fd96876143b43b433
+Author: Matt Greenwolfe <solargreen@mindspring.com>
+Date:   Tue Mar 10 16:06:33 2015 -0400
+
+    progress bars for activities and standards
+    tracking Sagredo
+    everything centered
+
+March 10, 2015 openlab.gwolfe.meteor.com ... normal
+March 10, 2015 openlab.physics2.meteor.com ... normal
+March 10, 2015 openstudio.seeley.meteor.com ... normal
+
+
 
 
 

@@ -151,8 +151,13 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 }
 #units li a, #categories li a {
   color: black;
-  border: thin;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: thin;
+  border-color: black;
   text-align: center;
+  padding-left: 0;
+  padding-right: 0;
 }
 #units li div.progress, #categories li div.progress {
   margin-bottom: 0;
