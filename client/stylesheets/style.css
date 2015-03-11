@@ -102,6 +102,24 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
 #activities a, .standards a {
   padding-right: 1px;
 }
+#activities span.progressstripe, .standards span.progressstripe {
+  float: right;
+}
+#activities span.progressstripe.expected, .standards span.progressstripe.expected {
+  background-color: #FAA732;
+}
+#activities span.progressstripe.completed, .standards span.progressstripe.completed {
+  background-color: #08C; 
+}
+#activities span.expected.completed, .standards span.expected.completed {
+  float: right;
+  background-color: #FAA732;
+  background-image: -moz-linear-gradient(right, #08C 60%, #FAA732 60%); /* two stripes */
+  background-image: -webkit-linear-gradient(left, #08C 60%, #FAA732 60%);
+  background-image: -ms-linear-gradient(right, #08C 60%, #FAA732 60%);
+  background-image: -o-linear-gradient(right, #08C 60%, #FAA732 60%);
+  background-image: linear-gradient(to right, #08C 60%, #FAA732 60%);
+}
 #activities .Model p, #activities .Model button, .standards .Model p {
   width: 92%;
   margin-right: 4%;

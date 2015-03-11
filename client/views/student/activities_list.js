@@ -317,6 +317,35 @@ Template.activityItem.helpers({
     //also check for notes, todos, calendarEvents and links ... similar in teacher edit and the method in the collection itself
     //check chould be performed on the server as not all may be subscribed to on the client   
     return ((this.type == 'assessment') && (ownerID == userToShow) && !hasStandards);
+  },
+  expected: function() {
+    var rabbits = Roles.getUsersInRole('rabbit').fetch();
+    if (!rabbits || (rabbits.length == 0)) return '';
+    var rabbit = rabbits[0];
+    if (rabbit.hasOwnProperty('completedActivities') && (_.contains(rabbit.completedActivities,this._id))) 
+      return "expected"
+    if (rabbit.hasOwnProperty('activityStatus')) {
+      var status = _.findWhere(rabbit.activityStatus,{_id:this._id});
+      if ((status) && ((status.status == 'done') || (status.status == 'donewithcomments')))
+        return 'expected';       
+    }
+    return '';
+  },
+  completed: function() {
+    var userToShow = Meteor.userId();
+    if (Roles.userIsInRole(userToShow,'teacher')) {
+      userToShow = Session.get('TeacherViewAs');
+    };
+    userToShow = Meteor.users.findOne(userToShow);
+    if (!userToShow) return '';
+    if (userToShow.hasOwnProperty('completedActivities') && (_.contains(userToShow.completedActivities,this._id))) 
+      return "completed"
+    if (userToShow.hasOwnProperty('activityStatus')) {
+      var status = _.findWhere(userToShow.activityStatus,{_id:this._id});
+      if ((status) && ((status.status == 'done') || (status.status == 'donewithcomments')))
+        return 'completed';       
+    }
+    return '';
   }
 });
 

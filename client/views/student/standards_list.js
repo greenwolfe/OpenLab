@@ -249,6 +249,49 @@ Template.standardItem.helpers({
     if (_.isArray(this.scale))
       return LoM.level;
     return LoM.level + ' out of ' + this.scale;      
+  },
+  expected: function() {
+    var rabbits = Roles.getUsersInRole('rabbit').fetch();
+    if (!rabbits || (rabbits.length == 0)) return '';
+    var rabbit = rabbits[0];
+    if (rabbit.hasOwnProperty('LoMs')) {
+      var LoM = _.findWhere(rabbit.LoMs,{standardID:this._id});
+      if (LoM) {
+        var index;
+        if (_.isArray(this.scale)) {
+          index = this.scale.indexOf(LoM.level);
+          if (index == this.scale.length - 1) return 'expected';
+        }
+        if (_.isFinite(this.scale)) {
+          index = Math.floor(LoM.level*3/this.scale);
+          if (index >= 2) return 'expected';
+        }
+      }
+    }
+    return '';
+  },
+  completed: function() {
+    var student = Meteor.userId(); //could be teacher
+    if (Roles.userIsInRole(student,'teacher')) {
+      student = Session.get('TeacherViewAs');
+    };
+    student = Meteor.users.findOne(student);
+    if (!student) return '';
+    if (student.hasOwnProperty('LoMs')) {
+      var LoM = _.findWhere(student.LoMs,{standardID:this._id});
+      if (LoM) {
+        var index;
+        if (_.isArray(this.scale)) {
+          index = this.scale.indexOf(LoM.level);
+          if (index == this.scale.length - 1) return 'completed';
+        }
+        if (_.isFinite(this.scale)) {
+          index = Math.floor(LoM.level*3/this.scale);
+          if (index >= 2) return 'completed';
+        }
+      }
+    }
+    return '';
   }
 });
 
