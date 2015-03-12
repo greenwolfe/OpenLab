@@ -239,6 +239,7 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   display:block;
   clear:both;
   margin-left: 1%;
+  margin-top: 1%;
 }
 .daysActivities i {
   cursor: default;
@@ -545,6 +546,30 @@ i.icon-thawed {
 i.icon-frozen, i.icon-frozen-student {
   background: url('frozen.png');
   background-size: contain;
+  float: left;
+}
+i.icon-virtual-work {
+  background: url('VirtualWork.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 72px;
+  width: 72px;
+  float: left;
+}
+i.icon-raise-virtual-hand {
+  background: url('RaiseVirtualHand.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 72px;
+  width: 72px;
+  float: left;
+}
+i.icon-virtual-help {
+  background: url('VirtualHelp.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 72px;
+  width: 72px;
   float: left;
 }
 i.require-in-class {

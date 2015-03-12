@@ -25,7 +25,23 @@ Template.calendar.helpers({
   hidehome: function() {
     var visibleWorkplaces = Session.get('visibleWorkplaces');
     return _.contains(visibleWorkplaces,'home') ? '' : 'hideFromTeacher';    
-  } 
+  },
+  virtualWorkStatus: function() {
+    var validStata = ['icon-virtual-work','icon-raise-virtual-hand','icon-virtual-help'];
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    var student = Meteor.users.findOne(cU);
+    if (!student || !Roles.userIsInRole(student,'student'))
+      return 'icon-virtual-work'
+    if ( ('profile' in student) && ('virtualWorkStatus' in student.profile) &&
+        _.contains(validStata,student.profile.virtualWorkStatus) ) {
+        return student.profile.virtualWorkStatus;
+    } else {
+      Meteor.users.update({_id:student._id}, { $set:{"profile.virtualWorkStatus":'icon-virtual-work'} });
+      return 'icon-virtual-work';    
+    }
+  }
 });
 
 Template.calendar.rendered = function(){
@@ -44,6 +60,18 @@ Template.calendar.rendered = function(){
 };
 
 Template.calendar.events({
+  'click i.icon-virtual-work, click i.icon-raise-virtual-hand, click i.icon-virtual-help': function(event) {
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    var student = Meteor.users.findOne(cU);
+    Meteor.call('toggleVirtualWorkStatus',student._id, 
+      function(error, id) {
+        if (error) 
+           return alert(error.reason);
+      }
+    );
+  },
   'click #inClassSwatch' : function(event) {
     var currentUser = Meteor.user();
     if (currentUser && Roles.userIsInRole(currentUser,'teacher')) {
