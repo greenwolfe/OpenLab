@@ -6,20 +6,29 @@ Template.changeGroupies.events({
   },
   'click .tab-content .tab-pane p' : function(event) {
     var userID = $(event.target).data('id');
-    Meteor.call('toggleGroupie',userID);
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    Meteor.call('toggleGroupie',userID,cU);
   }
 });
 
 Template.changeGroupies.helpers({
   recentGroupies: function() {
-    var cU = Meteor.user();
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    cU = Meteor.users.findOne(cU);
     if (!cU || !('profile' in cU) || !('recentGroupies' in cU.profile))
       return '';
     return cU.profile.recentGroupies;
   },
   sections: function() {
     var sections = Sections.find({},{sort: [["section","asc"]]}).fetch();
-    var cU = Meteor.user();
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    cU = Meteor.users.findOne(cU);
     if (cU && ('profile' in cU) && ('sectionID' in cU.profile)) {
       sections.forEach(function(s,i) {
         s.active = ((s._id == cU.profile.sectionID)) ? 'active' : '';
@@ -28,7 +37,10 @@ Template.changeGroupies.helpers({
     return sections;
   },
   usersInSection : function () {
-    var cU = Meteor.user();
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    cU = Meteor.users.findOne(cU);
     if (!cU) return '';
     var uIS = Meteor.users.find({_id: {$ne: cU._id},
       'profile.sectionID': this._id},
@@ -42,5 +54,5 @@ Template.changeGroupies.helpers({
       });
     }
     return uIS; 
-  },
+  }
 });

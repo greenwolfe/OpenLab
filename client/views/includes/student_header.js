@@ -3,3 +3,4 @@ Template.studentHeader.events({
   	Session.set('TEstate','accordion');
   }
 });
+

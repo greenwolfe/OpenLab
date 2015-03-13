@@ -5,7 +5,10 @@ Template.joinGroup.helpers({
     //add message to choose a group
     var JG = Session.get("joinGroup");
     if (!JG) return '';
-    var cU = Meteor.user();
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    cU = Meteor.users.findOne(cU);
     if (!cU || !('profile' in cU) || !('recentGroupies' in cU.profile))
       return '';
     return CalendarEvents.find({activityID:JG.activityID,eventDate:JG.eventDate,group: {$in: cU.profile.recentGroupies}});
@@ -21,7 +24,10 @@ Template.joinGroup.helpers({
     return moment(JG.eventDate,'ddd[,] MMM D YYYY').format('ddd[,] MMM D');
   },
   recentGroupies: function() {
-    var cU = Meteor.user();
+    var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
+    cU = Meteor.users.findOne(cU);
     if (!cU || !('profile' in cU) || !('recentGroupies' in cU.profile))
       return '';
     return cU.profile.recentGroupies;
@@ -47,6 +53,8 @@ Template.joinGroup.events({
   },
   'click #joinGroupJustMe' : function(event) {
     var cU = Meteor.userId();
+    if (Roles.userIsInRole(cU,'teacher'))
+      cU = Session.get('TeacherViewAs');
     var JG = Session.get("joinGroup");
     var calendarEvent = {
       creator : cU,

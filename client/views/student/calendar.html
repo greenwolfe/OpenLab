@@ -1,6 +1,9 @@
 <template name = 'calendar'>
   <p id='startEndDates'>
     <i class="{{virtualWorkStatus}}"></i>
+    {{#if isInRole 'teacher'}}
+      <a href="{{pathFor 'virtualWork'}}" class="btn">Virtual Work</a>
+    {{/if}}
     Show from: <input type="text" name="startDate" id="startDate" /> 
     to: <input type="text" name="endDate" id="endDate" /> 
     <span id='inClassSwatch' class='ui-state-default inClass {{hideinClass}}'>In Class</span>

@@ -93,21 +93,29 @@ Meteor.methods({
     })
   },
 
-  toggleGroupie: function(userID) {
+  toggleGroupie: function(userID,currentStudent) {
     var cU = Meteor.user();
+    var cS = Meteor.users.findOne(currentStudent);
     if (!cU) 
       throw new Meteor.Error(402, "You must be logged in to change your recent groupies list.");
+    if (!cS)
+      throw new Meteor.Error(402, "Cannot change group.  Invalid student.");
+    if (Roles.userIsInRole(cU,'student') && (cU._id != cS._id)) 
+      throw new Meteor.Error(403, "You can only change your own group.");
+  
+    if ((cU._id != cS._id) && !Roles.userIsInRole(cU,'teacher'))
+      throw new Meteor.Error(404,"Only a teacher can change someone else's group.");
     var userToToggle = Meteor.users.findOne(userID);
     if (!userToToggle) 
       throw new Meteor.Error(403, "Cannot change groupies list. Invalid user.");
-    if (('profile' in cU) && ('recentGroupies' in cU.profile)) {
-      if (_.contains(cU.profile.recentGroupies,userID)) {
-        Meteor.users.update(cU._id,{$pull: {'profile.recentGroupies':userID}})
+    if (('profile' in cS) && ('recentGroupies' in cS.profile)) {
+      if (_.contains(cS.profile.recentGroupies,userID)) {
+        Meteor.users.update(cS._id,{$pull: {'profile.recentGroupies':userID}})
       } else {
-        Meteor.users.update(cU._id,{$addToSet: {'profile.recentGroupies':userID}});        
+        Meteor.users.update(cS._id,{$addToSet: {'profile.recentGroupies':userID}});        
       };
     } else {
-      Meteor.users.update(cU._id,{$set: {'profile.recentGroupies':[userID]}});
+      Meteor.users.update(cS._id,{$set: {'profile.recentGroupies':[userID]}});
     };
   },
   /**** TOGGLE VIRTUAL WORK STATUS ****/
@@ -135,7 +143,7 @@ Meteor.methods({
 
     if (!('profile' in student) || !('virtualWorkStatus' in student.profile)) {
       Meteor.users.update({_id:student._id}, { $set:{"profile.virtualWorkStatus":'icon-virtual-work'} });
-      student = Meteor.users.findOne(StudentID);
+      return;
     }
 
     if (!(_.contains(validStata,student.profile.virtualWorkStatus))) {

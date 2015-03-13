@@ -331,12 +331,12 @@ i.remove:hover, i.fa-check-square-o, i.fa-square-o {
 .headerInfo.small, .headerInfo .small {
   font-size: 12pt;
 }
-#viewAs {
+#viewAs, #editGroup {
   padding: 20px;
   padding-bottom: 20px;
   width: 500px;
 }
-#viewAs li a.selected  {
+#viewAs li a.selected, #editGroup li a.selected  {
   background-image: none;
   background: #f5f5f5;
 }
@@ -576,3 +576,4 @@ i.require-in-class {
   float: left;  
   cursor: default;
 }
+

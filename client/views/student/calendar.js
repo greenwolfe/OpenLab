@@ -38,7 +38,9 @@ Template.calendar.helpers({
         _.contains(validStata,student.profile.virtualWorkStatus) ) {
         return student.profile.virtualWorkStatus;
     } else {
-      Meteor.users.update({_id:student._id}, { $set:{"profile.virtualWorkStatus":'icon-virtual-work'} });
+      Meteor.call('toggleVirtualWorkStatus',student._id,function(error, id) {
+        if (error) return alert(error.reason);
+      });
       return 'icon-virtual-work';    
     }
   }
@@ -65,12 +67,9 @@ Template.calendar.events({
     if (Roles.userIsInRole(cU,'teacher'))
       cU = Session.get('TeacherViewAs');
     var student = Meteor.users.findOne(cU);
-    Meteor.call('toggleVirtualWorkStatus',student._id, 
-      function(error, id) {
-        if (error) 
-           return alert(error.reason);
-      }
-    );
+    Meteor.call('toggleVirtualWorkStatus',student._id,function(error, id) {
+      if (error) return alert(error.reason);
+    });
   },
   'click #inClassSwatch' : function(event) {
     var currentUser = Meteor.user();

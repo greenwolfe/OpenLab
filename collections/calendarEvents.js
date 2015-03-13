@@ -33,6 +33,7 @@ Meteor.methods({
   postCalendarEvent: function(cE) { 
     var cU = Meteor.user(); //currentUser
     var eventId;
+    console.log(cE);
 
     if (!cU)  
       throw new Meteor.Error(401, "You must be logged in to add an event to the calendar");

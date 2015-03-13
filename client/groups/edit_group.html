@@ -1,0 +1,39 @@
+<template name = 'EditGroup'>
+    <ul class = "nav">
+      <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Group: {{groupies '' '' currentStudentsGroup '' ''}}<strong class="caret"></strong></a>
+
+      <div id='editGroup' class="dropdown-menu">
+        <div class = 'container-fluid'>
+        <div class = 'nav row'>
+          <p>
+            Select (or unselect) each username below to add or remove members from your group.  Changes are applied as soon as you click. 
+          </p>
+          {{#each sections}}
+            {{>editGroupSection}}
+          {{/each}}
+        </div>
+        </div>
+        <div class='nav row'>
+          {{#each studentsInSection}}
+            {{> editGroupStudent}}
+          {{/each}}
+        </div>
+      </div>
+      </li>
+    </ul>
+</template>
+
+<template name = 'editGroupSection'>
+  <li>
+    <a href="#" class='{{selected}}'>{{section}}</a>
+  </li>
+</template>
+
+<template name = 'editGroupStudent'>
+  <li>
+    <a href="#" class='{{selected}}' title="{{fullname}}">
+      {{username}}
+    </a>
+  </li>
+</template>
