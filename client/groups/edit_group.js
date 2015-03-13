@@ -19,7 +19,7 @@ Template.EditGroup.helpers({
       cU = Session.get('TeacherViewAs');
     cU = Meteor.users.findOne(cU);
     var section = Session.get('editGroupSelectedSection');
-    if (!section && ncU && ('profile' in cU) && ('sectionID' in cU.profile)) 
+    if (!section && cU && ('profile' in cU) && ('sectionID' in cU.profile)) 
           Session.set('editGroupSelectedSection',cU.profile.sectionID);
     return Sections.find({},{sort: [["section","asc"]]});
   },
