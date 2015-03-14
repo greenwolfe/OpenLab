@@ -57,6 +57,16 @@ table#attendanceTable tr td .attendanceName.present, table#attendanceGroupsInCla
   background-color: green;
   color: white;
 }
+#attendance2GroupsInClass .attendanceName.outClass {
+  background-color: #ffff00;
+}
+#attendance2GroupsInClass .attendanceName.inClass {
+  background-color: #00ffff;
+}
+#attendance2GroupsInClass .attendanceName.present {
+  background-color: green;
+  color: white;
+}
 #assessment {
   border: thin black solid;
   min-height: 100px;

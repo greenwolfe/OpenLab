@@ -1,17 +1,24 @@
 <template name='attendance'>
+  {{#with weekday}}
+    <a href="{{pathFor 'attendance2'}}" class='btn'>View as Groups</a> 
+    <a href="" id="previousDay" class='btn'>Previous Day</a> 
+    <a href="" id="nextDay" class='btn'>Next Day</a> 
+  {{/with}}
+  <h3> Attendance  for {{attendanceDate}} </h3>
   {{#if sectionID}}
-    <h3> Attendance Sheet for {{section}}: {{attendanceDate}} </h3>
+    <h4> {{section}} </h4>
     <table id='attendanceTable'>
 	    {{#each students}}
 	      {{>attendanceStudent}}
 	    {{/each}}
     </table>
-    <table id='attendanceGroupsInClassTable'>
+    <p>&nbsp;</p>
+    <!--<table id='attendanceGroupsInClassTable'>
       <tr> <th>Groups In Class </th></tr>
       {{#each groupsInClass}}
         {{>attendanceGroupInClass}}
       {{/each}}
-    </table>
+    </table>-->
   {{else}}
     <h3> Please select a section. </h3>
   {{/if}}
@@ -21,7 +28,7 @@
   <tr>
 	  <td>
 	    <span class='attendanceName {{present}} {{inClass}}' data-userid='{{_id}}'>
-	      {{profile.firstName}} {{profile.lastName}}
+	      {{fullname}}
 	    </span>
 	  </td>
 	  <td> {{status}}</td>

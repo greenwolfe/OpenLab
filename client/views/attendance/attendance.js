@@ -6,6 +6,9 @@
 /*************************/
 
 Template.attendance.helpers({
+  weekday: function() {
+    return {ID:Session.get('attendanceDate')};
+  },
 	attendanceDate: function() {
 		return moment(Session.get('attendanceDate'),'MMM[_]D[_]YYYY').format('ddd[,] MMM D YYYY');
 	},
@@ -54,6 +57,19 @@ Template.attendance.helpers({
   }
 });
 
+Template.attendance.events({
+  'click #previousDay': function() {
+    var day = moment(Session.get('attendanceDate'),'MMM[_]D[_]YYYY')
+    day.add('days',-1)
+    Session.set('attendanceDate',day.format('MMM[_]D[_]YYYY'));
+  },
+  'click #nextDay': function() {
+    var day = moment(Session.get('attendanceDate'),'MMM[_]D[_]YYYY')
+    day.add('days',1)
+    Session.set('attendanceDate',day.format('MMM[_]D[_]YYYY'));
+  }
+})
+
   /**********************************/
  /***** ATTENDANCE  STUDENT ********/
 /**********************************/
@@ -99,7 +115,12 @@ Template.attendanceStudent.helpers({
     var att = Attendance.findOne({date:date,sectionID:sectionID});
     if (!att) return '';
     return (_.contains(att.presence,this._id)) ? 'present' : '';
-  }
+  },
+  fullname: function() {
+    if (('profile' in this) && ('firstName' in this.profile) && ('lastName' in this.profile))
+      return this.profile.firstName + ' ' + this.profile.lastName;
+    return this.username;
+  },
 });
 
 Template.attendanceStudent.events({

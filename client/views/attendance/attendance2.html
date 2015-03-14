@@ -1,0 +1,28 @@
+<template name='attendance2'>
+  {{#with weekday}}
+    <a href="{{pathFor 'attendance'}}" class='btn'>View as Table</a> 
+    <a href="" id="previousDay" class='btn'>Previous Day</a> 
+    <a href="" id="nextDay" class='btn'>Next Day</a> 
+  {{/with}}
+  <h3> Attendance  for {{attendanceDate}} </h3>
+  {{#each sections}}
+    <h4> {{section}} </h4>
+    <div id='attendance2GroupsInClass' class = 'row-fluid'>
+    {{#each groupsInClass}}
+      {{>groupsAttendance2}}
+    {{/each}}
+  </div>
+  {{/each}}
+</template>
+
+<template name='groupsAttendance2'>
+  <p class = 'span12'>
+    <button class='attendanceToggleGroup' name='attendanceToggleGroup'>{{allPresent}}</button>
+    {{#each students}}
+      <span class='attendanceName {{present}} {{inClass}}' data-userid='{{_id}}'>
+        {{fullname}}  
+      </span>
+      <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+    {{/each}}
+  </p>
+</template>
