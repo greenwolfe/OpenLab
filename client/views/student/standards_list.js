@@ -8,6 +8,11 @@ Template.standardsList.helpers({
   },
   activeCategory: function() {
     var activeCategory = Session.get('activeCategory');
+    if (!activeCategory) return {
+      _id: null,
+      model: '  ',
+      longname: '  '
+    }
     if (activeCategory == 'wholecourse') {
       var wholecourse = {
         _id: 'wholecourse',
